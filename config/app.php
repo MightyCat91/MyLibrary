@@ -162,9 +162,6 @@ return [
         Illuminate\Translation\TranslationServiceProvider::class,
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
-        GrahamCampbell\Exceptions\ExceptionsServiceProvider::class,
-        Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
-        Laracasts\Generators\GeneratorsServiceProvider::class,
 
         /*
          * Package Service Providers...
@@ -181,6 +178,13 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+
+        /*
+         * Custom Service Providers...
+         */
+        GrahamCampbell\Exceptions\ExceptionsServiceProvider::class,
+        Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
+        // Laracasts\Generators\GeneratorsServiceProvider::class,
     ],
 
     /*

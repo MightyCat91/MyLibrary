@@ -28,7 +28,11 @@ Route::get('author/{id}', [
 ]);
 
 Route::get('category/{id}', [
-    'as' => 'category-books', 'uses' => 'CategoriesController@show'
+    'as' => 'category-books', 'uses' => 'CategoriesController@showBooks'
+]);
+
+Route::get('category/{id}', [
+    'as' => 'category-authors', 'uses' => 'CategoriesController@showAuthors'
 ]);
 
 Route::get('book/all', [

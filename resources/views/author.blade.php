@@ -25,7 +25,7 @@
                             <div class="categories">
                                 <span><i class="fa fa-bars fa-lg item-icon" aria-hidden="true"></i>Жанр:</span>
                                 @foreach($categories as $category)
-                                    <a href="{{ route('category-books', [$author->id, $author->name]) }}" class="category">{{ $category->name . ' ' }}</a>
+                                    <a href="{{ route('category-books', [$category->id]) }}" class="category">{{ $category->name . ' ' }}</a>
                                 @endforeach
                             </div>
                         </li>

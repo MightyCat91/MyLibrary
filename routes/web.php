@@ -28,10 +28,6 @@ Route::get('author/{id}', [
 ]);
 
 Route::get('category/{id}', [
-    'as' => 'category-books', 'uses' => 'CategoriesController@showBooks'
-]);
-
-Route::get('category/{id}', [
     'as' => 'category-authors', 'uses' => 'CategoriesController@showAuthors'
 ]);
 
@@ -49,4 +45,8 @@ Route::get('year/{year}/books', [
 
 Route::get('publisher/{id}', [
     'as' => 'publisher-books', 'uses' => 'PublisherController@show'
+]);
+
+Route::get('category/{id}', [
+    'as' => 'category-books', 'uses' => 'CategoriesController@showBooks'
 ]);

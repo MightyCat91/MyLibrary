@@ -1,5 +1,6 @@
-@extends('layouts.main')
-@yield('category')
+@if( Route::currentRouteUses('AuthorController@show'))
+    @extends('layouts.main')
+@endif
 @section('content')
     <div class="main-container row">
         @foreach($authors as $author)

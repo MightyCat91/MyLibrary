@@ -1,14 +1,33 @@
 (function ($) {
-	$('#books-tab').on('submit', function (e) {
+	$('#books-tab').on('click', function (e) {
         e.preventDefault();
-        var body = $('#body').val();
+        var category_id = $("#category").data('id');
+        console.log(category_id);
         $.ajax({
-            type: "POST",
-            url: host + '/articles/create',
-            data: {title: title, body: body, published_at: published_at},
-            success: function( msg ) {
-                $("#ajaxResponse").append("<div>"+msg+"</div>");
+            type: "GET",
+            url: category_id,
+            data: '',
+            //headers: {
+            //    'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+            //},
+            success: function(data) {
+                $('.main-container').replaceWith(data);
             }
         });
     });
-})(jQuery)
+    $('#authors-tab').on('click', function (e) {
+        e.preventDefault();
+        var category_id = $("#category").data('id');
+        $.ajax({
+            type: "GET",
+            url: category_id,
+            data: '',
+            //headers: {
+            //    'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
+            //},
+            success: function(data) {
+                $('.main-container').replaceWith(data);
+            }
+        });
+    });
+})(jQuery);

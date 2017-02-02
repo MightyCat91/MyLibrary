@@ -29,5 +29,6 @@
         </div>
     </div>
 </div>
+<script type="text/javascript" src="{{ asset('/js/Categories.js') }}"></script>
 </body>
 </html>

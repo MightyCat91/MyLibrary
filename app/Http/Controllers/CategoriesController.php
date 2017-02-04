@@ -18,11 +18,10 @@ class CategoriesController extends Controller
     {
         $category = Categories::FindOrFail($id);
         $books = $category->books;
-
         if ($request->ajax()) {
-            return view('books', ['books' => $books]);
+            return view('layouts.books', ['books' => $books])->render();
         }
-        return view('category', ['category_id' => $category->id, 'books' => $books]);
+        return view('category', ['category' => $category, 'books' => $books, 'parent_template_name' => 'books']);
     }
 
     /**
@@ -36,10 +35,10 @@ class CategoriesController extends Controller
     {
         $category = Categories::FindOrFail($id);
         $authors = $category->authors;
-
         if ($request->ajax()) {
-            return view('authors', ['authors' => $authors]);
+            return view('layouts.authors', ['authors' => $authors])->render();
         }
-        return view('category', ['authors' => $authors]);
+        return view('category', ['category' => $category, 'authors' => $authors, 'parent_template_name' =>
+            'authors']);
     }
 }

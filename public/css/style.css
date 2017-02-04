@@ -141,10 +141,10 @@ ul.nav.nav-sidebar li a{
     font-weight: 600;
     padding: .8em 0 .8em 3em;
 }
-.main-container {
-    padding: 0 0 1em 1em;
-    margin: auto;
-}
+/*.main-container {*/
+    /*padding: 0 0 1em 1em;*/
+    /*margin: auto;*/
+/*}*/
 .sidebar ul.nav-sidebar li a:hover{
     background-color: #232323 !important;
     color: #21DEEF;
@@ -2791,6 +2791,37 @@ body {
     min-height: 100vh;
 }
 
+div.page-content {
+    padding-left: 5em;
+}
+
+div.page-content.spinner:before {
+    content: '';
+    display: block;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background: rgba(0, 0, 0, .8);
+    z-index: 100;
+}
+div.page-content.spinner:after {
+    content: '';
+    display: block;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 80px;
+    width: 80px;
+    margin: auto;
+    background: rgba(0, 0, 0, 0) url(../images/loader.gif) no-repeat center center /contain;
+    border-radius: 6px;
+    z-index: 101;
+}
+
 figure.container {
     height: 35em;
     margin: 1em 1em;
@@ -2893,8 +2924,14 @@ aside.sidebar {
     top: 0;
 }
 
-div.main-container {
-    padding-left: 4em;
+ul#category {
+    margin: 5px 2em 10px 0;
+    font-size: medium;
+}
+
+ul#category .active {
+    border: 1px solid #ddd;
+    border-bottom: 1px solid #fff;
 }
 
 /*-- footer --*/
@@ -2906,4 +2943,5 @@ div.main-container {
     position: absolute;
     bottom: 0;
     height: 15em;
+    z-index: 100;
 }

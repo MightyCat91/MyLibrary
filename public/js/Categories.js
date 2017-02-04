@@ -1,32 +1,40 @@
 (function ($) {
 	$('#books-tab').on('click', function (e) {
         e.preventDefault();
-        var category_id = $("#category").data('id');
-        console.log(category_id);
+        var url = $(this).attr('href');
         $.ajax({
             type: "GET",
-            url: category_id,
-            data: '',
-            //headers: {
-            //    'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-            //},
+            url: url,
+            beforeSend: function() {
+                $('.page-content').addClass('spinner');
+            },
             success: function(data) {
-                $('.main-container').replaceWith(data);
+                $('.main-container').html(data);
+                $('.page-content').removeClass('spinner');
+                history.pushState(null, null, url);
+                $('#books-tab').addClass('active').blur();
+                $('#authors-tab').removeClass('active');
             }
         });
     });
     $('#authors-tab').on('click', function (e) {
         e.preventDefault();
-        var category_id = $("#category").data('id');
+        var url = $(this).attr('href');
         $.ajax({
             type: "GET",
-            url: category_id,
-            data: '',
-            //headers: {
-            //    'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')
-            //},
+            url: url,
+            beforeSend: function() {
+                $('.page-content').addClass('spinner');
+            },
             success: function(data) {
-                $('.main-container').replaceWith(data);
+                $('.main-container').html(data);
+                $('.page-content').removeClass('spinner');
+                history.pushState(null, null, url);
+                $('#authors-tab').addClass('active').blur();
+                $('#books-tab').removeClass('active');
+            },
+            error: function() {
+
             }
         });
     });

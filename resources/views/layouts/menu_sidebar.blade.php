@@ -23,6 +23,11 @@
 					<i class="fa fa-book fa-lg"></i>Books
 				</a>
 			</li>
+			<li>
+				<a href="{{ route('categories') }}" class="sub-icon">
+					<i class="fa fa-book fa-lg"></i>Books
+				</a>
+			</li>
 			<li><a href="#" class="menu1"><span class="glyphicon glyphicon-film" aria-hidden="true"></span>Movies<span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></a></li>
 			<ul class="cl-effect-2">
 				<li><a href="movies.html">English</a></li>                                             

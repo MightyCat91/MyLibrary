@@ -15,30 +15,6 @@ Route::get('/', [
     'as' => 'home', 'uses' => 'AuthorController@index'
 ]);
 
-Route::get('author/{id}/books', [
-    'as' => 'author-books', 'uses' => 'BookController@showBooksForAuthor'
-]);
-
-Route::get('author/all', [
-    'as' => 'authors', 'uses' => 'AuthorController@show'
-]);
-
-Route::get('author/{id}', [
-    'as' => 'author', 'uses' => 'AuthorController@show'
-]);
-
-Route::get('category/{id}/authors', [
-    'as' => 'category-authors', 'uses' => 'CategoriesController@showAuthors'
-]);
-
-Route::get('book/all', [
-    'as' => 'books', 'uses' => 'BookController@show'
-]);
-
-Route::get('book/{id}', [
-    'as' => 'book', 'uses' => 'BookController@show'
-]);
-
 Route::get('year/{year}/books', [
     'as' => 'year-books', 'uses' => 'BookController@showBooksForYear'
 ]);
@@ -47,6 +23,40 @@ Route::get('publisher/{id}', [
     'as' => 'publisher-books', 'uses' => 'PublisherController@show'
 ]);
 
-Route::get('category/{id}/books', [
-    'as' => 'category-books', 'uses' => 'CategoriesController@showBooks'
-]);
+Route::group(['prefix' => 'book'], function(){
+    Route::get('all', [
+        'as' => 'books', 'uses' => 'BookController@show'
+    ]);
+
+    Route::get('{id}', [
+        'as' => 'book', 'uses' => 'BookController@show'
+    ]);
+});
+
+Route::group(['prefix' => 'author'], function(){
+    Route::group(['prefix' => '{id}', 'where' => ['id' => '[0-9]+']], function(){
+        Route::get('books', [
+            'as' => 'author-books', 'uses' => 'BookController@showBooksForAuthor'
+        ]);
+        Route::get('', [
+            'as' => 'author', 'uses' => 'AuthorController@show'
+        ]);
+    });
+    Route::get('all', [
+        'as' => 'authors', 'uses' => 'AuthorController@show'
+    ]);
+});
+
+Route::group(['prefix' => 'category'], function() {
+    Route::group(['prefix' => '{id}', 'where' => ['id' => '[0-9]+']], function () {
+        Route::get('books', [
+            'as' => 'category-books', 'uses' => 'CategoriesController@showBooks'
+        ]);
+        Route::get('authors', [
+            'as' => 'category-authors', 'uses' => 'CategoriesController@showAuthors'
+        ]);
+    });
+    Route::get('all', [
+        'as' => 'categories', 'uses' => 'CategoriesController@show'
+    ]);
+});

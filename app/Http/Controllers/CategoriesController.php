@@ -41,4 +41,15 @@ class CategoriesController extends Controller
         return view('category', ['category' => $category, 'authors' => $authors, 'parent_template_name' =>
             'authors']);
     }
+
+    /**
+     * Вывод шаблона с авторами по id категории
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function show()
+    {
+        $categories = Categories::all();
+        return view('categories', ['categories' => $categories]);
+    }
 }

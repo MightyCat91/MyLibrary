@@ -45,6 +45,9 @@ Route::group(['prefix' => 'author'], function(){
     Route::get('all', [
         'as' => 'authors', 'uses' => 'AuthorController@show'
     ]);
+    Route::post('add', [
+        'as' => 'author-add', 'uses' => 'AuthorController@create'
+    ]);
 });
 
 Route::group(['prefix' => 'category'], function() {

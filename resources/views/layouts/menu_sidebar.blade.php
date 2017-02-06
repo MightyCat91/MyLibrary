@@ -25,7 +25,12 @@
 			</li>
 			<li>
 				<a href="{{ route('categories') }}" class="sub-icon">
-					<i class="fa fa-book fa-lg"></i>Books
+					<i class="fa fa-book fa-lg"></i>Categories
+				</a>
+			</li>
+			<li>
+				<a href="{{ route('author-add') }}" class="sub-icon">
+					<i class="fa fa-book fa-lg"></i>Add author
 				</a>
 			</li>
 			<li><a href="#" class="menu1"><span class="glyphicon glyphicon-film" aria-hidden="true"></span>Movies<span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></a></li>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Categories;
 use Illuminate\Http\Request;
 use App\Author;
 
@@ -24,7 +25,8 @@ class AuthorController extends Controller
      */
     public function create()
     {
-        //
+//        $categories = Categories::all();
+        return view('authorAdd'/*, ['categories' => $categories]*/);
     }
 
     /**
@@ -39,7 +41,7 @@ class AuthorController extends Controller
     }
 
     /**
-     * Вывод шаблона либо по id автора, либо всех авторов
+     * пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅ id пїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
      *
      * @param int $id
      * @return \Illuminate\Http\Response

@@ -2792,7 +2792,8 @@ body {
 }
 
 div.page-content {
-    padding-left: 5em;
+    padding-left: 3em;
+    font-size: 15px;
 }
 
 div.page-content.spinner:before {
@@ -2823,7 +2824,7 @@ div.page-content.spinner:after {
 }
 
 figure.container {
-    height: 35em;
+    height: 25em;
     margin: 1em 1em;
 }
 
@@ -2932,6 +2933,19 @@ ul#category {
 ul#category .active {
     border: 1px solid #ddd;
     border-bottom: 1px solid #fff;
+}
+
+div.form-group .form-control {
+    width: 80%;
+}
+
+input#imageInput {
+    position: absolute;
+    top: 0;
+    left: 0;
+    opacity: 0;
+    height: 100%;
+    width: 100%;
 }
 
 /*-- footer --*/

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Categories;
 use Illuminate\Http\Request;
 use App\Author;
+use Storage;
 
 class AuthorController extends Controller
 {
@@ -26,7 +27,7 @@ class AuthorController extends Controller
     public function create()
     {
 //        $categories = Categories::all();
-        return view('authorAdd'/*, ['categories' => $categories]*/);
+        return view('author-add');
     }
 
     /**
@@ -37,7 +38,37 @@ class AuthorController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        echo '<script>console.log($request)</script>';
+        $author = new Author;
+        $author->name = $request->input('nameInput');
+        $author->biography = $request->input('biographyInput');
+        $author->save();
+        return redirect()->back()->with('success', 'Спасибо. Автор будет добавлен после модерации.');
+    }
+
+    /**
+     * Загрузка изображений во ыременное хранилище и отображение превью пользователю.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function addImgAJAX(Request $request)
+    {
+        if ($request->ajax()) {
+            echo '<script>console.log($request)</script>';
+            $file = $request->file('imageInput');
+            echo '<script>console.log($file)</script>';
+            $filename = $file->hashName();
+            //Не работает сохранение в хранилище и вывод на экран
+            Storage::disk('local')->put(
+                'images/authors/temporary',
+                file_get_contents($file)
+            );
+            $data = Storage::url('images/authors/temporary' . $filename);
+            return redirect()->back()
+                ->with('data', $data)
+                ->with('success', 'Спасибо. Автор будет добавлен после модерации.');
+        }
     }
 
     /**

@@ -45,8 +45,13 @@ Route::group(['prefix' => 'author'], function(){
     Route::get('all', [
         'as' => 'authors', 'uses' => 'AuthorController@show'
     ]);
+    Route::get('add', [
+        'as' => 'author-add-get', 'uses' => 'AuthorController@create'
+    ]);
     Route::post('add', [
-        'as' => 'author-add', 'uses' => 'AuthorController@create'
+        'as' => 'author-add-post', 'uses' => 'AuthorController@store'
+    ]);
+    Route::post('add/ajaxImg', ['uses' => 'AuthorController@addImgAJAX'
     ]);
 });
 

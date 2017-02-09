@@ -14,3 +14,7 @@
         <h2>{{ $category->name }}</h2>
     </header>
 @endsection
+
+@push('scripts')
+<script type="text/javascript" src="{{ asset('/js/custom/Categories.js') }}"></script>
+@endpush

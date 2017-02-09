@@ -29,50 +29,13 @@
 				</a>
 			</li>
 			<li>
-				<a href="{{ route('author-add') }}" class="sub-icon">
+				<a href="{{ route('author-add-get') }}" class="sub-icon">
 					<i class="fa fa-book fa-lg"></i>Add author
 				</a>
 			</li>
-			<li><a href="#" class="menu1"><span class="glyphicon glyphicon-film" aria-hidden="true"></span>Movies<span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></a></li>
-			<ul class="cl-effect-2">
-				<li><a href="movies.html">English</a></li>                                             
-				<li><a href="movies.html">Chinese</a></li>
-				<li><a href="movies.html">Hindi</a></li> 
-			</ul>
-			<!-- script-for-menu -->
-			<script>
-				$( "li a.menu1" ).click(function() {
-					$( "ul.cl-effect-2" ).slideToggle( 300, function() {
-					// Animation complete.
-					});
-				});
-			</script>
-			<li><a href="#" class="menu"><span class="glyphicon glyphicon-film glyphicon-king" aria-hidden="true"></span>Sports<span class="glyphicon glyphicon-menu-down" aria-hidden="true"></span></a></li>
-			<ul class="cl-effect-1">
-				<li><a href="sports.html">Football</a></li>                                             
-				<li><a href="sports.html">Cricket</a></li>
-				<li><a href="sports.html">Tennis</a></li> 
-				<li><a href="sports.html">Shattil</a></li>  
-			</ul>
-			<!-- script-for-menu -->
-			<script>
-				$( "li a.menu" ).click(function() {
-					$( "ul.cl-effect-1" ).slideToggle( 300, function() {
-					// Animation complete.
-					});
-				});
-			</script>
 			<li><a href="movies.html" class="song-icon"><span class="glyphicon glyphicon-music" aria-hidden="true"></span>Songs</a></li>
 			<li><a href="news.html" class="news-icon"><span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>News</a></li>
 		</ul>
-		<!-- script-for-menu -->
-		<script>
-			$( ".top-navigation" ).click(function() {
-				$( ".drop-navigation" ).slideToggle( 300, function() {
-				// Animation complete.
-				});
-			});
-		</script>
 		<div class="side-bottom">
 				<div class="side-bottom-icons">
 					<ul class="nav2">

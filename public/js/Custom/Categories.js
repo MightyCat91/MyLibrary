@@ -21,6 +21,9 @@
     function ajaxGetData(object, e) {
         e.preventDefault();
         var url = object.attr('href');
+        $.ajaxSetup({
+            headers: { 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content') }
+        });
         $.ajax({
             type: "GET",
             url: url,

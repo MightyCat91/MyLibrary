@@ -29,13 +29,13 @@
             <div class="3u">
                 <section>
                     <ul class="style1">
-                        <li class="first"><img src="{{asset('images/pics08.jpg')}}" width="78" height="78" alt="">
+                        <li class="first"><img src="{{asset('temporary')}}" width="78" height="78" alt="">
 
                             <p>Nullam non wisi a sem eleifend. Donec mattis libero eget urna. </p>
 
                             <p class="posted">August 11, 2014 | (10 ) Comments</p>
                         </li>
-                        <li><img src="{{asset('images/pics09.jpg')}}" width="78" height="78" alt="">
+                        <li><img src="{{asset('temporary')}}" width="78" height="78" alt="">
 
                             <p>Nullam non wisi a sem eleifend. Donec mattis libero eget urna. </p>
 

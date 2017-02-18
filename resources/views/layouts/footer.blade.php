@@ -30,6 +30,8 @@
     </div>
 </div>
 <script type="text/javascript" src="{{ asset('/js/Library/jquery-2.1.4.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('/js/Library/tether.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('/js/Library/bootstrap.min.js') }}"></script>
 @stack('scripts')
 </body>
 </html>

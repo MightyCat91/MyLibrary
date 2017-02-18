@@ -7,7 +7,7 @@
     <div class="row">
         <div class="3u">
             <section>
-                <a href="#" class="image full"><img src="{{asset('images/pics01.jpg')}}" alt=""/></a>
+                <a href="#" class="image full"><img src="{{asset('temporary')}}" alt=""/></a>
 
                 <p>Quisque dictum. Pellentesque viverra enim. Integer nisl risus, sagittis convallis, rutrum id,
                     elementum.</p>
@@ -34,7 +34,7 @@
         </div>
         <div class="3u">
             <section>
-                <a href="#" class="image full"><img src="{{asset('images/pics13.jpg')}}" alt=""/></a>
+                <a href="#" class="image full"><img src="{{asset('temporary')}}" alt=""/></a>
 
                 <p>Tristique ante ut risus. Quisque dictum. Integer nisl risus, sagittis convallis elementum.</p>
                 <a href="#" class="button">Read More</a>

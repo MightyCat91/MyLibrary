@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Categories;
+use App\Http\Requests\AuthorAddRequest;
 use Illuminate\Http\Request;
 use App\Author;
 use Storage;
@@ -33,12 +34,12 @@ class AuthorController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param AuthorAddRequest|Request $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(AuthorAddRequest $request)
     {
-        echo '<script>console.log($request)</script>';
+//      TODO: добавить данных при валидации
         $author = new Author;
         $author->name = $request->input('nameInput');
         $author->biography = $request->input('biographyInput');
@@ -47,27 +48,36 @@ class AuthorController extends Controller
     }
 
     /**
-     * Загрузка изображений во ыременное хранилище и отображение превью пользователю.
+     * Обработка ajax-загрузки файла и возврат урл для отображения превью пользователю.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param AuthorAddRequest|Request $request
      * @return \Illuminate\Http\Response
      */
-    public function addImgAJAX(Request $request)
+    public function addImgAJAX(AuthorAddRequest $request)
     {
+//        TODO: добавть валидациюпо аяксу
         if ($request->ajax()) {
-            echo '<script>console.log($request)</script>';
+            return $this->putFileToTemporaryStorage($request);
+        }
+    }
+
+    /**
+     * Загрузка изображений во временное хранилище и возврат урл
+     *
+     * @param $request
+     * @return string
+     */
+    private function putFileToTemporaryStorage($request)
+    {
+        if ($request->hasFile('imageInput')) {
             $file = $request->file('imageInput');
-            echo '<script>console.log($file)</script>';
-            $filename = $file->hashName();
-            //Не работает сохранение в хранилище и вывод на экран
-            Storage::disk('local')->put(
-                'images/authors/temporary',
+            $filename = str_random(6) . '.' . $file->getClientOriginalExtension();
+            Storage::disk('authorTemporary')->put(
+                $filename,
                 file_get_contents($file)
             );
-            $data = Storage::url('images/authors/temporary' . $filename);
-            return redirect()->back()
-                ->with('data', $data)
-                ->with('success', 'Спасибо. Автор будет добавлен после модерации.');
+            $url = Storage::disk('authorTemporary')->url($filename);
+            return $url;
         }
     }
 
@@ -81,8 +91,7 @@ class AuthorController extends Controller
     {
         if (!$id) {
             $view = view('authors', ['authors' => Author::all()]);
-        }
-        else {
+        } else {
             $author = Author::FindOrFail($id);
             $books = $author->books;
             $categories = $author->categories;
@@ -94,7 +103,7 @@ class AuthorController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -105,8 +114,8 @@ class AuthorController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -117,7 +126,7 @@ class AuthorController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)

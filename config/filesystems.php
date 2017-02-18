@@ -62,6 +62,14 @@ return [
             'bucket' => 'your-bucket',
         ],
 
+        'authorTemporary' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/temporary/authors'),
+            'visibility' => 'public',
+            'url' => env('APP_URL').'/storage/temporary/authors',
+        ]
+
+
     ],
 
 ];

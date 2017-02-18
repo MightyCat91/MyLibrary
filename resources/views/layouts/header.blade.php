@@ -14,11 +14,11 @@
             window.scrollTo(0, 1);
         } </script>
     <!-- bootstrap -->
-    <link href="{{ Request::root()}}/css/bootstrap.min.css" rel='stylesheet' type='text/css' media="all"/>
+    <link href="{{ Request::root()}}/css/Library/bootstrap.min.css" rel='stylesheet' type='text/css' media="all"/>
     <!-- //bootstrap -->
-    <link href="{{ Request::root()}}/css/dashboard.css" rel="stylesheet">
+    <link href="{{ Request::root()}}/css/Custom/dashboard.css" rel="stylesheet">
     <!-- Custom Theme files -->
-    <link href="{{ Request::root()}}/css/style.css" rel='stylesheet' type='text/css' media="all"/>
+    <link href="{{ Request::root()}}/css/Custom/style.css" rel='stylesheet' type='text/css' media="all"/>
     <!-- Font Awesome -->
     <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.css">
     <!-- fonts -->

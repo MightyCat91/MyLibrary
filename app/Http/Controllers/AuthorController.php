@@ -27,8 +27,8 @@ class AuthorController extends Controller
      */
     public function create()
     {
-//        $categories = Categories::all();
-        return view('author-add');
+        $categories = Categories::all();
+        return view('author-add', ['categories' => $categories]);
     }
 
     /**
@@ -39,11 +39,16 @@ class AuthorController extends Controller
      */
     public function store(AuthorAddRequest $request)
     {
-//      TODO: добавить данных при валидации
         $author = new Author;
         $author->name = $request->input('nameInput');
         $author->biography = $request->input('biographyInput');
+        $categories = $request->except(['_token','nameInput','biographyInput','imageInput']);
+        $author->moderate = false;
         $author->save();
+        foreach($categories as $category){
+            $id = Categories::where('name',$category)->first();
+            $author->categories()->attach($id);
+        }
         return redirect()->back()->with('success', 'Спасибо. Автор будет добавлен после модерации.');
     }
 
@@ -55,7 +60,6 @@ class AuthorController extends Controller
      */
     public function addImgAJAX(AuthorAddRequest $request)
     {
-//        TODO: добавть валидациюпо аяксу
         if ($request->ajax()) {
             return $this->putFileToTemporaryStorage($request);
         }

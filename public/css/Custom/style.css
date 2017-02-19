@@ -3434,6 +3434,7 @@ body {
 div.page-content {
     padding-left: 3em;
     font-size: 15px;
+    padding-top: 15px;
 }
 
 div.page-content.spinner:before {
@@ -3611,7 +3612,7 @@ input#imageInput {
 
 div.img-add-container {
     display: flex;
-    align-items: flex-start;
+    align-items: baseline;
 }
 
 div.img-name {
@@ -3627,8 +3628,32 @@ div.add-img-btn {
     width: auto;
 }
 
+div.category-add-container {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+input.form-control.category-input {
+    width: 75%;
+    margin: 5px 0;
+}
+
+span.append-category-input {
+    margin-left: 5px;
+    opacity: 0.8;
+}
+
+span.append-category-input:hover {
+    opacity: 1;
+}
+
 .hidden {
     display: none;
+}
+
+form#author-add label{
+    font-weight: 700;
 }
 
 /*-- footer --*/

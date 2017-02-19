@@ -19,7 +19,7 @@
                     $('.page-content').addClass('spinner');
                     fileError.html('');
                     imgLink.addClass('hidden');
-                },
+                }
             })
                 .done(function (url) {
                     var imgPreview = $('.img-preview');
@@ -53,4 +53,10 @@
         }
     });
 
+    $('.append-category-input').click(function() {
+        var input = $('.category-input:last');
+        var number = parseInt(input.attr('name').substring(14)) + 1;
+        input.clone().attr('name', 'categoryInput-' + number).val('').appendTo('.category-add-container');
+        $(this).appendTo('.category-add-container');
+    });
 })(jQuery);

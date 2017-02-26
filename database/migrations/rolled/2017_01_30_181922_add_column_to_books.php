@@ -14,8 +14,8 @@ class AddColumnToBooks extends Migration
     public function up()
     {
         Schema::table('books', function (Blueprint $table) {
-            $table->string('year')->nullable();
-            $table->string('isbn')->nullable();
+            $table->string('year', 15)->nullable();
+            $table->string('isbn', 20)->nullable();
             $table->dropColumn('imgHREF');
         });
     }

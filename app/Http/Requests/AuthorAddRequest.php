@@ -33,27 +33,38 @@ class AuthorAddRequest extends FormRequest
             $rules = [
                 'nameInput' => 'required|string|max:128|unique:authors,name',
                 'biographyInput' => 'required|string|max:2048',
-                'categoryInput' => 'nullable|exists:categories,name',
                 'imageInput' => 'required|image|mimes:jpg,jpeg,png,gif|max:6080|dimensions:min_width=100,min_height=200'
             ];
+            foreach (array_keys($this->input()) as $name) {
+                if (preg_match('/categoryInput-[0-9]+/', $name)) {
+                    $rules[$name] = 'exists:categories,name';
+                }
+            }
         }
         return $rules;
     }
 
-    public function messages(){
-        return [
+    public function messages()
+    {
+        $message = [
             'nameInput.required' => 'Поле обязательно к заполнению',
             'nameInput.string' => 'Вводимое значение должно быть строкой',
-            'nameInput.max' => 'Имя не должно содержать больше 128 символов',
+            'nameInput.max' => 'Имя не должно содержать больше :max символов',
             'nameInput.unique' => 'Автор с таким именем уже существует',
             'biographyInput.required' => 'Поле обязательно к заполнению',
             'biographyInput.string' => 'Вводимое значение должно быть строкой',
-            'biographyInput.max' => 'Биография не должна содержать больше 2048 символов',
-            'categoryInput.exists' => 'Введенный жанр некорректен',
+            'biographyInput.max' => 'Биография не должна содержать больше :max символов',
             'imageInput.required' => 'Необходимо загрузить файл',
             'imageInput.image' => 'Загружаемый файл должен быть изображением',
-            'imageInput.mimes' => 'Загружаемый файл должен иметь расширения: jpg, jpeg, png, gif',
-            'imageInput.max' => 'Максимальный размер загружаемого файла не должен превышать 5 мегабайт',
+            'imageInput.mimes' => 'Загружаемый файл должен иметь расширения: :values',
+            'imageInput.max' => 'Максимальный размер загружаемого файла не должен превышать :max',
+            'imageInput.dimension' => 'Загруженное изображение имеет некорректное разрешение',
         ];
+        foreach (array_keys($this->input()) as $name) {
+            if (preg_match('/categoryInput-[0-9]+/', $name)) {
+                $message[$name . '.exists'] = 'Введенный жанр отсутсвует в базе';
+            }
+        }
+        return $message;
     }
 }

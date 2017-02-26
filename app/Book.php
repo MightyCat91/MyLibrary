@@ -6,6 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Book extends Model
 {
+    protected $fillable = ['name', 'description', 'year', 'page_counts', 'isbn', 'moderate'];
+
+    protected $guarded = ['id'];
+
     /**
      * Авторы, принадлежащие книге
      */

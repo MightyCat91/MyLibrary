@@ -66,10 +66,15 @@ return [
             'driver' => 'local',
             'root' => storage_path('app/public/temporary/authors'),
             'visibility' => 'public',
-            'url' => env('APP_URL').'/storage/temporary/authors',
+            'url' => env('APP_URL') . '/storage/temporary/authors',
+        ],
+
+        'bookTemporary' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/temporary/books'),
+            'visibility' => 'public',
+            'url' => env('APP_URL') . '/storage/temporary/books',
         ]
-
-
     ],
 
 ];

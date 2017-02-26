@@ -6,9 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 class Author extends Model
 {
-    protected $fillable = ['name', 'biography'];
+    protected $fillable = ['name', 'biography', 'moderate'];
 
     protected $guarded = ['id'];
+
     /**
      * Книги, принадлежащие автору
      */

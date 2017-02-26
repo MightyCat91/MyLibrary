@@ -27,7 +27,15 @@ Route::group(['prefix' => 'book'], function(){
     Route::get('all', [
         'as' => 'books', 'uses' => 'BookController@show'
     ]);
-
+    Route::get('add', [
+        'as' => 'book-add-get', 'uses' => 'BookController@create'
+    ]);
+    Route::post('add', [
+        'as' => 'book-add-post', 'uses' => 'BookController@store'
+    ]);
+    Route::post('add/ajaxImg', [
+        'uses' => 'BookController@addImgAJAX'
+    ]);
     Route::get('{id}', [
         'as' => 'book', 'uses' => 'BookController@show'
     ]);
@@ -51,7 +59,8 @@ Route::group(['prefix' => 'author'], function(){
     Route::post('add', [
         'as' => 'author-add-post', 'uses' => 'AuthorController@store'
     ]);
-    Route::post('add/ajaxImg', ['uses' => 'AuthorController@addImgAJAX'
+    Route::post('add/ajaxImg', [
+        'uses' => 'AuthorController@addImgAJAX'
     ]);
 });
 

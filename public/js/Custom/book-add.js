@@ -1,3 +1,6 @@
+/**
+ * Created by Александр on 23.02.2017.
+ */
 (function ($) {
     $('#imageInput').change(function () {
         var imgWrapper = $('.img-name');
@@ -54,9 +57,9 @@
     });
 
     $('.append-category-input').click(function() {
-        var input = $('.category-input:last');
+        var input = $('.form-add-input:last');
         var number = parseInt(input.attr('name').substring(14)) + 1;
-        input.clone().attr('name', 'categoryInput-' + number).val('').appendTo('.category-add-container');
-        $(this).appendTo('.category-add-container');
+        input.clone().attr('name', 'categoryInput-' + number).val('').appendTo('.multiple-input-add-container');
+        $(this).appendTo('.multiple-input-add-container');
     });
 })(jQuery);

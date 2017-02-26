@@ -9,7 +9,7 @@
                 {{ Session::get('success') }}
             </div>
         @endif
-        <form id="author-add" method="post" enctype="multipart/form-data">
+        <form id="add-form" method="post" enctype="multipart/form-data">
             {{ csrf_field() }}
             <div class="form-group {{ ($errors->first('nameInput')) ? 'has-danger' : '' }}">
                 <label for="nameInput">Имя автора:</label>
@@ -33,13 +33,14 @@
                 @endif
             </div>
 
-            <div class="form-group {{ ($errors->first('categoryInput')) ? 'has-danger' : '' }}">
-                <label for="categoryInput">Жанры:</label>
+            <script>console.log({{print_r($errors)}})</script>
+            <div class="form-group {{ ($errors->first('categoryInput-1')) ? 'has-danger' : '' }}">
+                <label for="categoryInput-1">Жанры:</label>
 
-                <div class="category-add-container">
-                    <input type="text" name="categoryInput-1" class="form-control category-input"
+                <div id="categories" class="multiple-input-add-container">
+                    <input type="text" name="categoryInput-1" class="form-control form-add-input category-input"
                            placeholder="Жанр" title="Добавить еще один жанр" list="category-list">
-                    <span class="append-category-input">
+                    <span class="append-form-add-input">
                         <i class="fa fa-plus-circle fa-2x"></i>
                     </span>
                 </div>
@@ -48,9 +49,9 @@
                         <option>{{ $category->name }}</option>
                     @endforeach
                 </datalist>
-                @if($errors->first('categoryInput'))
+                @if($errors->first('categoryInput-1'))
                     <div class="form-control-feedback">
-                        {{ $errors->first('categoryInput') }}
+                        {{ $errors->first('categoryInput-1') }}
                     </div>
                 @endif
             </div>
@@ -89,5 +90,5 @@
 @endsection
 
 @push('scripts')
-<script type="text/javascript" src="{{ asset('/js/custom/author-add.js') }}"></script>
+<script type="text/javascript" src="{{ asset('/js/Custom/addForm.js') }}"></script>
 @endpush

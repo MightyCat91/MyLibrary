@@ -16,7 +16,7 @@ class CreateBookTable extends Migration
         Schema::create('book', function (Blueprint $table) {
             $table->increments('id');
             $table->string('imgHREF');
-            $table->text('description', 1024);
+            $table->string('description', 2048);
             $table->integer('page_counts');
             $table->timestamps();
         });

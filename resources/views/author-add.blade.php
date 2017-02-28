@@ -11,35 +11,34 @@
         @endif
         <form id="add-form" method="post" enctype="multipart/form-data">
             {{ csrf_field() }}
-            <div class="form-group {{ ($errors->first('nameInput')) ? 'has-danger' : '' }}">
+            <div class="form-group {{ ($errors->has('nameInput')) ? 'has-danger' : '' }}">
                 <label for="nameInput">Имя автора:</label>
-                <input type="text" id="nameInput" name="nameInput" class="form-control"
-                       placeholder="Александр Сергеевич Пушкин">
-                @if($errors->first('nameInput'))
+                <input type="text" id="nameInput" name="nameInput" class="form-control" value="{{ old('nameInput') }}"
+                       placeholder="Александр Сергеевич Пушкин" maxlength="128" required>
+                @if($errors->has('nameInput'))
                     <div class="form-control-feedback">
                         {{ $errors->first('nameInput') }}
                     </div>
                 @endif
             </div>
 
-            <div class="form-group {{ ($errors->first('biographyInput')) ? 'has-danger' : '' }}">
+            <div class="form-group {{ ($errors->has('biographyInput')) ? 'has-danger' : '' }}">
                 <label for="biographyInput">Биография:</label>
-                <textarea id="biographyInput" name="biographyInput" class="form-control"
-                          placeholder="Краткая информация из биографии автора"></textarea>
-                @if($errors->first('biographyInput'))
+                <textarea id="biographyInput" name="biographyInput" class="form-control" maxlength="2048" required
+                          placeholder="Краткая информация из биографии автора">{{ old('biographyInput') }}</textarea>
+                @if($errors->has('biographyInput'))
                     <div class="form-control-feedback">
                         {{ $errors->first('biographyInput') }}
                     </div>
                 @endif
             </div>
 
-            <script>console.log({{print_r($errors)}})</script>
-            <div class="form-group {{ ($errors->first('categoryInput-1')) ? 'has-danger' : '' }}">
-                <label for="categoryInput-1">Жанры:</label>
+            <div class="form-group {{ ($errors->has('categoryInput.*')) ? 'has-danger' : '' }}">
+                <label for="categoryInput[]">Жанры:</label>
 
                 <div id="categories" class="multiple-input-add-container">
-                    <input type="text" name="categoryInput-1" class="form-control form-add-input category-input"
-                           placeholder="Жанр" title="Добавить еще один жанр" list="category-list">
+                    <input type="text" name="categoryInput[]" class="form-control form-add-input category-input"
+                           placeholder="Жанр" title="Добавить еще один жанр" list="category-list" maxlength="128">
                     <span class="append-form-add-input">
                         <i class="fa fa-plus-circle fa-2x"></i>
                     </span>
@@ -49,14 +48,14 @@
                         <option>{{ $category->name }}</option>
                     @endforeach
                 </datalist>
-                @if($errors->first('categoryInput-1'))
+                @if($errors->has('categoryInput.*'))
                     <div class="form-control-feedback">
-                        {{ $errors->first('categoryInput-1') }}
+                        {{ $errors->first('categoryInput.*') }}
                     </div>
                 @endif
             </div>
 
-            <div class="form-group file-upload-group {{ ($errors->first('imageInput')) ? 'has-danger' : '' }}">
+            <div class="form-group file-upload-group {{ ($errors->has('imageInput')) ? 'has-danger' : '' }}">
                 <label for="imageInput">Фотографии:</label>
 
                 <div class="img-add-container">
@@ -67,7 +66,7 @@
                     </span>
                     </div>
                     <div class='img-name'>
-                        @if($errors->first('imageInput'))
+                        @if($errors->has('imageInput'))
                             <div class="form-control-feedback file-errors">
                                 {{ $errors->first('imageInput') }}
                             </div>

@@ -59,19 +59,30 @@
         var name;
         switch (id) {
             case 'categories':
-                name = 'categoryInput-' + (parseInt(input.attr('name').substring(14)) + 1);
-                console.log(name);
+                input.clone().attr('name', 'categoryInput[]').val('').appendTo('#' + id);
                 break;
             case 'authors':
-                name = 'authorInput-' + (parseInt(input.attr('name').substring(12)) + 1);
-                console.log(name);
+                if (!input.val()) {
+                    if (!$('span.badge').length) {
+                        input.after('<span class="badge badge-pill badge-danger align-middle">Внимание</span>');
+                    }
+                    $(this).attr({
+                        'title': 'Поле не может быть пустым',
+                        'data-toggle': 'tooltip',
+                        'data-placement': 'bottom',
+                        'trigger': 'click hover focus'
+                    }).tooltip('show');
+                }
+                else {
+                    container.find('span.badge').remove();
+                    $(this).tooltip('dispose');
+                    input.clone().attr('name', 'authorInput[]').val('').appendTo('#' + id);
+                }
                 break;
             case 'publishers':
-                name = 'publisherInput-' + (parseInt(input.attr('name').substring(15)) + 1);
-                console.log(name);
+                input.clone().attr('name', 'publisherInput[]').val('').appendTo('#' + id);
                 break;
         }
-        input.clone().attr('name', name).val('').appendTo('#' + id);
         $(this).appendTo('#' + id);
     });
 })(jQuery);

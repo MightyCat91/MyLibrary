@@ -3652,6 +3652,7 @@ div.multiple-input-add-container {
     display: flex;
     align-items: center;
     flex-wrap: wrap;
+    position: relative;
 }
 
 input.form-control.form-add-input {
@@ -3675,6 +3676,19 @@ span.append-form-add-input:hover {
 
 form#author-add label{
     font-weight: 700;
+}
+
+span.badge.badge-pill.badge-danger.align-middle {
+    position: absolute;
+    right: 31%;
+    bottom: 0;
+    margin-bottom: 16px;
+}
+
+@media (max-width: 480px) {
+    span.badge.badge-pill.badge-danger.align-middle {
+        margin-bottom: 12px;
+    }
 }
 
 /*-- footer --*/

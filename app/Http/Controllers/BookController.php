@@ -9,6 +9,7 @@ use App\Publisher;
 use Illuminate\Http\Request;
 use App\Book;
 use Storage;
+use Validator;
 
 class BookController extends Controller
 {
@@ -83,15 +84,34 @@ class BookController extends Controller
      */
     public function store(BookAddRequest $request)
     {
-        $book = new Book();
-        $book->name = $request->input('nameInput');
-        $book->description = $request->input('descriptionInput');
-        $book->page_counts = $request->input('pageCountsInput');
-        $book->year = $request->input('yearInput');
-        $book->isbn = $request->input('isbnInput');
-        $book->moderate = false;
-        $book->save();
-        return redirect()->back()->with('success', 'Спасибо. Книга будет добавлена после модерации.');
+        $validate = Validator::make($request->all(), $request->rules(), $request->messages());
+        if($validate->fails()) {
+            $response = back()->withErrors($validate)->withInput();
+        }
+        else {
+            $book = new Book();
+            $book->name = $request->input('nameInput');
+            $book->description = $request->input('descriptionInput');
+            $book->page_counts = $request->input('pageCountsInput');
+            $book->year = $request->input('yearInput');
+            $book->isbn = $request->input('isbnInput');
+            $book->moderate = false;
+            $book->save();
+            foreach($request->input('categoryInput.*') as $category){
+                $id = Categories::where('name',$category)->first();
+                $book->categories()->attach($id);
+            }
+            foreach($request->input('authorInput.*') as $author){
+                $id = Author::where('name',$author)->first();
+                $book->categories()->attach($id);
+            }
+            foreach($request->input('publisherInput.*') as $publisher){
+                $id = Publisher::where('name',$publisher)->first();
+                $book->categories()->attach($id);
+            }
+            $response = redirect()->back()->with('success', 'Спасибо. Книга будет добавлена после модерации.');
+        }
+        return $response;
     }
 
     /**

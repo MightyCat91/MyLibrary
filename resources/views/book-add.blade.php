@@ -11,22 +11,23 @@
         @endif
         <form id="add-form" method="post" enctype="multipart/form-data">
             {{ csrf_field() }}
-            <div class="form-group {{ ($errors->first('nameInput')) ? 'has-danger' : '' }}">
+            <div class="form-group {{ ($errors->has('nameInput')) ? 'has-danger' : '' }}">
                 <label for="nameInput">Название книги:</label>
                 <input type="text" id="nameInput" name="nameInput" class="form-control"
-                       placeholder="Евгений Онегин">
-                @if($errors->first('nameInput'))
+                       placeholder="Евгений Онегин" value="{{ old('nameInput') }}" maxlength="64" required>
+                @if($errors->has('nameInput'))
                     <div class="form-control-feedback">
                         {{ $errors->first('nameInput') }}
                     </div>
                 @endif
             </div>
 
-            <div class="form-group {{ ($errors->first('authorInput-1')) ? 'has-danger' : '' }}">
-                <label for="authorInput-1">Автор:</label>
+            <div class="form-group {{ ($errors->has('authorInput.*')) ? 'has-danger' : '' }}">
+                <label for="authorInput[]">Автор:</label>
                 <div id="authors" class="multiple-input-add-container">
-                    <input type="text" name="authorInput-1" class="form-control form-add-input author-input"
-                           placeholder="Автор" title="Добавить еще одного автора" list="author-list">
+                    <input type="text" name="authorInput[]" class="form-control form-add-input author-input"
+                           placeholder="Автор" title="Добавить еще одного автора" list="author-list" maxlength="128"
+                           required>
                     <span class="append-form-add-input">
                         <i class="fa fa-plus-circle fa-2x"></i>
                     </span>
@@ -36,18 +37,18 @@
                         <option>{{ $author->name }}</option>
                     @endforeach
                 </datalist>
-                @if($errors->first('authorInput-1'))
+                @if($errors->has('authorInput.*'))
                     <div class="form-control-feedback">
-                        {{ $errors->first('authorInput-1') }}
+                        {{ $errors->first('authorInput.*') }}
                     </div>
                 @endif
             </div>
 
-            <div class="form-group {{ ($errors->first('categoryInput-1')) ? 'has-danger' : '' }}">
-                <label for="categoryInput-1">Жанр:</label>
+            <div class="form-group {{ ($errors->has('categoryInput.*')) ? 'has-danger' : '' }}">
+                <label for="categoryInput[]">Жанр:</label>
                 <div id="categories" class="multiple-input-add-container">
-                    <input type="text" name="categoryInput-1" class="form-control form-add-input category-input"
-                           placeholder="Жанр" title="Добавить еще один жанр" list="category-list">
+                    <input type="text" name="categoryInput[]" class="form-control form-add-input category-input"
+                           placeholder="Жанр" title="Добавить еще один жанр" list="category-list" maxlength="128">
                     <span class="append-form-add-input">
                         <i class="fa fa-plus-circle fa-2x"></i>
                     </span>
@@ -57,18 +58,19 @@
                         <option>{{ $category->name }}</option>
                     @endforeach
                 </datalist>
-                @if($errors->first('categoryInput-1'))
+                @if($errors->has('categoryInput.*'))
                     <div class="form-control-feedback">
-                        {{ $errors->first('categoryInput-1') }}
+                        {{ $errors->first('categoryInput.*') }}
                     </div>
                 @endif
             </div>
 
-            <div class="form-group {{ ($errors->first('publisherInput')) ? 'has-danger' : '' }}">
-                <label for="publisherInput-1">Издательство:</label>
+            <div class="form-group {{ ($errors->has('publisherInput.*')) ? 'has-danger' : '' }}">
+                <label for="publisherInput[]">Издательство:</label>
                 <div id="publishers" class="multiple-input-add-container">
-                    <input type="text" name="publisherInput-1" class="form-control form-add-input publisher-input"
-                           placeholder="Издательство" title="Добавить еще одно издательство" list="publisher-list">
+                    <input type="text" name="publisherInput[]" class="form-control form-add-input publisher-input"
+                           placeholder="Издательство" title="Добавить еще одно издательство" list="publisher-list"
+                           maxlength="128">
                     <span class="append-form-add-input">
                         <i class="fa fa-plus-circle fa-2x"></i>
                     </span>
@@ -78,58 +80,60 @@
                         <option>{{ $publisher->name }}</option>
                     @endforeach
                 </datalist>
-                @if($errors->first('publisherInput'))
+                @if($errors->has('publisherInput.*'))
                     <div class="form-control-feedback">
-                        {{ $errors->first('publisherInput') }}
+                        {{ $errors->first('publisherInput.*') }}
                     </div>
                 @endif
             </div>
 
-            <div class="form-group {{ ($errors->first('isbnInput')) ? 'has-danger' : '' }}">
+            <div class="form-group {{ ($errors->has('isbnInput')) ? 'has-danger' : '' }}">
                 <label for="isbnInput">ISBN:</label>
                 <input type="text" id="isbnInput" name="isbnInput" class="form-control"
-                       placeholder="978-5-389-04903-1">
-                @if($errors->first('isbnInput'))
+                       placeholder="978-5-389-04903-1" value="{{ old('isbnInput') }}" maxlength="20">
+                @if($errors->has('isbnInput'))
                     <div class="form-control-feedback">
                         {{ $errors->first('isbnInput') }}
                     </div>
                 @endif
             </div>
 
-            <div class="form-group {{ ($errors->first('yearInput')) ? 'has-danger' : '' }}">
+            <div class="form-group {{ ($errors->has('yearInput')) ? 'has-danger' : '' }}">
                 <label for="yearInput">Год издания:</label>
                 <input type="text" id="yearInput" name="yearInput" class="form-control"
-                       placeholder="2014">
-                @if($errors->first('yearInput'))
+                       placeholder="2014" value="{{ old('yearInput') }}" maxlength="4">
+                @if($errors->has('yearInput'))
                     <div class="form-control-feedback">
                         {{ $errors->first('yearInput') }}
                     </div>
                 @endif
             </div>
 
-            <div class="form-group {{ ($errors->first('pageCountsInput')) ? 'has-danger' : '' }}">
+            <div class="form-group {{ ($errors->has('pageCountsInput')) ? 'has-danger' : '' }}">
                 <label for="pageCountsInput">Количество страниц:</label>
                 <input type="text" id="pageCountsInput" name="pageCountsInput" class="form-control"
-                       placeholder="486">
-                @if($errors->first('pageCountsInput'))
+                       placeholder="486" value="{{ old('pageCountsInput') }}" maxlength="5" required>
+                @if($errors->has('pageCountsInput'))
                     <div class="form-control-feedback">
                         {{ $errors->first('pageCountsInput') }}
                     </div>
                 @endif
             </div>
 
-            <div class="form-group {{ ($errors->first('descriptionInput')) ? 'has-danger' : '' }}">
+            <div class="form-group {{ ($errors->has('descriptionInput')) ? 'has-danger' : '' }}">
                 <label for="descriptionInput">Аннотация:</label>
                 <textarea id="descriptionInput" name="descriptionInput" class="form-control"
-                          placeholder="Аннотация книги"></textarea>
-                @if($errors->first('descriptionInput'))
+                          placeholder="Аннотация книги" rows="6" maxlength="2048" required>
+                    {{ old('descriptionInput') }}
+                </textarea>
+                @if($errors->has('descriptionInput'))
                     <div class="form-control-feedback">
                         {{ $errors->first('descriptionInput') }}
                     </div>
                 @endif
             </div>
 
-            <div class="form-group file-upload-group {{ ($errors->first('imageInput')) ? 'has-danger' : '' }}">
+            <div class="form-group file-upload-group {{ ($errors->has('imageInput')) ? 'has-danger' : '' }}">
                 <label for="imageInput">Фотографии:</label>
 
                 <div class="img-add-container">
@@ -140,7 +144,7 @@
                     </span>
                     </div>
                     <div class='img-name'>
-                        @if($errors->first('imageInput'))
+                        @if($errors->has('imageInput'))
                             <div class="form-control-feedback file-errors">
                                 {{ $errors->first('imageInput') }}
                             </div>

@@ -33,13 +33,10 @@ class AuthorAddRequest extends FormRequest
             $rules = [
                 'nameInput' => 'required|string|max:128|unique:authors,name',
                 'biographyInput' => 'required|string|max:2048',
-                'imageInput' => 'required|image|mimes:jpg,jpeg,png,gif|max:6080|dimensions:min_width=100,min_height=200'
+                'imageInput' => 'required|image|mimes:jpg,jpeg,png,gif|max:6080|dimensions:min_width=100,
+                min_height=200',
+                'categoryInput.*' => 'exists:categories,name',
             ];
-            foreach (array_keys($this->input()) as $name) {
-                if (preg_match('/categoryInput-[0-9]+/', $name)) {
-                    $rules[$name] = 'exists:categories,name';
-                }
-            }
         }
         return $rules;
     }
@@ -59,12 +56,8 @@ class AuthorAddRequest extends FormRequest
             'imageInput.mimes' => 'Загружаемый файл должен иметь расширения: :values',
             'imageInput.max' => 'Максимальный размер загружаемого файла не должен превышать :max',
             'imageInput.dimension' => 'Загруженное изображение имеет некорректное разрешение',
+            'categoryInput.*.exists' => 'Введенный жанр отсутсвует в базе',
         ];
-        foreach (array_keys($this->input()) as $name) {
-            if (preg_match('/categoryInput-[0-9]+/', $name)) {
-                $message[$name . '.exists'] = 'Введенный жанр отсутсвует в базе';
-            }
-        }
         return $message;
     }
 }

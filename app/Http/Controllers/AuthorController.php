@@ -7,6 +7,7 @@ use App\Http\Requests\AuthorAddRequest;
 use Illuminate\Http\Request;
 use App\Author;
 use Storage;
+use Validator;
 
 class AuthorController extends Controller
 {
@@ -39,17 +40,23 @@ class AuthorController extends Controller
      */
     public function store(AuthorAddRequest $request)
     {
-        $author = new Author;
-        $author->name = $request->input('nameInput');
-        $author->biography = $request->input('biographyInput');
-        $categories = $request->except(['_token','nameInput','biographyInput','imageInput']);
-        $author->moderate = false;
-        $author->save();
-        foreach($categories as $category){
-            $id = Categories::where('name',$category)->first();
-            $author->categories()->attach($id);
+        $validate = Validator::make($request->all(), $request->rules(), $request->messages());
+        if ($validate->fails()) {
+            $response = back()->withErrors($validate)->withInput();
+        } else {
+            $author = new Author;
+            $author->name = $request->input('nameInput');
+            $author->biography = $request->input('biographyInput');
+            $categories = $request->input('categoryInput.*');
+            $author->moderate = false;
+            $author->save();
+            foreach ($categories as $category) {
+                $id = Categories::where('name', $category)->first();
+                $author->categories()->attach($id);
+            }
+            $response = redirect()->back()->with('success', 'Спасибо. Автор будет добавлен после модерации.');
         }
-        return redirect()->back()->with('success', 'Спасибо. Автор будет добавлен после модерации.');
+        return $response;
     }
 
     /**

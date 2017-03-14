@@ -1,3 +1,7 @@
+@push('styles')
+<link href="{{ asset('/css/Library/jquery-ui.min.css')  }} " rel='stylesheet' type='text/css' media="all"/>
+@endpush
+
 @extends('layouts.main')
 @section('content')
     <div class="container">
@@ -12,9 +16,9 @@
         <form id="add-form" method="post" enctype="multipart/form-data">
             {{ csrf_field() }}
             <div class="form-group {{ ($errors->has('nameInput')) ? 'has-danger' : '' }}">
-                <label for="nameInput">Название книги:</label>
-                <input type="text" id="nameInput" name="nameInput" class="form-control"
-                       placeholder="Евгений Онегин" value="{{ old('nameInput') }}" maxlength="64" required>
+                <input type="text" id="nameInput" name="nameInput" class="form-control" value="{{ old('nameInput')}}"
+                       maxlength="64" required>
+                <label for="nameInput" class="input-label">Название книги</label>
                 @if($errors->has('nameInput'))
                     <div class="form-control-feedback">
                         {{ $errors->first('nameInput') }}
@@ -22,15 +26,19 @@
                 @endif
             </div>
 
-            <div class="form-group {{ ($errors->has('authorInput.*')) ? 'has-danger' : '' }}">
-                <label for="authorInput[]">Автор:</label>
+            <div class="form-group multiple {{ ($errors->has('authorInput.*')) ? 'has-danger' : '' }}">
                 <div id="authors" class="multiple-input-add-container">
-                    <input type="text" name="authorInput[]" class="form-control form-add-input author-input"
-                           placeholder="Автор" title="Добавить еще одного автора" list="author-list" maxlength="128"
-                           required>
-                    <span class="append-form-add-input">
-                        <i class="fa fa-plus-circle fa-2x"></i>
-                    </span>
+                    <div class="input-container">
+                        <input type="text" name="authorInput[]" class="form-control form-add-input author-input"
+                               title="Добавить еще одного автора" maxlength="128" autocomplete="off" required>
+                        <label for="authorInput[]" class="input-label">Автор</label>
+                        <button type="button" class="close hidden input-close" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <span class="append-form-add-input">
+                            <i class="fa fa-plus-circle fa-2x"></i>
+                        </span>
+                    </div>
                 </div>
                 <datalist id="author-list">
                     @foreach($authors as $author)
@@ -44,14 +52,19 @@
                 @endif
             </div>
 
-            <div class="form-group {{ ($errors->has('categoryInput.*')) ? 'has-danger' : '' }}">
-                <label for="categoryInput[]">Жанр:</label>
+            <div class="form-group multiple {{ ($errors->has('categoryInput.*')) ? 'has-danger' : '' }}">
                 <div id="categories" class="multiple-input-add-container">
-                    <input type="text" name="categoryInput[]" class="form-control form-add-input category-input"
-                           placeholder="Жанр" title="Добавить еще один жанр" list="category-list" maxlength="128">
-                    <span class="append-form-add-input">
-                        <i class="fa fa-plus-circle fa-2x"></i>
-                    </span>
+                    <div class="input-container">
+                        <input type="text" name="categoryInput[]" class="form-control form-add-input category-input"
+                               title="Добавить еще один жанр" maxlength="128" autocomplete="off">
+                        <label for="categoryInput[]" class="input-label">Жанр</label>
+                        <button type="button" class="close hidden input-close" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <span class="append-form-add-input">
+                            <i class="fa fa-plus-circle fa-2x"></i>
+                        </span>
+                    </div>
                 </div>
                 <datalist id="category-list">
                     @foreach($categories as $category)
@@ -65,15 +78,19 @@
                 @endif
             </div>
 
-            <div class="form-group {{ ($errors->has('publisherInput.*')) ? 'has-danger' : '' }}">
-                <label for="publisherInput[]">Издательство:</label>
+            <div class="form-group multiple {{ ($errors->has('publisherInput.*')) ? 'has-danger' : '' }}">
                 <div id="publishers" class="multiple-input-add-container">
-                    <input type="text" name="publisherInput[]" class="form-control form-add-input publisher-input"
-                           placeholder="Издательство" title="Добавить еще одно издательство" list="publisher-list"
-                           maxlength="128">
-                    <span class="append-form-add-input">
-                        <i class="fa fa-plus-circle fa-2x"></i>
-                    </span>
+                    <div class="input-container">
+                        <input type="text" name="publisherInput[]" class="form-control form-add-input publisher-input"
+                               title="Добавить еще одно издательство" maxlength="128" autocomplete="off">
+                        <label for="publisherInput[]" class="input-label">Издательство</label>
+                        <button type="button" class="close hidden input-close" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <span class="append-form-add-input">
+                            <i class="fa fa-plus-circle fa-2x"></i>
+                        </span>
+                    </div>
                 </div>
                 <datalist id="publisher-list">
                     @foreach($publishers as $publisher)
@@ -88,9 +105,9 @@
             </div>
 
             <div class="form-group {{ ($errors->has('isbnInput')) ? 'has-danger' : '' }}">
-                <label for="isbnInput">ISBN:</label>
-                <input type="text" id="isbnInput" name="isbnInput" class="form-control"
-                       placeholder="978-5-389-04903-1" value="{{ old('isbnInput') }}" maxlength="20">
+                <input type="text" id="isbnInput" name="isbnInput" class="form-control" value="{{ old('isbnInput')}}"
+                       maxlength="20">
+                <label for="isbnInput" class="input-label">ISBN</label>
                 @if($errors->has('isbnInput'))
                     <div class="form-control-feedback">
                         {{ $errors->first('isbnInput') }}
@@ -99,9 +116,9 @@
             </div>
 
             <div class="form-group {{ ($errors->has('yearInput')) ? 'has-danger' : '' }}">
-                <label for="yearInput">Год издания:</label>
-                <input type="text" id="yearInput" name="yearInput" class="form-control"
-                       placeholder="2014" value="{{ old('yearInput') }}" maxlength="4">
+                <input type="text" id="yearInput" name="yearInput" class="form-control" value="{{ old('yearInput')}}"
+                       maxlength="4">
+                <label for="yearInput" class="input-label">Год издания</label>
                 @if($errors->has('yearInput'))
                     <div class="form-control-feedback">
                         {{ $errors->first('yearInput') }}
@@ -110,9 +127,9 @@
             </div>
 
             <div class="form-group {{ ($errors->has('pageCountsInput')) ? 'has-danger' : '' }}">
-                <label for="pageCountsInput">Количество страниц:</label>
                 <input type="text" id="pageCountsInput" name="pageCountsInput" class="form-control"
-                       placeholder="486" value="{{ old('pageCountsInput') }}" maxlength="5" required>
+                       value="{{ old('pageCountsInput') }}" maxlength="5" required>
+                <label for="pageCountsInput" class="input-label">Количество страниц</label>
                 @if($errors->has('pageCountsInput'))
                     <div class="form-control-feedback">
                         {{ $errors->first('pageCountsInput') }}
@@ -121,11 +138,9 @@
             </div>
 
             <div class="form-group {{ ($errors->has('descriptionInput')) ? 'has-danger' : '' }}">
-                <label for="descriptionInput">Аннотация:</label>
-                <textarea id="descriptionInput" name="descriptionInput" class="form-control"
-                          placeholder="Аннотация книги" rows="6" maxlength="2048" required>
-                    {{ old('descriptionInput') }}
-                </textarea>
+                <textarea id="descriptionInput" name="descriptionInput" class="form-control" rows="3"
+                          maxlength="2048" required>{{ old('descriptionInput') }}</textarea>
+                <label for="descriptionInput" class="input-label">Аннотация</label>
                 @if($errors->has('descriptionInput'))
                     <div class="form-control-feedback">
                         {{ $errors->first('descriptionInput') }}
@@ -133,39 +148,47 @@
                 @endif
             </div>
 
-            <div class="form-group file-upload-group {{ ($errors->has('imageInput')) ? 'has-danger' : '' }}">
-                <label for="imageInput">Фотографии:</label>
-
+            <div class="form-group file-upload-group {{ ($errors->has('imageInput.*')) ? 'has-danger' : '' }}">
                 <div class="img-add-container">
-                    <div class="input-group add-img-btn">
-                    <span class="btn btn-success btn-file">
-                        <i class="icon-plus"> </i><span>Выберите изображения...</span>
-                        <input type="file" name="imageInput" id="imageInput" accept="image/jpeg,image/png,image/gif"/>
-                    </span>
+                    <input type="file" name="imageInput[]" id="imageInput" accept="image/jpeg,image/png,image/gif"
+                           multiple/>
+
+                    <div class="btn-container">
+                        <label for="imageInput" class="add-img-btn">
+                            <span class="btn btn-success btn-file">
+                                <i class="fa fa-upload" aria-hidden="true"></i>
+                            </span>
+                        </label>
+
+                        <div class="form-group submit-btn">
+                            <button type="submit" id="submit-book-add" class="btn btn-primary">Добавить</button>
+                        </div>
                     </div>
                     <div class='img-name'>
-                        @if($errors->has('imageInput'))
+                        @if($errors->has('imageInput.*'))
                             <div class="form-control-feedback file-errors">
-                                {{ $errors->first('imageInput') }}
+                                {{ $errors->first('imageInput.*') }}
                             </div>
-                            <a href='' target='_blank' class="hidden preview-link">
-                                <i class='fa fa-picture-o fa-fw' aria-hidden='true'></i>preview uploaded image</a>
+                            <div class="img-link hidden">
+                                <a href='' target='_blank' class="preview-link">
+                                    <i class='fa fa-picture-o fa-fw' aria-hidden='true'></i>preview uploaded image</a>
+                            </div>
                         @else
                             <div class="form-control-feedback file-errors hidden"></div>
-                            <a href='' target='_blank' class="hidden preview-link">
-                                <i class='fa fa-picture-o fa-fw' aria-hidden='true'></i>preview uploaded image</a>
+                            <div class="img-link hidden ">
+                                <a href='' target='_blank' class="preview-link">
+                                    <i class='fa fa-picture-o fa-fw' aria-hidden='true'></i>preview uploaded image</a>
+                            </div>
                         @endif
                     </div>
                 </div>
                 <img src="" class="img-preview hidden">
-            </div>
-            <div class="form-group">
-                <button type="submit" id="submit-book-add" class="btn btn-primary">Добавить</button>
             </div>
         </form>
     </div>
 @endsection
 
 @push('scripts')
+<script type="text/javascript" src="{{ asset('/js/Library/jquery-ui.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('/js/Custom/addForm.js') }}"></script>
 @endpush

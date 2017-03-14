@@ -16,7 +16,7 @@
     <!-- bootstrap -->
     <link href="{{ Request::root()}}/css/Library/bootstrap.min.css" rel='stylesheet' type='text/css' media="all"/>
     <!-- //bootstrap -->
-    <link href="{{ Request::root()}}/css/Custom/dashboard.css" rel="stylesheet">
+    <link href="{{ Request::root()}}/css/Custom/dashboard.css" rel="stylesheet" type='text/css' media="all">
     <!-- Custom Theme files -->
     <link href="{{ Request::root()}}/css/Custom/style.css" rel='stylesheet' type='text/css' media="all"/>
     <!-- Font Awesome -->
@@ -25,6 +25,7 @@
     <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800'
           rel='stylesheet' type='text/css'>
     <link href='//fonts.googleapis.com/css?family=Poiret+One' rel='stylesheet' type='text/css'>
+    @stack('styles')
     <!-- //fonts -->
 </head>
 <body>

@@ -47,8 +47,7 @@ class BookController extends Controller
     {
         if (!$id) {
             $view = view('books', ['books' => Book::all()]);
-        }
-        else {
+        } else {
             $book = Book::FindOrFail($id);
             $authors = $book->authors;
             $categories = $book->categories;
@@ -85,10 +84,9 @@ class BookController extends Controller
     public function store(BookAddRequest $request)
     {
         $validate = Validator::make($request->all(), $request->rules(), $request->messages());
-        if($validate->fails()) {
+        if ($validate->fails()) {
             $response = back()->withErrors($validate)->withInput();
-        }
-        else {
+        } else {
             $book = new Book();
             $book->name = $request->input('nameInput');
             $book->description = $request->input('descriptionInput');
@@ -97,18 +95,25 @@ class BookController extends Controller
             $book->isbn = $request->input('isbnInput');
             $book->moderate = false;
             $book->save();
-            foreach($request->input('categoryInput.*') as $category){
-                $id = Categories::where('name',$category)->first();
+            foreach ($request->input('categoryInput.*') as $category) {
+                $id = Categories::where('name', $category)->first();
                 $book->categories()->attach($id);
             }
-            foreach($request->input('authorInput.*') as $author){
-                $id = Author::where('name',$author)->first();
+            foreach ($request->input('authorInput.*') as $author) {
+                $id = Author::where('name', $author)->first();
                 $book->categories()->attach($id);
             }
-            foreach($request->input('publisherInput.*') as $publisher){
-                $id = Publisher::where('name',$publisher)->first();
+            foreach ($request->input('publisherInput.*') as $publisher) {
+                $id = Publisher::where('name', $publisher)->first();
                 $book->categories()->attach($id);
             }
+            $id = $book->id;
+            foreach ($request->file('imageInput') as $image) {
+                $filename = $image->getClientOriginalName();
+                Storage::disk('books')->put(sprintf('/%s/%s', $id, $filename), file_get_contents($image));
+                Storage::disk('booksTemporary')->delete($filename);
+            }
+
             $response = redirect()->back()->with('success', 'Спасибо. Книга будет добавлена после модерации.');
         }
         return $response;
@@ -136,13 +141,16 @@ class BookController extends Controller
     private function putFileToTemporaryStorage($request)
     {
         if ($request->hasFile('imageInput')) {
-            $file = $request->file('imageInput');
-            $filename = str_random(6) . '.' . $file->getClientOriginalExtension();
-            Storage::disk('bookTemporary')->put(
-                $filename,
-                file_get_contents($file)
-            );
-            $url = Storage::disk('bookTemporary')->url($filename);
+            $url = [];
+            foreach ($request->file('imageInput') as $file) {
+                $filename = $file->getClientOriginalName();
+                //TODO: добавить в путь id юзера добавляющего книгу
+                Storage::disk('booksTemporary')->put(
+                    $filename,
+                    file_get_contents($file)
+                );
+                $url[$filename] = Storage::disk('booksTemporary')->url($filename);
+            }
             return $url;
         }
     }

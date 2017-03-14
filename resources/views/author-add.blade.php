@@ -70,12 +70,16 @@
                             <div class="form-control-feedback file-errors">
                                 {{ $errors->first('imageInput') }}
                             </div>
-                            <a href='' target='_blank' class="hidden preview-link">
-                                <i class='fa fa-picture-o fa-fw' aria-hidden='true'></i>preview uploaded image</a>
+                            <div class="img-link hidden">
+                                <a href='' target='_blank' class="preview-link">
+                                    <i class='fa fa-picture-o fa-fw' aria-hidden='true'></i>preview uploaded image</a>
+                            </div>
                         @else
                             <div class="form-control-feedback file-errors hidden"></div>
-                            <a href='' target='_blank' class="hidden preview-link">
-                                <i class='fa fa-picture-o fa-fw' aria-hidden='true'></i>preview uploaded image</a>
+                            <div class="img-link hidden">
+                                <a href='' target='_blank' class="preview-link">
+                                    <i class='fa fa-picture-o fa-fw' aria-hidden='true'></i>preview uploaded image</a>
+                            </div>
                         @endif
                     </div>
                 </div>

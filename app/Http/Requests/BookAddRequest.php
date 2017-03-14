@@ -25,7 +25,7 @@ class BookAddRequest extends FormRequest
     {
         if ($this->ajax()) {
             $rules = [
-                'imageInput' => 'image|mimes:jpg,jpeg,png,gif|max:6080'
+                'imageInput.*' => 'image|mimes:jpg,jpeg,png,gif|max:6080|dimensions:min_width=100,min_height=200'
             ];
         } else {
             $rules = [
@@ -34,7 +34,7 @@ class BookAddRequest extends FormRequest
                 'yearInput' => 'nullable|date_format:Y|before:yesterday',
                 'pageCountsInput' => 'required|integer|min:0|digits_between:1,5',
                 'descriptionInput' => 'required|string|max:2048',
-                'imageInput' => 'required|image|mimes:jpg,jpeg,png,gif|max:6080|dimensions:min_width=100,
+                'imageInput.*' => 'required|image|mimes:jpg,jpeg,png,gif|max:6080|dimensions:min_width=100,
                 min_height=200',
                 'categoryInput.*' => 'exists:categories,name',
                 'authorInput.*' => 'required|exists:authors,name',
@@ -56,7 +56,7 @@ class BookAddRequest extends FormRequest
             'isbnInput.string' => 'Вводимое значение должно быть строкой',
             'isbnInput.max' => 'Поле ISBN не должно содержать больше :max символов',
             'yearInput.date_format' => 'Дата не соответствует формату',
-            'yearInput.before' => 'Дата не должна быть позднее :date года',
+            'yearInput.before' => 'Дата не должна быть позднее текущего дня',
             'pageCountsInput.required' => 'Поле обязательно к заполнению',
             'pageCountsInput.integer' => 'Поле должно быть положительным целым числом',
             'pageCountsInput.min' => 'Поле не может быть меньше :value',
@@ -65,10 +65,11 @@ class BookAddRequest extends FormRequest
             'authorInput.*.exists' => 'Введенный жанр отсутсвует в базе',
             'authorInput.*.required' => 'Поле обязательно к заполнению',
             'publisherInput.*.exists' => 'Введенный жанр отсутсвует в базе',
-            'imageInput.required' => 'Необходимо загрузить файл',
-            'imageInput.image' => 'Загружаемый файл должен быть изображением',
-            'imageInput.mimes' => 'Загружаемый файл должен иметь расширения: :values',
-            'imageInput.max' => 'Максимальный размер загружаемого файла не должен превышать :max',
+            'imageInput.*.required' => 'Необходимо загрузить файл',
+            'imageInput.*.image' => 'Загружаемый файл должен быть изображением',
+            'imageInput.*.mimes' => 'Загружаемый файл должен иметь расширения: :values',
+            'imageInput.*.max' => 'Максимальный размер загружаемого файла не должен превышать :max',
+            'imageInput.*.dimensions' => 'Загружаемый файл имеет слишком маленькое разрешение',
         ];
     }
 }

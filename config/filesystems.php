@@ -62,14 +62,28 @@ return [
             'bucket' => 'your-bucket',
         ],
 
-        'authorTemporary' => [
+        'authors' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/authors'),
+            'visibility' => 'public',
+            'url' => env('APP_URL') . '/storage/authors',
+        ],
+
+        'authorsTemporary' => [
             'driver' => 'local',
             'root' => storage_path('app/public/temporary/authors'),
             'visibility' => 'public',
             'url' => env('APP_URL') . '/storage/temporary/authors',
         ],
 
-        'bookTemporary' => [
+        'books' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/books'),
+            'visibility' => 'public',
+            'url' => env('APP_URL') . '/storage/books',
+        ],
+
+        'booksTemporary' => [
             'driver' => 'local',
             'root' => storage_path('app/public/temporary/books'),
             'visibility' => 'public',

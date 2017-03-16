@@ -33,7 +33,7 @@ class AuthorController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Сохранение добавляемого автора, требующей модерации, в базу.
      *
      * @param AuthorAddRequest|Request $request
      * @return \Illuminate\Http\Response
@@ -54,6 +54,12 @@ class AuthorController extends Controller
                 $id = Categories::where('name', $category)->first();
                 $author->categories()->attach($id);
             }
+            $id = $author->id;
+            $image = $request->file('imageInput');
+            $filename = $image->getClientOriginalName();
+            Storage::disk('authors')->put(sprintf('/%s/%s', $id, $filename), file_get_contents($image));
+            Storage::disk('authorsTemporary')->delete($filename);
+
             $response = redirect()->back()->with('success', 'Спасибо. Автор будет добавлен после модерации.');
         }
         return $response;
@@ -82,18 +88,18 @@ class AuthorController extends Controller
     {
         if ($request->hasFile('imageInput')) {
             $file = $request->file('imageInput');
-            $filename = str_random(6) . '.' . $file->getClientOriginalExtension();
-            Storage::disk('authorTemporary')->put(
+            $filename = $file->getClientOriginalExtension();
+            Storage::disk('authorsTemporary')->put(
                 $filename,
                 file_get_contents($file)
             );
-            $url = Storage::disk('authorTemporary')->url($filename);
+            $url = Storage::disk('authorsTemporary')->url($filename);
             return $url;
         }
     }
 
     /**
-     * ����� ������� ���� �� id ������, ���� ���� �������
+     * Возврат шаблона со всеми авторами или конкретного автора, если указан id
      *
      * @param int $id
      * @return \Illuminate\Http\Response

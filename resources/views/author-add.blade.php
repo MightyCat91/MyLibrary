@@ -12,9 +12,10 @@
         <form id="add-form" method="post" enctype="multipart/form-data">
             {{ csrf_field() }}
             <div class="form-group {{ ($errors->has('nameInput')) ? 'has-danger' : '' }}">
-                <label for="nameInput">Имя автора:</label>
                 <input type="text" id="nameInput" name="nameInput" class="form-control" value="{{ old('nameInput') }}"
-                       placeholder="Александр Сергеевич Пушкин" maxlength="128" required>
+                       maxlength="128" required>
+                <label for="nameInput"
+                       class="input-label {{ (empty(old('nameInput'))) ? '' : 'active' }}">Имя автора</label>
                 @if($errors->has('nameInput'))
                     <div class="form-control-feedback">
                         {{ $errors->first('nameInput') }}
@@ -22,26 +23,20 @@
                 @endif
             </div>
 
-            <div class="form-group {{ ($errors->has('biographyInput')) ? 'has-danger' : '' }}">
-                <label for="biographyInput">Биография:</label>
-                <textarea id="biographyInput" name="biographyInput" class="form-control" maxlength="2048" required
-                          placeholder="Краткая информация из биографии автора">{{ old('biographyInput') }}</textarea>
-                @if($errors->has('biographyInput'))
-                    <div class="form-control-feedback">
-                        {{ $errors->first('biographyInput') }}
-                    </div>
-                @endif
-            </div>
-
-            <div class="form-group {{ ($errors->has('categoryInput.*')) ? 'has-danger' : '' }}">
-                <label for="categoryInput[]">Жанры:</label>
-
+            <div class="form-group multiple {{ ($errors->has('categoryInput.*')) ? 'has-danger' : '' }}">
                 <div id="categories" class="multiple-input-add-container">
-                    <input type="text" name="categoryInput[]" class="form-control form-add-input category-input"
-                           placeholder="Жанр" title="Добавить еще один жанр" list="category-list" maxlength="128">
-                    <span class="append-form-add-input">
-                        <i class="fa fa-plus-circle fa-2x"></i>
-                    </span>
+                    <div class="input-container">
+                        <input type="text" id="categoryInput" name="categoryInput[]"
+                               class="form-control form-add-input category-input"
+                               title="Добавить еще один жанр" maxlength="128" autocomplete="off">
+                        <label for="categoryInput" class="input-label">Жанр</label>
+                        <button type="button" class="close hidden input-close" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <span class="append-form-add-input">
+                            <i class="fa fa-plus-circle fa-2x"></i>
+                        </span>
+                    </div>
                 </div>
                 <datalist id="category-list">
                     @foreach($categories as $category)
@@ -55,15 +50,32 @@
                 @endif
             </div>
 
-            <div class="form-group file-upload-group {{ ($errors->has('imageInput')) ? 'has-danger' : '' }}">
-                <label for="imageInput">Фотографии:</label>
+            <div class="form-group {{ ($errors->has('biographyInput')) ? 'has-danger' : '' }}">
+                <textarea id="biographyInput" name="biographyInput" class="form-control" rows="3"
+                          maxlength="2048" required>{{ old('biographyInput') }}</textarea>
+                <label for="biographyInput"
+                       class="input-label {{ (empty(old('biographyInput'))) ? '' : 'active' }}">Биография</label>
+                @if($errors->has('biographyInput'))
+                    <div class="form-control-feedback">
+                        {{ $errors->first('biographyInput') }}
+                    </div>
+                @endif
+            </div>
 
+            <div class="form-group file-upload-group {{ ($errors->has('imageInput')) ? 'has-danger' : '' }}">
                 <div class="img-add-container">
-                    <div class="input-group add-img-btn">
-                    <span class="btn btn-success btn-file">
-                        <i class="icon-plus"> </i><span>Выберите изображения...</span>
-                        <input type="file" name="imageInput" id="imageInput" accept="image/jpeg,image/png,image/gif"/>
-                    </span>
+                    <input type="file" name="imageInput" id="imageInput" accept="image/jpeg,image/png,image/gif"/>
+
+                    <div class="btn-container">
+                        <label for="imageInput" class="add-img-btn">
+                            <span class="btn btn-success btn-file">
+                                <i class="fa fa-upload" aria-hidden="true"></i>
+                            </span>
+                        </label>
+
+                        <div class="form-group submit-btn">
+                            <button type="submit" id="submit-book-add" class="btn btn-primary">Добавить</button>
+                        </div>
                     </div>
                     <div class='img-name'>
                         @if($errors->has('imageInput'))
@@ -85,13 +97,11 @@
                 </div>
                 <img src="" class="img-preview hidden">
             </div>
-            <div class="form-group">
-                <button type="submit" id="submit-author-add" class="btn btn-primary">Добавить</button>
-            </div>
         </form>
     </div>
 @endsection
 
 @push('scripts')
+<script type="text/javascript" src="{{ asset('/js/Library/jquery-ui.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('/js/Custom/addForm.js') }}"></script>
 @endpush

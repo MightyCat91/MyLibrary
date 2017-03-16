@@ -25,7 +25,8 @@ class BookAddRequest extends FormRequest
     {
         if ($this->ajax()) {
             $rules = [
-                'imageInput.*' => 'image|mimes:jpg,jpeg,png,gif|max:6080|dimensions:min_width=100,min_height=200'
+                'imageInput.*' => 'image|mimes:jpg,jpeg,png,gif|max:6080|dimensions:min_width=100,min_height=200',
+                'imageInput' => 'max_files_count:3',
             ];
         } else {
             $rules = [
@@ -36,6 +37,7 @@ class BookAddRequest extends FormRequest
                 'descriptionInput' => 'required|string|max:2048',
                 'imageInput.*' => 'required|image|mimes:jpg,jpeg,png,gif|max:6080|dimensions:min_width=100,
                 min_height=200',
+                'imageInput' => 'max_files_count:3',
                 'categoryInput.*' => 'exists:categories,name',
                 'authorInput.*' => 'required|exists:authors,name',
                 'publisherInput.*' => 'exists:publishers,name',
@@ -66,10 +68,11 @@ class BookAddRequest extends FormRequest
             'authorInput.*.required' => 'Поле обязательно к заполнению',
             'publisherInput.*.exists' => 'Введенный жанр отсутсвует в базе',
             'imageInput.*.required' => 'Необходимо загрузить файл',
-            'imageInput.*.image' => 'Загружаемый файл должен быть изображением',
-            'imageInput.*.mimes' => 'Загружаемый файл должен иметь расширения: :values',
-            'imageInput.*.max' => 'Максимальный размер загружаемого файла не должен превышать :max',
-            'imageInput.*.dimensions' => 'Загружаемый файл имеет слишком маленькое разрешение',
+            'imageInput.*.image' => 'Загружаемый файл :fileName должен быть изображением',
+            'imageInput.*.mimes' => 'Загружаемый файл :fileName должен иметь расширения: :values',
+            'imageInput.*.max' => 'Максимальный размер загружаемого файла :fileName не должен превышать :max',
+            'imageInput.*.dimensions' => 'Загружаемый файл :fileName имеет слишком маленькое разрешение',
+            'imageInput.max_files_count' => 'Максимальное количество изображений не должно превышать :maxFilesCount',
         ];
     }
 }

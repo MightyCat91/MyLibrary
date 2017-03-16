@@ -70,6 +70,7 @@
                     });
                 })
                 .fail(function (response) {
+                    console.log(response);
                     //получаем все ошибки для первого невалидного файла
                     for (var key in response.responseJSON) break;
                     var errors = response.responseJSON[key];
@@ -105,33 +106,29 @@
                  клонирутся контейнер с полем ввода и кнопками, у клона очищается значение в инпуте, вставляется в конец
                  контейнера соответствующего типа, удаляется кнопка добавления из клонируемого контейнера
                  */
-                inputContainer.clone().appendTo('#' + id).children().attr('name', 'categoryInput[]').val('');
+                inputContainer.clone().appendTo('#' + id).children().val('').next().removeClass('active');
                 $(this).remove();
                 closeIcon.removeClass('hidden');
                 break;
             case 'authors':
                 //проверка наличия значения клонируемого поля ввода
                 if (!input.val()) {
-                    //проверка наличия в дом-дереве бейджа "внимание"
-                    if (!$('span.badge').length) {
-                        input.after('<span class="badge badge-pill badge-danger align-middle">Внимание</span>');
-                    }
                     //отображение тултипа с предупреждением невозможности клонирования пустого поля ввода
-                    $(this).attr({
+                    $(this).addClass('danger-icon').attr({
                         'title': 'Поле не может быть пустым',
-                        'data-toggle': 'tooltip',
-                        'data-placement': 'bottom',
-                        'trigger': 'click hover focus'
-                    }).tooltip('show');
+                        'data-toggle': 'tooltip'
+                    }).tooltip('show')
+                        .mouseleave(function () {
+                            $(this).removeClass('danger-icon');
+                        });
                 }
                 else {
                     /*
-                     удаляется бейдж, клонирутся контейнер с полем ввода и кнопками, у клона очищается значение в
+                     клонирутся контейнер с полем ввода и кнопками, у клона очищается значение в
                      инпуте, вставляется в конец контейнера соответствующего типа, удаляется кнопка добавления из
                      клонируемого контейнера
                      */
-                    inputContainer.find('span.badge').remove();
-                    inputContainer.clone().appendTo('#' + id).children().attr('name', 'authorInput[]').val('');
+                    inputContainer.clone().appendTo('#' + id).children().val('').next().removeClass('active');
                     $(this).tooltip('dispose').remove();
                     closeIcon.removeClass('hidden');
                 }
@@ -141,7 +138,7 @@
                  клонирутся контейнер с полем ввода и кнопками, у клона очищается значение в инпуте, вставляется в конец
                  контейнера соответствующего типа, удаляется кнопка добавления из клонируемого контейнера
                  */
-                inputContainer.clone().appendTo('#' + id).children().attr('name', 'publisherInput[]').val('');
+                inputContainer.clone().appendTo('#' + id).children().val('').next().removeClass('active');
                 $(this).remove();
                 closeIcon.removeClass('hidden');
                 break;
@@ -155,17 +152,14 @@
             minLength: 0,
             delay: 500,
             classes: {'ui-autocomplete': 'input-autocomplete'},
-            messages: {
-                noResults: '',
-                results: ''
-            },
-            select: function(event, ui) {
-                console.log(ui);
+            //удаление автокомплита
+            close: function () {
+                $(this).autocomplete('destroy');
             }
         })
             .on('focus', function () {
-            $(this).autocomplete('search', '');
-        });
+                $(this).autocomplete('search', '');
+            });
     }
 
     //отображение автокомплита полей автор, жанр, издательство при фокусе на поле

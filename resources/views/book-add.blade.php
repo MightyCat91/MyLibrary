@@ -18,7 +18,8 @@
             <div class="form-group {{ ($errors->has('nameInput')) ? 'has-danger' : '' }}">
                 <input type="text" id="nameInput" name="nameInput" class="form-control" value="{{ old('nameInput')}}"
                        maxlength="64" required>
-                <label for="nameInput" class="input-label">Название книги</label>
+                <label for="nameInput"
+                       class="input-label {{ (empty(old('nameInput'))) ? '' : 'active' }}">Название книги</label>
                 @if($errors->has('nameInput'))
                     <div class="form-control-feedback">
                         {{ $errors->first('nameInput') }}
@@ -29,9 +30,10 @@
             <div class="form-group multiple {{ ($errors->has('authorInput.*')) ? 'has-danger' : '' }}">
                 <div id="authors" class="multiple-input-add-container">
                     <div class="input-container">
-                        <input type="text" name="authorInput[]" class="form-control form-add-input author-input"
+                        <input type="text" id="authorInput" name="authorInput[]"
+                               class="form-control form-add-input author-input"
                                title="Добавить еще одного автора" maxlength="128" autocomplete="off" required>
-                        <label for="authorInput[]" class="input-label">Автор</label>
+                        <label for="authorInput" class="input-label">Автор</label>
                         <button type="button" class="close hidden input-close" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -55,9 +57,10 @@
             <div class="form-group multiple {{ ($errors->has('categoryInput.*')) ? 'has-danger' : '' }}">
                 <div id="categories" class="multiple-input-add-container">
                     <div class="input-container">
-                        <input type="text" name="categoryInput[]" class="form-control form-add-input category-input"
+                        <input type="text" id="categoryInput" name="categoryInput[]"
+                               class="form-control form-add-input category-input"
                                title="Добавить еще один жанр" maxlength="128" autocomplete="off">
-                        <label for="categoryInput[]" class="input-label">Жанр</label>
+                        <label for="categoryInput" class="input-label">Жанр</label>
                         <button type="button" class="close hidden input-close" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -81,9 +84,10 @@
             <div class="form-group multiple {{ ($errors->has('publisherInput.*')) ? 'has-danger' : '' }}">
                 <div id="publishers" class="multiple-input-add-container">
                     <div class="input-container">
-                        <input type="text" name="publisherInput[]" class="form-control form-add-input publisher-input"
+                        <input type="text" id="publisherInput" name="publisherInput[]"
+                               class="form-control form-add-input publisher-input"
                                title="Добавить еще одно издательство" maxlength="128" autocomplete="off">
-                        <label for="publisherInput[]" class="input-label">Издательство</label>
+                        <label for="publisherInput" class="input-label">Издательство</label>
                         <button type="button" class="close hidden input-close" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -107,7 +111,7 @@
             <div class="form-group {{ ($errors->has('isbnInput')) ? 'has-danger' : '' }}">
                 <input type="text" id="isbnInput" name="isbnInput" class="form-control" value="{{ old('isbnInput')}}"
                        maxlength="20">
-                <label for="isbnInput" class="input-label">ISBN</label>
+                <label for="isbnInput" class="input-label {{ (empty(old('isbnInput'))) ? '' : 'active' }}">ISBN</label>
                 @if($errors->has('isbnInput'))
                     <div class="form-control-feedback">
                         {{ $errors->first('isbnInput') }}
@@ -118,7 +122,8 @@
             <div class="form-group {{ ($errors->has('yearInput')) ? 'has-danger' : '' }}">
                 <input type="text" id="yearInput" name="yearInput" class="form-control" value="{{ old('yearInput')}}"
                        maxlength="4">
-                <label for="yearInput" class="input-label">Год издания</label>
+                <label for="yearInput"
+                       class="input-label {{ (empty(old('yearInput'))) ? '' : 'active' }}">Год издания</label>
                 @if($errors->has('yearInput'))
                     <div class="form-control-feedback">
                         {{ $errors->first('yearInput') }}
@@ -129,7 +134,8 @@
             <div class="form-group {{ ($errors->has('pageCountsInput')) ? 'has-danger' : '' }}">
                 <input type="text" id="pageCountsInput" name="pageCountsInput" class="form-control"
                        value="{{ old('pageCountsInput') }}" maxlength="5" required>
-                <label for="pageCountsInput" class="input-label">Количество страниц</label>
+                <label for="pageCountsInput" class="input-label
+                {{ (empty(old('pageCountsInput'))) ? '' : 'active' }}">Количество страниц</label>
                 @if($errors->has('pageCountsInput'))
                     <div class="form-control-feedback">
                         {{ $errors->first('pageCountsInput') }}
@@ -140,7 +146,8 @@
             <div class="form-group {{ ($errors->has('descriptionInput')) ? 'has-danger' : '' }}">
                 <textarea id="descriptionInput" name="descriptionInput" class="form-control" rows="3"
                           maxlength="2048" required>{{ old('descriptionInput') }}</textarea>
-                <label for="descriptionInput" class="input-label">Аннотация</label>
+                <label for="descriptionInput"
+                       class="input-label {{ (empty(old('descriptionInput'))) ? '' : 'active' }}">Аннотация</label>
                 @if($errors->has('descriptionInput'))
                     <div class="form-control-feedback">
                         {{ $errors->first('descriptionInput') }}
@@ -175,7 +182,7 @@
                             </div>
                         @else
                             <div class="form-control-feedback file-errors hidden"></div>
-                            <div class="img-link hidden ">
+                            <div class="img-link hidden">
                                 <a href='' target='_blank' class="preview-link">
                                     <i class='fa fa-picture-o fa-fw' aria-hidden='true'></i>preview uploaded image</a>
                             </div>

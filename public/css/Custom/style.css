@@ -3608,17 +3608,9 @@ ul#category .active {
     border-bottom: 1px solid #fff;
 }
 
-div.form-group .form-control {
-    width: 80%;
-}
-
 input#imageInput {
     position: absolute;
-    top: 0;
-    left: 0;
-    opacity: 0;
-    height: 0;
-    width: 0;
+    display: none;
 }
 
 .popover-content {
@@ -3645,7 +3637,7 @@ div.img-name i {
 
 .add-img-btn {
     display: inline-block;
-    width: 7rem;
+    width: 3rem;
     height: auto;
     font-weight: 400;
     color: #5cb85c;
@@ -3698,18 +3690,22 @@ div.multiple-input-add-container {
     position: relative;
 }
 
-input.form-control.form-add-input {
-    width: 75%;
-}
-
 span.append-form-add-input {
     text-align: right;
-    width: 5%;
-    opacity: 0.8;
+    margin-left: 1rem;
+    opacity: 0.7;
+    transition: 0.5s;
+    cursor: pointer;
 }
 
 span.append-form-add-input:hover {
     opacity: 1;
+}
+
+span.danger-icon {
+    transition: 0.5s;
+    color: #d9534f;
+    transform: rotate(45deg);
 }
 
 .hidden {
@@ -3724,16 +3720,10 @@ form#author-add label{
     font-weight: 700;
 }
 
-span.badge.badge-pill.badge-danger.align-middle {
-    position: absolute;
-    right: 26%;
-    bottom: 0;
-    margin-bottom: 10px;
-}
-
 button.input-close {
     text-align: center;
-    width: 6%;
+    margin-left: 1.3rem;
+    margin-right: 0.35rem;
     outline: none;
 }
 
@@ -3798,7 +3788,9 @@ label.input-label {
 }
 
 form#add-form {
-    margin: 2rem auto 0;
+    margin-left: 2rem;
+    width: initial;
+    max-width: 40rem;
 }
 
 .form-group {
@@ -3807,7 +3799,7 @@ form#add-form {
 
 label.input-label.active {
     position: absolute;
-    transform: translateY(-115%);
+    transform: translateY(-135%);
     font-size: 0.8rem;
     transition: 0.5s;
     opacity: 1;

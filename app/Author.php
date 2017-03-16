@@ -4,6 +4,9 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
+/**
+ * @property mixed id
+ */
 class Author extends Model
 {
     protected $fillable = ['name', 'biography', 'moderate'];

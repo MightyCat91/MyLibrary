@@ -1,3 +1,7 @@
+@push('styles')
+<link href="{{ asset('/css/Library/jquery-ui.min.css')  }} " rel='stylesheet' type='text/css' media="all"/>
+@endpush
+
 @extends('layouts.main')
 @section('content')
     <div class="container">

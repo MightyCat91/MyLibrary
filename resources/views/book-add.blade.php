@@ -16,7 +16,7 @@
         <form id="add-form" method="post" enctype="multipart/form-data">
             {{ csrf_field() }}
             <div class="form-group {{ ($errors->has('nameInput')) ? 'has-danger' : '' }}">
-                <input type="text" id="nameInput" name="nameInput" class="form-control" value="{{ old('nameInput')}}"
+                <input type="text" id="nameInput" name="nameInput" class="form-control" value="{{ old('nameInput') }}"
                        maxlength="64" required>
                 <label for="nameInput"
                        class="input-label {{ (empty(old('nameInput'))) ? '' : 'active' }}">Название книги</label>

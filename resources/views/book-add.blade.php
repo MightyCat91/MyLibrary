@@ -1,5 +1,7 @@
 @push('styles')
 <link href="{{ asset('/css/Library/jquery-ui.min.css')  }} " rel='stylesheet' type='text/css' media="all"/>
+<link href="{{ asset('/css/Custom/addForm.css') }}" rel='stylesheet' type='text/css' media="all"/>
+<link href="{{ asset('/css/Custom/commonGrid.css') }}" rel='stylesheet' type='text/css' media="all"/>
 @endpush
 
 @extends('layouts.main')
@@ -171,7 +173,7 @@
                             <button type="submit" id="submit-book-add" class="btn btn-primary">Добавить</button>
                         </div>
                     </div>
-                    <div class='img-name'>
+                    <div id='img-name'>
                         @if($errors->has('imageInput.*'))
                             <div class="form-control-feedback file-errors">
                                 {{ $errors->first('imageInput.*') }}

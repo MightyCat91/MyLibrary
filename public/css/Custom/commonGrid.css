@@ -1,0 +1,48 @@
+.item-container-link {
+    color: #bbb;
+}
+
+.item-container-link:hover {
+    text-decoration: none;
+    color: #bbb;
+}
+
+.item-container-link:hover img {
+    transform: scale(1.1);
+    transition: all 1s ease-in-out;
+}
+
+.item-container-link:hover .container-title{
+    box-shadow: inset 0 -5px 5px -1px #009926;
+}
+
+.item-container {
+    height: 25em;
+    margin: 1em 1em;
+    width: 20em;
+    border: 1px solid #bbb;
+    max-width: 100%;
+    padding: 0;
+}
+
+.container-cover {
+    height: 85%;
+    overflow: hidden;
+}
+
+.container-cover img {
+    display: block;
+    height: 100%;
+    margin: 0 auto;
+}
+
+.container-title {
+    height: 15%;
+    background-color: #272c2e;
+    text-align: center;
+    font-weight: 600;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

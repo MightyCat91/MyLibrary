@@ -3,7 +3,7 @@ namespace PHPSTORM_META {
 
    /**
     * PhpStorm Meta file, to provide autocomplete information for PhpStorm
-    * Generated on 2017-01-26.
+    * Generated on 2017-03-21.
     *
     * @author Barry vd. Heuvel <barryvdh@gmail.com>
     * @see https://github.com/barryvdh/laravel-ide-helper
@@ -44,6 +44,9 @@ namespace PHPSTORM_META {
             'GrahamCampbell\Exceptions\Displayers\HtmlDisplayer' instanceof \GrahamCampbell\Exceptions\Displayers\HtmlDisplayer,
             'GrahamCampbell\Exceptions\Filters\VerboseFilter' instanceof \GrahamCampbell\Exceptions\Filters\VerboseFilter,
             'blade.compiler' instanceof \Illuminate\View\Compilers\BladeCompiler,
+            'validation.presence' instanceof \Illuminate\Validation\DatabasePresenceVerifier,
+            'translation.loader' instanceof \Illuminate\Translation\FileLoader,
+            'translator' instanceof \Illuminate\Translation\Translator,
             'cache' instanceof \Illuminate\Cache\CacheManager,
             'cache.store' instanceof \Illuminate\Cache\Repository,
             'memcached.connector' instanceof \Illuminate\Cache\MemcachedConnector,
@@ -125,9 +128,6 @@ namespace PHPSTORM_META {
             'redis' instanceof \Illuminate\Redis\RedisManager,
             'auth.password' instanceof \Illuminate\Auth\Passwords\PasswordBrokerManager,
             'auth.password.broker' instanceof \Illuminate\Auth\Passwords\PasswordBroker,
-            'translation.loader' instanceof \Illuminate\Translation\FileLoader,
-            'translator' instanceof \Illuminate\Translation\Translator,
-            'validation.presence' instanceof \Illuminate\Validation\DatabasePresenceVerifier,
             'command.ide-helper.generate' instanceof \Barryvdh\LaravelIdeHelper\Console\GeneratorCommand,
             'command.ide-helper.models' instanceof \Barryvdh\LaravelIdeHelper\Console\ModelsCommand,
             'command.ide-helper.meta' instanceof \Barryvdh\LaravelIdeHelper\Console\MetaCommand,
@@ -167,6 +167,9 @@ namespace PHPSTORM_META {
             'GrahamCampbell\Exceptions\Displayers\HtmlDisplayer' instanceof \GrahamCampbell\Exceptions\Displayers\HtmlDisplayer,
             'GrahamCampbell\Exceptions\Filters\VerboseFilter' instanceof \GrahamCampbell\Exceptions\Filters\VerboseFilter,
             'blade.compiler' instanceof \Illuminate\View\Compilers\BladeCompiler,
+            'validation.presence' instanceof \Illuminate\Validation\DatabasePresenceVerifier,
+            'translation.loader' instanceof \Illuminate\Translation\FileLoader,
+            'translator' instanceof \Illuminate\Translation\Translator,
             'cache' instanceof \Illuminate\Cache\CacheManager,
             'cache.store' instanceof \Illuminate\Cache\Repository,
             'memcached.connector' instanceof \Illuminate\Cache\MemcachedConnector,
@@ -248,9 +251,6 @@ namespace PHPSTORM_META {
             'redis' instanceof \Illuminate\Redis\RedisManager,
             'auth.password' instanceof \Illuminate\Auth\Passwords\PasswordBrokerManager,
             'auth.password.broker' instanceof \Illuminate\Auth\Passwords\PasswordBroker,
-            'translation.loader' instanceof \Illuminate\Translation\FileLoader,
-            'translator' instanceof \Illuminate\Translation\Translator,
-            'validation.presence' instanceof \Illuminate\Validation\DatabasePresenceVerifier,
             'command.ide-helper.generate' instanceof \Barryvdh\LaravelIdeHelper\Console\GeneratorCommand,
             'command.ide-helper.models' instanceof \Barryvdh\LaravelIdeHelper\Console\ModelsCommand,
             'command.ide-helper.meta' instanceof \Barryvdh\LaravelIdeHelper\Console\MetaCommand,
@@ -290,6 +290,9 @@ namespace PHPSTORM_META {
             'GrahamCampbell\Exceptions\Displayers\HtmlDisplayer' instanceof \GrahamCampbell\Exceptions\Displayers\HtmlDisplayer,
             'GrahamCampbell\Exceptions\Filters\VerboseFilter' instanceof \GrahamCampbell\Exceptions\Filters\VerboseFilter,
             'blade.compiler' instanceof \Illuminate\View\Compilers\BladeCompiler,
+            'validation.presence' instanceof \Illuminate\Validation\DatabasePresenceVerifier,
+            'translation.loader' instanceof \Illuminate\Translation\FileLoader,
+            'translator' instanceof \Illuminate\Translation\Translator,
             'cache' instanceof \Illuminate\Cache\CacheManager,
             'cache.store' instanceof \Illuminate\Cache\Repository,
             'memcached.connector' instanceof \Illuminate\Cache\MemcachedConnector,
@@ -371,9 +374,6 @@ namespace PHPSTORM_META {
             'redis' instanceof \Illuminate\Redis\RedisManager,
             'auth.password' instanceof \Illuminate\Auth\Passwords\PasswordBrokerManager,
             'auth.password.broker' instanceof \Illuminate\Auth\Passwords\PasswordBroker,
-            'translation.loader' instanceof \Illuminate\Translation\FileLoader,
-            'translator' instanceof \Illuminate\Translation\Translator,
-            'validation.presence' instanceof \Illuminate\Validation\DatabasePresenceVerifier,
             'command.ide-helper.generate' instanceof \Barryvdh\LaravelIdeHelper\Console\GeneratorCommand,
             'command.ide-helper.models' instanceof \Barryvdh\LaravelIdeHelper\Console\ModelsCommand,
             'command.ide-helper.meta' instanceof \Barryvdh\LaravelIdeHelper\Console\MetaCommand,
@@ -413,6 +413,9 @@ namespace PHPSTORM_META {
             'GrahamCampbell\Exceptions\Displayers\HtmlDisplayer' instanceof \GrahamCampbell\Exceptions\Displayers\HtmlDisplayer,
             'GrahamCampbell\Exceptions\Filters\VerboseFilter' instanceof \GrahamCampbell\Exceptions\Filters\VerboseFilter,
             'blade.compiler' instanceof \Illuminate\View\Compilers\BladeCompiler,
+            'validation.presence' instanceof \Illuminate\Validation\DatabasePresenceVerifier,
+            'translation.loader' instanceof \Illuminate\Translation\FileLoader,
+            'translator' instanceof \Illuminate\Translation\Translator,
             'cache' instanceof \Illuminate\Cache\CacheManager,
             'cache.store' instanceof \Illuminate\Cache\Repository,
             'memcached.connector' instanceof \Illuminate\Cache\MemcachedConnector,
@@ -494,9 +497,6 @@ namespace PHPSTORM_META {
             'redis' instanceof \Illuminate\Redis\RedisManager,
             'auth.password' instanceof \Illuminate\Auth\Passwords\PasswordBrokerManager,
             'auth.password.broker' instanceof \Illuminate\Auth\Passwords\PasswordBroker,
-            'translation.loader' instanceof \Illuminate\Translation\FileLoader,
-            'translator' instanceof \Illuminate\Translation\Translator,
-            'validation.presence' instanceof \Illuminate\Validation\DatabasePresenceVerifier,
             'command.ide-helper.generate' instanceof \Barryvdh\LaravelIdeHelper\Console\GeneratorCommand,
             'command.ide-helper.models' instanceof \Barryvdh\LaravelIdeHelper\Console\ModelsCommand,
             'command.ide-helper.meta' instanceof \Barryvdh\LaravelIdeHelper\Console\MetaCommand,

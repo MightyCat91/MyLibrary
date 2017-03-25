@@ -5,7 +5,7 @@
     // аякс-загрузка изображений
     $('#imageInput').change(function () {
         //контейнер для отображения превью и ошибок валидации
-        var imgWrapper = $('.img-name');
+        var imgWrapper = $('#img-name');
         //превью с ссылкой на файл
         var imgLink = $('.img-link');
         //ошибки валидации загруженных файлов

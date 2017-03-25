@@ -77,3 +77,6 @@ Route::group(['prefix' => 'category'], function() {
         'as' => 'categories', 'uses' => 'CategoriesController@show'
     ]);
 });
+
+//TODO: реализовать вьюху и контроллер страницы разработчиков
+Route::get('developers', ['as' => 'developers', 'uses' => 'MainController@test']);

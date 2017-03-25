@@ -1,37 +1,46 @@
-<aside class="col-sm-3 col-md-2 sidebar">
+<aside class="sidebar">
     <div class="navigation">
-        <section class="nav nav-sidebar">
-            <a href="{{ route('home') }}" class="nav-item">
-                <span><i class="fa fa-users fa-lg nav-item-icon" aria-hidden="true"></i>Домой</span>
+        <section class="menu-content">
+            <a href="{{ route('home') }}" class="nav-item {{ active('home') }}">
+                <i class="fa fa-home fa-lg fa-fw nav-item-icon" aria-hidden="true"></i>
+                <div class="nav-item-name">Домой</div>
             </a>
-            <a href="{{ route('authors') }}" class="nav-item">
-                <span><i class="fa fa-users fa-lg nav-item-icon" aria-hidden="true"></i>Авторы</span>
+            <a href="{{ route('authors') }}" class="nav-item {{ active('authors') }}">
+                <i class="fa fa-users fa-lg fa-fw nav-item-icon" aria-hidden="true"></i>
+                <div class="nav-item-name">Авторы</div>
             </a>
-            <a href="{{ route('books') }}" class="nav-item">
-                <span><i class="fa fa-users fa-lg nav-item-icon" aria-hidden="true"></i>Книги</span>
+            <a href="{{ route('books') }}" class="nav-item {{ active('books') }}">
+                <i class="fa fa-book fa-lg fa-fw nav-item-icon" aria-hidden="true"></i>
+                <div class="nav-item-name">Книги</div>
             </a>
-            <a href="{{ route('categories') }}" class="nav-item">
-                <span><i class="fa fa-users fa-lg nav-item-icon" aria-hidden="true"></i>Жанры</span>
+            <a href="{{ route('categories') }}" class="nav-item {{ active('categories') }}">
+                <i class="fa fa-list fa-lg fa-fw nav-item-icon" aria-hidden="true"></i>
+                <div class="nav-item-name">Жанры</div>
             </a>
-            <a href="{{ route('author-add-get') }}" class="nav-item">
-                <span><i class="fa fa-users fa-lg nav-item-icon" aria-hidden="true"></i>Добавить автора</span>
+            <a href="{{ route('author-add-get') }}" class="nav-item {{ active('author-add-get') }}">
+                <div class="icon-stack fa-fw nav-item-icon">
+                    <i class="fa fa-user-o"></i>
+                    <i class="fa fa-plus"></i>
+                </div>
+                <div class="nav-item-name">Добавить автора</div>
             </a>
-            <a href="{{ route('book-add-get') }}" class="nav-item">
-                <span><i class="fa fa-users fa-lg nav-item-icon" aria-hidden="true"></i>Добавить книгу</span>
+            <a href="{{ route('book-add-get') }}" class="nav-item {{ active('book-add-get') }}">
+                <div class="icon-stack fa-fw nav-item-icon">
+                    <i class="fa fa-book"></i>
+                    <i class="fa fa-plus"></i>
+                </div>
+                <div class="nav-item-name">Добавить книгу</div>
             </a>
+            {{--<li><a href="{{ route('login') }}" class="nav-item">--}}
+            {{--<i class="fa fa-users fa-lg fa-fw nav-item-icon" aria-hidden="true"></i>Логин</a>--}}
+            {{--</li>--}}
         </section>
         <div class="side-bottom">
-            <div class="side-bottom-icons">
-                <ul class="nav2">
-                    <li><a href="#" class="facebook"> </a></li>
-                    <li><a href="#" class="facebook twitter"> </a></li>
-                    <li><a href="#" class="facebook chrome"> </a></li>
-                    <li><a href="#" class="facebook dribbble"> </a></li>
-                </ul>
-            </div>
             <div class="copyright">
-                <p>Copyright © 2015 My Play. All Rights Reserved | Design by <a
-                            href="http://w3layouts.com/">W3layouts</a></p>
+                <p>Copyright © 2017 MyLibrary</p>
+
+                <p>All Rights Reserved | Design by</p>
+                <a href="{{ route('developers') }}">M.A.&Co</a>
             </div>
         </div>
     </div>

@@ -5,6 +5,11 @@
 @section('content')
     @yield('category')
     <div id="main-container" class="row">
-    @include('layouts.authors')
+        @include('layouts.commonGrid',
+        [
+            'array' => $authors,
+            'routeName' => 'author',
+            'imgFolder' => '/authorsCover/'
+        ])
     </div>
 @endsection

@@ -15,6 +15,11 @@
                 <h2>Книги изданные в {{ $books[0]->year }} году</h2>
             </header>
         @endif
-        @include('layouts.books')
+        @include('layouts.commonGrid',
+        [
+            'array' => $books,
+            'routeName' => 'book',
+            'imgFolder' => '/BooksCover/book_'
+        ])
     </div>
 @endsection

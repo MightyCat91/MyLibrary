@@ -11,7 +11,7 @@
             </header>
             <section id="short-info" class="row">
                 <figure class="col-md-4 col-sm-4 short-img">
-                    <img src="{{ asset('/booksCover/book_'.$book->id.'.jpg')}}" alt="{{ $book->name }}">
+                    <img src="{{ asset(getPublicFiles('books', $book->id)[0])}}" alt="{{ $book->name }}">
                 </figure>
                 <aside class="col-md-8 col-sm-8 short-info-items">
                     <ul>

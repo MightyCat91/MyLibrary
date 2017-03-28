@@ -19,7 +19,7 @@
         [
             'array' => $books,
             'routeName' => 'book',
-            'imgFolder' => '/BooksCover/book_'
+            'imgFolder' => 'books'
         ])
     </div>
 @endsection

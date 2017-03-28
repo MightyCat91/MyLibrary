@@ -31,11 +31,12 @@
                 $('.page-content').addClass('spinner');
             },
             success: function(data) {
-                $('.main-container').html(data);
+                $('#main-container').html(data);
                 $('.page-content').removeClass('spinner');
                 history.pushState(null, null, url);
-                $('#authors-tab').addClass('active').blur();
-                $('#books-tab').removeClass('active');
+                $('.tab-item.active').removeClass('active');
+                object.parent().addClass('active').blur();
+
             },
             error: function() {
 

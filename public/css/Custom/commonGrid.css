@@ -2,7 +2,7 @@
     color: #bbb;
 }
 
-.item-container-link:hover {
+.item-container-link:hover,:active {
     text-decoration: none;
     color: #bbb;
 }
@@ -45,4 +45,36 @@
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+#category {
+    display: flex;
+    list-style-type: none;
+    padding-left: 1rem;
+    border-bottom: 1px solid #999;
+}
+
+.tab-item {
+    border: 1px solid #999;
+    border-bottom-width: 0;
+    border-radius: 5px 5px 0 0;
+    background-color: #eee;
+}
+
+.tab-item.active {
+    margin-right: -1px;
+    margin-left: -1px;
+    margin-bottom: -1px;
+    border-bottom: 1px solid #fff;
+    box-shadow: 0 -3px 0 -1px #009926;
+    background-color: transparent;
+}
+
+.tab-item.active .nav-link{
+    color: #009926;
+    font-weight: 600;
+}
+
+.tab-item .nav-link {
+    color: #999;
 }

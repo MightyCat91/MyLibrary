@@ -11,7 +11,7 @@
             </header>
             <section id="short-info" class="row">
                 <figure class="col-4 col-md-4 col-sm-4 short-img">
-                    <img src="{{ asset('/authorsCover/'.$author->id.'.jpg')}}" alt="{{ $author->name }}">
+                    <img src="{{ asset(getPublicFiles('authors', $author->id)[0])}}" alt="{{ $author->name }}">
                 </figure>
                 <aside class="col-8 col-md-8 col-sm-8 short-info-items">
                     <ul>
@@ -42,6 +42,11 @@
         </div>
     </div>
     <aside id="books-sidebar" class="">
-        @include('layouts.books')
+        @include('layouts.commonGrid',
+        [
+            'array' => $books,
+            'routeName' => 'book',
+            'imgFolder' => 'books'
+        ])
     </aside>
 @endsection

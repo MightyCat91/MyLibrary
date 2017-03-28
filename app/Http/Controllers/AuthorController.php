@@ -88,7 +88,7 @@ class AuthorController extends Controller
     {
         if ($request->hasFile('imageInput')) {
             $file = $request->file('imageInput');
-            $filename = $file->getClientOriginalExtension();
+            $filename = $file->getClientOriginalName();
             Storage::disk('authorsTemporary')->put(
                 $filename,
                 file_get_contents($file)

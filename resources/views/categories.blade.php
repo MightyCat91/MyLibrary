@@ -8,7 +8,7 @@
         [
             'array' => $categories,
             'routeName' => 'category-books',
-            'imgFolder' => '/categoryCover/'
+            'imgFolder' => 'categories'
         ])
     </div>
 @endsection

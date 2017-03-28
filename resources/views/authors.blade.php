@@ -9,7 +9,7 @@
         [
             'array' => $authors,
             'routeName' => 'author',
-            'imgFolder' => '/authorsCover/'
+            'imgFolder' => 'authors'
         ])
     </div>
 @endsection

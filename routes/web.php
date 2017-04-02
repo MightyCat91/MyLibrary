@@ -24,9 +24,14 @@ Route::get('publisher/{id}', [
 ]);
 
 Route::group(['prefix' => 'book'], function(){
-    Route::get('all', [
-        'as' => 'books', 'uses' => 'BookController@show'
-    ]);
+    Route::group(['prefix' => 'all'], function() {
+        Route::get('', [
+            'as' => 'books', 'uses' => 'BookController@show'
+        ]);
+        Route::get('filterLetter', [
+            'uses' => 'BookController@showFiltered'
+        ]);
+    });
     Route::get('add', [
         'as' => 'book-add-get', 'uses' => 'BookController@create'
     ]);
@@ -50,9 +55,6 @@ Route::group(['prefix' => 'author'], function(){
             'as' => 'author', 'uses' => 'AuthorController@show'
         ]);
     });
-    Route::get('all', [
-        'as' => 'authors', 'uses' => 'AuthorController@show'
-    ]);
     Route::get('add', [
         'as' => 'author-add-get', 'uses' => 'AuthorController@create'
     ]);
@@ -62,20 +64,43 @@ Route::group(['prefix' => 'author'], function(){
     Route::post('add/ajaxImg', [
         'uses' => 'AuthorController@addImgAJAX'
     ]);
+    Route::group(['prefix' => 'all'], function() {
+        Route::get('', [
+            'as' => 'authors', 'uses' => 'AuthorController@show'
+        ]);
+        Route::get('filterLetter', [
+            'uses' => 'AuthorController@showFiltered'
+        ]);
+    });
 });
 
 Route::group(['prefix' => 'category'], function() {
     Route::group(['prefix' => '{id}', 'where' => ['id' => '[0-9]+']], function () {
-        Route::get('books', [
-            'as' => 'category-books', 'uses' => 'CategoriesController@showBooks'
+        Route::group(['prefix' => 'books'], function () {
+            Route::get('', [
+                'as' => 'category-books', 'uses' => 'CategoriesController@showBooks'
+            ]);
+            Route::get('filterLetter', [
+                'uses' => 'BookController@showFiltered'
+            ]);
+        });
+        Route::group(['prefix' => 'authors'], function () {
+            Route::get('', [
+                'as' => 'category-authors', 'uses' => 'CategoriesController@showAuthors'
+            ]);
+            Route::get('filterLetter', [
+                'uses' => 'AuthorController@showFiltered'
+            ]);
+        });
+    });
+    Route::group(['prefix' => 'all'], function() {
+        Route::get('', [
+            'as' => 'categories', 'uses' => 'CategoriesController@show'
         ]);
-        Route::get('authors', [
-            'as' => 'category-authors', 'uses' => 'CategoriesController@showAuthors'
+        Route::get('filterLetter', [
+            'uses' => 'CategoriesController@showFiltered'
         ]);
     });
-    Route::get('all', [
-        'as' => 'categories', 'uses' => 'CategoriesController@show'
-    ]);
 });
 
 //TODO: реализовать вьюху и контроллер страницы разработчиков

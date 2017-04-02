@@ -39,7 +39,6 @@
 
             },
             error: function() {
-
             }
         });
     }

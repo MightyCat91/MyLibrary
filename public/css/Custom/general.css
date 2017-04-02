@@ -31,7 +31,7 @@ div.page-content.spinner:before {
     left: 0;
     height: 100%;
     width: 100%;
-    background: rgba(0, 0, 0, .8);
+    background: rgba(41, 41, 41, .9);
     z-index: 100;
 }
 
@@ -43,8 +43,8 @@ div.page-content.spinner:after {
     bottom: 0;
     left: 0;
     right: 0;
-    height: 80px;
-    width: 80px;
+    height: 44px;
+    width: 44px;
     margin: auto;
     background: rgba(0, 0, 0, 0) url(../../images/loader.gif) no-repeat center center /contain;
     border-radius: 6px;
@@ -60,7 +60,6 @@ div.page-content.spinner:after {
 .menu-content {
     padding-left: 0;
     width: 100%;
-    cursor: pointer;
 }
 
 .nav-item {
@@ -116,7 +115,7 @@ a.nav-item {
     color: #009926;
 }
 
-@media screen and (max-width: 824px) {
+@media screen and (max-width: 859px) {
     .main {
         overflow: hidden;
         min-height: 100vh;
@@ -162,7 +161,7 @@ a.nav-item {
     }
 }
 
-@media screen and (min-width: 825px) {
+@media screen and (min-width: 860px) {
     .main {
         overflow: hidden;
         min-height: 100vh;
@@ -188,9 +187,9 @@ a.nav-item {
  */
 div.page-content {
     position: relative;
-    padding: 1em 0 1em 3em;
+    margin: 1em 0 1em 4em;
     font-size: 15px;
-    min-height: calc(100vh - 165px);
+    min-height: 100vh;
 }
 
 /*

@@ -1,3 +1,8 @@
+div.page-content {
+    max-width: 100%;
+    padding-right: 0;
+}
+
 #wrapper {
     padding: 0 3rem 0 1rem;
     text-align: justify;
@@ -92,12 +97,10 @@
 */
 #books-sidebar {
     position: absolute;
-    padding: 0 1rem;
-    right: -22px;
+    right: -18px;
     box-shadow: -6px 0 3px -3px #2ca02c;
     top: 0;
     bottom: 0;
-    margin: .5rem 0;
     overflow-y: auto;
     max-width: 25%;
     background-color: #fff;
@@ -105,9 +108,8 @@
 
 #books-sidebar .item-container {
     height: 16rem;
-    width: 100%;
     line-height: 1;
-    margin: 1rem 0;
+    margin: 1vw 0;
 }
 
 #books-sidebar .container-cover {
@@ -116,6 +118,11 @@
 
 #books-sidebar .container-title {
     height: 20%;
+}
+
+.item-container-link {
+    margin: 0 auto;
+    width: 15vw;
 }
 
 #books-sidebar .item-container-link:hover .container-title {
@@ -143,9 +150,6 @@
 }
 
 @media only screen and (max-width: 1000px) {
-    #books-sidebar {
-        padding-right: 2rem;
-    }
 
     #books-sidebar .item-container {
         height: 12rem;;
@@ -154,9 +158,17 @@
     #books-sidebar .container-title {
         font-size: 15px;
     }
+
+    .container-link {
+        margin-right: 30px;
+    }
+
+    .item-container-link {
+        width: 14vw;
+    }
 }
 
-@media only screen and (max-width: 875px) {
+@media only screen and (max-width: 891px) {
     #books-sidebar .item-container {
         height: 10rem;;
     }

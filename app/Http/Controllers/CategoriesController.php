@@ -55,13 +55,42 @@ class CategoriesController extends Controller
     }
 
     /**
-     * Вывод шаблона с авторами по id категории
+     * Вывод шаблона с категориями
      *
+     * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function show()
+    public function show(Request $request)
     {
-        $categories = Categories::all();
-        return view('categories', ['categories' => $categories]);
+        if (empty($request->filter)) {
+            $view = view('categories', ['categories' => Categories::all()]);
+        } else {
+            $view = view('categories', ['categories' => Categories::where('name', 'LIKE', $request->filter . '%')->get()]);
+        }
+        return $view;
+    }
+
+    /**
+     * Возврат шаблона с жанрами, отфильтрованными по начальной выбранной букве
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function showFiltered(Request $request)
+    {
+        if ($request->ajax()) {
+            if (empty($request->filter)) {
+                $categories = Categories::all();
+            } else {
+                $categories = Categories::where('name', 'LIKE', $request->filter . '%')->get();
+            }
+            return view(
+                'layouts.commonGrid',
+                [
+                    'array' => $categories,
+                    'routeName' => 'category-books',
+                    'imgFolder' => 'categories'
+                ])->render();
+        }
     }
 }

@@ -40,26 +40,55 @@ class BookController extends Controller
     /**
      * Возврат шаблона со всеми книгами
      *
+     * @param Request $request
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id = null)
+    public function show(Request $request, $id = null)
     {
-        if (!$id) {
-            $view = view('books', ['books' => Book::all()]);
+        if (empty($request->filter)) {
+            if (!$id) {
+                $view = view('books', ['books' => Book::all()]);
+            } else {
+                $book = Book::FindOrFail($id);
+                $authors = $book->authors;
+                $categories = $book->categories;
+                $publishers = $book->publishers;
+                $view = view('book', [
+                    'book' => $book,
+                    'authors' => $authors,
+                    'categories' => $categories,
+                    'publishers' => $publishers
+                ]);
+            }
         } else {
-            $book = Book::FindOrFail($id);
-            $authors = $book->authors;
-            $categories = $book->categories;
-            $publishers = $book->publishers;
-            $view = view('book', [
-                'book' => $book,
-                'authors' => $authors,
-                'categories' => $categories,
-                'publishers' => $publishers
-            ]);
+            $view = view('books', ['books' => Book::where('name', 'LIKE', $request->filter . '%')->get()]);
         }
         return $view;
+    }
+
+    /**
+     * Возврат шаблона с книгами, отфильтрованными по начальной выбранной букве
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function showFiltered(Request $request)
+    {
+        if ($request->ajax()) {
+            if (empty($request->filter)) {
+                $books = Book::all();
+            } else {
+                $books = Book::where('name', 'LIKE', $request->filter . '%')->get();
+            }
+            return view(
+                'layouts.commonGrid',
+                [
+                    'array' => $books,
+                    'routeName' => 'book',
+                    'imgFolder' => 'books'
+                ])->render();
+        }
     }
 
     /**

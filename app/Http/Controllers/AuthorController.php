@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Categories;
 use App\Http\Requests\AuthorAddRequest;
+use DB;
 use Illuminate\Http\Request;
 use App\Author;
 use Storage;
@@ -102,19 +103,53 @@ class AuthorController extends Controller
      * Возврат шаблона со всеми авторами или конкретного автора, если указан id
      *
      * @param int $id
+     * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function show($id = null)
+    public function show(Request $request, $id = null)
     {
-        if (!$id) {
-            $view = view('authors', ['authors' => Author::all()]);
+        if (empty($request->filter)) {
+            if (!$id) {
+                $view = view('authors', ['authors' => Author::all()]);
+            } else {
+                $author = Author::FindOrFail($id);
+                $books = $author->books;
+                $categories = $author->categories;
+                $view = view('author', [
+                    'author' => $author,
+                    'books' => $books,
+                    'categories' => $categories
+                ]);
+            }
         } else {
-            $author = Author::FindOrFail($id);
-            $books = $author->books;
-            $categories = $author->categories;
-            $view = view('author', ['author' => $author, 'books' => $books, 'categories' => $categories]);
+            $view = view('authors', ['authors' => Author::where('name', 'LIKE', $request->filter . '%')->get()]);
         }
+
         return $view;
+    }
+
+    /**
+     * Возврат шаблона с авторами, отфильтрованными по начальной выбранной букве
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function showFiltered(Request $request)
+    {
+        if ($request->ajax()) {
+            if (empty($request->filter)) {
+                $authors = Author::all();
+            } else {
+                $authors = Author::where('name', 'LIKE', $request->filter . '%')->get();
+            }
+            return view(
+                'layouts.commonGrid',
+                [
+                    'array' => $authors,
+                    'routeName' => 'author',
+                    'imgFolder' => 'authors'
+                ])->render();
+        }
     }
 
     /**

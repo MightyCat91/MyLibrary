@@ -110,6 +110,15 @@
                 $(this).remove();
                 closeIcon.removeClass('hidden');
                 break;
+            case 'series':
+                /*
+                 клонирутся контейнер с полем ввода и кнопками, у клона очищается значение в инпуте, вставляется в конец
+                 контейнера соответствующего типа, удаляется кнопка добавления из клонируемого контейнера
+                 */
+                inputContainer.clone().appendTo('#' + id).children().val('').next().removeClass('active');
+                $(this).remove();
+                closeIcon.removeClass('hidden');
+                break;
             case 'authors':
                 //проверка наличия значения клонируемого поля ввода
                 if (!input.val()) {
@@ -171,6 +180,9 @@
         })
         .on("focus", ".publisher-input", function () {
             customAutocomplete(this, '#publisher-list');
+        })
+        .on("focus", ".series-input", function () {
+            customAutocomplete(this, '#series-list');
         });
 
     //удаление контейнера содержащего кнопку по которой был совершен клик

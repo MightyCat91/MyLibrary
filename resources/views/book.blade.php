@@ -22,6 +22,17 @@
                                    class="item-link">{{ $author->name . ' ' }}</a>
                             @endforeach
                         </li>
+                        @if(!empty($bookSeries))
+                            <li>
+                                <div id="series">
+                                    <span><i class="fa fa-slack fa-lg item-icon" aria-hidden="true"></i>Серия:</span>
+                                    @foreach($bookSeries as $series)
+                                        <a href="{{ route('series-books', [$series->id]) }}"
+                                           class="item-link series-item">{{ $series->name }}</a>
+                                    @endforeach
+                                </div>
+                            </li>
+                        @endif
                         <li>
                             <div id="categories">
                                 <span><i class="fa fa-list fa-lg item-icon" aria-hidden="true"></i>Жанр:</span>

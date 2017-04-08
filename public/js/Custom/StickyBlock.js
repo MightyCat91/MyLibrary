@@ -72,10 +72,16 @@
         var letter = $(this).html();
         //основной урл страницы(без параметров)
         var mainUrl = window.location.href.split('?')[0];
-        //параметры урл
-        var data = '';
         //урл, устанавливающийся в адресную строку браузера
         var historyUrl = mainUrl;
+        //урл, по которому будет оправляться аякс-запрос
+        var ajaxUrl = mainUrl + '/filterLetter';
+        //параметры урл
+        var data = {type: filterContainer.attr('class')};
+        var urlParts = mainUrl.split('/');
+        if (urlParts[3] == 'series') {
+            data['id'] = urlParts[4];
+        }
         //если выбранная буква не является текущей, по которой происходит фильтрация
         if (!$(this).hasClass('active')) {
             //снимаем с других букв класс активной
@@ -83,7 +89,7 @@
             //текущей букве устанавливаем класс активной
             $(this).addClass('active');
             //в пареметры урл записываем массив с необходимыми значениями
-            data = {filter: letter};
+            data['filter'] = letter;
             //в урл для адресной строки дописыаем парметр
             historyUrl = mainUrl + '?filter=' + letter;
         } else {
@@ -96,7 +102,7 @@
         $.ajax({
             type: "GET",
             //урл по которому будет вызван соответсвующий контроллер
-            url: mainUrl + '/filterLetter',
+            url: ajaxUrl,
             data: data,
             beforeSend: function () {
                 //перед отправкой аякс-запроса вешам спинер

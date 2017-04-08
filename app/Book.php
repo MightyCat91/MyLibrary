@@ -36,4 +36,12 @@ class Book extends Model
     {
         return $this->belongsToMany('App\Publisher');
     }
+
+    /**
+     * Серии, принадлежащие книге
+     */
+    public function series()
+    {
+        return $this->belongsToMany('App\Series');
+    }
 }

@@ -35,6 +35,7 @@ class AuthorAddRequest extends FormRequest
                 'biographyInput' => 'required|string|max:2048',
                 'imageInput' => 'required|image|mimes:jpg,jpeg,png,gif|max:6080|dimensions:min_width=100,
                 min_height=200',
+                'seriesInput.*' => 'string|max:128|unique:author_series,name',
                 'categoryInput.*' => 'exists:categories,name',
             ];
         }
@@ -56,6 +57,9 @@ class AuthorAddRequest extends FormRequest
             'imageInput.mimes' => 'Загружаемый файл должен иметь расширения: :values',
             'imageInput.max' => 'Максимальный размер загружаемого файла не должен превышать :max',
             'imageInput.dimension' => 'Загруженное изображение имеет некорректное разрешение',
+            'seriesInput.string' => 'Вводимое значение должно быть строкой',
+            'seriesInput.max' => 'Имя не должно содержать больше :max символов',
+            'seriesInput.unique' => 'Серия книг этого автора с таким именем уже существует',
             'categoryInput.*.exists' => 'Введенный жанр отсутсвует в базе',
         ];
         return $message;

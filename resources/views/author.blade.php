@@ -29,6 +29,24 @@
                                 @endforeach
                             </div>
                         </li>
+                        @if(!empty($authorSeries))
+                            <li>
+                                <div id="series">
+                                    <span><i class="fa fa-slack fa-lg item-icon" aria-hidden="true"></i>Серия:</span>
+                                    @foreach($authorSeries as $series)
+                                        <a href="{{ route('series-books', [$series->id]) }}"
+                                           class="item-link series-item">{{ $series->name }}</a>
+                                    @endforeach
+                                </div>
+                            </li>
+                        @endif
+                        {{--<li>--}}
+                            {{--<span><i class="fa fa-pencil fa-lg item-icon" aria-hidden="true"></i>Издатель:</span>--}}
+                            {{--@foreach($publishers as $publisher)--}}
+                                {{--<a href="{{ route('publisher-books', [$publisher->id]) }}"--}}
+                                   {{--class="item-link">{{ $publisher->name . ' ' }}</a>--}}
+                            {{--@endforeach--}}
+                        {{--</li>--}}
                         <li>
                             <a id="add-to-favorite" href="#">
                                 <i class="fa fa-heart-o fa-lg item-icon" aria-hidden="true"></i>Добавить в любимые</a>

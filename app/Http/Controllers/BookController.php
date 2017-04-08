@@ -6,6 +6,7 @@ use App\Author;
 use App\Categories;
 use App\Http\Requests\BookAddRequest;
 use App\Publisher;
+use App\Series;
 use Illuminate\Http\Request;
 use App\Book;
 use Storage;
@@ -22,7 +23,10 @@ class BookController extends Controller
     public function showBooksForAuthor($id)
     {
         $author = Author::find($id);
-        return view('books', ['books' => $author->books, 'authorName' => $author->name]);
+        return view('books', [
+            'books' => $author->books,
+            'header' => $author->name
+        ]);
     }
 
     /**
@@ -34,7 +38,10 @@ class BookController extends Controller
     public function showBooksForYear($year)
     {
         $books = Book::where('year', $year)->get();
-        return view('books', ['books' => $books]);
+        return view('books', [
+            'books' => $books,
+            'header' => 'Книги изданные в '.$year.' году'
+        ]);
     }
 
     /**
@@ -51,14 +58,12 @@ class BookController extends Controller
                 $view = view('books', ['books' => Book::all()]);
             } else {
                 $book = Book::FindOrFail($id);
-                $authors = $book->authors;
-                $categories = $book->categories;
-                $publishers = $book->publishers;
                 $view = view('book', [
                     'book' => $book,
-                    'authors' => $authors,
-                    'categories' => $categories,
-                    'publishers' => $publishers
+                    'authors' => $book->authors,
+                    'bookSeries' => $book->series,
+                    'categories' => $book->categories,
+                    'publishers' => $book->publishers
                 ]);
             }
         } else {
@@ -68,40 +73,22 @@ class BookController extends Controller
     }
 
     /**
-     * Возврат шаблона с книгами, отфильтрованными по начальной выбранной букве
-     *
-     * @param Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function showFiltered(Request $request)
-    {
-        if ($request->ajax()) {
-            if (empty($request->filter)) {
-                $books = Book::all();
-            } else {
-                $books = Book::where('name', 'LIKE', $request->filter . '%')->get();
-            }
-            return view(
-                'layouts.commonGrid',
-                [
-                    'array' => $books,
-                    'routeName' => 'book',
-                    'imgFolder' => 'books'
-                ])->render();
-        }
-    }
-
-    /**
      * Возврат шаблона с формой добавления книги.
      *
      * @return \Illuminate\Http\Response
      */
     public function create()
     {
-        $categories = Categories::all();
-        $authors = Author::all();
-        $publishers = Publisher::all();
-        return view('book-add', ['categories' => $categories, 'authors' => $authors, 'publishers' => $publishers]);
+        $categories = Categories::orderBy('name', 'asc')->get();
+        $authors = Author::orderBy('name', 'asc')->get();
+        $series = Series::orderBy('name', 'asc')->get();
+        $publishers = Publisher::orderBy('name', 'asc')->get();
+        return view('book-add', [
+            'categories' => $categories,
+            'authors' => $authors,
+            'bookSeries' => $series,
+            'publishers' => $publishers
+        ]);
     }
 
     /**
@@ -130,11 +117,15 @@ class BookController extends Controller
             }
             foreach ($request->input('authorInput.*') as $author) {
                 $id = Author::where('name', $author)->first();
-                $book->categories()->attach($id);
+                $book->authors()->attach($id);
             }
             foreach ($request->input('publisherInput.*') as $publisher) {
                 $id = Publisher::where('name', $publisher)->first();
-                $book->categories()->attach($id);
+                $book->publishers()->attach($id);
+            }
+            foreach ($request->input('seriesInput.*') as $series) {
+                $id = Series::where('name', $series)->first();
+                $book->series()->attach($id);
             }
             $id = $book->id;
             foreach ($request->file('imageInput') as $image) {

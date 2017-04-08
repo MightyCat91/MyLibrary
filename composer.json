@@ -10,7 +10,8 @@
         "graham-campbell/exceptions": "^9.2",
         "barryvdh/laravel-ide-helper": "^2.2",
         "doctrine/dbal": "^2.5",
-        "watson/active": "^2.0"
+        "watson/active": "^2.0",
+        "barryvdh/laravel-debugbar": "^2.3"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

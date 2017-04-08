@@ -5,6 +5,7 @@
 	$('#books-tab').on('click', function (e) {
         var tab = $(this);
         ajaxGetData(tab, e);
+        $('#alphabet-sticky-block').attr('class', 'book');
     });
     /*
      *   подгрузка через аякс и отображение авторов
@@ -12,6 +13,7 @@
     $('#authors-tab').on('click', function (e) {
         var tab = $(this);
         ajaxGetData(tab, e);
+        $('#alphabet-sticky-block').attr('class', 'author');
     });
 
 
@@ -36,7 +38,7 @@
                 history.pushState(null, null, url);
                 $('.tab-item.active').removeClass('active');
                 object.parent().addClass('active').blur();
-
+                $('.letter-filter').removeClass('active');
             },
             error: function() {
             }

@@ -185,6 +185,7 @@ return [
         GrahamCampbell\Exceptions\ExceptionsServiceProvider::class,
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
         Watson\Active\ActiveServiceProvider::class,
+        Barryvdh\Debugbar\ServiceProvider::class,
         // Laracasts\Generators\GeneratorsServiceProvider::class,
     ],
 
@@ -234,6 +235,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Active' => Watson\Active\Facades\Active::class,
+        'Debugbar' => Barryvdh\Debugbar\Facade::class,
 
     ],
 

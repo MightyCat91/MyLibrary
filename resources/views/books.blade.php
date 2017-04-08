@@ -7,7 +7,7 @@
 @extends('layouts.main')
 @section('alphabetFilter')
     <section id="alphabet-filter-container">
-        <div id="alphabet-sticky-block">
+        <div id="alphabet-sticky-block" class="book">
             @foreach(range(chr(0xC0),chr(0xDF)) as $letter)
                 <div class="letter-filter">{{ iconv('CP1251','UTF-8',$letter) }}</div>
             @endforeach
@@ -16,17 +16,12 @@
 @endsection
 @section('content')
     @yield('category')
+    @if (isset($header))
+        <header>
+            <h2>{{ $header }}</h2>
+        </header>
+    @endif
     <div id="main-container" class="row container">
-        @if (Route::current()->getName() == 'author-books')
-            <header>
-                <h2>{{ $authorName }}</h2>
-            </header>
-        @endif
-        @if (Route::current()->getName() == 'year-books')
-            <header>
-                <h2>Книги изданные в {{ $books[0]->year }} году</h2>
-            </header>
-        @endif
         @include('layouts.commonGrid',
         [
             'array' => $books,

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Author;
+use App\Book;
 use App\Categories;
 use Illuminate\Http\Request;
 
@@ -27,7 +29,20 @@ class CategoriesController extends Controller
                     'imgFolder' => 'books'
                 ])->render();
         }
-        return view('category', ['category' => $category, 'books' => $books, 'parent_template_name' => 'books']);
+        if (empty($request->filter)) {
+            $view = view('category', [
+                'category' => $category,
+                'books' => $books,
+                'parent_template_name' => 'books'
+            ]);
+        } else {
+            $view = view('category', [
+                'category' => $category,
+                'books' => Book::where('name', 'LIKE', $request->filter . '%')->get(),
+                'parent_template_name' => 'books'
+            ]);
+        }
+        return $view;
     }
 
     /**
@@ -40,18 +55,28 @@ class CategoriesController extends Controller
     public function showAuthors($id, Request $request)
     {
         $category = Categories::FindOrFail($id);
-        $authors = $category->authors;
+        $authors = $category->authors();
         if ($request->ajax()) {
-            return view(
-                'layouts.commonGrid',
-                [
+            return view('layouts.commonGrid', [
                     'array' => $authors,
                     'routeName' => 'author',
                     'imgFolder' => 'authors'
                 ])->render();
         }
-        return view('category', ['category' => $category, 'authors' => $authors, 'parent_template_name' =>
-            'authors']);
+        if (empty($request->filter)) {
+            $view = view('category', [
+                'category' => $category,
+                'authors' => $authors,
+                'parent_template_name' => 'authors'
+            ]);
+        } else {
+            $view = view('category', [
+                'category' => $category,
+                'authors' => Author::where('name', 'LIKE', $request->filter . '%')->get(),
+                'parent_template_name' => 'authors'
+            ]);
+        }
+        return $view;
     }
 
     /**
@@ -68,29 +93,5 @@ class CategoriesController extends Controller
             $view = view('categories', ['categories' => Categories::where('name', 'LIKE', $request->filter . '%')->get()]);
         }
         return $view;
-    }
-
-    /**
-     * Возврат шаблона с жанрами, отфильтрованными по начальной выбранной букве
-     *
-     * @param Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function showFiltered(Request $request)
-    {
-        if ($request->ajax()) {
-            if (empty($request->filter)) {
-                $categories = Categories::all();
-            } else {
-                $categories = Categories::where('name', 'LIKE', $request->filter . '%')->get();
-            }
-            return view(
-                'layouts.commonGrid',
-                [
-                    'array' => $categories,
-                    'routeName' => 'category-books',
-                    'imgFolder' => 'categories'
-                ])->render();
-        }
     }
 }

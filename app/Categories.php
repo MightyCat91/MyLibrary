@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Categories extends Model
 {
@@ -18,14 +19,17 @@ class Categories extends Model
      */
     public function books()
     {
-        return $this->belongsToMany('App\Book', 'book_categories', 'book_id', 'category_id');
+        return $this->belongsToMany('App\Book', 'book_categories', 'category_id', 'book_id');
     }
 
     /**
      * Авторы принадлежащие категории
      */
-    public function authors()
+    public function scopeAuthors()
     {
-        return $this->belongsToMany('App\Author', 'author_categories', 'author_id', 'category_id');
+        return DB::table('author_categories')
+            ->where('category_id','=',$this->id)
+            ->select('author_id as id','author_name as name')
+            ->get();
     }
 }

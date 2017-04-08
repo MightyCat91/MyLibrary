@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 /**
  * @property mixed id
@@ -22,10 +23,24 @@ class Author extends Model
     }
 
     /**
+     * Серии, принадлежащие автору
+     */
+    public function scopeSeries()
+    {
+        return DB::table('author_series')
+            ->where('author_id', '=', $this->id)
+            ->select('series_id as id', 'name')
+            ->get();
+    }
+
+    /**
      * Категории, принадлежащие автору
      */
-    public function categories()
+    public function scopeCategories()
     {
-        return $this->belongsToMany('App\Categories', 'author_categories', 'author_id', 'category_id');
+        return DB::table('author_categories')
+            ->where('author_id', '=', $this->id)
+            ->select('category_id as id', 'category_name as name')
+            ->get();
     }
 }

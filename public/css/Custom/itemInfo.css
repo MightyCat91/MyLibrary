@@ -44,6 +44,13 @@ div.page-content {
     color: #999;
 }
 
+.series-item {
+    font-size: 14px;
+    display: block;
+    padding-left: 2rem;
+    line-height: 1.5rem;
+}
+
 .item-link:hover {
     color: #009926;
 }

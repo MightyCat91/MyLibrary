@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Categories;
 use App\Http\Requests\AuthorAddRequest;
-use DB;
+use App\Series;
 use Illuminate\Http\Request;
 use App\Author;
 use Storage;
@@ -29,8 +29,7 @@ class AuthorController extends Controller
      */
     public function create()
     {
-        $categories = Categories::all();
-        return view('author-add', ['categories' => $categories]);
+        return view('author-add');
     }
 
     /**
@@ -48,12 +47,11 @@ class AuthorController extends Controller
             $author = new Author;
             $author->name = $request->input('nameInput');
             $author->biography = $request->input('biographyInput');
-            $categories = $request->input('categoryInput.*');
             $author->moderate = false;
             $author->save();
-            foreach ($categories as $category) {
-                $id = Categories::where('name', $category)->first();
-                $author->categories()->attach($id);
+            $series = $request->input('seriesInput.*');
+            foreach ($series as $serie) {
+                Series::addSeries($serie);
             }
             $id = $author->id;
             $image = $request->file('imageInput');
@@ -113,12 +111,12 @@ class AuthorController extends Controller
                 $view = view('authors', ['authors' => Author::all()]);
             } else {
                 $author = Author::FindOrFail($id);
-                $books = $author->books;
-                $categories = $author->categories;
                 $view = view('author', [
                     'author' => $author,
-                    'books' => $books,
-                    'categories' => $categories
+                    'authorSeries' => $author->series(),
+                    'books' => $author->books,
+                    'categories' => $author->categories(),
+//                    'publishers' => $author->publishers
                 ]);
             }
         } else {
@@ -126,30 +124,6 @@ class AuthorController extends Controller
         }
 
         return $view;
-    }
-
-    /**
-     * Возврат шаблона с авторами, отфильтрованными по начальной выбранной букве
-     *
-     * @param Request $request
-     * @return \Illuminate\Http\Response
-     */
-    public function showFiltered(Request $request)
-    {
-        if ($request->ajax()) {
-            if (empty($request->filter)) {
-                $authors = Author::all();
-            } else {
-                $authors = Author::where('name', 'LIKE', $request->filter . '%')->get();
-            }
-            return view(
-                'layouts.commonGrid',
-                [
-                    'array' => $authors,
-                    'routeName' => 'author',
-                    'imgFolder' => 'authors'
-                ])->render();
-        }
     }
 
     /**

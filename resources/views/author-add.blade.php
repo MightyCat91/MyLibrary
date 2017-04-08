@@ -29,13 +29,13 @@
                 @endif
             </div>
 
-            <div class="form-group multiple {{ ($errors->has('categoryInput.*')) ? 'has-danger' : '' }}">
-                <div id="categories" class="multiple-input-add-container">
+            <div class="form-group multiple {{ ($errors->has('seriesInput.*')) ? 'has-danger' : '' }}">
+                <div id="series" class="multiple-input-add-container">
                     <div class="input-container">
-                        <input type="text" id="categoryInput" name="categoryInput[]"
-                               class="form-control form-add-input category-input"
-                               title="Добавить еще один жанр" maxlength="128" autocomplete="off">
-                        <label for="categoryInput" class="input-label">Жанр</label>
+                        <input type="text" id="seriesInput" name="seriesInput[]"
+                               class="form-control form-add-input series-input"
+                               title="Добавить еще одну серию книг" maxlength="128" autocomplete="off">
+                        <label for="seriesInput" class="input-label">Серия книг</label>
                         <button type="button" class="close hidden input-close" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
@@ -44,14 +44,9 @@
                         </span>
                     </div>
                 </div>
-                <datalist id="category-list">
-                    @foreach($categories as $category)
-                        <option>{{ $category->name }}</option>
-                    @endforeach
-                </datalist>
-                @if($errors->has('categoryInput.*'))
+                @if($errors->has('seriesInput.*'))
                     <div class="form-control-feedback">
-                        {{ $errors->first('categoryInput.*') }}
+                        {{ $errors->first('seriesInput.*') }}
                     </div>
                 @endif
             </div>

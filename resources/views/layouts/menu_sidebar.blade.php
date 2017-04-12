@@ -17,6 +17,10 @@
                 <i class="fa fa-list fa-lg fa-fw nav-item-icon" aria-hidden="true"></i>
                 <div class="nav-item-name">Жанры</div>
             </a>
+            <a href="{{ route('publishers') }}" class="nav-item {{ active('publishers') }}">
+                <i class="fa fa-pencil fa-lg fa-fw nav-item-icon" aria-hidden="true"></i>
+                <div class="nav-item-name">Издатели</div>
+            </a>
             <a href="{{ route('author-add-get') }}" class="nav-item {{ active('author-add-get') }}">
                 <div class="icon-stack fa-fw nav-item-icon">
                     <i class="fa fa-user-o"></i>

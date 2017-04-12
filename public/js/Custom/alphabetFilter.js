@@ -78,9 +78,13 @@
         var ajaxUrl = mainUrl + '/filterLetter';
         //параметры урл
         var data = {type: filterContainer.attr('class')};
+        //массив частей урл разделенных слешем
         var urlParts = mainUrl.split('/');
-        if (urlParts[3] == 'series') {
-            data['id'] = urlParts[4];
+        var pages = ['series', 'publisher', 'author'];
+        //если страница, на которой происходит фильтрация содержит книги опреденной серии, то в параметры
+        // аякс-запроса передаем id данной серии
+        if ($.isArray(urlParts[3], pages) != -1) {
+            data['id'] = (urlParts[4] == 'all') ? null : urlParts[4];
         }
         //если выбранная буква не является текущей, по которой происходит фильтрация
         if (!$(this).hasClass('active')) {

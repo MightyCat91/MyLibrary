@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Author;
 use App\Book;
 use App\Categories;
+use App\Publisher;
 use App\Series;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
@@ -24,40 +25,61 @@ class Controller extends BaseController
      */
     public function showFiltered(Request $request)
     {
+        $idIsEmpty = empty($request->id);
         if ($request->ajax()) {
             switch ($request->type) {
                 case 'author':
                     $model = new Author();
                     $routeName = 'author';
                     $imgFolder = 'authors';
+                    $viewName = 'layouts.commonGrid';
                     break;
                 case 'category':
                     $model = new Categories();
                     $routeName = 'category-books';
                     $imgFolder = 'categories';
+                    $viewName = 'layouts.commonGrid';
+                    break;
+                case 'publisher':
+                    $model = new Publisher();
+                    $routeName = 'publisher-books';
+                    if ($idIsEmpty) {
+                        $imgFolder = null;
+                        $viewName = 'layouts.commonList';
+                    } else {
+                        $imgFolder = 'books';
+                        $viewName = 'layouts.commonGrid';
+                    }
+                    break;
+                case 'series':
+                    $model = new Series();
+                    $routeName = 'book';
+                    $imgFolder = 'books';
+                    $viewName = 'layouts.commonGrid';
                     break;
                 default:
                     $model = new Book();
                     $routeName = 'book';
                     $imgFolder = 'books';
+                    $viewName = 'layouts.commonGrid';
                     break;
             }
             if (empty($request->filter)) {
-                if (empty($request->id)) {
+                if ($idIsEmpty) {
                     $arrays = $model->all();
                 } else {
-                    $arrays = Series::FindOrFail($request->id)->books;
+                    $arrays = $model::FindOrFail($request->id)->books;
                 }
             } else {
-                if (empty($request->id)) {
+                if ($idIsEmpty) {
                     $arrays = $model->where('name', 'LIKE', $request->filter . '%')->get();
                 } else {
-                    $arrays = Series::FindOrFail($request->id)->books()->where('name', 'LIKE', $request->filter . '%')
+                    $arrays = $model::FindOrFail($request->id)->books()->where('name', 'LIKE', $request->filter . '%')
                         ->get();
                 }
             }
             return view(
-                'layouts.commonGrid',
+                $viewName,
                 [
                     'array' => $arrays,
                     'routeName' => $routeName,

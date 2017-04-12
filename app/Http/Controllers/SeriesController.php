@@ -20,11 +20,13 @@ class SeriesController extends Controller
         $series = Series::FindOrFail($id);
         if (empty($request->filter)) {
             $view = view('books', [
+                'type' => 'series',
                 'header' => $series->name,
                 'books' => $series->books
             ]);
         } else {
             $view = view('books', [
+                'type' => 'series',
                 'header' => $series->name,
                 'books' => $series->books()->where('name', 'LIKE', $request->filter . '%')->get()
             ]);

@@ -1,0 +1,36 @@
+#alphabet-filter-container {
+    position: fixed;
+    font-size: 14px;
+    right: 1vw;
+    padding: 1rem 0 1rem 1rem;
+}
+
+#alphabet-sticky-block {
+    width: 1.5rem;
+    right: 1vw;
+}
+
+.letter-filter {
+    text-align: center;
+}
+
+.letter-filter.hover {
+    transition: 0.5s;
+    transform: scale(1.7);
+    color: #009926;
+    cursor: pointer;
+    border: none !important;
+}
+
+.letter-filter.adjacent {
+    transition: 0.5s;
+    transform: scale(1.2);
+    color: rgba(0, 153, 38, 0.7);
+}
+
+.letter-filter.active {
+    border: 1px solid #009926;
+    border-radius: 50%;
+    width: 1.5rem;
+    height: 1.5rem;
+}

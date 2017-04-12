@@ -19,9 +19,24 @@ Route::get('year/{year}/books', [
     'as' => 'year-books', 'uses' => 'BookController@showBooksForYear'
 ]);
 
-Route::get('publisher/{id}', [
-    'as' => 'publisher-books', 'uses' => 'PublisherController@show'
-]);
+Route::group(['prefix' => 'publisher'], function () {
+    Route::group(['prefix' => '{id}', 'where' => ['id' => '[0-9]+']], function (){
+        Route::get('', [
+            'as' => 'publisher-books', 'uses' => 'PublisherController@show'
+        ]);
+        Route::get('filterLetter', [
+            'uses' => 'Controller@showFiltered'
+        ]);
+    });
+    Route::group(['prefix' => 'all'], function (){
+        Route::get('', [
+            'as' => 'publishers', 'uses' => 'PublisherController@show'
+        ]);
+        Route::get('filterLetter', [
+            'uses' => 'Controller@showFiltered'
+        ]);
+    });
+});
 
 Route::group(['prefix' => 'book'], function () {
     Route::group(['prefix' => 'all'], function () {

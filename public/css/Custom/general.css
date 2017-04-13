@@ -4,7 +4,7 @@
 body {
     background: #fff;
     font-size: 100%;
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Philosopher', sans-serif;
 }
 
 body a {
@@ -19,6 +19,10 @@ header {
 
 .hidden {
     display: none;
+}
+
+h2 {
+    font-family: 'Lobster', cursive;
 }
 /*
 * Spinner
@@ -188,8 +192,19 @@ a.nav-item {
 div.page-content {
     position: relative;
     margin: 1em 0 1em 4em;
-    font-size: 15px;
+    font-size: 16px;
     min-height: 100vh;
+}
+
+.page-content h2 {
+    padding: 1em 1em 1em 0;
+    text-align: right;
+    font-size: 32px;
+    background: #000 url(../../images/header.jpg) no-repeat;
+    background-size: auto 100%;
+    border-radius: 10px;
+    color: #fff;
+    text-shadow: 0 0 4px rgba(0, 0, 0, 1);
 }
 
 /*

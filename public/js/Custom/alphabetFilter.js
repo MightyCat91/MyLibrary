@@ -122,6 +122,8 @@
                 $('.page-content').removeClass('spinner');
                 //перерасчет смещения, при наступлении которого происходит прилипание контейнера с фильтром по алфавиту
                 limit = $('.footer').offset().top - filterContainer.height() - 20;
+                //скролл к верху страницы
+                $('body').animate({scrollTop: 0}, 300);
             },
             error: function () {
             }

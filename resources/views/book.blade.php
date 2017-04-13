@@ -22,7 +22,7 @@
                                    class="item-link">{{ $author->name . ' ' }}</a>
                             @endforeach
                         </li>
-                        @if(!empty($bookSeries))
+                        @if(!$bookSeries->isEmpty())
                             <li>
                                 <div id="series">
                                     <span><i class="fa fa-slack fa-lg item-icon" aria-hidden="true"></i>Серия:</span>
@@ -53,7 +53,7 @@
                             <span><i class="fa fa-pencil fa-lg item-icon" aria-hidden="true"></i>Издатель:</span>
                             @foreach($publishers as $publisher)
                                 <a href="{{ route('publisher-books', [$publisher->id]) }}"
-                                   class="item-link">{{ $publisher->name . ' ' }}</a>
+                                   class="item-link publisher-item">{{ $publisher->name . ' ' }}</a>
                             @endforeach
                         </li>
                         @if (isset($book->isbn))

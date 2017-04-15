@@ -111,7 +111,6 @@ class AuthorController extends Controller
                 $view = view('authors', ['authors' => Author::all()]);
             } else {
                 $author = Author::FindOrFail($id);
-//                dd($author->series()->isEmpty());
                 $view = view('author', [
                     'author' => $author,
                     'authorSeries' => $author->series(),

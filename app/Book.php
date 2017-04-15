@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 /**
  * @property mixed id
@@ -43,5 +44,55 @@ class Book extends Model
     public function series()
     {
         return $this->belongsToMany('App\Series');
+    }
+
+    /**
+     * Книги этой же серии, принадлежащей автору
+     */
+    public function scopeAuthorSeriesBooks()
+    {
+        return DB::table('series')->where('isPublisher', '=', false)
+            ->join(DB::raw("(SELECT series_id FROM book_series WHERE book_id = $this->id) as t1"),
+                'series.id', '=', 't1.series_id')
+            ->join('book_series', 'book_series.series_id', '=', 't1.series_id')
+            ->join('books', function ($join) {
+                $join->on('book_series.book_id', '=', 'books.id')
+                    ->where('books.id', '<>', $this->id);
+            })
+            ->select('books.id', 'books.name')
+            ->distinct()
+            ->get();
+    }
+
+    /**
+     * Книги этой же серии, принадлежащей издательству
+     */
+    public function scopePublisherSeriesBooks()
+    {
+        return DB::table(DB::raw("(SELECT series_id FROM book_series WHERE book_id = $this->id) as t1"))
+            ->join('book_series', 'book_series.series_id', '=', 't1.series_id')
+            ->join('books', function ($join) {
+                $join->on('book_series.book_id', '=', 'books.id')
+                    ->where('books.id', '<>', $this->id);
+            })
+            ->select('books.id', 'books.name')
+            ->distinct()
+            ->get();
+    }
+
+    /**
+     * Книги этого же автора
+     */
+    public function scopeAuthorBooks()
+    {
+        return DB::table(DB::raw("(SELECT author_id FROM author_book WHERE book_id = $this->id) as t1"))
+            ->join('author_book', 'author_book.author_id', '=', 't1.author_id')
+            ->join('books', function ($join) {
+                $join->on('author_book.book_id', '=', 'books.id')
+                    ->where('books.id', '<>', $this->id);
+            })
+            ->select('books.id', 'books.name')
+            ->distinct()
+            ->get();
     }
 }

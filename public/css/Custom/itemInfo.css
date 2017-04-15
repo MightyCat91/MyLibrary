@@ -39,7 +39,7 @@ div.page-content {
     color: #999;
 }
 
-.series-item, .publisher-item {
+.authors-item, .series-item, .publisher-item {
     display: block;
     padding-left: 2rem;
     line-height: 1.5rem;

@@ -1,6 +1,6 @@
 @push('styles')
-<link href="{{ asset('/css/Custom/itemInfo.css') }}" rel='stylesheet' type='text/css' media="all"/>
 <link href="{{ asset('/css/Custom/commonGrid.css') }}" rel='stylesheet' type='text/css' media="all"/>
+<link href="{{ asset('/css/Custom/itemInfo.css') }}" rel='stylesheet' type='text/css' media="all"/>
 @endpush
 @extends('layouts.main')
 @section('content')
@@ -10,16 +10,16 @@
                 <h2>{{ $book->name }}</h2>
             </header>
             <section id="short-info" class="row">
-                <figure class="col-md-4 col-sm-4 short-img">
+                <figure class="col-4 col-md-4 col-sm-4 short-img">
                     <img src="{{ asset(getPublicFiles('books', $book->id)[0])}}" alt="{{ $book->name }}">
                 </figure>
-                <aside class="col-md-8 col-sm-8 short-info-items">
+                <aside class="col-8 col-md-8 col-sm-8 short-info-items">
                     <ul>
                         <li>
                             <span><i class="fa fa-users fa-lg item-icon" aria-hidden="true"></i>Автор:</span>
                             @foreach($authors as $author)
                                 <a href="{{ route('author', [$author->id]) }}"
-                                   class="item-link">{{ $author->name . ' ' }}</a>
+                                   class="item-link authors-item">{{ $author->name . ' ' }}</a>
                             @endforeach
                         </li>
                         @if(!$bookSeries->isEmpty())
@@ -77,15 +77,13 @@
                 <p>{{ $book->description }}</p>
             </section>
         </div>
-        <aside class="books-sidebar">
-            {{--@foreach($books as $book)--}}
-                {{--<a href="{{ route('book', $book->id) }}" >--}}
-                    {{--<figure class="thumbnail container">--}}
-                        {{--<img src="{{ asset('/booksCover/book_'.$book->id.'.jpg') }}" alt="{{ $book->name }}"/>--}}
-                        {{--<figcaption class="resent-grid-info title">{{ $book->name }}</figcaption>--}}
-                    {{--</figure>--}}
-                {{--</a>--}}
-            {{--@endforeach--}}
-        </aside>
     </div>
+    <aside id="books-sidebar" class="">
+        @include('layouts.commonGrid',
+        [
+            'array' => $sidebarBooks,
+            'routeName' => 'book',
+            'imgFolder' => 'books'
+        ])
+    </aside>
 @endsection

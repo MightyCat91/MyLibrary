@@ -63,12 +63,25 @@ class BookController extends Controller
                 ]);
             } else {
                 $book = Book::FindOrFail($id);
+                $series = $book->series;
+                if (count($series)) {
+                    $sidebarBooks = $book->AuthorSeriesBooks();
+                    if (!count($sidebarBooks)) {
+                        $sidebarBooks = $book->publisherSeriesBooks();
+                        if (!count($sidebarBooks) or empty($sidebarBooks)) {
+                            $sidebarBooks = $book->authorBooks();
+                        }
+                    }
+                } else {
+                    $sidebarBooks = $book->authorBooks();
+                }
                 $view = view('book', [
                     'book' => $book,
                     'authors' => $book->authors,
-                    'bookSeries' => $book->series,
+                    'bookSeries' => $series,
                     'categories' => $book->categories,
-                    'publishers' => $book->publishers
+                    'publishers' => $book->publishers,
+                    'sidebarBooks' => $sidebarBooks
                 ]);
             }
         } else {

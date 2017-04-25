@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Categories;
 use App\Http\Requests\AuthorAddRequest;
 use App\Series;
 use Illuminate\Http\Request;
@@ -19,7 +18,7 @@ class AuthorController extends Controller
      */
     public function index()
     {
-        return view('home');
+        //
     }
 
     /**

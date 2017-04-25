@@ -18,6 +18,16 @@ class Controller extends BaseController
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
     /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        return view('home');
+    }
+
+    /**
      * Возврат шаблона с сущностями, отфильтрованными по начальной выбранной букве
      *
      * @param Request $request

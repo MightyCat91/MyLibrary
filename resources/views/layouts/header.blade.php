@@ -14,9 +14,11 @@
         function hideURLbar() {
             window.scrollTo(0, 1);
         } </script>
+    <!-- //bootstrap-social -->
+    <link href="{{ asset('/css/Library/bootstrap-social.css') }}" rel="stylesheet" type='text/css' media="all">
     <!-- bootstrap -->
     <link href="{{ asset('/css/Library/bootstrap.min.css') }}" rel='stylesheet' type='text/css' media="all"/>
-    <!-- //bootstrap -->
+    <!-- //general -->
     <link href="{{ asset('/css/Custom/general.css') }}" rel="stylesheet" type='text/css' media="all">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.css">

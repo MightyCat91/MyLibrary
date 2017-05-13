@@ -137,18 +137,17 @@ Route::group(['prefix' => 'series'], function () {
 Route::get('developers', ['as' => 'developers', 'uses' => 'MainController@test']);
 //TODO: реализовать вьюху и контроллер личного кабинета
 Route::get('user/profile', ['as' => 'userProfile', 'uses' => 'MainController@test']);
+//TODO: реализовать вьюху и контроллер пользовательского соглашения
+Route::get('privacyPolicy', ['as' => 'privacyPolicy', 'uses' => 'MainController@test']);
 
 // Authentication Routes...
-Route::get('login', 'Auth\LoginController@showLoginForm')->name('login');
-Route::post('/', 'Auth\LoginController@login')->name('loginPost');
+Route::post('/', 'Auth\LoginController@login')->name('login');
 Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 
 // Registration Routes...
-Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('register');
-Route::post('register', 'Auth\RegisterController@register');
+Route::post('register', 'Auth\RegisterController@register')->name('register');
 
 // Password Reset Routes...
-Route::get('password/reset', 'Auth\ForgotPasswordController@showLinkRequestForm')->name('password.request');
 Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
-Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm')->name('password.reset');
-Route::post('password/reset', 'Auth\ResetPasswordController@reset');
+Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm');
+Route::post('password/reset', 'Auth\ResetPasswordController@reset')->name('password.reset');

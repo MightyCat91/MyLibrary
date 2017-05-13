@@ -70,7 +70,6 @@
                     });
                 })
                 .fail(function (response) {
-                    console.log(response);
                     //получаем все ошибки для первого невалидного файла
                     for (var key in response.responseJSON) break;
                     var errors = response.responseJSON[key];

@@ -3,22 +3,27 @@
         <section id="menu-content">
             <a href="{{ route('home') }}" class="nav-item {{ active('home') }}">
                 <i class="fa fa-home fa-lg fa-fw nav-item-icon" aria-hidden="true"></i>
+
                 <div class="nav-item-name">Главная</div>
             </a>
             <a href="{{ route('authors') }}" class="nav-item {{ active('authors') }}">
                 <i class="fa fa-users fa-lg fa-fw nav-item-icon" aria-hidden="true"></i>
+
                 <div class="nav-item-name">Авторы</div>
             </a>
             <a href="{{ route('books') }}" class="nav-item {{ active('books') }}">
                 <i class="fa fa-book fa-lg fa-fw nav-item-icon" aria-hidden="true"></i>
+
                 <div class="nav-item-name">Книги</div>
             </a>
             <a href="{{ route('categories') }}" class="nav-item {{ active('categories') }}">
                 <i class="fa fa-list fa-lg fa-fw nav-item-icon" aria-hidden="true"></i>
+
                 <div class="nav-item-name">Жанры</div>
             </a>
             <a href="{{ route('publishers') }}" class="nav-item {{ active('publishers') }}">
                 <i class="fa fa-pencil fa-lg fa-fw nav-item-icon" aria-hidden="true"></i>
+
                 <div class="nav-item-name">Издатели</div>
             </a>
             @if (Auth::check())
@@ -40,58 +45,65 @@
         </section>
         <section id="bottom-container">
             @if (Auth::guest())
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                    Launch demo modal
-                </button>
-                <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
+                <div id="login-form-wrapper" class="{{ $errors->hasAny(['email', 'password']) ? 'active' : '' }}">
+                    <form id="login-form" role="form" method="POST" action="{{  route('login') }}">
+                        {{ csrf_field() }}
+                        <div id="authLinks">
+                            <a href="#" id="registerLink">Регистрация</a>
+                            <a href="#" id="resetPassLink">Забыли пароль?</a>
+                        </div>
+                        <div id="login-form-container">
+                            <div class="form-group {{ $errors->has('email') ? 'error' : '' }}">
+                                <input id="email" type="email" name="email" placeholder="Email"
+                                       value="{{ old('email') }}"
+                                       required>
+                            </div>
+                            <div class="form-group {{ $errors->has('password') ? 'error' : '' }}">
+                                <input id="password" type="password" name="password" placeholder="Пароль" required>
+                                @if ($errors->has('email'))
+                                    <div class="help-block">
+                                        <strong>{{ $errors->first('email') }}</strong>
+                                    </div>
+                                @endif
+                                @if ($errors->has('password'))
+                                    <div class="help-block">
+                                        <strong>{{ $errors->first('password') }}</strong>
+                                    </div>
+                                @endif
+                            </div>
+
+                            <div id="login-button">
+                                <button type="submit">
+                                    <i class="fa fa-arrow-right" aria-hidden="true"></i>
                                 </button>
                             </div>
-                            <div class="modal-body">
-                                ...
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                <button type="button" class="btn btn-primary">Save changes</button>
-                            </div>
                         </div>
-                    </div>
+                        <div id="remember-checkbox" class="auth-checkbox">
+                            <label>
+                                <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}>Запомнить
+                                меня
+                            </label>
+                        </div>
+                    </form>
+                    <button type="button" class="close form-close" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
-                <form id="login-form" role="form" method="POST" action="{{  route('loginPost') }}" autocomplete="off">
-                    {{ csrf_field() }}
-                    <div id="authLinks">
-                        <a href="{{ route('register') }}" id="registerLink">Регистрация</a>
-                        <a href="{{ route('password.request') }}" id="resetPassLink">Забыли пароль?</a>
-                    </div>
-                    <div id="login-form-container">
-                        <input type="email" name="email" id="email" placeholder="Email">
-                        <input type="password" name="password" id="password" placeholder="Пароль">
+                <a href="#" id="login" class="nav-item hidden">
+                    <i class="fa fa-sign-in fa-lg fa-fw nav-item-icon" aria-hidden="true"></i>
 
-                        <div id="login-button">
-                            <button type="submit">
-                                <i class="fa fa-arrow-right" aria-hidden="true"></i>
-                            </button>
-                        </div>
-                    </div>
-                    <div id="remember-checkbox">
-                        <label>
-                            <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}>Запомнить меня
-                        </label>
-                    </div>
-                </form>
+                    <div class="nav-item-name">Войти</div>
+                </a>
             @else
                 <a href="{{ route('userProfile') }}" class="nav-item {{ active('userProfile') }}">
                     <i class="fa fa-user-circle fa-lg fa-fw nav-item-icon" aria-hidden="true"></i>
+
                     <div class="nav-item-name">Личный кабинет</div>
                 </a>
                 <a href="{{ route('logout') }}" class="nav-item"
                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                     <i class="fa fa-sign-out fa-lg fa-fw nav-item-icon" aria-hidden="true"></i>
+
                     <div class="nav-item-name">Выйти</div>
                 </a>
                 <form id="logout-form" action="{{ route('logout') }}" method="POST">
@@ -99,7 +111,7 @@
                 </form>
             @endif
             <hr>
-            <div class="side-bottom">
+            <div id="side-bottom">
                 <div class="copyright">
                     <p>Copyright © 2017 MyLibrary</p>
 
@@ -110,3 +122,115 @@
         </section>
     </div>
 </aside>
+@if (Auth::guest())
+    <section id="register-form-container" class="{{ $errors->hasAny(['name', 'registerEmail', 'registerPassword',
+    'privacyPolicy', 'emailReset']) ? 'active' : '' }}">
+        <form id="register-form" role="form" method="POST" action="{{ route('register') }}" class="signup-form
+              {{ $errors->hasAny(['name', 'registerEmail', 'registerPassword', 'privacyPolicy']) ? '' : 'hidden' }}">
+            {{ csrf_field() }}
+            <section id="auth-signup">
+                <div>
+                    <div class="form-group {{ $errors->has('name') ? 'error' : '' }}">
+                        <input id="name" type="text" name="name" placeholder="Имя" value="{{old('name') }}" required>
+                        @if ($errors->has('name'))
+                            <div class="help-block">
+                                <strong>{{ $errors->first('name') }}</strong>
+                            </div>
+                        @endif
+                    </div>
+                    <div class="form-group {{ $errors->has('registerEmail') ? 'error' : '' }}">
+                        <input id="registerEmail" type="email" name="registerEmail" placeholder="Email"
+                               value="{{ old('registerEmail')}}" required>
+                        @if ($errors->has('registerEmail'))
+                            <div class="help-block">
+                                <strong>{{ $errors->first('registerEmail') }}</strong>
+                            </div>
+                        @endif
+                    </div>
+                    <div class="form-group {{ $errors->has('registerPassword') ? 'error' : '' }}">
+                        <input id="registerPassword" type="password" name="registerPassword" placeholder="Пароль"
+                               required>
+                        @if ($errors->has('registerPassword'))
+                            <div class="help-block">
+                                <strong>{{ $errors->first('registerPassword') }}</strong>
+                            </div>
+                        @endif
+                    </div>
+                    <div class="form-group auth-checkbox">
+                        <label>
+                            <input type="checkbox" name="subscribe[]" {{ old('subscribe') ? 'checked' : '' }}>Присылайте
+                            мне на почту важные уведомления
+                        </label>
+                    </div>
+                    <div class="form-group auth-checkbox {{ $errors->has('privacyPolicy') ? 'error' : '' }}">
+                        <label>
+                            <input type="checkbox" name="privacyPolicy" {{ old('privacyPolicy') ? 'checked' : '' }}
+                            required>Я принимаю пользовательское соглашение
+                            <a href="{{ route('privacyPolicy') }}" id="privacyPolicy"> Прочитать</a>
+                        </label>
+                    </div>
+                    <button type="submit" id="register-btn" class="btn btn-primary auth-btn">
+                        Зарегистрироваться
+                    </button>
+                </div>
+                <div id="open-social-btn" class="chg-auth-type">
+                    <i class="fa fa-lg fa-arrow-circle-right" aria-hidden="true"></i>
+                </div>
+            </section>
+            <section id="auth-signup-social">
+                <div id="open-register-form" class="chg-auth-type">
+                    <i class="fa fa-lg fa-arrow-circle-left" aria-hidden="true"></i>
+                </div>
+                <div>
+                    <div class="social-column">
+                        <a class="btn btn-social-icon btn-twitter">
+                            <span class="fa fa-twitter"></span>
+                        </a>
+                        <a class="btn btn-social-icon btn-vk">
+                            <span class="fa fa-vk"></span>
+                        </a>
+                        <a class="btn btn-social-icon btn-odnoklassniki">
+                            <span class="fa fa-odnoklassniki"></span>
+                        </a>
+                    </div>
+                    <div class="social-column">
+                        <a class="btn btn-social-icon btn-facebook">
+                            <span class="fa fa-facebook"></span>
+                        </a>
+                        <a class="btn btn-social-icon btn-google">
+                            <span class="fa fa-google"></span>
+                        </a>
+                        <a class="btn btn-social-icon btn-instagram">
+                            <span class="fa fa-instagram"></span>
+                        </a>
+                    </div>
+                </div>
+            </section>
+        </form>
+        <form id="pass-reset-form" class="signup-form {{ $errors->has('emailReset') ? '' : 'hidden' }}" role="form"
+              method="POST" action="{{  route('password.email') }}">
+            {{ csrf_field() }}
+            <section id="pass-reset">
+                <label for="emailReset">Восстановление пароля</label>
+
+                <div class="form-group {{ $errors->has('emailReset') ? 'error' : '' }}">
+                    <input id="emailReset" type="email" name="emailReset" placeholder="Email"
+                           value="{{ old('emailReset') }}" required>
+                    @if ($errors->has('emailReset'))
+                        <div class="help-block">
+                            <strong>{{ $errors->first('emailReset') }}</strong>
+                        </div>
+                    @endif
+                </div>
+                <span><i class="fa fa-info-circle" aria-hidden="true"></i>На указанную почту будет отправлено письмо с
+                    инструкциями для восстановления пароля</span>
+                <button type="submit" id="reset-psw-btn" class="btn btn-primary auth-btn">
+                    Восстановить пароль
+                </button>
+            </section>
+        </form>
+        <button type="button" class="close form-close" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </section>
+@endif

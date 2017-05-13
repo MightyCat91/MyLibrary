@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\User;
+use Carbon\Carbon;
 use Validator;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\RegistersUsers;
@@ -27,12 +28,11 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/';
 
     /**
      * Create a new controller instance.
      *
-     * @return void
      */
     public function __construct()
     {
@@ -42,30 +42,48 @@ class RegisterController extends Controller
     /**
      * Get a validator for an incoming registration request.
      *
-     * @param  array  $data
+     * @param  array $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
     protected function validator(array $data)
     {
-        return Validator::make($data, [
-            'name' => 'required|max:255',
-            'email' => 'required|email|max:255|unique:users',
-            'password' => 'required|min:6|confirmed',
-        ]);
+        $rules = [
+            'name' => 'required|string|max:255',
+            'registerEmail' => 'required|email|max:255|unique:users,email',
+            'registerPassword' => 'required|min:6|alpha_dash',
+            'privacyPolicy' => 'required'
+        ];
+        $messages = [
+            'name.required' => 'Имя обязателен к заполнению',
+            'name.string' => 'Имя должно быть строкой',
+            'name.max' => 'Имя не должно содержать больше :max символов',
+            'registerEmail.unique' => 'Email уже существует',
+            'registerEmail.required' => 'Email обязателен к заполнению',
+            'registerEmail.email' => 'Введенный email некорректен',
+            'registerEmail.max' => 'Email не должен содержать больше :max символов',
+            'registerPassword.required' => 'Пароль обязателен к заполнению',
+            'registerPassword.min' => 'Пароль должен содержать :min и больше символов',
+            'registerPassword.alpha_dash' => 'Пароль может содержать только буквы, цифры и точки',
+        ];
+
+        return Validator::make($data, $rules, $messages);
     }
 
     /**
      * Create a new user instance after a valid registration.
      *
-     * @param  array  $data
+     * @param  array $data
      * @return User
      */
     protected function create(array $data)
     {
-        return User::create([
-            'name' => $data['name'],
-            'email' => $data['email'],
-            'password' => bcrypt($data['password']),
-        ]);
+        $user = new User();
+        $user->name = $data['name'];
+        $user->email = $data['registerEmail'];
+        $user->password = bcrypt($data['registerPassword']);
+        $user->subscribed = isset($data['subscribe']);
+        $user->last_visit = Carbon::now();
+        $user->save();
+        return $user;
     }
 }

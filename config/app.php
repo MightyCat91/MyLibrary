@@ -166,7 +166,10 @@ return [
         /*
          * Package Service Providers...
          */
-
+        GrahamCampbell\Exceptions\ExceptionsServiceProvider::class,
+        Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
+        Watson\Active\ActiveServiceProvider::class,
+        Barryvdh\Debugbar\ServiceProvider::class,
         //
 
         /*
@@ -182,10 +185,7 @@ return [
         /*
          * Custom Service Providers...
          */
-        GrahamCampbell\Exceptions\ExceptionsServiceProvider::class,
-        Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
-        Watson\Active\ActiveServiceProvider::class,
-        Barryvdh\Debugbar\ServiceProvider::class,
+        MyLibrary\Alerts\AlertServiceProvider::class,
         // Laracasts\Generators\GeneratorsServiceProvider::class,
     ],
 

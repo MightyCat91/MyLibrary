@@ -8,6 +8,7 @@
         <!-- Content -->
         <div class="page-content">
             @yield('content')
+            <button class="btn btn-default" onsubmit="{{ route('alert') }}"></button>
         </div>
         <!-- /Content -->
         @yield('alphabetFilter')

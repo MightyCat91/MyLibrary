@@ -12,6 +12,7 @@ use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
+use MyLibrary\Alerts\Alert;
 
 class Controller extends BaseController
 {
@@ -96,5 +97,9 @@ class Controller extends BaseController
                     'imgFolder' => $imgFolder
                 ])->render();
         }
+    }
+
+    public function alert(){
+        alert()->success('This is success message', 5000);
     }
 }

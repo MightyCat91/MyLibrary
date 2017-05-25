@@ -24,7 +24,7 @@
     <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.css">
     <!-- fonts -->
     <link href="https://fonts.googleapis.com/css?family=Lobster|Philosopher:400,400i,700,700i&amp;subset=cyrillic" rel="stylesheet">
-    @stack('styles')
     <!-- //fonts -->
+    @stack('styles')
 </head>
 <body>

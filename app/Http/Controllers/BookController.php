@@ -155,7 +155,8 @@ class BookController extends Controller
                 Storage::disk('booksTemporary')->delete($filename);
             }
 
-            $response = redirect()->back()->with('success', 'Спасибо. Книга будет добавлена после модерации.');
+            $response = redirect()->back();
+            alert()->success('Спасибо. Книга будет добавлена после модерации.');
         }
         return $response;
     }

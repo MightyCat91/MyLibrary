@@ -7,14 +7,6 @@
 @extends('layouts.main')
 @section('content')
     <div class="container">
-        @if(Session::exists('success'))
-            <div class="alert alert-success alert-dismissible fade show" role="alert">
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                {{ Session::get('success') }}
-            </div>
-        @endif
         <form id="add-form" method="post" enctype="multipart/form-data">
             {{ csrf_field() }}
             <div class="form-group {{ ($errors->has('nameInput')) ? 'has-danger' : '' }}">

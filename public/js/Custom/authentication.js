@@ -56,10 +56,8 @@
     $(window).on('load resize', function() {
         var loginBtn = $('#login');
         if ($(window).width() < windowWidth) {
-            console.log(loginForm.find('.error').length);
             if (loginForm.find('.error').length) {
                 loginForm.addClass('active').find('.form-close').removeClass('hidden');
-                console.log('1');
             } else {
                 loginForm.addClass('hidden').find('.form-close').removeClass('hidden');
             }
@@ -84,5 +82,5 @@
         if ($(window).width() < windowWidth) {
             loginForm.addClass('hidden');
         }
-    })
+    });
 })(jQuery);

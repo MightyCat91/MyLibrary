@@ -1,11 +1,8 @@
 <?php
-declare(strict_types=1);
 
 namespace MyLibrary\Alerts;
 
 use \Illuminate\Session\Store;
-use \Illuminate\Config\Repository;
-use \Illuminate\View\Factory;
 
 class Alert
 {
@@ -22,10 +19,9 @@ class Alert
      */
     protected $config;
 
-    public function __construct(Store $session, Repository $config, Factory $view, array $messages = array())
+    public function __construct(Store $session)
     {
         $this->session = $session;
-        $this->config  = $config;
     }
 
 
@@ -35,10 +31,10 @@ class Alert
      * @param $lifetime
      * @return $this
      */
-    public function flash(string $message, $type = 'info', $lifetime): self
+    public function flash($message, $type = 'info', $lifetime)
     {
-        $icons = $this->config->get('alert.icons');
-        $lifetime = $lifetime ?? $this->config->get('alert.lifetime');
+        $icons = config('alert.icons');
+        $lifetime = $lifetime ?? config('alert.lifetime');
         $alert = [
             'icon'     => $icons[$type] ?? null,
             'type'     => $type,
@@ -50,25 +46,13 @@ class Alert
     }
 
     /**
-     * Flash a danger alert.
-     *
-     * @param string|string $message
-     * @param null $lifetime
-     * @return Alert
-     */
-    public function danger(string $message, $lifetime = null): Alert
-    {
-        return $this->flash($message, 'danger', $lifetime);
-    }
-
-    /**
      * Flash an error alert.
      *
      * @param string|string $message
      * @param null $lifetime
      * @return $this
      */
-    public function error(string $message, $lifetime = null): Alert
+    public function error($message, $lifetime = null)
     {
         return $this->flash($message, 'danger', $lifetime);
     }
@@ -80,7 +64,7 @@ class Alert
      * @param null $lifetime
      * @return $this
      */
-    public function info(string $message, $lifetime = null): Alert
+    public function info($message, $lifetime = null)
     {
         return $this->flash($message, 'info', $lifetime);
     }
@@ -92,7 +76,7 @@ class Alert
      * @param null $lifetime
      * @return $this
      */
-    public function success(string $message, $lifetime = null): Alert
+    public function success($message, $lifetime = null)
     {
         return $this->flash($message, 'success', $lifetime);
     }
@@ -104,7 +88,7 @@ class Alert
      * @param null $lifetime
      * @return $this
      */
-    public function warning(string $message, $lifetime = null): Alert
+    public function warning($message, $lifetime = null)
     {
         return $this->flash($message, 'warning', $lifetime);
     }

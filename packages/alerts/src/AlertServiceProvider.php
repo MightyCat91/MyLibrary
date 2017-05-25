@@ -3,7 +3,6 @@
 namespace MyLibrary\Alerts;
 
 use Illuminate\Support\ServiceProvider;
-use MyLibrary\Alerts\Facades\Alert;
 
 class AlertServiceProvider extends ServiceProvider
 {
@@ -28,9 +27,13 @@ class AlertServiceProvider extends ServiceProvider
         // Выполнение после-регистрационной загрузки сервисов
         $this->publishes([
             // Публикация файла настроек
-            __DIR__.'/config/Alert.php' => config_path('Alert.php'),
+            __DIR__.'/config/alert.php' => config_path('Alert.php'),
             // Публикация файла стилей
-            __DIR__.'/css/alert.css' => public_path('css/alert.css'),
+            __DIR__.'/css' => public_path('css/custom'),
+            // Публикация js-файла
+            __DIR__.'/js' => public_path('js/custom'),
+            // Публикация изображения
+            __DIR__.'/images' => public_path('images'),
         ]);
     }
 
@@ -41,10 +44,13 @@ class AlertServiceProvider extends ServiceProvider
      */
     public function register()
     {
-//        dd(Alert::class);
         $this->app->singleton('alert', function ($app) {
-            return new Alert($app['session.store'], $app['config']);
+            return new Alert($app['session.store']);
         });
+        //настройки пакета по умолчанию
+        $this->mergeConfigFrom(
+            __DIR__ . '/config/alert.php', 'alert'
+        );
 
         $this->app->alias('alert', Alert::class);
     }

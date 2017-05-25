@@ -58,7 +58,8 @@ class AuthorController extends Controller
             Storage::disk('authors')->put(sprintf('/%s/%s', $id, $filename), file_get_contents($image));
             Storage::disk('authorsTemporary')->delete($filename);
 
-            $response = redirect()->back()->with('success', 'Спасибо. Автор будет добавлен после модерации.');
+            $response = redirect()->back();
+            alert()->success('Спасибо. Автор будет добавлен после модерации.');
         }
         return $response;
     }

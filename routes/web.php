@@ -14,9 +14,6 @@
 Route::get('/', [
     'as' => 'home', 'uses' => 'Controller@index'
 ]);
-Route::get('/', [
-    'as' => 'alert', 'uses' => 'Controller@alert'
-]);
 
 Route::get('year/{year}/books', [
     'as' => 'year-books', 'uses' => 'BookController@showBooksForYear'

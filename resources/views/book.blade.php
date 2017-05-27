@@ -1,6 +1,16 @@
 @push('styles')
-<link href="{{ asset('/css/Custom/commonGrid.css') }}" rel='stylesheet' type='text/css' media="all"/>
-<link href="{{ asset('/css/Custom/itemInfo.css') }}" rel='stylesheet' type='text/css' media="all"/>
+    <link href="{{ asset('/css/Custom/commonGrid.css') }}" rel='stylesheet' type='text/css' media="all"/>
+    <link href="{{ asset('/css/Custom/itemInfo.css') }}" rel='stylesheet' type='text/css' media="all"/>
+    <link href="{{ asset('/css/Library/Owl.Carousel/owl.carousel.min.css') }}" rel='stylesheet' type='text/css'
+          media="all"/>
+    <link href="{{ asset('/css/Library/Owl.Carousel/owl.theme.default.min.css') }}" rel='stylesheet' type='text/css'
+      media="all"/>
+    <link href="{{ asset('/css/Library/Owl.Carousel/owl.theme.default.css') }}" rel='stylesheet' type='text/css'
+      media="all"/>
+@endpush
+@push('scripts')
+    <script type="text/javascript" src="{{ asset('/js/Library/Owl.Carousel/owl.carousel.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('/js/Custom/book.js') }}"></script>
 @endpush
 @extends('layouts.main')
 @section('content')
@@ -10,8 +20,11 @@
                 <h2>{{ $book->name }}</h2>
             </header>
             <section id="short-info" class="row">
-                <figure class="col-4 col-md-4 col-sm-4 short-img">
-                    <img src="{{ asset(getPublicFiles('books', $book->id)[0])}}" alt="{{ $book->name }}">
+                <figure class="col-4 col-md-4 col-sm-4 short-img owl-carousel owl-theme">
+                    @foreach(getPublicFiles('books', $book->id) as $bookCover)
+                        <img class="item" src="{{ asset($bookCover)}}" alt="{{ $book->name }}">
+                    @endforeach
+                    {{--<img src="{{ asset(getPublicFiles('books', $book->id)[0])}}" alt="{{ $book->name }}">--}}
                 </figure>
                 <aside class="col-8 col-md-8 col-sm-8 short-info-items">
                     <ul>

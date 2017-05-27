@@ -1,5 +1,5 @@
 @push('styles')
-<link href="{{ asset('/css/Library/jquery-ui.min.css')  }} " rel='stylesheet' type='text/css' media="all"/>
+<link href="{{ asset('/css/Library/jQuery/jquery-ui.min.css')  }} " rel='stylesheet' type='text/css' media="all"/>
 <link href="{{ asset('/css/Custom/addForm.css') }}" rel='stylesheet' type='text/css' media="all"/>
 <link href="{{ asset('/css/Custom/commonGrid.css') }}" rel='stylesheet' type='text/css' media="all"/>
 @endpush
@@ -95,6 +95,6 @@
 @endsection
 
 @push('scripts')
-<script type="text/javascript" src="{{ asset('/js/Library/jquery-ui.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('/js/Library/jQuery/jquery-ui.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('/js/Custom/addForm.js') }}"></script>
 @endpush

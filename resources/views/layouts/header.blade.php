@@ -15,9 +15,9 @@
             window.scrollTo(0, 1);
         } </script>
     <!-- //bootstrap-social -->
-    <link href="{{ asset('/css/Library/bootstrap-social.css') }}" rel="stylesheet" type='text/css' media="all">
+    <link href="{{ asset('/css/Library/Bootstrap/bootstrap-social.css') }}" rel="stylesheet" type='text/css' media="all">
     <!-- bootstrap -->
-    <link href="{{ asset('/css/Library/bootstrap.min.css') }}" rel='stylesheet' type='text/css' media="all"/>
+    <link href="{{ asset('/css/Library/Bootstrap/bootstrap.min.css') }}" rel='stylesheet' type='text/css' media="all"/>
     <!-- //general -->
     <link href="{{ asset('/css/Custom/general.css') }}" rel="stylesheet" type='text/css' media="all">
     <!-- Font Awesome -->

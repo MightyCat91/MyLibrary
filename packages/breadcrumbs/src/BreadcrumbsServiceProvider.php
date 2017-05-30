@@ -49,7 +49,7 @@ class BreadcrumbsServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->singleton(Breadcrumbs::class, function ($app) {
-            return $app->make(Manager::class);
+            return $app->make(BreadcrumbsManager::class);
         });
     }
 

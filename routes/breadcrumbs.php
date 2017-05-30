@@ -1,6 +1,10 @@
 <?php
 // Home
-Breadcrumbs::register('home', function($breadcrumbs)
+Breadcrumbs::create('home', function($breadcrumbs)
 {
-    $breadcrumbs->push('Home', route('home'));
+    $breadcrumbs->add('Home', route('home'));
+});
+Breadcrumbs::create('authors', function ($breadcrumbs) {
+    $breadcrumbs->parent('home');
+    $breadcrumbs->add('Authors', route('authors'));
 });

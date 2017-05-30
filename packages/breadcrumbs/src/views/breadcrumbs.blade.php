@@ -1,7 +1,12 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Александр
- * Date: 28.05.2017
- * Time: 18:30
- */
+@if ($breadcrumbs->count())
+    <ol class="breadcrumb">
+        @foreach ($breadcrumbs as $breadcrumb)
+            @if ($breadcrumb->url() && $loop->remaining)
+                <li><a href="{{ $breadcrumb->url() }}">{{ $breadcrumb->title() }}</a></li>
+            @else
+                <li class="active">{{ $breadcrumb->title() }}</li>
+            @endif
+        @endforeach
+    </ol>
+@endif

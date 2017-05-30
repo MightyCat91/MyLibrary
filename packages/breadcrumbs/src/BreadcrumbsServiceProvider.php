@@ -8,7 +8,6 @@
 
 namespace MyLibrary\Breadcrumbs;
 
-use Illuminate\Support\Manager;
 use Illuminate\Support\ServiceProvider;
 
 class BreadcrumbsServiceProvider extends ServiceProvider
@@ -48,7 +47,7 @@ class BreadcrumbsServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton(Breadcrumbs::class, function ($app) {
+        $this->app->singleton('breadcrumbs', function ($app) {
             return $app->make(BreadcrumbsManager::class);
         });
     }

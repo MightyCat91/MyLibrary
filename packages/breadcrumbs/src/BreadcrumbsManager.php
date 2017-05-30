@@ -9,11 +9,15 @@
 namespace MyLibrary\Breadcrumbs;
 
 
+use Illuminate\Contracts\View\View;
+use Illuminate\Support\Collection;
+use Illuminate\Support\HtmlString;
+use MyLibrary\Breadcrumbs\Exceptions\AlreadyExistsException;
+use MyLibrary\Breadcrumbs\Exceptions\NotFoundException;
 use Route;
 
 class BreadcrumbsManager
 {
-    protected $registrar;
     /**
      * Breadcrumb definitions.
      *
@@ -22,8 +26,6 @@ class BreadcrumbsManager
     protected $definitions = [];
     /**
      * The current route.
-     *
-     * @var \Watson\Breadcrumbs\Route
      */
     protected $route;
     /**
@@ -37,7 +39,6 @@ class BreadcrumbsManager
      * Создание экземпляра менеджера
      *
      * @param $route
-     * @param $registrar
      */
     public function __construct($route)
     {
@@ -62,12 +63,34 @@ class BreadcrumbsManager
      *
      * @return \Illuminate\Support\HtmlString
      */
-    public
-    function render()
+    public function render()
     {
         if ($breadcrumbs = $this->generate()) {
-            return $this->renderer->render(config('breadcrumbs.view'), $breadcrumbs);
+            return new HtmlString(View::make(config('breadcrumbs.view'), compact($breadcrumbs))->render());
         }
+    }
+
+    /**
+     * Вызов родительского маршрута
+     *
+     * @param  string $name
+     * @throws NotFoundException
+     * @internal param mixed $parameters
+     */
+    public function parent($name)
+    {
+        $this->getBreadcrumbs($name);
+    }
+    /**
+     * Добавление хлебной крошки в коллекцию
+     *
+     * @param  string  $title
+     * @param  string  $url
+     * @return void
+     */
+    public function add($title, $url)
+    {
+        $this->breadcrumbs->push(new Breadcrumbs($title, $url));
     }
 
     /**
@@ -77,10 +100,8 @@ class BreadcrumbsManager
      */
     public function generate()
     {
-        if ($this->route->present() && $this->setBreadcrumbs($this->route->name())) {
-            $this->call(
-                $this->route->name()
-            );
+        if (!is_null(current($this->route)) && $this->hasBreadcrumbs($this->route->getName())) {
+            $this->getBreadcrumbs($this->route->getName());
         }
         return $this->breadcrumbs;
     }
@@ -90,12 +111,12 @@ class BreadcrumbsManager
      *
      * @param  string $name
      * @return \Closure
-     * @throws DefinitionNotFoundException
+     * @throws NotFoundException
      */
     public function getBreadcrumbs($name)
     {
         if (!$this->hasBreadcrumbs($name)) {
-            throw new DefinitionNotFoundException("No breadcrumbs defined for route [{$name}].");
+            throw new NotFoundException("No breadcrumbs defined for route [{$name}].");
         }
         return $this->definitions[$name];
     }
@@ -117,12 +138,12 @@ class BreadcrumbsManager
      *
      * @param string $name
      * @param \Closure $definition
-     * @throws DefinitionAlreadyExistsException
+     * @throws AlreadyExistsException
      */
     public function setBreadcrumbs($name, $definition)
     {
         if ($this->hasBreadcrumbs($name)) {
-            throw new DefinitionAlreadyExistsException(
+            throw new AlreadyExistsException(
                 "Breadcrumbs have already been defined for route [{$name}]."
             );
         }
@@ -135,33 +156,10 @@ class BreadcrumbsManager
      * @param  string  $name
      * @param  \Closure  $definition
      * @return void
-     * @throws \Watson\Breadcrumbs\Exceptions\DefinitionAlreadyExists
+     * @throws AlreadyExistsException
      */
     public function register($name, $definition)
     {
         $this->setBreadcrumbs($name, $definition);
-    }
-
-    /**
-     * Вызов родительского маршрута
-     *
-     * @param  string  $name
-     * @param  mixed  $parameters
-     * @return void
-     */
-    public function parent($name)
-    {
-        $this->getBreadcrumbs($name);
-    }
-    /**
-     * Добавление хлебной крошки в коллекцию
-     *
-     * @param  string  $title
-     * @param  string  $url
-     * @return void
-     */
-    public function add($title, $url)
-    {
-        $this->breadcrumbs->push(new Breadcrumbs($title, $url));
     }
 }

@@ -28,15 +28,15 @@ class BreadcrumbsServiceProvider extends ServiceProvider
     {
 
         // Регистрация(загрузка) шаблона
-        $this->loadViewsFrom(__DIR__.'/views', 'alert');
+        $this->loadViewsFrom(__DIR__.'/views', 'breadcrumbs');
         // Выполнение после-регистрационной загрузки сервисов
         $this->publishes([
             // Публикация файла стилей
             __DIR__.'/css' => public_path('css/custom')
         ]);
         //подключение маршрутов для хлебных крошек
-        if (file_exists(app_path('/routes/breadcrumbs.php'))) {
-            require $this;
+        if (file_exists($file = base_path('routes/breadcrumbs.php'))) {
+            require $file;
         }
     }
 

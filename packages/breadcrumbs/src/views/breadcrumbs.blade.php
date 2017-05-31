@@ -1,5 +1,4 @@
-<?php
-@if ($breadcrumbs->count())
+@unless(empty($breadcrumbs))
     <ol class="breadcrumb">
         @foreach ($breadcrumbs as $breadcrumb)
             @if ($breadcrumb->url() && $loop->remaining)
@@ -9,4 +8,4 @@
             @endif
         @endforeach
     </ol>
-@endif
+@endunless

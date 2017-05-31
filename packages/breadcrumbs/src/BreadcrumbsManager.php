@@ -9,12 +9,12 @@
 namespace MyLibrary\Breadcrumbs;
 
 
-use Illuminate\Contracts\View\View;
+use Closure;
 use Illuminate\Support\Collection;
 use Illuminate\Support\HtmlString;
 use MyLibrary\Breadcrumbs\Exceptions\AlreadyExistsException;
 use MyLibrary\Breadcrumbs\Exceptions\NotFoundException;
-use Route;
+use Illuminate\Contracts\Routing\Registrar;
 
 class BreadcrumbsManager
 {
@@ -26,6 +26,8 @@ class BreadcrumbsManager
     protected $definitions = [];
     /**
      * The current route.
+     *
+     * @var \Illuminate\Routing\Route
      */
     protected $route;
     /**
@@ -38,9 +40,10 @@ class BreadcrumbsManager
     /**
      * Создание экземпляра менеджера
      *
-     * @param $route
+     * @internal param $route
+     * @param Registrar $route
      */
-    public function __construct($route)
+    public function __construct(Registrar $route)
     {
         $this->route = $route;
         $this->breadcrumbs = new Collection;
@@ -66,7 +69,11 @@ class BreadcrumbsManager
     public function render()
     {
         if ($breadcrumbs = $this->generate()) {
-            return new HtmlString(View::make(config('breadcrumbs.view'), compact($breadcrumbs))->render());
+            ??проблема с рендерингом
+            dd(view('breadcrumbs::breadcrumbs')->render());
+            return new HtmlString(
+                view('breadcrumbs::breadcrumbs')->with('breadcrumbs', compact($breadcrumbs))->render()
+            );
         }
     }
 
@@ -81,11 +88,12 @@ class BreadcrumbsManager
     {
         $this->getBreadcrumbs($name);
     }
+
     /**
      * Добавление хлебной крошки в коллекцию
      *
-     * @param  string  $title
-     * @param  string  $url
+     * @param  string $title
+     * @param  string $url
      * @return void
      */
     public function add($title, $url)
@@ -98,10 +106,11 @@ class BreadcrumbsManager
      *
      * @return \Illuminate\Support\Collection
      */
-    public function generate()
+    public function generate(): Collection
     {
-        if (!is_null(current($this->route)) && $this->hasBreadcrumbs($this->route->getName())) {
-            $this->getBreadcrumbs($this->route->getName());
+        $currentRoute = $this->route->current();
+        if (!is_null($this->route) && $this->hasBreadcrumbs($currentRoute->getName())) {
+            $this->call($currentRoute->getName(), $currentRoute->parameters());
         }
         return $this->breadcrumbs;
     }
@@ -111,7 +120,7 @@ class BreadcrumbsManager
      *
      * @param  string $name
      * @return \Closure
-     * @throws NotFoundException
+     * @throws \MyLibrary\Breadcrumbs\Exceptions\NotFoundException
      */
     public function getBreadcrumbs($name)
     {
@@ -119,6 +128,23 @@ class BreadcrumbsManager
             throw new NotFoundException("No breadcrumbs defined for route [{$name}].");
         }
         return $this->definitions[$name];
+    }
+
+    /**
+     * Привязка хлебной крошки
+     *
+     * @param string $name
+     * @param \Closure $definition
+     * @throws \MyLibrary\Breadcrumbs\Exceptions\AlreadyExistsException
+     */
+    public function setBreadcrumbs($name, $definition)
+    {
+        if ($this->hasBreadcrumbs($name)) {
+            throw new AlreadyExistsException(
+                "Breadcrumbs have already been defined for route [{$name}]."
+            );
+        }
+        $this->definitions[$name] = $definition;
     }
 
     /**
@@ -132,34 +158,30 @@ class BreadcrumbsManager
         return array_key_exists($name, $this->definitions);
     }
 
-
-    /**
-     * Привязка хлебной крошки
-     *
-     * @param string $name
-     * @param \Closure $definition
-     * @throws AlreadyExistsException
-     */
-    public function setBreadcrumbs($name, $definition)
-    {
-        if ($this->hasBreadcrumbs($name)) {
-            throw new AlreadyExistsException(
-                "Breadcrumbs have already been defined for route [{$name}]."
-            );
-        }
-        $this->definitions[$name] = $definition;
-    }
-
     /**
      * Register a definition with the registrar.
      *
-     * @param  string  $name
-     * @param  \Closure  $definition
+     * @param  string $name
+     * @param  \Closure $definition
      * @return void
      * @throws AlreadyExistsException
      */
-    public function register($name, $definition)
+    public function register($name, Closure $definition)
     {
         $this->setBreadcrumbs($name, $definition);
+    }
+
+    /**
+     * Call the breadcrumb definition with the given parameters.
+     *
+     * @param  string  $name
+     * @param  array  $parameters
+     * @return void
+     * @throws \MyLibrary\Breadcrumbs\Exceptions\NotFoundException
+     */
+    protected function call($name, array $parameters)
+    {
+        $parameters = array_prepend(array_values($parameters), $this);
+        call_user_func_array($this->getBreadcrumbs($name), $parameters);
     }
 }

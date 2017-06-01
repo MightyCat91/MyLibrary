@@ -1,13 +1,6 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: muzhilkin
- * Date: 30.05.2017
- * Time: 16:15
- */
 
 namespace MyLibrary\Breadcrumbs;
-
 
 use Closure;
 use Illuminate\Support\Collection;
@@ -19,19 +12,19 @@ use Illuminate\Contracts\Routing\Registrar;
 class BreadcrumbsManager
 {
     /**
-     * Breadcrumb definitions.
+     * Определения хлебных крошек
      *
      * @var array
      */
     protected $definitions = [];
     /**
-     * The current route.
+     * Текущий роут
      *
      * @var \Illuminate\Routing\Route
      */
     protected $route;
     /**
-     * The breadcrumb trail.
+     * Коллекция хлебных крошек
      *
      * @var \Illuminate\Support\Collection
      */
@@ -50,7 +43,7 @@ class BreadcrumbsManager
     }
 
     /**
-     * создание хлебных крошек
+     * Создание хлебных крошек
      *
      * @param  string $route
      * @param  \Closure $definition
@@ -62,23 +55,21 @@ class BreadcrumbsManager
     }
 
     /**
-     * Рендер хлебных крошек как HTML строка.
+     * Рендер хлебных крошек как HTML строки.
      *
      * @return \Illuminate\Support\HtmlString
      */
     public function render()
     {
         if ($breadcrumbs = $this->generate()) {
-            ??проблема с рендерингом
-            dd(view('breadcrumbs::breadcrumbs')->render());
             return new HtmlString(
-                view('breadcrumbs::breadcrumbs')->with('breadcrumbs', compact($breadcrumbs))->render()
+                view('breadcrumbs::breadcrumbs')->with('breadcrumbs', $breadcrumbs)->render()
             );
         }
     }
 
     /**
-     * Вызов родительского маршрута
+     * Получение хлебной крошки привязанной к родительскому роуту
      *
      * @param  string $name
      * @throws NotFoundException
@@ -102,11 +93,11 @@ class BreadcrumbsManager
     }
 
     /**
-     * Generate the collection of breadcrumbs from the given route.
+     * Создание коллекции хлебных крошек для текущего роута
      *
      * @return \Illuminate\Support\Collection
      */
-    public function generate(): Collection
+    protected function generate(): Collection
     {
         $currentRoute = $this->route->current();
         if (!is_null($this->route) && $this->hasBreadcrumbs($currentRoute->getName())) {
@@ -122,7 +113,7 @@ class BreadcrumbsManager
      * @return \Closure
      * @throws \MyLibrary\Breadcrumbs\Exceptions\NotFoundException
      */
-    public function getBreadcrumbs($name)
+    protected function getBreadcrumbs($name)
     {
         if (!$this->hasBreadcrumbs($name)) {
             throw new NotFoundException("No breadcrumbs defined for route [{$name}].");
@@ -137,7 +128,7 @@ class BreadcrumbsManager
      * @param \Closure $definition
      * @throws \MyLibrary\Breadcrumbs\Exceptions\AlreadyExistsException
      */
-    public function setBreadcrumbs($name, $definition)
+    protected function setBreadcrumbs($name, $definition)
     {
         if ($this->hasBreadcrumbs($name)) {
             throw new AlreadyExistsException(
@@ -153,26 +144,26 @@ class BreadcrumbsManager
      * @param  string $name
      * @return bool
      */
-    public function hasBreadcrumbs($name)
+    protected function hasBreadcrumbs($name)
     {
         return array_key_exists($name, $this->definitions);
     }
 
     /**
-     * Register a definition with the registrar.
+     * Регистрация хлебной крошки
      *
      * @param  string $name
      * @param  \Closure $definition
      * @return void
      * @throws AlreadyExistsException
      */
-    public function register($name, Closure $definition)
+    protected function register($name, Closure $definition)
     {
         $this->setBreadcrumbs($name, $definition);
     }
 
     /**
-     * Call the breadcrumb definition with the given parameters.
+     * Вызов хлебной крошки с заданными параметрами
      *
      * @param  string  $name
      * @param  array  $parameters

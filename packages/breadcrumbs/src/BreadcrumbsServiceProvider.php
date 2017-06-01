@@ -26,7 +26,6 @@ class BreadcrumbsServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-
         // Регистрация(загрузка) шаблона
         $this->loadViewsFrom(__DIR__.'/views', 'breadcrumbs');
         // Выполнение после-регистрационной загрузки сервисов

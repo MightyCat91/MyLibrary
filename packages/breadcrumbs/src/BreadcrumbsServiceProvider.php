@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Александр
- * Date: 28.05.2017
- * Time: 18:25
- */
 
 namespace MyLibrary\Breadcrumbs;
 
@@ -47,7 +41,7 @@ class BreadcrumbsServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->singleton('breadcrumbs', function ($app) {
-            return $app->make(BreadcrumbsManager::class);
+            return $app->make(Breadcrumbs::class);
         });
     }
 

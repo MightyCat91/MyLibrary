@@ -10,3 +10,11 @@
 #breadcrumbs .active {
     color: #009926;
 }
+
+.breadcrumbs-item {
+    color: #272c2e;
+}
+
+.breadcrumbs-item:hover {
+    color: #009926;
+}

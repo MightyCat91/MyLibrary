@@ -5,6 +5,7 @@
 @push('scripts')
 <script type="text/javascript" src="{{ asset('/js/Custom/alphabetFilter.js') }}"></script>
 @endpush
+{{ Session::flash('title', 'Книги') }}
 @extends('layouts.main')
 @section('content')
     @yield('category')

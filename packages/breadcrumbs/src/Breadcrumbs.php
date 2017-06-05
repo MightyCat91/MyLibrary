@@ -3,6 +3,7 @@
 namespace MyLibrary\Breadcrumbs;
 
 
+use Illuminate\Routing\Exceptions\UrlGenerationException;
 use Illuminate\Support\Collection;
 use Illuminate\Support\HtmlString;
 use MyLibrary\Breadcrumbs\Exceptions\AlreadyExistsException;
@@ -20,13 +21,16 @@ class Breadcrumbs
         $this->breadcrumbs = new Collection();
     }
 
-    public function add($name, $route, $parent = null) {
-//        if (!empty($dynamicPage)) {
-//            foreach ($dynamicPage as $page) {
-//                $page->value('id');
-//            }
-//        }
-        $url = route($route, ['id' => '[0-9]+']);
+    public function add($name, $route, $parameters = [], $parent = null) {
+        if (!empty($parameters)) {
+            foreach ($parameters as $name => $param) {
+                if (preg_match('/\{'. $name .'\}/', $route)) {
+                    throw UrlGenerationException::forMissingParameters($route);
+                }
+                $id = $page->pluck('id');
+            }
+        }
+        $url = route($route);
         if ($this->hasBreadcrumbs('name', $name)) {
             throw new AlreadyExistsException("Breadcrumbs have already been defined for route [{$name}].");
         }

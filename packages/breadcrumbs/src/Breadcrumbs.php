@@ -15,43 +15,59 @@ class Breadcrumbs
     protected $breadcrumbsCollections;
     protected $currentRoute;
 
+    protected $routes;
+
     public function __construct() {
         $this->currentRoute = url()->current();
         $this->breadcrumbsCollections = new Collection();
         $this->breadcrumbs = new Collection();
+        $this->routes = new Collection();
     }
 
-    public function add($name, $route, $parameters = [], $parent = null) {
-        if (!empty($parameters)) {
-            foreach ($parameters as $name => $param) {
-                if (preg_match('/\{'. $name .'\}/', $route)) {
-                    throw UrlGenerationException::forMissingParameters($route);
-                }
-                $id = $page->pluck('id');
-            }
-        }
-        $url = route($route);
+    public function add($name, $route, $parent = null, $parameters = null) {
         if ($this->hasBreadcrumbs('name', $name)) {
             throw new AlreadyExistsException("Breadcrumbs have already been defined for route [{$name}].");
         }
-        if ($this->hasBreadcrumbs('url', $url)) {
-            throw new AlreadyExistsException("Breadcrumbs have already been defined for route [{$url}].");
+        if ($parent and !$this->hasBreadcrumbs('name', $parent)) {
+            throw new AlreadyExistsException("No defined parent with name [{$parent}].");
         }
-        $this->breadcrumbsCollections->push([
-            'name' => $name,
-            'url' => $url,
-            'parent' => $parent
-        ]);
+        if (empty($parameters)) {
+            $this->createBreadcrumbs($name, route($route), $parent);
+        }
+        else {
+            if ($key = key($parameters) and $value = current($parameters)) {
+                foreach($value->pluck('id') as $item) {
+                    $this->createBreadcrumbs($name, route($route, [$key => $item]), $parent);
+                }
+            }
+            else {
+                throw new NotFoundException("Missing required parameters [{$parameters}] for [{$route}]");
+            }
+        }
     }
 
     public function render() {
-        dd($this->breadcrumbsCollections);
         if ($breadcrumbs = $this->getBreadcrumbs()->toArray()) {
             \Session::forget('title');
             return new HtmlString(
                 view('breadcrumbs::breadcrumbs')->with('breadcrumbs', $breadcrumbs)->render()
             );
         }
+    }
+
+    protected function pushUrl($url) {
+        if ($this->hasBreadcrumbs('url', $url)) {
+            throw new AlreadyExistsException("Breadcrumbs have already been defined for route [{$url}].");
+        }
+        $this->routes->push($url);
+    }
+
+    protected function createBreadcrumbs($name, $url, $parent) {
+        $this->breadcrumbsCollections->push([
+            'name' => $name,
+            'url' => $url,
+            'parent' => $parent
+        ]);
     }
 
     protected function getBreadcrumbs() {

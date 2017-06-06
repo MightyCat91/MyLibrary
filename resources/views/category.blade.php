@@ -1,4 +1,5 @@
 @extends($parent_template_name)
+{{ Session::flash('title', $category->name) }}
 @section('category')
     <header>
         <h2>{{ $category->name }}</h2>

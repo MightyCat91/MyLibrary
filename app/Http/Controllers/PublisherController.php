@@ -24,7 +24,8 @@ class PublisherController extends Controller
                 $view = view('books', [
                     'type' => 'publisher',
                     'header' => $publisher->name,
-                    'books' => $publisher->books
+                    'books' => $publisher->books,
+                    'title' => $publisher->name
                 ]);
             }
         } else {
@@ -33,7 +34,8 @@ class PublisherController extends Controller
                 $view = view('books', [
                     'type' => 'publisher',
                     'header' => $publisher->name,
-                    'books' => $publisher->books()->where('name', 'LIKE', $request->filter . '%')->get()
+                    'books' => $publisher->books()->where('name', 'LIKE', $request->filter . '%')->get(),
+                    'title' => $publisher->name
                 ]);
             } else {
                 $view = view('publishers', [

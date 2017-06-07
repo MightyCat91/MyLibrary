@@ -22,13 +22,15 @@ class SeriesController extends Controller
             $view = view('books', [
                 'type' => 'series',
                 'header' => $series->name,
-                'books' => $series->books
+                'books' => $series->books,
+                'title' => $series->name
             ]);
         } else {
             $view = view('books', [
                 'type' => 'series',
                 'header' => $series->name,
-                'books' => $series->books()->where('name', 'LIKE', $request->filter . '%')->get()
+                'books' => $series->books()->where('name', 'LIKE', $request->filter . '%')->get(),
+                'title' => $series->name
             ]);
         }
         return $view;

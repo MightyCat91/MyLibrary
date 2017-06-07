@@ -11,20 +11,40 @@ use MyLibrary\Breadcrumbs\Exceptions\NotFoundException;
 
 class Breadcrumbs
 {
+    /**
+     * @var Collection Коллекция хлебных крошек для рендера
+     */
     protected $breadcrumbs;
+    /**
+     * @var Collection Коллекция-хранилище всех хлебных крошек
+     */
     protected $breadcrumbsCollections;
+    /**
+     * @var string урл текущей страницы
+     */
     protected $currentRoute;
 
-    protected $routes;
-
-    public function __construct() {
+    /**
+     * Конструктор
+     */
+    public function __construct()
+    {
         $this->currentRoute = url()->current();
         $this->breadcrumbsCollections = new Collection();
         $this->breadcrumbs = new Collection();
-        $this->routes = new Collection();
     }
 
-    public function add($name, $route, $parent = null, $parameters = null) {
+    /**
+     * Создание хлебной крошки
+     *
+     * @param $name string хлебной крошки
+     * @param $route string урл соответствующий хлебной крошке
+     * @param null $parent string идентификатор родительской хлебной крошки
+     * @param null $parameters array массив динамических параметров для урла
+     * @throws AlreadyExistsException
+     */
+    public function add($name, $route, $parent = null, $parameters = null)
+    {
         if ($this->hasBreadcrumbs('name', $name)) {
             throw new AlreadyExistsException("Breadcrumbs have already been defined for route [{$name}].");
         }
@@ -33,20 +53,21 @@ class Breadcrumbs
         }
         if (empty($parameters)) {
             $this->createBreadcrumbs($name, route($route), $parent);
-        }
-        else {
-            if ($key = key($parameters) and $value = current($parameters)) {
-                foreach($value->pluck('id') as $item) {
-                    $this->createBreadcrumbs($name, route($route, [$key => $item]), $parent);
-                }
-            }
-            else {
-                throw new NotFoundException("Missing required parameters [{$parameters}] for [{$route}]");
-            }
+        } else {
+            current($parameters)->unique()->each(function ($item) use ($name, $route, $parent) {
+                $this->createBreadcrumbs($name, route($route, [$item]), $parent);
+            });
         }
     }
 
-    public function render() {
+    /**
+     * Рендер хлебных крошек
+     *
+     * @return HtmlString html-строка
+     * @throws NotFoundException
+     */
+    public function render()
+    {
         if ($breadcrumbs = $this->getBreadcrumbs()->toArray()) {
             \Session::forget('title');
             return new HtmlString(
@@ -55,14 +76,15 @@ class Breadcrumbs
         }
     }
 
-    protected function pushUrl($url) {
-        if ($this->hasBreadcrumbs('url', $url)) {
-            throw new AlreadyExistsException("Breadcrumbs have already been defined for route [{$url}].");
-        }
-        $this->routes->push($url);
-    }
-
-    protected function createBreadcrumbs($name, $url, $parent) {
+    /**
+     * Добавление хлебных крошек в коллекцию-хранилище
+     *
+     * @param $name string хлебной крошки
+     * @param $url string урл соответствующий хлебной крошке
+     * @param $parent string идентификатор родительской хлебной крошки
+     */
+    protected function createBreadcrumbs($name, $url, $parent)
+    {
         $this->breadcrumbsCollections->push([
             'name' => $name,
             'url' => $url,
@@ -70,14 +92,21 @@ class Breadcrumbs
         ]);
     }
 
-    protected function getBreadcrumbs() {
+    /**
+     * Получение хлебной крошки из коллекции-хранилища
+     *
+     * @return Collection
+     * @throws NotFoundException
+     */
+    protected function getBreadcrumbs()
+    {
         if ($this->currentRoute != route('home')) {
             if (!$this->hasBreadcrumbs('url', $this->currentRoute)) {
                 throw new NotFoundException("No breadcrumbs defined for route [{$this->currentRoute}].");
             }
         }
         $key = $this->breadcrumbsCollections->search(function ($item) {
-            return  $item['url'] == $this->currentRoute;
+            return $item['url'] == $this->currentRoute;
         });
         $activeBreadcrumbCollection = collect($this->breadcrumbsCollections->get($key));
         $this->breadcrumbs->push([
@@ -90,13 +119,19 @@ class Breadcrumbs
         return $this->breadcrumbs;
     }
 
-    protected function call($name) {
+    /**
+     * Получение хлебных крошек предков текущей страницы
+     *
+     * @param $name string идентификатор предка хлебной крошки
+     * @return null
+     */
+    protected function call($name)
+    {
         if (!$name) {
             return null;
-        }
-        else {
+        } else {
             $key = $this->breadcrumbsCollections->search(function ($item) use ($name) {
-                return  $item['name'] == $name;
+                return $item['name'] == $name;
             });
             $activeBreadcrumbCollection = collect($this->breadcrumbsCollections->get($key));
             $url = $activeBreadcrumbCollection->get('url');
@@ -110,14 +145,29 @@ class Breadcrumbs
         }
     }
 
-    protected function hasBreadcrumbs($key, $value) {
+    /**
+     * Проверка наличия в коллекции-хранилище хлебных крошек указанного значения
+     *
+     * @param $key string тип проверяемого значения
+     * @param $value string проверяемое значение
+     * @return bool
+     */
+    protected function hasBreadcrumbs($key, $value)
+    {
         return $this->breadcrumbsCollections->contains(function ($item) use ($key, $value) {
             return $item[$key] == $value;
         });
     }
 
-    protected function getPageTitle($url) {
-        $curl_handle=curl_init();
+    /**
+     * Получение заголовка страницы
+     *
+     * @param $url string урл страницы
+     * @return mixed|null|string
+     */
+    protected function getPageTitle($url)
+    {
+        $curl_handle = curl_init();
         curl_setopt($curl_handle, CURLOPT_URL, $url);
         curl_setopt($curl_handle, CURLOPT_CONNECTTIMEOUT, 2);
         curl_setopt($curl_handle, CURLOPT_RETURNTRANSFER, 1);

@@ -3,7 +3,7 @@
 <link href="{{ asset('/css/Custom/addForm.css') }}" rel='stylesheet' type='text/css' media="all"/>
 <link href="{{ asset('/css/Custom/commonGrid.css') }}" rel='stylesheet' type='text/css' media="all"/>
 @endpush
-{{ Session::flash('title', 'Добавление автора') }}
+{{ Session::flash('title', 'Добавить автора') }}
 @extends('layouts.main')
 @section('content')
     <div class="container">

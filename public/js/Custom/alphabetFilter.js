@@ -6,14 +6,14 @@
     //прилипающий родительский блок-контейнер
     var filterContainer = $('#alphabet-sticky-block');
     //значение смещения, при наступлении которого происходит прилипание контейнера
-    var limit = $('.footer').offset().top - filterContainer.height() - 20;
+    var limit = $('.footer').offset().top - filterContainer.height() - 30;
     $(window).scroll(function () {
         //текущее значение смещения верхней границы страницы относительно верхней границы окна
         var windowTop = $(window).scrollTop();
         //пока верхняя границы страницы не совпадает с верхней границей окна
         if (windowTop != 0) {
             //устанавливаем прилипающему контейнеру фиксированную позицию
-            filterContainer.css({position: 'fixed', top: '1rem'});
+            filterContainer.css({position: 'fixed', top: '1em'});
         }
         //если совпадает
         else {

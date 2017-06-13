@@ -523,6 +523,10 @@ section#menu-content {
         display: none;
     }
 
+    .nav-item {
+        padding-left: 15px;
+    }
+
     .nav-item-icon {
         width: 1rem;
     }

@@ -523,8 +523,16 @@ section#menu-content {
         display: none;
     }
 
+    .nav-item {
+        padding: 10px 0 10px 15px;
+    }
+
     .nav-item-icon {
         width: 1rem;
+    }
+
+    .nav-item-name {
+        display: none;
     }
 
     #login-form-wrapper.active {
@@ -583,6 +591,14 @@ section#menu-content {
     #login-form-wrapper.active {
         left: 200px;
     }
+
+    .nav-item {
+        padding: 7px 0 7px 15px;
+    }
+
+    .nav-item-name {
+        display: block;
+    }
 }
 
 /*
@@ -590,7 +606,7 @@ section#menu-content {
  */
 div.page-content {
     position: relative;
-    margin: 1em 0 1em 4em;
+    margin: 0 0 1em 4em;
     font-size: 16px;
     min-height: 100vh;
     width: 100%;

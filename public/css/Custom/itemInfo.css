@@ -7,7 +7,7 @@ div.page-content {
     padding: 0 3rem 0 1rem;
     text-align: justify;
     max-height: 100vh;
-    max-width: 80%;
+    max-width: 81%;
     overflow-y: auto;
 }
 
@@ -17,6 +17,9 @@ div.page-content {
 
 .short-img img {
     width: 100%;
+    padding: 5px;
+    border: 1px solid #999;
+    border-radius: 5px;
 }
 
 .short-info-items {
@@ -153,7 +156,8 @@ div.page-content {
 @media only screen and (max-width: 1000px) {
 
     #books-sidebar .item-container {
-        height: 12rem;;
+        height: 12rem;
+        margin-left: 5px;
     }
 
     #books-sidebar .container-title {
@@ -171,7 +175,8 @@ div.page-content {
 
 @media only screen and (max-width: 891px) {
     #books-sidebar .item-container {
-        height: 10rem;;
+        height: 10rem;
+        margin-left: 0;
     }
 
     #books-sidebar .container-cover {
@@ -181,6 +186,10 @@ div.page-content {
     #books-sidebar .container-title {
         font-size: 13px;
         height: 25%;
+    }
+
+    .container-link {
+        margin-right: 15px;
     }
 }
 

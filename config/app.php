@@ -170,7 +170,6 @@ return [
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
         Watson\Active\ActiveServiceProvider::class,
         Barryvdh\Debugbar\ServiceProvider::class,
-        //
 
         /*
          * Application Service Providers...
@@ -186,6 +185,7 @@ return [
          * Custom Service Providers...
          */
         MyLibrary\Alerts\AlertServiceProvider::class,
+        MyLibrary\Breadcrumbs\BreadcrumbsServiceProvider::class,
         // Laracasts\Generators\GeneratorsServiceProvider::class,
     ],
 
@@ -237,7 +237,7 @@ return [
         'Active' => Watson\Active\Facades\Active::class,
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
         'Alert' => MyLibrary\Alerts\Facades\Alert::class,
-
+        'Breadcrumbs' => MyLibrary\Breadcrumbs\Facades\Breadcrumbs::class,
     ],
 
 ];

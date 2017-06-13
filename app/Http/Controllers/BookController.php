@@ -26,7 +26,8 @@ class BookController extends Controller
         return view('books', [
             'type' => 'book',
             'books' => $author->books,
-            'header' => $author->name
+            'header' => $author->name,
+            'title' => 'Книги'
         ]);
     }
 
@@ -42,7 +43,8 @@ class BookController extends Controller
         return view('books', [
             'type' => 'book',
             'books' => $books,
-            'header' => 'Книги изданные в '.$year.' году'
+            'header' => 'Книги изданные в '.$year.' году',
+            'title' => $year
         ]);
     }
 
@@ -59,7 +61,8 @@ class BookController extends Controller
             if (!$id) {
                 $view = view('books', [
                     'type' => 'book',
-                    'books' => Book::all()
+                    'books' => Book::all(),
+                    'title' => 'Все книги'
                 ]);
             } else {
                 $book = Book::FindOrFail($id);
@@ -87,7 +90,7 @@ class BookController extends Controller
         } else {
             $view = view('books', [
                 'type' => 'book',
-                'books' => Book::where('name', 'LIKE', $request->filter . '%')->get()
+                'books' => Book::where('name', 'LIKE', $request->filter . '%')->get(),
             ]);
         }
         return $view;

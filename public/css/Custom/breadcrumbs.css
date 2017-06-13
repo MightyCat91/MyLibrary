@@ -1,0 +1,20 @@
+#breadcrumbs {
+    margin: 1rem;
+    padding: .5rem;
+}
+
+#breadcrumbs .fa-long-arrow-right {
+    padding: 0 5px;
+}
+
+#breadcrumbs .active {
+    color: #009926;
+}
+
+.breadcrumbs-item {
+    color: #272c2e;
+}
+
+.breadcrumbs-item:hover {
+    color: #009926;
+}

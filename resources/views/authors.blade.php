@@ -1,10 +1,11 @@
 @push('styles')
-<link href="{{ asset('/css/Custom/alphabetFilter.css') }}" rel='stylesheet' type='text/css' media="all"/>
-<link href="{{ asset('/css/Custom/commonGrid.css') }}" rel='stylesheet' type='text/css' media="all"/>
+    <link href="{{ asset('/css/Custom/alphabetFilter.css') }}" rel='stylesheet' type='text/css' media="all"/>
+    <link href="{{ asset('/css/Custom/commonGrid.css') }}" rel='stylesheet' type='text/css' media="all"/>
 @endpush
 @push('scripts')
-<script type="text/javascript" src="{{ asset('/js/Custom/alphabetFilter.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('/js/Custom/alphabetFilter.js') }}"></script>
 @endpush
+{{ Session::flash('title', 'Авторы') }}
 @extends('layouts.main')
 @section('content')
     @yield('category')

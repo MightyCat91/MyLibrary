@@ -1,9 +1,10 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-    <title>MyLibrary</title>
+    <title>{{ Session::get('title', function() { return 'MyLibrary - Ваша личная библиотека'; }) }}</title>
+    <meta name="title" content="{{ Session::get('title', function() {return 'MyLibrary - Ваша личная библиотека';}) }}">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta charset="UTF-8">
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <!-- <meta name="keywords" content="My Play Responsive web template, Bootstrap Web Templates, Flat Web Templates, Andriod Compatible web template,

@@ -5,6 +5,7 @@
 <!-- Menu Sidebar -->
 <main class="main">
     <section class="container-content row">
+        {{Breadcrumbs::render()}}
         <!-- Content -->
         <div class="page-content">
             @yield('content')

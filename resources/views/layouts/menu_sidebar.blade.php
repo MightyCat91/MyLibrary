@@ -45,7 +45,7 @@
         </section>
         <section id="bottom-container">
             @if (Auth::guest())
-                <div id="login-form-wrapper" class="{{ $errors->hasAny(['email', 'password']) ? 'active' : '' }}">
+                <div id="login-form-wrapper" class="{{ !empty($errors) and $errors->hasAny(['email', 'password']) ? 'active' : '' }}">
                     <form id="login-form" role="form" method="POST" action="{{  route('login') }}">
                         {{ csrf_field() }}
                         <div id="authLinks">
@@ -53,7 +53,8 @@
                             <a href="#" id="resetPassLink">Забыли пароль?</a>
                         </div>
                         <div id="login-form-container">
-                            <div class="form-group {{ $errors->has('email') ? 'error' : '' }}">
+                            <div class="form-group {{ !empty($errors) and $errors->has('email') ? 'error' : '' }}">
+
                                 <input id="email" type="email" name="email" placeholder="Email"
                                        value="{{ old('email') }}"
                                        required>

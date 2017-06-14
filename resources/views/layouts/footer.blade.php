@@ -29,6 +29,7 @@
 <script type="text/javascript" src="{{ asset('/js/Library/jQuery/jquery-2.1.4.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('/js/Library/Tether/tether.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('/js/Library/Bootstrap/bootstrap.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('/js/Custom/general.js') }}"></script>
 @if (Auth::guest())
     <script type="text/javascript" src="{{ asset('/js/Custom/authentication.js') }}"></script>
 @endif

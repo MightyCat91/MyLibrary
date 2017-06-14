@@ -122,6 +122,7 @@
         </section>
     </div>
 </aside>
+<a href="#" id="back-to-top"><i class="fa fa-angle-double-up fa-2x" aria-hidden="true"></i></a>
 @if (Auth::guest())
     <section id="register-form-container" class="{{ $errors->hasAny(['name', 'registerEmail', 'registerPassword',
     'privacyPolicy', 'emailReset']) ? 'active' : '' }}">

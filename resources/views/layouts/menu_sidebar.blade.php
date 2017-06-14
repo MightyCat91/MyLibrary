@@ -56,17 +56,17 @@
                             <div class="form-group {{ !empty($errors) and $errors->has('email') ? 'error' : '' }}">
 
                                 <input id="email" type="email" name="email" placeholder="Email"
-                                       value="{{ old('email') }}"
+                                       value="{{ \Session::hasOldInput() ?? old('email') }}"
                                        required>
                             </div>
-                            <div class="form-group {{ $errors->has('password') ? 'error' : '' }}">
+                            <div class="form-group {{ !empty($errors) and $errors->has('password') ? 'error' : '' }}">
                                 <input id="password" type="password" name="password" placeholder="Пароль" required>
-                                @if ($errors->has('email'))
+                                @if (!empty($errors) and $errors->has('email'))
                                     <div class="help-block">
                                         <strong>{{ $errors->first('email') }}</strong>
                                     </div>
                                 @endif
-                                @if ($errors->has('password'))
+                                @if (!empty($errors) and $errors->has('password'))
                                     <div class="help-block">
                                         <strong>{{ $errors->first('password') }}</strong>
                                     </div>
@@ -81,8 +81,8 @@
                         </div>
                         <div id="remember-checkbox" class="auth-checkbox">
                             <label>
-                                <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}>Запомнить
-                                меня
+                                <input type="checkbox" name="remember" {{ \Session::hasOldInput() ?? old('remember') ?
+                                'checked' : '' }}>Запомнить меня
                             </label>
                         </div>
                     </form>
@@ -124,34 +124,35 @@
     </div>
 </aside>
 @if (Auth::guest())
-    <section id="register-form-container" class="{{ $errors->hasAny(['name', 'registerEmail', 'registerPassword',
+    <section id="register-form-container" class="{{ !empty($errors) and $errors->hasAny(['name', 'registerEmail', 'registerPassword',
     'privacyPolicy', 'emailReset']) ? 'active' : '' }}">
         <form id="register-form" role="form" method="POST" action="{{ route('register') }}" class="signup-form
-              {{ $errors->hasAny(['name', 'registerEmail', 'registerPassword', 'privacyPolicy']) ? '' : 'hidden' }}">
+              {{ !empty($errors) and $errors->hasAny(['name', 'registerEmail', 'registerPassword', 'privacyPolicy']) ? '' : 'hidden' }}">
             {{ csrf_field() }}
             <section id="auth-signup">
                 <div>
-                    <div class="form-group {{ $errors->has('name') ? 'error' : '' }}">
-                        <input id="name" type="text" name="name" placeholder="Имя" value="{{old('name') }}" required>
-                        @if ($errors->has('name'))
+                    <div class="form-group {{ !empty($errors) and $errors->has('name') ? 'error' : '' }}">
+                        <input id="name" type="text" name="name" placeholder="Имя" value="{{ \Session::hasOldInput() ??
+                        old('name') }}" required>
+                        @if (!empty($errors) and $errors->has('name'))
                             <div class="help-block">
                                 <strong>{{ $errors->first('name') }}</strong>
                             </div>
                         @endif
                     </div>
-                    <div class="form-group {{ $errors->has('registerEmail') ? 'error' : '' }}">
+                    <div class="form-group {{ !empty($errors) and $errors->has('registerEmail') ? 'error' : '' }}">
                         <input id="registerEmail" type="email" name="registerEmail" placeholder="Email"
-                               value="{{ old('registerEmail')}}" required>
-                        @if ($errors->has('registerEmail'))
+                               value="{{ \Session::hasOldInput() ?? old('registerEmail')}}" required>
+                        @if (!empty($errors) and $errors->has('registerEmail'))
                             <div class="help-block">
                                 <strong>{{ $errors->first('registerEmail') }}</strong>
                             </div>
                         @endif
                     </div>
-                    <div class="form-group {{ $errors->has('registerPassword') ? 'error' : '' }}">
+                    <div class="form-group {{ !empty($errors) and $errors->has('registerPassword') ? 'error' : '' }}">
                         <input id="registerPassword" type="password" name="registerPassword" placeholder="Пароль"
                                required>
-                        @if ($errors->has('registerPassword'))
+                        @if (!empty($errors) and $errors->has('registerPassword'))
                             <div class="help-block">
                                 <strong>{{ $errors->first('registerPassword') }}</strong>
                             </div>
@@ -159,14 +160,14 @@
                     </div>
                     <div class="form-group auth-checkbox">
                         <label>
-                            <input type="checkbox" name="subscribe[]" {{ old('subscribe') ? 'checked' : '' }}>Присылайте
-                            мне на почту важные уведомления
+                            <input type="checkbox" name="subscribe[]" {{ \Session::hasOldInput() ?? old('subscribe') ?
+                            'checked' : '' }}>Присылайте мне на почту важные уведомления
                         </label>
                     </div>
-                    <div class="form-group auth-checkbox {{ $errors->has('privacyPolicy') ? 'error' : '' }}">
+                    <div class="form-group auth-checkbox {{ !empty($errors) and $errors->has('privacyPolicy') ? 'error' : '' }}">
                         <label>
-                            <input type="checkbox" name="privacyPolicy" {{ old('privacyPolicy') ? 'checked' : '' }}
-                            required>Я принимаю пользовательское соглашение
+                            <input type="checkbox" name="privacyPolicy" {{ \Session::hasOldInput() ?? old('privacyPolicy')
+                            ? 'checked' : '' }} required>Я принимаю пользовательское соглашение
                             <a href="{{ route('privacyPolicy') }}" id="privacyPolicy"> Прочитать</a>
                         </label>
                     </div>
@@ -208,16 +209,16 @@
                 </div>
             </section>
         </form>
-        <form id="pass-reset-form" class="signup-form {{ $errors->has('emailReset') ? '' : 'hidden' }}" role="form"
+        <form id="pass-reset-form" class="signup-form {{ !empty($errors) and $errors->has('emailReset') ? '' : 'hidden' }}" role="form"
               method="POST" action="{{  route('password.email') }}">
             {{ csrf_field() }}
             <section id="pass-reset">
                 <label for="emailReset">Восстановление пароля</label>
 
-                <div class="form-group {{ $errors->has('emailReset') ? 'error' : '' }}">
+                <div class="form-group {{ !empty($errors) and $errors->has('emailReset') ? 'error' : '' }}">
                     <input id="emailReset" type="email" name="emailReset" placeholder="Email"
-                           value="{{ old('emailReset') }}" required>
-                    @if ($errors->has('emailReset'))
+                           value="{{ \Session::hasOldInput() ?? old('emailReset') }}" required>
+                    @if (!empty($errors) and $errors->has('emailReset'))
                         <div class="help-block">
                             <strong>{{ $errors->first('emailReset') }}</strong>
                         </div>
@@ -235,3 +236,4 @@
         </button>
     </section>
 @endif
+{{\Debugbar::info('menu-'.http_response_code())}}

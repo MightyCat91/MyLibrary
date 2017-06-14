@@ -52,7 +52,8 @@ class Handler extends ExceptionHandler
                 return response()->json(['error' => 'Not Found'], 404);
             }
             // normal 404 view page feedback
-            return response()->view('errors.missing', [], 404);
+//            dd(response(view('errors.404'),404));
+            return response()->view('errors.404', [], 404);
         }
         return parent::render($request, $exception);
     }

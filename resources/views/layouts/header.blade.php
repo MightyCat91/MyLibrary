@@ -29,3 +29,4 @@
     @stack('styles')
 </head>
 <body>
+{{\Debugbar::info('header-'.http_response_code())}}

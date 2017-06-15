@@ -236,4 +236,3 @@
         </button>
     </section>
 @endif
-{{\Debugbar::info('menu-'.http_response_code())}}

@@ -1,8 +1,8 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-    <title>{{ Session::get('title', function() { return 'MyLibrary - Ваша личная библиотека'; }) }}</title>
-    <meta name="title" content="{{ Session::get('title', function() {return 'MyLibrary - Ваша личная библиотека';}) }}">
+    <title>{{ Session::get('title') }}</title>
+    <meta name="title" content="{{ Session::get('title') }}">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="UTF-8">
     <!-- CSRF Token -->
@@ -29,4 +29,3 @@
     @stack('styles')
 </head>
 <body>
-{{\Debugbar::info('header-'.http_response_code())}}

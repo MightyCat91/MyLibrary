@@ -135,6 +135,7 @@ class Breadcrumbs
             });
             $activeBreadcrumbCollection = collect($this->breadcrumbsCollections->get($key));
             $url = $activeBreadcrumbCollection->get('url');
+
             if ($title = $this->getPageTitle($url)) {
                 $this->breadcrumbs->prepend([
                     'title' => $title,

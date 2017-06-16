@@ -11,7 +11,7 @@
     @yield('category')
     @if (isset($header))
         <header>
-            <h2>{{ $header }}</h2>
+            <h2 class="page-title">{{ $header }}</h2>
         </header>
     @endif
     <div id="main-container" class="container">

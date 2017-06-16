@@ -8,6 +8,7 @@
 {{ Session::flash('title', 'Авторы') }}
 @extends('layouts.main')
 @section('content')
+    {{Breadcrumbs::render()}}
     @yield('category')
     <div id="main-container" class="container">
         @include('layouts.commonGrid',

@@ -2,7 +2,7 @@
 {{ Session::flash('title', $category->name) }}
 @section('category')
     <header>
-        <h2>{{ $category->name }}</h2>
+        <h2 class="page-title">{{ $category->name }}</h2>
     </header>
     <ul id="category" class="" data-id="{{ $category->id }}">
         <li class="tab-item {{ (str_is($parent_template_name, 'authors')) ? 'active' : '' }}">

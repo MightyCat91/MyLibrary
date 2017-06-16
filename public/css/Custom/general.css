@@ -21,7 +21,7 @@ header {
     display: none !important;
 }
 
-h2 {
+h1, h2, h3, h4, h5, h6 {
     font-family: 'Lobster', cursive;
 }
 
@@ -616,7 +616,7 @@ div.page-content {
     width: 100%;
 }
 
-.page-content h2 {
+.page-content h2.page-title {
     padding: 1em 1em 1em 0;
     text-align: right;
     font-size: 32px;
@@ -684,4 +684,17 @@ div.page-content {
     border: 1px solid;
     border-radius: 5px;
     padding: 0.3rem 0.5rem;
+}
+
+/*
+*   404 page
+*/
+#wrapper404 {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+}
+#image404 {
+    background: #fff url(../../images/404.jpg) no-repeat;
+    height: auto;
 }

@@ -5,10 +5,11 @@
 {{ Session::flash('title', $author->name) }}
 @extends('layouts.main')
 @section('content')
+    {{Breadcrumbs::render()}}
     <div id="wrapper" class="">
         <div id="container-info" class="">
             <header>
-                <h2>{{ $author->name }}</h2>
+                <h2 class="page-title">{{ $author->name }}</h2>
             </header>
             <section id="short-info" class="row">
                 <figure class="col-4 col-md-4 col-sm-4 short-img">

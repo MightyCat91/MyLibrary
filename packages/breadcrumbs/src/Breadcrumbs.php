@@ -8,6 +8,7 @@ use Illuminate\Support\Collection;
 use Illuminate\Support\HtmlString;
 use MyLibrary\Breadcrumbs\Exceptions\AlreadyExistsException;
 use MyLibrary\Breadcrumbs\Exceptions\NotFoundException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Breadcrumbs
 {
@@ -68,6 +69,7 @@ class Breadcrumbs
      */
     public function render()
     {
+        dump($this->breadcrumbs);
         if ($breadcrumbs = $this->getBreadcrumbs()->toArray()) {
             \Session::forget('title');
             return new HtmlString(
@@ -102,7 +104,7 @@ class Breadcrumbs
     {
         if ($this->currentRoute != route('home')) {
             if (!$this->hasBreadcrumbs('url', $this->currentRoute)) {
-                throw new NotFoundException("No breadcrumbs defined for route [{$this->currentRoute}].");
+                throw new NotFoundHttpException("No breadcrumbs defined for route [{$this->currentRoute}].");
             }
         }
         $key = $this->breadcrumbsCollections->search(function ($item) {

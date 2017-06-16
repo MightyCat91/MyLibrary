@@ -18,7 +18,7 @@
     <div id="wrapper">
         <div id="container-info">
             <header>
-                <h2>{{ $book->name }}</h2>
+                <h2 class="page-title">{{ $book->name }}</h2>
             </header>
             <section id="short-info" class="row">
                 <figure class="col-4 col-md-4 col-sm-4 short-img owl-carousel owl-theme">

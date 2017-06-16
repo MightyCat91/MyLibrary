@@ -7,7 +7,7 @@
     <section class="container-content row">
         <!-- Content -->
         <div class="page-content">
-            {{Breadcrumbs::render()}}
+            {{--{{Breadcrumbs::render()}}--}}
             @yield('content')
         </div>
         <!-- /Content -->

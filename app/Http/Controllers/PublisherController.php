@@ -18,7 +18,10 @@ class PublisherController extends Controller
     {
         if (empty($request->filter)) {
             if (!$id) {
-                $view = view('publishers', ['publishers' => Publisher::all()]);
+                $view = view('publishers', [
+                    'type' => 'publisher',
+                    'publishers' => Publisher::get(['id','name'])
+                ]);
             } else {
                 $publisher = Publisher::FindOrFail($id);
                 $view = view('books', [
@@ -34,12 +37,13 @@ class PublisherController extends Controller
                 $view = view('books', [
                     'type' => 'publisher',
                     'header' => $publisher->name,
-                    'books' => $publisher->books()->where('name', 'LIKE', $request->filter . '%')->get(),
+                    'books' => $publisher->books()->where('name', 'LIKE', $request->filter . '%')->get(['id','name']),
                     'title' => $publisher->name
                 ]);
             } else {
                 $view = view('publishers', [
-                    'publishers' => Publisher::where('name', 'LIKE', $request->filter . '%')->get()
+                    'type' => 'publisher',
+                    'publishers' => Publisher::where('name', 'LIKE', $request->filter . '%')->get(['id','name'])
                 ]);
             }
         }

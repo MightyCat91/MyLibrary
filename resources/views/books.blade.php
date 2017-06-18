@@ -1,18 +1,21 @@
+@extends('layouts.main',['title'=>$title])
 @push('styles')
-<link href="{{ asset('/css/Custom/alphabetFilter.css') }}" rel='stylesheet' type='text/css' media="all"/>
-<link href="{{ asset('/css/Custom/commonGrid.css') }}" rel='stylesheet' type='text/css' media="all"/>
+    <link href="{{ asset('/css/Custom/alphabetFilter.css') }}" rel='stylesheet' type='text/css' media="all"/>
+    <link href="{{ asset('/css/Custom/commonGrid.css') }}" rel='stylesheet' type='text/css' media="all"/>
 @endpush
 @push('scripts')
-<script type="text/javascript" src="{{ asset('/js/Custom/alphabetFilter.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('/js/Custom/alphabetFilter.js') }}"></script>
 @endpush
-{{ Session::flash('title', $title) }}
-@extends('layouts.main')
+    {{ Session::flash('title', $title) }}
 @section('content')
     @yield('category')
     @if (isset($header))
         <header>
             <h2 class="page-title">{{ $header }}</h2>
         </header>
+    @endif
+    @if (!trim($__env->yieldContent('category')))
+        {{ Breadcrumbs::render()}}
     @endif
     <div id="main-container" class="container">
         @include('layouts.commonGrid',
@@ -22,13 +25,5 @@
             'imgFolder' => 'books'
         ])
     </div>
-@endsection
-@section('alphabetFilter')
-    <section id="alphabet-filter-container">
-        <div id="alphabet-sticky-block" class="{{$type}}">
-            @foreach(range(chr(0xC0),chr(0xDF)) as $letter)
-                <div class="letter-filter">{{ iconv('CP1251','UTF-8',$letter) }}</div>
-            @endforeach
-        </div>
-    </section>
+    @include('layouts.alphabetFilter', ['type' => $type])
 @endsection

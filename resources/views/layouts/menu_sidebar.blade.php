@@ -56,7 +56,7 @@
                             <div class="form-group {{ !empty($errors) and $errors->has('email') ? 'error' : '' }}">
 
                                 <input id="email" type="email" name="email" placeholder="Email"
-                                       value="{{ \Session::hasOldInput() ?? old('email') }}"
+                                       value="{{ old('email') }}"
                                        required>
                             </div>
                             <div class="form-group {{ !empty($errors) and $errors->has('password') ? 'error' : '' }}">
@@ -81,8 +81,8 @@
                         </div>
                         <div id="remember-checkbox" class="auth-checkbox">
                             <label>
-                                <input type="checkbox" name="remember" {{ \Session::hasOldInput() ?? old('remember') ?
-                                'checked' : '' }}>Запомнить меня
+                                <input type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}>
+                                Запомнить меня
                             </label>
                         </div>
                     </form>
@@ -132,8 +132,7 @@
             <section id="auth-signup">
                 <div>
                     <div class="form-group {{ !empty($errors) and $errors->has('name') ? 'error' : '' }}">
-                        <input id="name" type="text" name="name" placeholder="Имя" value="{{ \Session::hasOldInput() ??
-                        old('name') }}" required>
+                        <input id="name" type="text" name="name" placeholder="Имя" value="{{ old('name') }}" required>
                         @if (!empty($errors) and $errors->has('name'))
                             <div class="help-block">
                                 <strong>{{ $errors->first('name') }}</strong>
@@ -142,7 +141,7 @@
                     </div>
                     <div class="form-group {{ !empty($errors) and $errors->has('registerEmail') ? 'error' : '' }}">
                         <input id="registerEmail" type="email" name="registerEmail" placeholder="Email"
-                               value="{{ \Session::hasOldInput() ?? old('registerEmail')}}" required>
+                               value="{{ old('registerEmail')}}" required>
                         @if (!empty($errors) and $errors->has('registerEmail'))
                             <div class="help-block">
                                 <strong>{{ $errors->first('registerEmail') }}</strong>
@@ -160,14 +159,14 @@
                     </div>
                     <div class="form-group auth-checkbox">
                         <label>
-                            <input type="checkbox" name="subscribe[]" {{ \Session::hasOldInput() ?? old('subscribe') ?
-                            'checked' : '' }}>Присылайте мне на почту важные уведомления
+                            <input type="checkbox" name="subscribe[]" {{ old('subscribe') ? 'checked' : '' }}>
+                            Присылайте мне на почту важные уведомления
                         </label>
                     </div>
                     <div class="form-group auth-checkbox {{ !empty($errors) and $errors->has('privacyPolicy') ? 'error' : '' }}">
                         <label>
-                            <input type="checkbox" name="privacyPolicy" {{ \Session::hasOldInput() ?? old('privacyPolicy')
-                            ? 'checked' : '' }} required>Я принимаю пользовательское соглашение
+                            <input type="checkbox" name="privacyPolicy" {{ old('privacyPolicy') ? 'checked' : '' }}
+                            required>Я принимаю пользовательское соглашение
                             <a href="{{ route('privacyPolicy') }}" id="privacyPolicy"> Прочитать</a>
                         </label>
                     </div>
@@ -217,7 +216,7 @@
 
                 <div class="form-group {{ !empty($errors) and $errors->has('emailReset') ? 'error' : '' }}">
                     <input id="emailReset" type="email" name="emailReset" placeholder="Email"
-                           value="{{ \Session::hasOldInput() ?? old('emailReset') }}" required>
+                           value="{{ old('emailReset') }}" required>
                     @if (!empty($errors) and $errors->has('emailReset'))
                         <div class="help-block">
                             <strong>{{ $errors->first('emailReset') }}</strong>

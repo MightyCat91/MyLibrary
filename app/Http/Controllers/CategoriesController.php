@@ -31,14 +31,16 @@ class CategoriesController extends Controller
         }
         if (empty($request->filter)) {
             $view = view('category', [
+                'type' => 'book',
                 'category' => $category,
                 'books' => $books,
                 'parent_template_name' => 'books'
             ]);
         } else {
             $view = view('category', [
+                'type' => 'book',
                 'category' => $category,
-                'books' => Book::where('name', 'LIKE', $request->filter . '%')->get(),
+                'books' => Book::where('name', 'LIKE', $request->filter . '%')->get(['id','name']),
                 'parent_template_name' => 'books'
             ]);
         }
@@ -65,14 +67,16 @@ class CategoriesController extends Controller
         }
         if (empty($request->filter)) {
             $view = view('category', [
+                'type' => 'author',
                 'category' => $category,
                 'authors' => $authors,
                 'parent_template_name' => 'authors'
             ]);
         } else {
             $view = view('category', [
+                'type' => 'author',
                 'category' => $category,
-                'authors' => Author::where('name', 'LIKE', $request->filter . '%')->get(),
+                'authors' => Author::where('name', 'LIKE', $request->filter . '%')->get(['id','name']),
                 'parent_template_name' => 'authors'
             ]);
         }
@@ -88,9 +92,15 @@ class CategoriesController extends Controller
     public function show(Request $request)
     {
         if (empty($request->filter)) {
-            $view = view('categories', ['categories' => Categories::all()]);
+            $view = view('categories', [
+                'type' => 'category',
+                'categories' => Categories::get(['id','name'])
+            ]);
         } else {
-            $view = view('categories', ['categories' => Categories::where('name', 'LIKE', $request->filter . '%')->get()]);
+            $view = view('categories', [
+                'type' => 'category',
+                'categories' => Categories::where('name', 'LIKE', $request->filter . '%')->get(['id','name'])
+            ]);
         }
         return $view;
     }

@@ -13,13 +13,14 @@
     <script type="text/javascript" src="{{ asset('/js/Custom/book.js') }}"></script>
 @endpush
 {{ Session::flash('title', $book->name) }}
-@extends('layouts.main')
+@extends('layouts.main',['title'=>$book->name])
 @section('content')
     <div id="wrapper">
         <div id="container-info">
             <header>
                 <h2 class="page-title">{{ $book->name }}</h2>
             </header>
+            {{Breadcrumbs::render()}}
             <section id="short-info" class="row">
                 <figure class="col-4 col-md-4 col-sm-4 short-img owl-carousel owl-theme">
                     @foreach(getPublicFiles('books', $book->id) as $bookCover)

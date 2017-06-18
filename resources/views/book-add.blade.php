@@ -3,9 +3,10 @@
 <link href="{{ asset('/css/Custom/addForm.css') }}" rel='stylesheet' type='text/css' media="all"/>
 <link href="{{ asset('/css/Custom/commonGrid.css') }}" rel='stylesheet' type='text/css' media="all"/>
 @endpush
-{{ Session::flash('title', "Добавить книгу") }}
-@extends('layouts.main')
+{{ Session::flash('title', 'Добавить книгу') }}
+@extends('layouts.main',['title'=>'Добавить книгу'])
 @section('content')
+    {{Breadcrumbs::render()}}
     <div class="container">
         <form id="add-form" method="post" enctype="multipart/form-data">
             {{ csrf_field() }}

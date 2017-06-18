@@ -20,7 +20,7 @@
 }
 
 .item-container-link:hover .container-title{
-    box-shadow: inset 0 -5px 5px -1px #009926;
+    box-shadow: inset 0 -3px 2px 1px #009926;
 }
 
 .item-container {

@@ -1,3 +1,4 @@
+@extends('layouts.main',['title'=>'Авторы'])
 @push('styles')
     <link href="{{ asset('/css/Custom/alphabetFilter.css') }}" rel='stylesheet' type='text/css' media="all"/>
     <link href="{{ asset('/css/Custom/commonGrid.css') }}" rel='stylesheet' type='text/css' media="all"/>
@@ -6,10 +7,11 @@
     <script type="text/javascript" src="{{ asset('/js/Custom/alphabetFilter.js') }}"></script>
 @endpush
 {{ Session::flash('title', 'Авторы') }}
-@extends('layouts.main')
 @section('content')
-    {{Breadcrumbs::render()}}
     @yield('category')
+    @if (!trim($__env->yieldContent('category')))
+        {{ Breadcrumbs::render()}}
+    @endif
     <div id="main-container" class="container">
         @include('layouts.commonGrid',
         [
@@ -18,13 +20,5 @@
             'imgFolder' => 'authors'
         ])
     </div>
-@endsection
-@section('alphabetFilter')
-    <section id="alphabet-filter-container">
-        <div id="alphabet-sticky-block" class="author">
-            @foreach(range(chr(0xC0),chr(0xDF)) as $letter)
-                <div class="letter-filter">{{ iconv('CP1251','UTF-8',$letter) }}</div>
-            @endforeach
-        </div>
-    </section>
+    @include('layouts.alphabetFilter', ['type' => $type])
 @endsection

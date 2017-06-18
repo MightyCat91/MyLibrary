@@ -76,16 +76,16 @@ class Controller extends BaseController
             }
             if (empty($request->filter)) {
                 if ($idIsEmpty) {
-                    $arrays = $model->all();
+                    $arrays = $model->get(['id','name']);
                 } else {
                     $arrays = $model::FindOrFail($request->id)->books;
                 }
             } else {
                 if ($idIsEmpty) {
-                    $arrays = $model->where('name', 'LIKE', $request->filter . '%')->get();
+                    $arrays = $model->where('name', 'LIKE', $request->filter . '%')->get(['id','name']);
                 } else {
                     $arrays = $model::FindOrFail($request->id)->books()->where('name', 'LIKE', $request->filter . '%')
-                        ->get();
+                        ->get(['id','name']);
                 }
             }
             return view(

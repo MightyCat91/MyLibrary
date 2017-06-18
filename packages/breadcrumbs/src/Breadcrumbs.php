@@ -69,7 +69,6 @@ class Breadcrumbs
      */
     public function render()
     {
-        dump($this->breadcrumbs);
         if ($breadcrumbs = $this->getBreadcrumbs()->toArray()) {
             \Session::forget('title');
             return new HtmlString(
@@ -111,6 +110,7 @@ class Breadcrumbs
             return $item['url'] == $this->currentRoute;
         });
         $activeBreadcrumbCollection = collect($this->breadcrumbsCollections->get($key));
+//        dump($activeBreadcrumbCollection);
         $this->breadcrumbs->push([
             'title' => session('title'),
             'url' => $activeBreadcrumbCollection->get('url')

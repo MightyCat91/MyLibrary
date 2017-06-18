@@ -3,14 +3,14 @@
 <link href="{{ asset('/css/Custom/itemInfo.css') }}" rel='stylesheet' type='text/css' media="all"/>
 @endpush
 {{ Session::flash('title', $author->name) }}
-@extends('layouts.main')
+@extends('layouts.main',['title'=>$author->name])
 @section('content')
-    {{Breadcrumbs::render()}}
     <div id="wrapper" class="">
         <div id="container-info" class="">
             <header>
                 <h2 class="page-title">{{ $author->name }}</h2>
             </header>
+            {{Breadcrumbs::render()}}
             <section id="short-info" class="row">
                 <figure class="col-4 col-md-4 col-sm-4 short-img">
                     <img src="{{ asset(getPublicFiles('authors', $author->id)[0])}}" alt="{{ $author->name }}">

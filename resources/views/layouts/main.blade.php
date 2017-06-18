@@ -1,5 +1,4 @@
-@include("layouts.header")
-
+@include("layouts.header",['title'=>$title])
 <!-- Menu Sidebar -->
 @include("layouts.menu_sidebar")
 <!-- Menu Sidebar -->

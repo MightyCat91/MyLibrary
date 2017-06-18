@@ -14,7 +14,7 @@ body a {
 }
 
 header {
-    padding: 12px 0;
+    padding-top: 1rem;
 }
 
 .hidden {
@@ -689,12 +689,50 @@ div.page-content {
 /*
 *   404 page
 */
-#wrapper404 {
-    display: flex;
-    flex-direction: column;
-    align-content: center;
+#wrapperErrorPage {
+    text-align: center;
+    padding-right: 4em;
+    padding-top: 1em;
+    font-family: 'Philosopher', sans-serif;
 }
-#image404 {
-    background: #fff url(../../images/404.jpg) no-repeat;
-    height: auto;
+
+#wrapperErrorPage h1 {
+    font-size: 72px;
+    color: #009926;
+    font-family: inherit;
+}
+
+#wrapperErrorPage h3 {
+    font-family: inherit;
+}
+
+#imageErrorPage {
+    display: block;
+    margin: auto;
+}
+
+blockquote {
+    border-top: 2px solid #009926;
+    border-bottom: 2px solid #009926;
+    padding: 15px 20px 15px 90px;
+    position: relative;
+}
+blockquote:before {
+    content: "\201C";
+    font-family: serif;
+    position: absolute;
+    left: 30px;
+    top: 30px;
+    color: white;
+    background: #009926;
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    font-size: 55px;
+    line-height: 75px;
+    text-align: center;
+}
+blockquote p {
+    font-size: 20px;
+    letter-spacing: .05em;
 }

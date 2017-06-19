@@ -22,13 +22,13 @@
             </header>
             {{Breadcrumbs::render()}}
             <section id="short-info" class="row">
-                <figure class="col-4 col-md-4 col-sm-4 short-img owl-carousel owl-theme">
+                <figure class="short-img owl-carousel owl-theme">
                     @foreach(getPublicFiles('books', $book->id) as $bookCover)
                         <img class="item" src="{{ asset($bookCover)}}" alt="{{ $book->name }}">
                     @endforeach
                     {{--<img src="{{ asset(getPublicFiles('books', $book->id)[0])}}" alt="{{ $book->name }}">--}}
                 </figure>
-                <aside class="col-8 col-md-8 col-sm-8 short-info-items">
+                <aside class="short-info-items">
                     <ul>
                         <li>
                             <span><i class="fa fa-users fa-lg item-icon" aria-hidden="true"></i>Автор:</span>

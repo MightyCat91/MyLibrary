@@ -9,10 +9,21 @@ div.page-content {
     max-height: 100vh;
     max-width: 82%;
     overflow-y: auto;
+    -ms-overflow-style: none;
+}
+
+#wrapper::-webkit-scrollbar {
+    display: none;
 }
 
 #short-info {
     overflow: hidden;
+    display: flex;
+}
+
+.short-img {
+    flex: 1 100%;
+    margin: 0 1rem 1rem 0;
 }
 
 .short-img img {
@@ -25,6 +36,7 @@ div.page-content {
 .short-info-items {
     padding-left: 15px;
     border-left: 2px solid #009926;
+    flex: 1 100%;
 }
 
 .short-info-items ul {
@@ -109,13 +121,18 @@ div.page-content {
     overflow-y: auto;
     max-width: 21%;
     background-color: #fff;
+    -ms-overflow-style: none;
+}
+
+#books-sidebar::-webkit-scrollbar {
+    display: none;
 }
 
 #books-sidebar .item-container {
     /*height: 16rem;*/
     /*line-height: 1;*/
     /*margin: 1vw 0;*/
-    height: calc(10vh + 12vw);
+    height: 18vw;
     line-height: 1;
     margin: 1vw 0;
     max-height: 45vh;
@@ -212,6 +229,14 @@ div.page-content {
     #wrapper {
         max-width: 100%;
         max-height: inherit;
+    }
+
+    #short-info {
+         display: block;
+    }
+
+    .short-img {
+        margin-right: 0;
     }
 }
 

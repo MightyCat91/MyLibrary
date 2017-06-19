@@ -97,6 +97,13 @@ div.page-content.spinner:after {
     width: 100%;
 }
 
+#navigation hr {
+    display: none;
+}
+#side-bottom {
+    display: none;
+}
+
 /* Menu */
 section#menu-content {
     font-size: 16px;
@@ -493,6 +500,33 @@ section#menu-content {
     padding-right: 5px;
 }
 
+/*
+ * Main content
+ */
+div.page-content {
+    position: relative;
+    margin: 0 0 1em 4em;
+    font-size: 16px;
+    min-height: 100vh;
+    width: 100%;
+}
+
+.page-content h2.page-title {
+    padding: 1em 1em 1em 0;
+    text-align: right;
+    font-size: 32px;
+    background: #000 url(../../images/header.jpg) no-repeat;
+    background-size: auto 100%;
+    border-radius: 10px;
+    color: #fff;
+    text-shadow: 0 0 4px rgba(0, 0, 0, 1);
+}
+
+.container.reset {
+    width: calc(100% - 50px);
+    margin-left: 0;
+}
+
 @media screen and (max-width: 859px) {
     .main {
         overflow: hidden;
@@ -516,15 +550,6 @@ section#menu-content {
     #login-form {
         width: 190px;
         margin: 0 auto;
-        padding: 0;
-    }
-
-    #side-bottom {
-        display: none;
-    }
-
-    #navigation hr {
-        display: none;
     }
 
     .nav-item {
@@ -566,6 +591,14 @@ section#menu-content {
     #register-form-container.active {
         left: 60px;
     }
+
+    div.page-content {
+        margin-left: 0;
+    }
+
+    div#wrapper {
+        padding-right: 1rem;
+    }
 }
 
 @media screen and (min-width: 768px) {
@@ -592,7 +625,19 @@ section#menu-content {
         display: block;
     }
 
+    #navigation hr {
+        display: block;
+    }
+
+    #side-bottom {
+        display: block;
+    }
+
     #login-form-wrapper.active {
+        left: 200px;
+    }
+
+    #register-form-container.active {
         left: 200px;
     }
 
@@ -603,33 +648,6 @@ section#menu-content {
     .nav-item-name {
         display: block;
     }
-}
-
-/*
- * Main content
- */
-div.page-content {
-    position: relative;
-    margin: 0 0 1em 4em;
-    font-size: 16px;
-    min-height: 100vh;
-    width: 100%;
-}
-
-.page-content h2.page-title {
-    padding: 1em 1em 1em 0;
-    text-align: right;
-    font-size: 32px;
-    background: #000 url(../../images/header.jpg) no-repeat;
-    background-size: auto 100%;
-    border-radius: 10px;
-    color: #fff;
-    text-shadow: 0 0 4px rgba(0, 0, 0, 1);
-}
-
-.container.reset {
-    width: calc(100% - 50px);
-    margin-left: 0;
 }
 
 /*

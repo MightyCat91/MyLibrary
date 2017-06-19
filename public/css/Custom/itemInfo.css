@@ -7,7 +7,7 @@ div.page-content {
     padding: 0 3rem 0 1rem;
     text-align: justify;
     max-height: 100vh;
-    max-width: 81%;
+    max-width: 82%;
     overflow-y: auto;
 }
 
@@ -102,18 +102,23 @@ div.page-content {
 #books-sidebar {
     position: absolute;
     right: -18px;
+    margin-right: 18px;
     box-shadow: -6px 0 3px -3px #2ca02c;
     top: 0;
     bottom: 0;
     overflow-y: auto;
-    max-width: 25%;
+    max-width: 21%;
     background-color: #fff;
 }
 
 #books-sidebar .item-container {
-    height: 16rem;
+    /*height: 16rem;*/
+    /*line-height: 1;*/
+    /*margin: 1vw 0;*/
+    height: calc(10vh + 12vw);
     line-height: 1;
     margin: 1vw 0;
+    max-height: 45vh;
 }
 
 #books-sidebar .container-cover {
@@ -125,8 +130,10 @@ div.page-content {
 }
 
 .item-container-link {
-    margin: 0 auto;
-    width: 15vw;
+    /*margin: 0 auto;*/
+    /*width: 15vw;*/
+    padding: 0 10px;
+    max-width: 100%;
 }
 
 #books-sidebar .item-container-link:hover .container-title {
@@ -135,7 +142,7 @@ div.page-content {
 
 @media only screen and (max-width: 1150px) {
     #books-sidebar .item-container {
-        height: 14rem;;
+        /*height: 14rem;*/
     }
 
     #books-sidebar .container-title {
@@ -145,7 +152,7 @@ div.page-content {
 
 @media only screen and (max-width: 1050px) {
     #books-sidebar .item-container {
-        height: 13rem;;
+        /*height: 13rem;*/
     }
 
     #books-sidebar .container-title {
@@ -154,10 +161,14 @@ div.page-content {
 }
 
 @media only screen and (max-width: 1000px) {
+    #books-sidebar {
+        right: 0;
+        margin-right: 0;
+    }
 
     #books-sidebar .item-container {
-        height: 12rem;
-        margin-left: 5px;
+        /*height: 12rem;*/
+        /*margin-left: 5px;*/
     }
 
     #books-sidebar .container-title {
@@ -169,23 +180,23 @@ div.page-content {
     }
 
     .item-container-link {
-        width: 14vw;
+        /*width: 14vw;*/
     }
 }
 
 @media only screen and (max-width: 891px) {
     #books-sidebar .item-container {
-        height: 10rem;
-        margin-left: 0;
+        /*height: 10rem;*/
+        /*margin-left: 0;*/
     }
 
     #books-sidebar .container-cover {
-        height: 75%;
+        /*height: 75%;*/
     }
 
     #books-sidebar .container-title {
         font-size: 13px;
-        height: 25%;
+        /*height: 25%;*/
     }
 
     .container-link {

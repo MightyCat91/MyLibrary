@@ -1,5 +1,5 @@
 div.page-content {
-    max-width: 100%;
+    max-width: calc(100vw - 215px - 4em);
     padding-right: 0;
 }
 
@@ -7,7 +7,7 @@ div.page-content {
     padding: 0 3rem 0 1rem;
     text-align: justify;
     max-height: 100vh;
-    max-width: 82%;
+    max-width: 79%;
     overflow-y: auto;
     -ms-overflow-style: none;
 }
@@ -22,7 +22,8 @@ div.page-content {
 }
 
 .short-img {
-    flex: 1 100%;
+    flex: 1 29em;
+    overflow: hidden;
     margin: 0 1rem 1rem 0;
 }
 
@@ -201,10 +202,15 @@ div.page-content {
     }
 }
 
-@media only screen and (max-width: 891px) {
+@media only screen and (max-width: 859px) {
     #books-sidebar .item-container {
         /*height: 10rem;*/
         /*margin-left: 0;*/
+    }
+
+    div.page-content {
+        max-width: calc(100vw - 50px);
+        padding-right: 0;
     }
 
     #books-sidebar .container-cover {

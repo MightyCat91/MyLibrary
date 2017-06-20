@@ -21,12 +21,11 @@
                 <h2 class="page-title">{{ $book->name }}</h2>
             </header>
             {{Breadcrumbs::render()}}
-            <section id="short-info" class="row">
+            <section id="short-info">
                 <figure class="short-img owl-carousel owl-theme">
-                    @foreach(getPublicFiles('books', $book->id) as $bookCover)
-                        <img class="item" src="{{ asset($bookCover)}}" alt="{{ $book->name }}">
-                    @endforeach
-                    {{--<img src="{{ asset(getPublicFiles('books', $book->id)[0])}}" alt="{{ $book->name }}">--}}
+                        @foreach(getPublicFiles('books', $book->id) as $bookCover)
+                            <img class="item" src="{{ asset($bookCover)}}" alt="{{ $book->name }}">
+                        @endforeach
                 </figure>
                 <aside class="short-info-items">
                     <ul>

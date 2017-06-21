@@ -6,7 +6,7 @@
     var registerForm = $('#register-form');
     var resetForm = $('#pass-reset-form');
     var loginForm = $('#login-form-wrapper');
-    var windowWidth = 860;
+    var windowWidth = 768;
 
     $('#open-social-btn').on('click', function() {
         $('#auth-signup').addClass('hide');
@@ -68,7 +68,8 @@
         }
     });
 
-    $('#login').on('click', function() {
+    $('#login').on('click', function(e) {
+        e.preventDefault();
         if(loginForm.hasClass('active')) {
             loginForm.removeClass('active').addClass('hidden');
         } else {

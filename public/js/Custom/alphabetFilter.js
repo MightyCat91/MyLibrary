@@ -13,7 +13,7 @@
         //пока верхняя границы страницы не совпадает с верхней границей окна
         if (windowTop != 0) {
             //устанавливаем прилипающему контейнеру фиксированную позицию
-            filterContainer.css({position: 'fixed', top: '1em'});
+            filterContainer.css({position: 'fixed', top: '0em'});
         }
         //если совпадает
         else {

@@ -13,21 +13,21 @@
     <script type="text/javascript" src="{{ asset('/js/Custom/book.js') }}"></script>
 @endpush
 {{ Session::flash('title', $book->name) }}
-@extends('layouts.main')
+@extends('layouts.main',['title'=>$book->name])
 @section('content')
     <div id="wrapper">
         <div id="container-info">
             <header>
-                <h2>{{ $book->name }}</h2>
+                <h2 class="page-title">{{ $book->name }}</h2>
             </header>
-            <section id="short-info" class="row">
-                <figure class="col-4 col-md-4 col-sm-4 short-img owl-carousel owl-theme">
-                    @foreach(getPublicFiles('books', $book->id) as $bookCover)
-                        <img class="item" src="{{ asset($bookCover)}}" alt="{{ $book->name }}">
-                    @endforeach
-                    {{--<img src="{{ asset(getPublicFiles('books', $book->id)[0])}}" alt="{{ $book->name }}">--}}
+            {{Breadcrumbs::render()}}
+            <section id="short-info">
+                <figure class="short-img owl-carousel owl-theme">
+                        @foreach(getPublicFiles('books', $book->id) as $bookCover)
+                            <img class="item" src="{{ asset($bookCover)}}" alt="{{ $book->name }}">
+                        @endforeach
                 </figure>
-                <aside class="col-8 col-md-8 col-sm-8 short-info-items">
+                <aside class="short-info-items">
                     <ul>
                         <li>
                             <span><i class="fa fa-users fa-lg item-icon" aria-hidden="true"></i>Автор:</span>

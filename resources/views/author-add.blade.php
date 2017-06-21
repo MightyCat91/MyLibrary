@@ -4,8 +4,9 @@
 <link href="{{ asset('/css/Custom/commonGrid.css') }}" rel='stylesheet' type='text/css' media="all"/>
 @endpush
 {{ Session::flash('title', 'Добавить автора') }}
-@extends('layouts.main')
+@extends('layouts.main',['title'=>'Добавить автора'])
 @section('content')
+    {{Breadcrumbs::render()}}
     <div class="container">
         <form id="add-form" method="post" enctype="multipart/form-data">
             {{ csrf_field() }}

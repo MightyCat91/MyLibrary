@@ -16,7 +16,7 @@ return [
 //    'failed' => 'These credentials do not match our records.',
 //    'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
 
-    'failed' => 'Введенное значение отсутствует в базе',
+    'failed' => 'Пользователь с такими данными не зарегистрирован',
     'throttle' => 'Слишком много попыток. Пожалуйста попробуйте через :seconds секунд.',
 
 ];

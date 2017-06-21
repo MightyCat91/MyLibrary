@@ -4,9 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\AuthorAddRequest;
 use App\Series;
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use App\Author;
+use Illuminate\Validation\UnauthorizedException;
 use Storage;
+use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Validator;
 
 class AuthorController extends Controller
@@ -106,9 +109,13 @@ class AuthorController extends Controller
      */
     public function show(Request $request, $id = null)
     {
+
         if (empty($request->filter)) {
             if (!$id) {
-                $view = view('authors', ['authors' => Author::all()]);
+                $view = view('authors', [
+                    'type' => 'author',
+                    'authors' => Author::get(['id','name'])
+                ]);
             } else {
                 $author = Author::FindOrFail($id);
                 $view = view('author', [
@@ -119,7 +126,10 @@ class AuthorController extends Controller
                 ]);
             }
         } else {
-            $view = view('authors', ['authors' => Author::where('name', 'LIKE', $request->filter . '%')->get()]);
+            $view = view('authors', [
+                'type' => 'author',
+                'authors' => Author::where('name', 'LIKE', $request->filter . '%')->get(['id','name'])
+            ]);
         }
 
         return $view;

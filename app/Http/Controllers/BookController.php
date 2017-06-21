@@ -39,7 +39,7 @@ class BookController extends Controller
      */
     public function showBooksForYear($year)
     {
-        $books = Book::where('year', $year)->get();
+        $books = Book::where('year', $year)->get(['id','name']);
         return view('books', [
             'type' => 'book',
             'books' => $books,
@@ -61,7 +61,7 @@ class BookController extends Controller
             if (!$id) {
                 $view = view('books', [
                     'type' => 'book',
-                    'books' => Book::all(),
+                    'books' => Book::get(['id','name']),
                     'title' => 'Все книги'
                 ]);
             } else {
@@ -90,7 +90,8 @@ class BookController extends Controller
         } else {
             $view = view('books', [
                 'type' => 'book',
-                'books' => Book::where('name', 'LIKE', $request->filter . '%')->get(),
+                'title' => 'Все книги',
+                'books' => Book::where('name', 'LIKE', $request->filter . '%')->get(['id','name']),
             ]);
         }
         return $view;

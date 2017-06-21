@@ -1,9 +1,10 @@
-@extends($parent_template_name)
+@extends($parent_template_name,['title'=>$category->name, 'type'=>$type])
 {{ Session::flash('title', $category->name) }}
 @section('category')
     <header>
-        <h2>{{ $category->name }}</h2>
+        <h2 class="page-title">{{ $category->name }}</h2>
     </header>
+    {{Breadcrumbs::render()}}
     <ul id="category" class="" data-id="{{ $category->id }}">
         <li class="tab-item {{ (str_is($parent_template_name, 'authors')) ? 'active' : '' }}">
             <a id="authors-tab" class="nav-link"

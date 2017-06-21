@@ -133,6 +133,10 @@ Route::group(['prefix' => 'series'], function () {
     });
 });
 
+Route::group(['prefix' => 'user'], function () {
+    Route::get('{id}', ['as' => 'userProfile', 'uses' => 'UserController@showUserProfile'])->where(['id' => '[0-9]+']);
+});
+
 //TODO: реализовать вьюху и контроллер страницы разработчиков
 Route::get('developers', ['as' => 'developers', 'uses' => 'MainController@test']);
 //TODO: реализовать вьюху и контроллер личного кабинета

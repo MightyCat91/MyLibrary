@@ -7,6 +7,7 @@ use Exception;
 use Illuminate\Auth\AuthenticationException;
 use GrahamCampbell\Exceptions\NewExceptionHandler as ExceptionHandler;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
+use Illuminate\Support\HtmlString;
 use Illuminate\Validation\UnauthorizedException;
 use MyLibrary\Breadcrumbs\Exceptions\NotFoundException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -64,8 +65,10 @@ class Handler extends ExceptionHandler
         if ($exception instanceof ServiceUnavailableHttpException) {
             return response()->view('errors.503', [], 503);
         }
-        if ($exception instanceof ErrorException  or $exception instanceof FatalErrorException) {
-            return response()->view('errors.500', [], 500);
+        if ($exception instanceof ErrorException or $exception instanceof FatalErrorException) {
+            $this->toIlluminateResponse(response()->view('errors.500', [], 500),$exception);
+//            dd(response()->view('errors.500', ['message', $exception->getMessage()], 500));
+//            return response()->view('errors.500', [], 500);
         }
         return parent::render($request, $exception);
     }

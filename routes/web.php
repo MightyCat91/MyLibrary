@@ -134,7 +134,14 @@ Route::group(['prefix' => 'series'], function () {
 });
 
 Route::group(['prefix' => 'user'], function () {
-    Route::get('{id}', ['as' => 'userProfile', 'uses' => 'UserController@showUserProfile'])->where(['id' => '[0-9]+']);
+    Route::group(['prefix' => '{id}', 'where' => ['id' => '[0-9]+']], function () {
+        Route::get('', [
+            'as' => 'userProfile', 'uses' => 'UserController@showUserProfile'
+        ]);
+        Route::get('edit', [
+            'as' => 'userEditProfile', 'uses' => 'UserController@editUserProfile'
+        ]);
+    });
 });
 
 //TODO: реализовать вьюху и контроллер страницы разработчиков

@@ -138,6 +138,12 @@ Route::group(['prefix' => 'user'], function () {
         Route::get('', [
             'as' => 'userProfile', 'uses' => 'UserController@showUserProfile'
         ]);
+        Route::get('collections', [
+            'as' => 'userCollections', 'uses' => 'UserController@showUserCollections'
+        ]);
+        Route::get('books', [
+            'as' => 'userBooks', 'uses' => 'UserController@showUserBooks'
+        ]);
         Route::get('edit', [
             'as' => 'userEditProfile', 'uses' => 'UserController@editUserProfile'
         ]);

@@ -66,9 +66,7 @@ class Handler extends ExceptionHandler
             return response()->view('errors.503', [], 503);
         }
         if ($exception instanceof ErrorException or $exception instanceof FatalErrorException) {
-            $this->toIlluminateResponse(response()->view('errors.500', [], 500),$exception);
-//            dd(response()->view('errors.500', ['message', $exception->getMessage()], 500));
-//            return response()->view('errors.500', [], 500);
+            return response()->view('errors.500', [], 500);
         }
         return parent::render($request, $exception);
     }

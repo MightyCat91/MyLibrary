@@ -239,5 +239,3 @@
         </button>
     </section>
 @endif
-
-@yield('main')

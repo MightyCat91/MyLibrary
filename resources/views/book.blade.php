@@ -23,7 +23,7 @@
             {{Breadcrumbs::render()}}
             <section id="short-info">
                 <figure class="short-img owl-carousel owl-theme">
-                        @foreach(getPublicFiles('books', $book->id) as $bookCover)
+                        @foreach(getAllStorageFiles('books', $book->id) as $bookCover)
                             <img class="item" src="{{ asset($bookCover)}}" alt="{{ $book->name }}">
                         @endforeach
                 </figure>

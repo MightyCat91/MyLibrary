@@ -10,7 +10,7 @@ body {
 body a {
     transition: 0.5s all;
     text-decoration: none !important;
-    outline: none
+    outline: none;
 }
 
 header {
@@ -117,8 +117,9 @@ div.page-content.spinner:after {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 1rem 1rem;
+    margin: .5rem 1rem;
     border-bottom: 1px solid #009926;
+    height: 316px;
 }
 
 #user-profile-img-wrapper {
@@ -135,7 +136,7 @@ div.page-content.spinner:after {
 #user-nickname {
     color: #fff;
     font-size: 22px;
-    margin: 0.4rem 0;
+    margin: 0.2rem 0;
 }
 
 .user-profile-btn-control {
@@ -152,7 +153,7 @@ div.page-content.spinner:after {
     padding: 5px;
 }
 
-.btn-control:hover {
+.btn-control:hover, .btn-control:focus {
     color: #009926;
     background-color: #fff;
 }
@@ -167,14 +168,10 @@ div.page-content.spinner:after {
 }
 
 #navigation {
-    position: relative;
     height: 100%;
-}
-
-#bottom-container {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 #navigation hr {
@@ -234,7 +231,7 @@ section#menu-content {
     font-size: 13px;
 }
 
-#authLinks a {
+#authLinks a, #authLinks a:focus {
     color: #fff;
 }
 
@@ -385,7 +382,7 @@ section#menu-content {
     line-height: 0.1;
 }
 
-#side-bottom a {
+#side-bottom a, #side-bottom a:focus {
     color: #fff;
     font-size: 14px;
 }
@@ -697,16 +694,13 @@ div.page-content {
         height: 100%;
         width: 190px;
         left: 0;
-        z-index: 1100;
-        display: block;
+        z-index: 1000;
+        display: flex;
+        flex-direction: column;
         padding: 0 0 15px 0;
         overflow: hidden;
         background-color: #272c2e;
         font-size: 16px;
-    }
-
-    #bottom-container {
-        display: block;
     }
 
     #navigation hr {
@@ -763,7 +757,7 @@ div.page-content {
     margin: 0 1em;
 }
 
-.footer-top ul li a {
+.footer-top ul li a, .footer-top ul li a:focus {
     font-size: 14px;
     color: rgba(255, 255, 255, 0.5);
 }
@@ -777,11 +771,11 @@ div.page-content {
     margin-right: 1em;
 }
 
-.footer-bottom li:hover a {
+.footer-bottom li:hover a, .footer-bottom li:hover a:focus  {
     border-color: #009926;
 }
 
-.footer-bottom a {
+.footer-bottom a, .footer-bottom a:focus {
     color: rgba(255, 255, 255, 0.5);
     border: 1px solid;
     border-radius: 5px;

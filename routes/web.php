@@ -144,6 +144,9 @@ Route::group(['prefix' => 'user'], function () {
         Route::get('books', [
             'as' => 'userBooks', 'uses' => 'UserController@showUserBooks'
         ]);
+        Route::get('history', [
+            'as' => 'userHistory', 'uses' => 'UserController@showUserHistory'
+        ]);
         Route::get('edit', [
             'as' => 'userEditProfile', 'uses' => 'UserController@editUserProfile'
         ]);
@@ -152,8 +155,6 @@ Route::group(['prefix' => 'user'], function () {
 
 //TODO: реализовать вьюху и контроллер страницы разработчиков
 Route::get('developers', ['as' => 'developers', 'uses' => 'MainController@test']);
-//TODO: реализовать вьюху и контроллер личного кабинета
-Route::get('user/profile', ['as' => 'userProfile', 'uses' => 'MainController@test']);
 //TODO: реализовать вьюху и контроллер пользовательского соглашения
 Route::get('privacyPolicy', ['as' => 'privacyPolicy', 'uses' => 'MainController@test']);
 

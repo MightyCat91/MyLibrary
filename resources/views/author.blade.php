@@ -13,7 +13,7 @@
             {{Breadcrumbs::render()}}
             <section id="short-info">
                 <figure class="short-img">
-                    <img src="{{ asset(getPublicFiles('authors', $author->id)[0])}}" alt="{{ $author->name }}">
+                    <img src="{{ asset(getStorageFile('authors', $author->id))}}" alt="{{ $author->name }}">
                 </figure>
                 <aside class="short-info-items">
                     <ul>

@@ -6,7 +6,7 @@
                     @if(empty($imgFolder))
                         <i class="fa fa-pencil fa-lg item-icon" aria-hidden="true"></i>
                     @else
-                        <img src="{{ asset(array_first(getPublicFiles($imgFolder, $item->id))) }}" class="cover">
+                        <img src="{{ asset(getStorageFile($imgFolder, $item->id)) }}" class="cover">
                     @endif
                 </div>
                 <div class="title">{{ $item->name }}</div>

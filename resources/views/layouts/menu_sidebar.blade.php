@@ -99,11 +99,6 @@
                     <div class="nav-item-name">Войти</div>
                 </a>
             @else
-                <a href="{{ route('userProfile') }}" class="nav-item {{ active('userProfile') }}">
-                    <i class="fa fa-user-circle fa-lg fa-fw nav-item-icon" aria-hidden="true"></i>
-
-                    <div class="nav-item-name">Личный кабинет</div>
-                </a>
                 <a href="{{ route('logout') }}" class="nav-item"
                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                     <i class="fa fa-sign-out fa-lg fa-fw nav-item-icon" aria-hidden="true"></i>

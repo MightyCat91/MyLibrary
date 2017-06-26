@@ -29,7 +29,7 @@
                                class="form-control form-add-input series-input"
                                title="Добавить еще одну серию книг" maxlength="128" autocomplete="off">
                         <label for="seriesInput" class="input-label">Серия книг</label>
-                        <button type="button" class="close hidden input-close" aria-label="Close">
+                        <button type="button" class="close hidden close-btn" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                         <span class="append-form-add-input">

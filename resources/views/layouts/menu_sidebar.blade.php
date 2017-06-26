@@ -89,7 +89,7 @@
                             </label>
                         </div>
                     </form>
-                    <button type="button" class="close form-close" aria-label="Close">
+                    <button type="button" class="close close-btn" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
@@ -229,7 +229,7 @@
                 </button>
             </section>
         </form>
-        <button type="button" class="close form-close" aria-label="Close">
+        <button type="button" class="close close-btn" aria-label="Close">
             <span aria-hidden="true">&times;</span>
         </button>
     </section>

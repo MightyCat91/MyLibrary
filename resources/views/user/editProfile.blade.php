@@ -8,9 +8,9 @@
             {{ csrf_field() }}
             <div class="form-group {{ ($errors->has('login')) ? 'has-danger' : '' }}">
                 <input type="text" id="login" name="login" class="form-control" value="{{ old('login') ?? $login }}"
-                       maxlength="128" required>
+                       maxlength="128">
                 <label for="login"
-                       class="input-label {{ (empty(old('login'))) ? '' : 'active' }}">Логин(никнейм)</label>
+                       class="input-label {{ (empty(old('login')) and empty($login)) ? '' : 'active' }}">Логин(никнейм)</label>
                 @if($errors->has('login'))
                     <div class="form-control-feedback">
                         {{ $errors->first('login') }}
@@ -22,7 +22,7 @@
                 <input type="text" id="name" name="name" class="form-control" value="{{ old('name') ?? $name}}"
                        maxlength="255" required>
                 <label for="name"
-                       class="input-label {{ (empty(old('name'))) ? '' : 'active' }}">Реальное имя</label>
+                       class="input-label {{ (empty(old('name')) and empty($name)) ? '' : 'active' }}">Реальное имя</label>
                 @if($errors->has('name'))
                     <div class="form-control-feedback">
                         {{ $errors->first('name') }}
@@ -32,7 +32,7 @@
 
             <div class="gender form-group" data-toggle="buttons">
                 <label class="btn-switch-label {{ $gender=='мужской' ? 'active' : '' }}">
-                    <input type="radio" name="options" id="option1" autocomplete="off" checked>
+                    <input type="radio" name="options" id="option1" autocomplete="off">
                     <i class="fa fa-male" aria-hidden="true"></i>
                 </label>
                 <label class="btn-switch-label {{ $gender=='женский' ? 'active' : '' }}">
@@ -49,7 +49,7 @@
                 <div class="modal-dialog modal-vertical-centered modal-sm">
                     <div class="modal-content">
                         <div class="modal-body">
-                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <button type="button" class="close close-btn" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                             <div id="changeInfo"><i class="fa fa-info-circle" aria-hidden="true"></i>Для изменения
@@ -71,7 +71,7 @@
                                 <input type="text" id="email" name="email" class="form-control"
                                        value="{{ old('email') ?? $email }}" maxlength="255" required>
                                 <label for="email"
-                                       class="input-label {{ (empty(old('email'))) ? '' : 'active' }}">E-mail</label>
+                                       class="input-label {{ (empty(old('email')) and empty($email)) ? '' : 'active' }}">E-mail</label>
                                 @if($errors->has('email'))
                                     <div class="form-control-feedback">
                                         {{ $errors->first('email') }}
@@ -80,7 +80,7 @@
                             </div>
                             <div class="form-group {{ ($errors->has('newPassword')) ? 'has-danger' : '' }}">
                                 <input type="text" id="newPassword" name="newPassword" class="form-control"
-                                       value="{{ old('newPassword') }}" maxlength="255" required>
+                                       value="{{ old('newPassword') }}" maxlength="255">
                                 <label for="newPassword"
                                        class="input-label {{ (empty(old('newPassword'))) ? '' : 'active' }}">Новый
                                     пароль
@@ -107,5 +107,5 @@
 @endsection
 
 @push('scripts')
-<script type="text/javascript" src="{{ asset('/js/Custom/addForm.js') }}"></script>
+<script type="text/javascript" src="{{ asset('/js/Custom/profileSettings.js') }}"></script>
 @endpush

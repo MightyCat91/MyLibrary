@@ -1,3 +1,7 @@
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
 #imageInput {
     position: absolute;
     display: none;
@@ -86,6 +90,7 @@
 
 .append-form-add-input:hover {
     opacity: 1;
+    color: #009926;
 }
 
 .danger-icon {
@@ -98,14 +103,16 @@
     padding: 3px 0;
 }
 
-.input-close {
+.close-btn {
     text-align: center;
     margin-left: 1.3rem;
     margin-right: 0.35rem;
     outline: none;
+    position: static;
+    color: #9e9e9e;
 }
 
-.input-close:focus {
+.close-btn:focus {
     outline: none;
 }
 
@@ -190,19 +197,23 @@
     display: flex;
     justify-content: center;
 }
-form#edit-form {
+#edit-form {
     width: 70%;
     margin: 2em;
 }
 .gender {
     display: flex;
 }
-.gender label {
+.btn-switch-label {
     padding: 0 1rem;
     margin: 0;
     font-size: 20px;
     border: 1px solid #009926;
     color: #3B4142;
+    cursor: pointer;
+}
+.btn-switch-label.active {
+    color: #fff;
 }
 .btn-switch-label input {
     display: none;
@@ -210,17 +221,40 @@ form#edit-form {
 .gender label:first-child {
     border-radius: 50px 0 0 50px;
     border-right-width: 0;
-    background-color: #009926;
+    background: linear-gradient(to right, #fff 50%, #009926 50%);
+    background-size: 200% 100%;
+    background-position:left bottom;
+    transition:all 1s ease;
 }
 .gender label:last-child {
     border-radius: 0 50px 50px 0;
+    background: linear-gradient(to left, #fff 50%, #009926 50%);
+    background-size: 200% 100%;
+    background-position:right bottom;
+    transition:all 1s ease;
 }
-.btn-switch-label.active {
-    color: #fff;
+.gender .active:first-child {
+    background-position:right bottom;
+}
+.gender .active:last-child {
+    background-position:left bottom;
 }
 #openDialog {
     color: #9e9e9e;
 }
 #openDialog:hover {
     color: #009926;
+}
+#changeInfo {
+    line-height: 1.3;
+    font-size: 15px;
+    padding-bottom: 1rem;
+}
+#changeInfo i {
+    padding-right: 10px;
+    font-size: 1.3rem;
+    color: #ff0500;
+}
+.modal-body .close-btn {
+    margin-right: 0;
 }

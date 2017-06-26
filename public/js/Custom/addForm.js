@@ -98,7 +98,7 @@
         //идентификатор типа контейнера
         var id = container.attr('id');
         //иконка удаления поля ввода
-        var closeIcon = inputContainer.find('.input-close');
+        var closeIcon = inputContainer.find('.close-btn');
         switch (id) {
             case 'categories':
                 /*
@@ -185,20 +185,7 @@
         });
 
     //удаление контейнера содержащего кнопку по которой был совершен клик
-    body.on('click', '.input-close', function () {
+    body.on('click', '.close-btn', function () {
         $(this).parent().remove();
     });
-
-    //анимация лейбла при фокусе на поле ввода
-    body.on('focus', '.form-control', function () {
-        $(this).next('label').addClass('active');
-    });
-
-    //удаление анимации при удалении фокуса с поля ввода
-    body.on('focusout', '.form-control', function () {
-        if (!$(this).val()) {
-            $(this).next('label').removeClass('active');
-        }
-    });
-
 })(jQuery);

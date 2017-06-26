@@ -29,7 +29,7 @@
                                class="form-control form-add-input author-input"
                                title="Добавить еще одного автора" maxlength="128" autocomplete="off" required>
                         <label for="authorInput" class="input-label">Автор</label>
-                        <button type="button" class="close hidden input-close" aria-label="Close">
+                        <button type="button" class="close hidden close-btn" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                         <span class="append-form-add-input">
@@ -56,7 +56,7 @@
                                class="form-control form-add-input series-input"
                                title="Добавить еще одну серию книг" maxlength="128" autocomplete="off">
                         <label for="seriesInput" class="input-label">Серия книг</label>
-                        <button type="button" class="close hidden input-close" aria-label="Close">
+                        <button type="button" class="close hidden close-btn" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                         <span class="append-form-add-input">
@@ -83,7 +83,7 @@
                                class="form-control form-add-input category-input"
                                title="Добавить еще один жанр" maxlength="128" autocomplete="off">
                         <label for="categoryInput" class="input-label">Жанр</label>
-                        <button type="button" class="close hidden input-close" aria-label="Close">
+                        <button type="button" class="close hidden close-btn" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                         <span class="append-form-add-input">
@@ -110,7 +110,7 @@
                                class="form-control form-add-input publisher-input"
                                title="Добавить еще одно издательство" maxlength="128" autocomplete="off">
                         <label for="publisherInput" class="input-label">Издательство</label>
-                        <button type="button" class="close hidden input-close" aria-label="Close">
+                        <button type="button" class="close hidden close-btn" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                         <span class="append-form-add-input">

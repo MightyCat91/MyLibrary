@@ -151,6 +151,7 @@ Route::group(['prefix' => 'user'], function () {
             'as' => 'userEditProfile', 'uses' => 'UserController@editUserProfile'
         ]);
     });
+    Route::post('saveEmailPass', ['uses' => 'UserController@storeEmailPass']);
 });
 
 //TODO: реализовать вьюху и контроллер страницы разработчиков

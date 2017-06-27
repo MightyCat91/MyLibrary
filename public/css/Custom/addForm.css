@@ -224,14 +224,14 @@
     background: linear-gradient(to right, #fff 50%, #009926 50%);
     background-size: 200% 100%;
     background-position:left bottom;
-    transition:all 1s ease;
+    transition:all .7s ease;
 }
 .gender label:last-child {
     border-radius: 0 50px 50px 0;
     background: linear-gradient(to left, #fff 50%, #009926 50%);
     background-size: 200% 100%;
     background-position:right bottom;
-    transition:all 1s ease;
+    transition:all .7s ease;
 }
 .gender .active:first-child {
     background-position:right bottom;

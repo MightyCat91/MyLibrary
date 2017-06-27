@@ -22,7 +22,8 @@
                 <input type="text" id="name" name="name" class="form-control" value="{{ old('name') ?? $name}}"
                        maxlength="255" required>
                 <label for="name"
-                       class="input-label {{ (empty(old('name')) and empty($name)) ? '' : 'active' }}">Реальное имя</label>
+                       class="input-label {{ (empty(old('name')) and empty($name)) ? '' : 'active' }}">Реальное
+                    имя</label>
                 @if($errors->has('name'))
                     <div class="form-control-feedback">
                         {{ $errors->first('name') }}
@@ -43,23 +44,32 @@
 
             <a href='#' id="openDialog" data-toggle="modal" data-target="#changeEmailPass">Сменить email или пароль</a>
 
-            <!-- The modal -->
-            <div class="modal fade" id="changeEmailPass" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall"
-                 aria-hidden="true">
-                <div class="modal-dialog modal-vertical-centered modal-sm">
-                    <div class="modal-content">
+            <div class="form-group submit-btn">
+                <button type="submit" id="submit-edit-form" class="btn btn-primary">Сохранить</button>
+            </div>
+        </form>
+
+        <!-- The modal -->
+        <div class="modal fade" id="changeEmailPass" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall"
+             aria-hidden="true">
+            <div class="modal-dialog modal-vertical-centered modal-sm">
+                <div class="modal-content">
+                    <form id="edit-email-pass-form" method="post" enctype="multipart/form-data">
                         <div class="modal-body">
+                            {{ csrf_field() }}
                             <button type="button" class="close close-btn" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                             <div id="changeInfo"><i class="fa fa-info-circle" aria-hidden="true"></i>Для изменения
-                                текущих email или пароля необходимо ввести старый пароль</div>
+                                текущих email или пароля необходимо ввести старый пароль
+                            </div>
 
                             <div class="form-group {{ ($errors->has('password')) ? 'has-danger' : '' }}">
                                 <input type="text" id="password" name="password" class="form-control"
                                        value="{{ old('password') }}" maxlength="255" required>
                                 <label for="password"
-                                       class="input-label {{ (empty(old('password'))) ? '' : 'active' }}">Старый пароль
+                                       class="input-label {{ (empty(old('password'))) ? '' : 'active' }}">Старый
+                                    пароль
                                 </label>
                                 @if($errors->has('password'))
                                     <div class="form-control-feedback">
@@ -93,16 +103,13 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-primary" data-dismiss="modal">Изменить</button>
+                            <button type="submit" class="btn btn-primary saveEmailPass" data-dismiss="modal">Изменить
+                            </button>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
-
-            <div class="form-group submit-btn">
-                <button type="submit" id="submit-edit-form" class="btn btn-primary">Сохранить</button>
-            </div>
-        </form>
+        </div>
     </div>
 @endsection
 

@@ -60,4 +60,10 @@ class UserController extends Controller
             'gender' => $user->gender
         ]);
     }
+
+    public function storeEmailPass(EditUserProfile $request) {
+        if ($request->ajax()) {
+            
+        }
+    }
 }

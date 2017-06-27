@@ -64,47 +64,25 @@
                                 текущих email или пароля необходимо ввести старый пароль
                             </div>
 
-                            <div class="form-group {{ ($errors->has('password')) ? 'has-danger' : '' }}">
+                            <div class="form-group">
                                 <input type="text" id="password" name="password" class="form-control"
                                        value="{{ old('password') }}" maxlength="255" required>
-                                <label for="password"
-                                       class="input-label {{ (empty(old('password'))) ? '' : 'active' }}">Старый
-                                    пароль
-                                </label>
-                                @if($errors->has('password'))
-                                    <div class="form-control-feedback">
-                                        {{ $errors->first('password') }}
-                                    </div>
-                                @endif
+                                <label for="password" class="input-label">Пароль</label>
                             </div>
-                            <div class="form-group {{ ($errors->has('email')) ? 'has-danger' : '' }}">
-                                <input type="text" id="email" name="email" class="form-control"
-                                       value="{{ old('email') ?? $email }}" maxlength="255" required>
+                            <div class="form-group">
+                                <input type="text" id="email" name="email" class="form-control" value="{{ $email }}"
+                                       maxlength="255" required>
                                 <label for="email"
-                                       class="input-label {{ (empty(old('email')) and empty($email)) ? '' : 'active' }}">E-mail</label>
-                                @if($errors->has('email'))
-                                    <div class="form-control-feedback">
-                                        {{ $errors->first('email') }}
-                                    </div>
-                                @endif
+                                       class="input-label {{ empty($email) ? '' : 'active' }}">E-mail</label>
                             </div>
                             <div class="form-group {{ ($errors->has('newPassword')) ? 'has-danger' : '' }}">
                                 <input type="text" id="newPassword" name="newPassword" class="form-control"
                                        value="{{ old('newPassword') }}" maxlength="255">
-                                <label for="newPassword"
-                                       class="input-label {{ (empty(old('newPassword'))) ? '' : 'active' }}">Новый
-                                    пароль
-                                </label>
-                                @if($errors->has('newPassword'))
-                                    <div class="form-control-feedback">
-                                        {{ $errors->first('newPassword') }}
-                                    </div>
-                                @endif
+                                <label for="newPassword" class="input-label">Новый пароль</label>
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary saveEmailPass" data-dismiss="modal">Изменить
-                            </button>
+                            <button type="submit" class="btn btn-primary saveEmailPass">Изменить</button>
                         </div>
                     </form>
                 </div>

@@ -9,8 +9,8 @@
 namespace App\Http\Controllers;
 
 
+use App\Http\Requests\EditUserProfile;
 use App\User;
-use Auth;
 
 class UserController extends Controller
 {
@@ -61,9 +61,10 @@ class UserController extends Controller
         ]);
     }
 
-    public function storeEmailPass(EditUserProfile $request) {
+    public function storeEmailPass($id, EditUserProfile $request) {
+        \Debugbar::info($id);
         if ($request->ajax()) {
-            
+
         }
     }
 }

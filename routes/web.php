@@ -137,21 +137,21 @@ Route::group(['prefix' => 'user'], function () {
     Route::group(['prefix' => '{id}', 'where' => ['id' => '[0-9]+']], function () {
         Route::get('', [
             'as' => 'userProfile', 'uses' => 'UserController@showUserProfile'
-        ]);
+        ])->middleware('auth');
         Route::get('collections', [
             'as' => 'userCollections', 'uses' => 'UserController@showUserCollections'
-        ]);
+        ])->middleware('auth');
         Route::get('books', [
             'as' => 'userBooks', 'uses' => 'UserController@showUserBooks'
-        ]);
+        ])->middleware('auth');
         Route::get('history', [
             'as' => 'userHistory', 'uses' => 'UserController@showUserHistory'
-        ]);
+        ])->middleware('auth');
         Route::get('edit', [
             'as' => 'userEditProfile', 'uses' => 'UserController@editUserProfile'
-        ]);
+        ])->middleware('auth');
+        Route::post('saveEmailPass', ['uses' => 'UserController@storeEmailPass'])->middleware('auth');
     });
-    Route::post('saveEmailPass', ['uses' => 'UserController@storeEmailPass']);
 });
 
 //TODO: реализовать вьюху и контроллер страницы разработчиков

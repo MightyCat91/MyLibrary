@@ -25,12 +25,16 @@ h1, h2, h3, h4, h5, h6 {
     font-family: 'Lobster', cursive;
 }
 
-.form-group.error {
-    color: #ce2e2e !important;
-}
+/*.form-group.error {*/
+    /*color: #ce2e2e !important;*/
+/*}*/
 
-.error input {
-    border: 1px solid #ce2e2e !important;
+/*.error input {*/
+    /*border: 1px solid #ce2e2e !important;*/
+/*}*/
+
+.has-danger .form-control-feedback {
+    font-size: 14px;
 }
 
 .btn.btn-primary {

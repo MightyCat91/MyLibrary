@@ -8,6 +8,7 @@
     });
 
     $('.saveEmailPass').on('click', function () {
+        clearValidateErrors();
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -21,7 +22,8 @@
             type: 'POST',
             //отображение спиннера
             beforeSend: function () {
-                $('.page-content').addClass('spinner');
+                //TODO: заменить спинер на анимацию в кнопке
+                //$('.page-content').addClass('spinner');
             }
         })
             .done(function (data) {
@@ -33,16 +35,20 @@
                     input.parent().addClass('has-danger');
                     errors = response.responseJSON[key];
                     $.each(errors, function (index, error) {
-                        input.after("<div class='form-control-feedback'>" + error + "</div>");
+                        input.nextAll('.form-control-feedback').text(error);
                     });
                 }
-                $('.page-content').removeClass('spinner');
+                //$('.page-content').removeClass('spinner');
             });
     });
 
     $('#openDialog').on('click', function () {
-        $('.form-control-feedback').remove();
+        clearValidateErrors();
+    });
+
+    function clearValidateErrors() {
+        $('.form-control-feedback').text('');
         $('.form-group').removeClass('has-danger');
-        //$('.form-group > input[name != email]').removeClass('active');
-    })
+        $('.modal-body label[for!=email]').removeClass('active');
+    }
 })(jQuery);

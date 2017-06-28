@@ -68,17 +68,20 @@
                                 <input type="text" id="password" name="password" class="form-control"
                                        value="{{ old('password') }}" maxlength="255" required>
                                 <label for="password" class="input-label">Пароль</label>
+                                <div class='form-control-feedback'></div>
                             </div>
                             <div class="form-group">
                                 <input type="text" id="email" name="email" class="form-control" value="{{ $email }}"
                                        maxlength="255" required>
                                 <label for="email"
                                        class="input-label {{ empty($email) ? '' : 'active' }}">E-mail</label>
+                                <div class='form-control-feedback'></div>
                             </div>
                             <div class="form-group {{ ($errors->has('newPassword')) ? 'has-danger' : '' }}">
                                 <input type="text" id="newPassword" name="newPassword" class="form-control"
                                        value="{{ old('newPassword') }}" maxlength="255">
                                 <label for="newPassword" class="input-label">Новый пароль</label>
+                                <div class='form-control-feedback'></div>
                             </div>
                         </div>
                         <div class="modal-footer">

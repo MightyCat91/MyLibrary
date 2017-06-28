@@ -258,3 +258,7 @@
 .modal-body .close-btn {
     margin-right: 0;
 }
+
+.form-control-feedback {
+    height: 1rem;
+}

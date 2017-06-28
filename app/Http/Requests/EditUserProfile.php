@@ -10,6 +10,7 @@ namespace App\Http\Requests;
 
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class EditUserProfile extends FormRequest
 {
@@ -31,9 +32,16 @@ class EditUserProfile extends FormRequest
     public function rules()
     {
         if ($this->ajax()) {
+            \Debugbar::info(\Auth::id());
             $rules = [
                 'password' => 'required|string|max:255',
-                'email' => 'email|max:255|unique:users,email|required_with:password',
+                'email' => [
+                    'required',
+                    'email',
+                    'max:255',
+                    'required_with:password',
+                    Rule::unique('users')->ignore(\Auth::id()),
+                ],
                 'newPassword' => 'string|max:255|required_with:password|different:password',
             ];
         } else {

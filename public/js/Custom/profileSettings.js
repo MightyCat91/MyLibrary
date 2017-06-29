@@ -24,6 +24,7 @@
             beforeSend: function () {
                 //TODO: заменить спинер на анимацию в кнопке
                 //$('.page-content').addClass('spinner');
+                $('.saveEmailPass').addClass('saving').children('.dflt-text').addClass('hidden').nextAll('.load-text').removeClass('hidden');
             }
         })
             .done(function (data) {
@@ -39,6 +40,7 @@
                     });
                 }
                 //$('.page-content').removeClass('spinner');
+                $('.saveEmailPass').removeClass('saving').text("Изменить");
             });
     });
 

@@ -85,7 +85,13 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="submit" class="btn btn-primary saveEmailPass">Изменить</button>
+                            <button type="submit" class="btn btn-primary saveEmailPass">
+                                <span class="dflt-text">Изменить</span>
+                                <span class="load-text hidden"><i class="fa fa-circle" aria-hidden="true"></i></span>
+                                <span class="load-text hidden"><i class="fa fa-circle" aria-hidden="true"></i></span>
+                                <span class="load-text hidden"><i class="fa fa-circle" aria-hidden="true"></i></span>
+                                <span class="load-text hidden"><i class="fa fa-circle" aria-hidden="true"></i></span>
+                            </button>
                         </div>
                     </form>
                 </div>

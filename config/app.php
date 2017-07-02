@@ -186,6 +186,7 @@ return [
          */
         MyLibrary\Alerts\AlertServiceProvider::class,
         MyLibrary\Breadcrumbs\BreadcrumbsServiceProvider::class,
+        MyLibrary\customValidator\CustomValidatorServiceProvider::class
         // Laracasts\Generators\GeneratorsServiceProvider::class,
     ],
 

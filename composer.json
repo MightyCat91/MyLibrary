@@ -34,7 +34,8 @@
         "psr-4": {
             "App\\": "app/",
             "MyLibrary\\Alerts\\": "packages/alerts/src",
-            "MyLibrary\\Breadcrumbs\\": "packages/breadcrumbs/src"
+            "MyLibrary\\Breadcrumbs\\": "packages/breadcrumbs/src",
+            "MyLibrary\\customValidator\\": "packages/customValidator"
         },
         "files": [
             "app/Http/helpers.php",

@@ -11,6 +11,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\EditUserProfile;
 use App\User;
+use Validator;
 
 class UserController extends Controller
 {
@@ -61,10 +62,16 @@ class UserController extends Controller
         ]);
     }
 
-    public function storeEmailPass($id, EditUserProfile $request) {
-        \Debugbar::info($id);
+    public function storeEmailPass(EditUserProfile $request) {
         if ($request->ajax()) {
-
+            $validate = Validator::make($request->all(), $request->rules(), $request->messages());
+            if ($validate->fails()) {
+                $response = back()->withErrors($validate)->withInput();
+            } else {
+                $user = User::find();
+                dd($request);
+            }
+            return $response;
         }
     }
 }

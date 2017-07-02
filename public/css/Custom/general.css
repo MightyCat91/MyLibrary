@@ -41,10 +41,11 @@ h1, h2, h3, h4, h5, h6 {
     color: #009926;
     background-color: transparent;
     border-color: #009926;
+    min-width: 7rem;
 }
 
 .btn-primary:hover, .btn-primary:focus {
-    box-shadow: 0 0 0 2px rgba(0,153,38,.5) !important;
+    box-shadow: 0 2px 0 1px rgba(0,153,38,.5) !important;
 }
 
 .container-content.row {
@@ -845,7 +846,7 @@ blockquote p {
 * vertical center modal dialog
 */
 .modal-vertical-centered {
-    transform: translate(0, 50%) !important;
-    -ms-transform: translate(0, 50%) !important; /* IE 9 */
-    -webkit-transform: translate(0, 50%) !important; /* Safari and Chrome */
+    transform: translate(0,  calc(50% - 165px)) !important;
+    -ms-transform: translate(0,  calc(50% - 165px)) !important; /* IE 9 */
+    -webkit-transform: translate(0,  calc(50% - 165px)) !important; /* Safari and Chrome */
 }

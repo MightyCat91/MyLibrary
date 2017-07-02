@@ -54,7 +54,8 @@
              aria-hidden="true">
             <div class="modal-dialog modal-vertical-centered modal-sm">
                 <div class="modal-content">
-                    <form id="edit-email-pass-form" method="post" enctype="multipart/form-data">
+                    <form id="edit-email-pass-form" method="post" enctype="multipart/form-data"
+                          action="{{ route('saveEmailPass') }}">
                         <div class="modal-body">
                             {{ csrf_field() }}
                             <button type="button" class="close close-btn" data-dismiss="modal" aria-label="Close">
@@ -66,7 +67,7 @@
 
                             <div class="form-group">
                                 <input type="text" id="password" name="password" class="form-control"
-                                       value="{{ old('password') }}" maxlength="255" required>
+                                      maxlength="255" required>
                                 <label for="password" class="input-label">Пароль</label>
                                 <div class='form-control-feedback'></div>
                             </div>
@@ -77,9 +78,9 @@
                                        class="input-label {{ empty($email) ? '' : 'active' }}">E-mail</label>
                                 <div class='form-control-feedback'></div>
                             </div>
-                            <div class="form-group {{ ($errors->has('newPassword')) ? 'has-danger' : '' }}">
+                            <div class="form-group">
                                 <input type="text" id="newPassword" name="newPassword" class="form-control"
-                                       value="{{ old('newPassword') }}" maxlength="255">
+                                       maxlength="255">
                                 <label for="newPassword" class="input-label">Новый пароль</label>
                                 <div class='form-control-feedback'></div>
                             </div>
@@ -87,10 +88,10 @@
                         <div class="modal-footer">
                             <button type="submit" class="btn btn-primary saveEmailPass">
                                 <span class="dflt-text">Изменить</span>
-                                <span class="load-text hidden"><i class="fa fa-circle" aria-hidden="true"></i></span>
-                                <span class="load-text hidden"><i class="fa fa-circle" aria-hidden="true"></i></span>
-                                <span class="load-text hidden"><i class="fa fa-circle" aria-hidden="true"></i></span>
-                                <span class="load-text hidden"><i class="fa fa-circle" aria-hidden="true"></i></span>
+                                <span class="load-text hidden">
+                                    <i class="fa fa-spinner fa-pulse fa-fw"></i>
+                                    <span>Loading</span>
+                                </span>
                             </button>
                         </div>
                     </form>

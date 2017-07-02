@@ -7,7 +7,10 @@
         $(this).siblings('label').removeClass('active').children('options').prop("checked", false);
     });
 
-    $('.saveEmailPass').on('click', function () {
+    $('.saveEmailPass').on('click', function (e) {
+        var emailPassForm = $('#edit-email-pass-form');
+
+        e.preventDefault();
         clearValidateErrors();
         $.ajaxSetup({
             headers: {
@@ -15,19 +18,26 @@
             }
         });
         $.ajax({
-            url: 'saveEmailPass',
-            data: new FormData($("#edit-email-pass-form")[0]),
+            url: emailPassForm.attr("action"),
+            data: new FormData(emailPassForm[0]),
             processData: false,
             contentType: false,
             type: 'POST',
             //отображение спиннера
             beforeSend: function () {
-                //TODO: заменить спинер на анимацию в кнопке
-                //$('.page-content').addClass('spinner');
-                $('.saveEmailPass').addClass('saving').children('.dflt-text').addClass('hidden').nextAll('.load-text').removeClass('hidden');
+                $('.saveEmailPass').addClass('saving').children('.dflt-text').addClass('hidden').nextAll('.load-text')
+                    .removeClass('hidden');
+                emailPassForm.find(".form-control").map(function(indx, element){
+                    var input = $(element);
+                    if (input.val()) {
+                        console.log(input.attr('id'));
+                        input.next('.input-label').addClass('active');
+                    }
+                });
             }
         })
             .done(function (data) {
+                console.log(data);
             })
             .fail(function (response) {
                 var errors, input, key;
@@ -39,8 +49,8 @@
                         input.nextAll('.form-control-feedback').text(error);
                     });
                 }
-                //$('.page-content').removeClass('spinner');
-                $('.saveEmailPass').removeClass('saving').text("Изменить");
+                $('.saveEmailPass').removeClass('saving').children('.dflt-text').removeClass('hidden')
+                    .nextAll('.load-text').addClass('hidden');
             });
     });
 

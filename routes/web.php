@@ -150,8 +150,10 @@ Route::group(['prefix' => 'user'], function () {
         Route::get('edit', [
             'as' => 'userEditProfile', 'uses' => 'UserController@editUserProfile'
         ])->middleware('auth');
-        Route::post('saveEmailPass', ['uses' => 'UserController@storeEmailPass'])->middleware('auth');
     });
+    Route::post('saveEmailPass', [
+        'as' => 'saveEmailPass', 'uses' => 'UserController@storeEmailPass'
+    ])->middleware('auth');
 });
 
 //TODO: реализовать вьюху и контроллер страницы разработчиков

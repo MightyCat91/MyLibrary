@@ -9,6 +9,7 @@
 namespace App\Http\Requests;
 
 
+use App\User;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
@@ -32,9 +33,13 @@ class EditUserProfile extends FormRequest
     public function rules()
     {
         if ($this->ajax()) {
-            \Debugbar::info(\Auth::id());
             $rules = [
-                'password' => 'required|string|max:255',
+                'password' => [
+                    'required',
+                    'string',
+                    'max:255',
+                    'check_password'
+                ],
                 'email' => [
                     'required',
                     'email',
@@ -42,7 +47,7 @@ class EditUserProfile extends FormRequest
                     'required_with:password',
                     Rule::unique('users')->ignore(\Auth::id()),
                 ],
-                'newPassword' => 'string|max:255|required_with:password|different:password',
+                'newPassword' => 'string|max:255|nullable|required_with:password|different:password',
             ];
         } else {
             $rules = [
@@ -56,6 +61,7 @@ class EditUserProfile extends FormRequest
             'password.required' => 'Поле обязательно к заполнению',
             'password.string' => 'Вводимое значение должно быть строкой',
             'password.max' => 'Пароль не должен содержать больше :max символов',
+            'password.check_password' => 'Пароль не совпадает с ранее сохраненным',
             'email.unique' => 'Такой email уже существует',
             'email.email' => 'Неправильный формат email',
             'email.required_with' => 'Должен быть введен текущий пароль',

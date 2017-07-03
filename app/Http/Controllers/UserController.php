@@ -70,12 +70,13 @@ class UserController extends Controller
                 $response = back()->withErrors($validate)->withInput();
             } else {
                 $user = \Auth::getUser();
-                $inputs = array_where(array_except($request->input(), ['_token', 'password']),
+                $inputs = array_where(array_except($request->input(), ['_token', 'oldPassword']),
                     function ($value, $key) {
                         return !empty($value);
                     });
+                \Debugbar::info($inputs);
                 foreach ($inputs as $key => $value) {
-                    $user->$key = $value;
+                    $user->$key = ($key = 'password') ? \Hash::make($value) : $value;
                 }
                 $user->save();
                 $response = redirect()->back();

@@ -34,7 +34,7 @@ class EditUserProfile extends FormRequest
     {
         if ($this->ajax()) {
             $rules = [
-                'password' => [
+                'oldPassword' => [
                     'required',
                     'string',
                     'max:255',
@@ -47,7 +47,7 @@ class EditUserProfile extends FormRequest
                     'required_with:password',
                     Rule::unique('users')->ignore(\Auth::id()),
                 ],
-                'newPassword' => 'string|max:255|nullable|required_if:password,*|different:password',
+                'password' => 'string|max:255|nullable|required_if:password,*|same:password',
             ];
         } else {
             $rules = [
@@ -58,19 +58,19 @@ class EditUserProfile extends FormRequest
 
     public function messages(){
         return [
-            'password.required' => 'Поле обязательно к заполнению',
-            'password.string' => 'Вводимое значение должно быть строкой',
-            'password.max' => 'Пароль не должен содержать больше :max символов',
-            'password.check_password' => 'Пароль не совпадает с ранее сохраненным',
+            'oldPassword.required' => 'Поле обязательно к заполнению',
+            'oldPassword.string' => 'Вводимое значение должно быть строкой',
+            'oldPassword.max' => 'Пароль не должен содержать больше :max символов',
+            'oldPassword.check_password' => 'Пароль не совпадает с ранее сохраненным',
             'email.required' => 'Поле обязательно к заполнению',
             'email.unique' => 'Такой email уже существует',
             'email.email' => 'Неправильный формат email',
             'email.required_with' => 'Должен быть введен текущий пароль',
             'email.max' => 'Email не должен содержать больше :max символов',
-            'newPassword.string' => 'Новый пароль должен быть строкой',
-            'newPassword.max' => 'Пароль не должен содержать больше :max символов',
-            'newPassword.required_with' => 'Должен быть введен старый пароль',
-            'newPassword.different' => 'Текущий пароль не должен совпадать со старым',
+            'password.string' => 'Новый пароль должен быть строкой',
+            'password.max' => 'Пароль не должен содержать больше :max символов',
+            'password.required_with' => 'Должен быть введен старый пароль',
+            'password.different' => 'Текущий пароль не должен совпадать со старым',
         ];
     }
 }

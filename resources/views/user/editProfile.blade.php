@@ -66,9 +66,9 @@
                             </div>
 
                             <div class="form-group">
-                                <input type="text" id="password" name="password" class="form-control"
+                                <input type="text" id="oldPassword" name="oldPassword" class="form-control"
                                       maxlength="255" required>
-                                <label for="password" class="input-label">Пароль</label>
+                                <label for="oldPassword" class="input-label">Пароль</label>
                                 <div class='form-control-feedback'></div>
                             </div>
                             <div class="form-group">
@@ -79,9 +79,9 @@
                                 <div class='form-control-feedback'></div>
                             </div>
                             <div class="form-group">
-                                <input type="text" id="newPassword" name="newPassword" class="form-control"
+                                <input type="text" id="password" name="password" class="form-control"
                                        maxlength="255">
-                                <label for="newPassword" class="input-label">Новый пароль</label>
+                                <label for="password" class="input-label">Новый пароль</label>
                                 <div class='form-control-feedback'></div>
                             </div>
                         </div>

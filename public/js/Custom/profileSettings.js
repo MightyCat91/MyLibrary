@@ -1,15 +1,15 @@
 (function ($) {
     //элемент body
     var body = $("body");
+    var emailPassForm = $('#edit-email-pass-form');
+    var changeBtn = $('.saveEmailPass');
 
     $('.btn-switch-label').on('click', function () {
         $(this).addClass('active').children('options').prop("checked", true);
         $(this).siblings('label').removeClass('active').children('options').prop("checked", false);
     });
 
-    $('.saveEmailPass').on('click', function (e) {
-        var emailPassForm = $('#edit-email-pass-form');
-
+    changeBtn.on('click', function (e) {
         e.preventDefault();
         clearValidateErrors();
         $.ajaxSetup({
@@ -25,15 +25,8 @@
             type: 'POST',
             //отображение спиннера
             beforeSend: function () {
-                $('.saveEmailPass').addClass('saving').children('.dflt-text').addClass('hidden').nextAll('.load-text')
+                changeBtn.addClass('saving').children('.dflt-text').addClass('hidden').nextAll('.load-text')
                     .removeClass('hidden');
-                emailPassForm.find(".form-control").map(function(indx, element){
-                    var input = $(element);
-                    if (input.val()) {
-                        console.log(input.attr('id'));
-                        input.next('.input-label').addClass('active');
-                    }
-                });
             }
         })
             .done(function (data) {
@@ -49,7 +42,7 @@
                         input.nextAll('.form-control-feedback').text(error);
                     });
                 }
-                $('.saveEmailPass').removeClass('saving').children('.dflt-text').removeClass('hidden')
+                changeBtn.removeClass('saving').children('.dflt-text').removeClass('hidden')
                     .nextAll('.load-text').addClass('hidden');
             });
     });
@@ -58,9 +51,17 @@
         clearValidateErrors();
     });
 
+    $("#changeEmailPass").on('show.bs.modal', function () {
+        emailPassForm.find(".form-control").map(function(indx, element){
+            var input = $(element);
+            if (input.val()) {
+                input.next('.input-label').addClass('active');
+            }
+        });
+    });
+
     function clearValidateErrors() {
         $('.form-control-feedback').text('');
         $('.form-group').removeClass('has-danger');
-        $('.modal-body label[for!=email]').removeClass('active');
     }
 })(jQuery);

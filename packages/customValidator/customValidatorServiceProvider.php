@@ -15,7 +15,7 @@ class CustomValidatorServiceProvider extends ServiceProvider
     public function boot()
     {
         Validator::extend('check_password', function ($attribute, $value, $parameters, $validator) {
-            \Hash::check($value, \Auth::getUser()->getAuthPassword()) ? true : false;
+            return \Hash::check($value, \Auth::getUser()->getAuthPassword());
         });
     }
 

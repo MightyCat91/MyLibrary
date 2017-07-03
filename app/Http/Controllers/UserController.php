@@ -19,7 +19,6 @@ class UserController extends Controller
     public function showUserProfile($id)
     {
         $user = User::find($id);
-//        dd($user);
         if ($array = $user->favorite) {
             $favorite = unserialize($array);
             $favoriteBooks = $favorite['books'];
@@ -52,7 +51,8 @@ class UserController extends Controller
         ]);
     }
 
-    public function editUserProfile($id) {
+    public function editUserProfile($id)
+    {
         $user = User::find($id);
         return view('user.editProfile', [
             'login' => $user->login,
@@ -62,14 +62,24 @@ class UserController extends Controller
         ]);
     }
 
-    public function storeEmailPass(EditUserProfile $request) {
+    public function storeEmailPass(EditUserProfile $request)
+    {
         if ($request->ajax()) {
             $validate = Validator::make($request->all(), $request->rules(), $request->messages());
             if ($validate->fails()) {
                 $response = back()->withErrors($validate)->withInput();
             } else {
-                $user = User::find();
-                dd($request);
+                $user = \Auth::getUser();
+                $inputs = array_where(array_except($request->input(), ['_token', 'password']),
+                    function ($value, $key) {
+                        return !empty($value);
+                    });
+                foreach ($inputs as $key => $value) {
+                    $user->$key = $value;
+                }
+                $user->save();
+                $response = redirect()->back();
+                alert()->success('Изменения сохранены.');
             }
             return $response;
         }

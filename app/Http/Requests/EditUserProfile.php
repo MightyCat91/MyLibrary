@@ -47,7 +47,7 @@ class EditUserProfile extends FormRequest
                     'required_with:password',
                     Rule::unique('users')->ignore(\Auth::id()),
                 ],
-                'newPassword' => 'string|max:255|nullable|required_with:password|different:password',
+                'newPassword' => 'string|max:255|nullable|required_if:password,*|different:password',
             ];
         } else {
             $rules = [
@@ -62,6 +62,7 @@ class EditUserProfile extends FormRequest
             'password.string' => 'Вводимое значение должно быть строкой',
             'password.max' => 'Пароль не должен содержать больше :max символов',
             'password.check_password' => 'Пароль не совпадает с ранее сохраненным',
+            'email.required' => 'Поле обязательно к заполнению',
             'email.unique' => 'Такой email уже существует',
             'email.email' => 'Неправильный формат email',
             'email.required_with' => 'Должен быть введен текущий пароль',

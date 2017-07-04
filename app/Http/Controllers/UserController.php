@@ -65,24 +65,23 @@ class UserController extends Controller
     public function storeEmailPass(EditUserProfile $request)
     {
         if ($request->ajax()) {
-            $validate = Validator::make($request->all(), $request->rules(), $request->messages());
-            if ($validate->fails()) {
-                $response = back()->withErrors($validate)->withInput();
-            } else {
+//            $validate = Validator::make($request->all(), $request->rules(), $request->messages());
+//            if ($validate->fails()) {
+//                $response = back()->withErrors($validate)->withInput();
+//            } else {
                 $user = \Auth::getUser();
                 $inputs = array_where(array_except($request->input(), ['_token', 'oldPassword']),
                     function ($value, $key) {
                         return !empty($value);
                     });
-                \Debugbar::info($inputs);
                 foreach ($inputs as $key => $value) {
-                    $user->$key = ($key = 'password') ? \Hash::make($value) : $value;
+                    $user->$key = ($key == 'password') ? \Hash::make($value) : $value;
                 }
                 $user->save();
-                $response = redirect()->back();
-                alert()->success('Изменения сохранены.');
-            }
-            return $response;
+//                $response = redirect()->back();
+                return alert()->success('Изменения сохранены.', '5000', true);
+//            }
+//            return $response;
         }
     }
 }

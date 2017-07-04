@@ -3,6 +3,7 @@
 namespace MyLibrary\Alerts;
 
 use \Illuminate\Session\Store;
+use Illuminate\Support\HtmlString;
 
 class Alert
 {
@@ -29,9 +30,10 @@ class Alert
      * @param string|string $message
      * @param string $type
      * @param $lifetime
+     * @param bool $ajax
      * @return $this
      */
-    public function flash($message, $type = 'info', $lifetime)
+    public function flash($message, $type = 'info', $lifetime, $ajax)
     {
         $icons = config('alert.icons');
         $lifetime = $lifetime ?? config('alert.lifetime');
@@ -42,7 +44,7 @@ class Alert
             'lifetime' => $lifetime,
         ];
         $this->session->flash('alert', $alert);
-        return $this;
+        return $ajax ? new HtmlString(view('Alert::alert')->renderSections()['alert']) : $this;
     }
 
     /**
@@ -50,11 +52,12 @@ class Alert
      *
      * @param string|string $message
      * @param null $lifetime
+     * @param bool $ajax
      * @return $this
      */
-    public function error($message, $lifetime = null)
+    public function error($message, $lifetime = null, $ajax = false)
     {
-        return $this->flash($message, 'danger', $lifetime);
+        return $this->flash($message, 'danger', $lifetime, $ajax);
     }
 
     /**
@@ -62,11 +65,12 @@ class Alert
      *
      * @param string|string $message
      * @param null $lifetime
+     * @param bool $ajax
      * @return $this
      */
-    public function info($message, $lifetime = null)
+    public function info($message, $lifetime = null, $ajax = false)
     {
-        return $this->flash($message, 'info', $lifetime);
+        return $this->flash($message, 'info', $lifetime, $ajax);
     }
 
     /**
@@ -74,11 +78,12 @@ class Alert
      *
      * @param string|string $message
      * @param null $lifetime
+     * @param bool $ajax
      * @return $this
      */
-    public function success($message, $lifetime = null)
+    public function success($message, $lifetime = null, $ajax = false)
     {
-        return $this->flash($message, 'success', $lifetime);
+        return $this->flash($message, 'success', $lifetime, $ajax);
     }
 
     /**
@@ -86,10 +91,11 @@ class Alert
      *
      * @param string|string $message
      * @param null $lifetime
+     * @param bool $ajax
      * @return $this
      */
-    public function warning($message, $lifetime = null)
+    public function warning($message, $lifetime = null, $ajax = false)
     {
-        return $this->flash($message, 'warning', $lifetime);
+        return $this->flash($message, 'warning', $lifetime, $ajax);
     }
 }

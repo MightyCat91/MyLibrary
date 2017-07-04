@@ -1,4 +1,5 @@
 (function ($) {
+
     //контейнер алерта
     var alert = $("#alert-container");
     //отображение алерта

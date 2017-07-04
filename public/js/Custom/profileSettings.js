@@ -3,6 +3,7 @@
     var body = $("body");
     var emailPassForm = $('#edit-email-pass-form');
     var changeBtn = $('.saveEmailPass');
+    var modalDialog = $("#changeEmailPass");
 
     $('.btn-switch-label').on('click', function () {
         $(this).addClass('active').children('options').prop("checked", true);
@@ -22,6 +23,7 @@
             data: new FormData(emailPassForm[0]),
             processData: false,
             contentType: false,
+            async: true,
             type: 'POST',
             //отображение спиннера
             beforeSend: function () {
@@ -30,7 +32,14 @@
             }
         })
             .done(function (data) {
+                changeBtn.removeClass('saving').children('.dflt-text').removeClass('hidden').nextAll('.load-text')
+                    .addClass('hidden');
+                modalDialog.modal('hide');
+                //сделать по красоте плюс возможно добавить проверку на отправку аякса при неизменности данных(возм
+                // валидацией отопнуть)
                 console.log(data);
+                body.append('<div id="test"></div>');
+                $('#test').html(data);
             })
             .fail(function (response) {
                 var errors, input, key;
@@ -47,17 +56,11 @@
             });
     });
 
-    $('#openDialog').on('click', function () {
+    modalDialog.on('hide.bs.modal', function ()
+    {
         clearValidateErrors();
-    });
+        $(this).find('.form-control[name != email]').val('').next('.input-label').removeClass('active');
 
-    $("#changeEmailPass").on('show.bs.modal', function () {
-        emailPassForm.find(".form-control").map(function(indx, element){
-            var input = $(element);
-            if (input.val()) {
-                input.next('.input-label').addClass('active');
-            }
-        });
     });
 
     function clearValidateErrors() {

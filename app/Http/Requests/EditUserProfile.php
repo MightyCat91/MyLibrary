@@ -47,7 +47,7 @@ class EditUserProfile extends FormRequest
                     'required_with:password',
                     Rule::unique('users')->ignore(\Auth::id()),
                 ],
-                'password' => 'string|max:255|nullable|required_if:password,*|same:password',
+                'password' => 'string|max:255|nullable|required_if:password,*|different:password',
             ];
         } else {
             $rules = [

@@ -3,5 +3,5 @@
     alert.addClass('visible');
     setTimeout(function () {
         alert.removeClass('visible');
-    }, alert.data("lifetime"))
+    }, alert.data("lifetime"));
 })(jQuery);

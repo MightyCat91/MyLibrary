@@ -117,20 +117,17 @@ div.page-content.spinner:after {
 /*
  * Left sidebar
  */
-
 #user-profile-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     margin: .5rem 1rem;
     border-bottom: 1px solid #009926;
-    height: 316px;
 }
 
 #user-profile-img-wrapper {
     border-radius: 50%;
     overflow: hidden;
-    width: 135px;
     margin-bottom: 0;
 }
 
@@ -138,22 +135,24 @@ div.page-content.spinner:after {
     width: 100%;
 }
 
-#user-nickname {
-    color: #fff;
-    font-size: 22px;
-    margin: 0.2rem 0;
-}
-
 .user-profile-btn-control {
-    margin-bottom: 1rem;
     display: flex;
+    margin-bottom: 1rem;
     background-color: #009926;
     border: 1px solid #fff;
     border-radius: 8px;
 }
 
+.user-profile-btn-control.visible {
+    transition: max-height 1s ease-in-out;
+    flex-direction: column;
+    /*transform: scaleY(1);*/
+    max-height: inherit;
+}
+
 .btn-control {
     border-right: 1px solid rgba(255,255,255,.5);
+    border-bottom: none;
     color: #fff;
     padding: 5px;
 }
@@ -641,6 +640,35 @@ div.page-content {
         display: none;
     }
 
+    #wrap-btn-control {
+        display: block;
+        color: #fff;
+    }
+
+    #wrap-btn-control.active {
+        transform: scaleY(-1);
+    }
+
+    .user-profile-btn-control {
+        transition: max-height 1s ease-in-out;
+        /*transform: scaleY(0);*/
+        max-height: 0;
+    }
+
+    .btn-control {
+        border-bottom: 1px solid rgba(255,255,255,.5);
+        border-right: none;
+    }
+
+    .btn-control:first-child {
+        border-radius: 6px 6px 0 0;
+    }
+
+    .btn-control:last-child {
+        border-bottom: 0;
+        border-radius: 0 0 6px 6px;
+    }
+
     #back-to-top.visible {
         transform: translateX(50px);
     }
@@ -718,6 +746,29 @@ div.page-content {
         overflow: hidden;
         background-color: #272c2e;
         font-size: 16px;
+    }
+
+    #user-profile-container {
+         height: 316px;
+     }
+
+    #user-profile-img-wrapper {
+        width: 135px;
+    }
+
+    #user-nickname {
+        color: #fff;
+        font-size: 22px;
+        margin: 0.2rem 0;
+        display: block;
+    }
+
+    #wrap-btn-control {
+        display: none;
+    }
+
+    .user-profile-btn-control {
+        display: flex;
     }
 
     #navigation hr {

@@ -25,4 +25,14 @@
             $(this).next('label').removeClass('active');
         }
     });
+
+    body.on('click', '#wrap-btn-control', function () {
+        if ($(this).hasClass('active')) {
+            $(this).removeClass('active');
+            $('.user-profile-btn-control').removeClass('visible');
+        } else {
+            $(this).addClass('active');
+            $('.user-profile-btn-control').addClass('visible');
+        }
+    });
 })(jQuery);

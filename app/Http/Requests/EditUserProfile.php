@@ -51,26 +51,35 @@ class EditUserProfile extends FormRequest
             ];
         } else {
             $rules = [
+                'login' => [
+                    'nullable',
+                    'string',
+                    'max:128',
+                    Rule::unique('users')->ignore(\Auth::id()),
+                ],
+                'name' => 'required|string|max:255'
             ];
         }
         return $rules;
     }
 
-    public function messages(){
+    public function messages()
+    {
         return [
-            'oldPassword.required' => 'Поле обязательно к заполнению',
-            'oldPassword.string' => 'Вводимое значение должно быть строкой',
+            '*.required' => 'Поле обязательно к заполнению',
+            '*.string' => 'Вводимое значение должно быть строкой',
             'oldPassword.max' => 'Пароль не должен содержать больше :max символов',
             'oldPassword.check_password' => 'Пароль не совпадает с ранее сохраненным',
-            'email.required' => 'Поле обязательно к заполнению',
             'email.unique' => 'Такой email уже существует',
             'email.email' => 'Неправильный формат email',
             'email.required_with' => 'Должен быть введен текущий пароль',
             'email.max' => 'Email не должен содержать больше :max символов',
-            'password.string' => 'Новый пароль должен быть строкой',
             'password.max' => 'Пароль не должен содержать больше :max символов',
             'password.required_with' => 'Должен быть введен старый пароль',
             'password.different' => 'Текущий пароль не должен совпадать со старым',
+            'login.max' => 'Логин не должен содержать больше :max символов',
+            'login.unique' => 'Такой логин уже существует',
+            'name.max' => 'Имя не должен содержать больше :max символов',
         ];
     }
 }

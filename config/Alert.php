@@ -13,6 +13,6 @@ return [
         'success' => 'fa-check',
         'info'    => 'fa-info',
         'warning' => 'fa-warning',
-        'danger'   => 'fa-times',
+        'danger'  => 'fa-times',
     ],
 ];

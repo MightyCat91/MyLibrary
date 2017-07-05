@@ -43,8 +43,13 @@ class Alert
             'message' => $message,
             'lifetime' => $lifetime,
         ];
-        $this->session->flash('alert', $alert);
-        return $ajax ? new HtmlString(view('Alert::alert')->renderSections()['alert']) : $this;
+        if ($ajax) {
+            $response = new HtmlString(view('alert::alertContent', $alert)->render());
+        } else {
+            $this->session->flash('alert', $alert);
+            $response = $this;
+        }
+        return $response;
     }
 
     /**

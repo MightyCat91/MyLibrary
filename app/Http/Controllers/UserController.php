@@ -16,7 +16,7 @@ use Validator;
 class UserController extends Controller
 {
 
-    public function showUserProfile($id)
+    public function showUserProfilePage($id)
     {
         $user = User::find($id);
         if ($array = $user->favorite) {
@@ -51,7 +51,7 @@ class UserController extends Controller
         ]);
     }
 
-    public function editUserProfile($id)
+    public function showEditUserProfilePage($id)
     {
         $user = User::find($id);
         return view('user.editProfile', [
@@ -62,26 +62,31 @@ class UserController extends Controller
         ]);
     }
 
+    public function editUserProfilePage($id, EditUserProfile $request) {
+        $user = \Auth::getUser();
+        $user->login = $request->input(['login']);
+        $user->name = $request->input(['name']);
+        $user->gender = $request->input(['man']) ? 'мужской' : 'женский';
+        $user->save();
+
+        alert()->success('Изменения сохранены.');
+        return redirect()->back();
+    }
+
     public function storeEmailPass(EditUserProfile $request)
     {
         if ($request->ajax()) {
-//            $validate = Validator::make($request->all(), $request->rules(), $request->messages());
-//            if ($validate->fails()) {
-//                $response = back()->withErrors($validate)->withInput();
-//            } else {
-                $user = \Auth::getUser();
-                $inputs = array_where(array_except($request->input(), ['_token', 'oldPassword']),
-                    function ($value, $key) {
-                        return !empty($value);
-                    });
-                foreach ($inputs as $key => $value) {
-                    $user->$key = ($key == 'password') ? \Hash::make($value) : $value;
-                }
-                $user->save();
-//                $response = redirect()->back();
-                return alert()->success('Изменения сохранены.', '5000', true);
-//            }
-//            return $response;
+            $user = \Auth::getUser();
+            $inputs = array_where(array_except($request->input(), ['_token', 'oldPassword']),
+                function ($value, $key) {
+                    return !empty($value);
+                });
+            foreach ($inputs as $key => $value) {
+                $user->$key = ($key == 'password') ? \Hash::make($value) : $value;
+            }
+            $user->save();
+
+            return alert()->success('Изменения сохранены.', '5000', true);
         }
     }
 }

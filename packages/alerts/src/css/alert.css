@@ -18,5 +18,6 @@
 }
 
 #alert-container.visible {
+    transition: 1s ease-in-out;
     right: 2em;
 }

@@ -629,6 +629,18 @@ div.page-content {
         font-size: 16px;
     }
 
+    #user-profile-container {
+        height: auto;
+    }
+
+    #user-profile-img-wrapper {
+        width: 40px;
+    }
+
+    #user-nickname {
+        display: none;
+    }
+
     #back-to-top.visible {
         transform: translateX(50px);
     }

@@ -20,6 +20,8 @@ class AlertServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        // Регистрация(загрузка) шаблона
+        $this->loadViewsFrom(__DIR__.'/views', 'alert');
         // Выполнение после-регистрационной загрузки сервисов
         $this->publishes([
             // Публикация файла настроек
@@ -40,11 +42,6 @@ class AlertServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        \View::addNamespace('Alert', __DIR__.'/views');
-
-        // Регистрация(загрузка) шаблона
-        $this->loadViewsFrom(__DIR__.'/views', 'alert');
-
         $this->app->singleton('alert', function ($app) {
             return new Alert($app['session.store']);
         });

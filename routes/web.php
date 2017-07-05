@@ -136,19 +136,22 @@ Route::group(['prefix' => 'series'], function () {
 Route::group(['prefix' => 'user'], function () {
     Route::group(['prefix' => '{id}', 'where' => ['id' => '[0-9]+']], function () {
         Route::get('', [
-            'as' => 'userProfile', 'uses' => 'UserController@showUserProfile'
+            'as' => 'userProfile', 'uses' => 'UserController@showUserProfilePage'
         ])->middleware('auth');
         Route::get('collections', [
-            'as' => 'userCollections', 'uses' => 'UserController@showUserCollections'
+            'as' => 'userCollections', 'uses' => 'UserController@showUserCollectionsPage'
         ])->middleware('auth');
         Route::get('books', [
-            'as' => 'userBooks', 'uses' => 'UserController@showUserBooks'
+            'as' => 'userBooks', 'uses' => 'UserController@showUserBooksPage'
         ])->middleware('auth');
         Route::get('history', [
-            'as' => 'userHistory', 'uses' => 'UserController@showUserHistory'
+            'as' => 'userHistory', 'uses' => 'UserController@showUserHistoryPage'
         ])->middleware('auth');
         Route::get('edit', [
-            'as' => 'userEditProfile', 'uses' => 'UserController@editUserProfile'
+            'as' => 'userEditProfile', 'uses' => 'UserController@showEditUserProfilePage'
+        ])->middleware('auth');
+        Route::post('edit', [
+            'as' => 'editProfile', 'uses' => 'UserController@editUserProfilePage'
         ])->middleware('auth');
     });
     Route::post('saveEmailPass', [

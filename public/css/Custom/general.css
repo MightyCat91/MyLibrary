@@ -141,13 +141,14 @@ div.page-content.spinner:after {
     background-color: #009926;
     border: 1px solid #fff;
     border-radius: 8px;
+    position: relative;
+    overflow: hidden;
 }
 
 .user-profile-btn-control.visible {
-    transition: max-height 1s ease-in-out;
-    flex-direction: column;
-    /*transform: scaleY(1);*/
-    max-height: inherit;
+    transition: 1s;
+    max-height: 176px;
+    border: 1px solid #fff;
 }
 
 .btn-control {
@@ -650,9 +651,10 @@ div.page-content {
     }
 
     .user-profile-btn-control {
-        transition: max-height 1s ease-in-out;
-        /*transform: scaleY(0);*/
+        transition: 1s;
         max-height: 0;
+        flex-direction: column;
+        border: 0;
     }
 
     .btn-control {
@@ -768,7 +770,7 @@ div.page-content {
     }
 
     .user-profile-btn-control {
-        display: flex;
+        flex-direction: row;
     }
 
     #navigation hr {

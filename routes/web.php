@@ -71,6 +71,9 @@ Route::group(['prefix' => 'author'], function () {
         Route::get('', [
             'as' => 'author', 'uses' => 'AuthorController@show'
         ]);
+        Route::post('', [
+            'as' => 'addToFavorite', 'uses' => 'UserController@addToFavorite'
+        ]);
     });
     Route::group(['prefix' => 'add'], function () {
         Route::get('', [

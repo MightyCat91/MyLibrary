@@ -10,5 +10,10 @@
         e.preventDefault();
         $('html, body').animate({scrollTop: 0}, 500);
         $(this).blur();
+    });
+
+    $('#add-to-favorite').on('click', function (e) {
+        e.preventDefault();
+        $.post(window.location);
     })
 })(jQuery);

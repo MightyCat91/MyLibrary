@@ -203,6 +203,7 @@
 }
 .gender {
     display: flex;
+    width: 6rem;
 }
 .btn-switch-label {
     padding: 0 1rem;
@@ -211,6 +212,7 @@
     border: 1px solid #009926;
     color: #3B4142;
     cursor: pointer;
+    flex-grow: 1;
 }
 .btn-switch-label.active {
     color: #fff;
@@ -232,6 +234,7 @@
     background-size: 200% 100%;
     background-position:right bottom;
     transition:all .7s ease;
+    border-left-width: 0;
 }
 .gender .active:first-child {
     background-position:right bottom;

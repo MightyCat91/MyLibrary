@@ -131,6 +131,12 @@ div.page-content.spinner:after {
     margin-bottom: 0;
 }
 
+#user-profile-img-wrapper {
+    border-radius: 50%;
+    overflow: hidden;
+    margin-bottom: 0;
+}
+
 #user-profile-img-wrapper img {
     width: 100%;
 }
@@ -149,6 +155,7 @@ div.page-content.spinner:after {
     transition: 1s;
     max-height: 176px;
     border: 1px solid #fff;
+    margin-top: 1rem;
 }
 
 .btn-control {
@@ -635,6 +642,7 @@ div.page-content {
 
     #user-profile-img-wrapper {
         width: 40px;
+        cursor: pointer;
     }
 
     #user-nickname {
@@ -771,6 +779,22 @@ div.page-content {
 
     .user-profile-btn-control {
         flex-direction: row;
+        border: 1px solid #fff;
+        max-height: inherit;
+    }
+
+    .btn-control {
+        border-right: 1px solid rgba(255,255,255,.5);
+        border-bottom: none;
+    }
+
+    .btn-control:first-child {
+        border-radius: 6px 0 0 6px;
+    }
+
+    .btn-control:last-child {
+        border-bottom: 0;
+        border-radius: 0 6px 6px 0;
     }
 
     #navigation hr {

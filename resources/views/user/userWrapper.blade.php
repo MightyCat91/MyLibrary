@@ -4,10 +4,6 @@
              alt="{{ Auth::getUser()->login ?? Auth::getUser()->name }}">
     </figure>
     <span id="user-nickname">{{ Auth::getUser()->login ?? Auth::getUser()->name }}</span>
-
-    <div id="wrap-btn-control">
-        <i class="fa fa-caret-down fa-fw" aria-hidden="true"></i>
-    </div>
     <div class="user-profile-btn-control">
         <a class="btn-control" href="{{ route('userProfile', ['id' => Auth::id()]) }}" title="Профиль">
             <i class="fa fa-user fa-fw" aria-hidden="true"></i></a>

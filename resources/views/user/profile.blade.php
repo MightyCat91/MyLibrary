@@ -73,27 +73,27 @@
     <section id="user-favorite-books" class="user-section">
         <h2>Любимые книги</h2>
         <figure class="owl-carousel owl-theme">
-            @foreach($favoriteBooks as $book)
-                <a href="{{ route('book', [$book->id]) }}">
-                    <img class="item" src="{{ asset(getStorageFile('book', $book->id))}}" alt="{{ $book->name }}">
-                </a>
-            @endforeach
+            {{--@foreach($favoriteBooks as $book)--}}
+                {{--<a href="{{ route('book', [$book->id]) }}">--}}
+                    {{--<img class="item" src="{{ asset(getStorageFile('book', $book->id))}}" alt="{{ $book->name }}">--}}
+                {{--</a>--}}
+            {{--@endforeach--}}
         </figure>
     </section>
     <section id="user-favorite-authors" class="user-section">
         <h2>Любимые авторы</h2>
         <figure class="owl-carousel owl-theme">
-            @foreach($favoriteAuthors as $author)
-                <a href="{{ route('author', [$author->id]) }}">
-                    <img class="item" src="{{ asset(getStorageFile('book', $author->id))}}" alt="{{ $author->name }}">
-                </a>
-            @endforeach
+            {{--@foreach($favoriteAuthors as $author)--}}
+                {{--<a href="{{ route('author', [$author->id]) }}">--}}
+                    {{--<img class="item" src="{{ asset(getStorageFile('book', $author->id))}}" alt="{{ $author->name }}">--}}
+                {{--</a>--}}
+            {{--@endforeach--}}
         </figure>
     </section>
     <section id="user-favorite-categories" class="user-section">
         <h2>Любимые жанры</h2>
-        @foreach($favoriteCategories as $category)
-            <a href="{{ route('category-books', [$category->id]) }}" class="category">{{ $category->name . ' ' }}</a>
-        @endforeach
+        {{--@foreach($favoriteCategories as $category)--}}
+            {{--<a href="{{ route('category-books', [$category->id]) }}" class="category">{{ $category->name . ' ' }}</a>--}}
+        {{--@endforeach--}}
     </section>
 @endsection

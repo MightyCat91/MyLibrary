@@ -1,34 +1,53 @@
 @push('styles')
 <link href="{{ asset('/css/Custom/addForm.css') }}" rel='stylesheet' type='text/css' media="all"/>
+<link href="{{ asset('/css/Custom/profileSettings.css') }}" rel='stylesheet' type='text/css' media="all"/>
 @endpush
 @extends('layouts.main',['title'=>'Настройки'])
 @section('content')
     <form id="edit-form" method="post" enctype="multipart/form-data">
         {{ csrf_field() }}
-        <div class="form-group {{ ($errors->has('login')) ? 'has-danger' : '' }}">
-            <input type="text" id="login" name="login" class="form-control" value="{{ old('login') ?? $login }}"
-                   maxlength="128">
-            <label for="login"
-                   class="input-label {{ (empty(old('login')) and empty($login)) ? '' : 'active' }}">Логин(никнейм)</label>
-            @if($errors->has('login'))
-                <div class="form-control-feedback">
-                    {{ $errors->first('login') }}
+        <section id="edit-form-wrapper">
+            <div>
+                <div class="form-group {{ ($errors->has('login')) ? 'has-danger' : '' }}">
+                    <input type="text" id="login" name="login" class="form-control" value="{{ old('login') ?? $login }}"
+                           maxlength="128">
+                    <label for="login"
+                           class="input-label {{ (empty(old('login')) and empty($login)) ? '' : 'active' }}">Логин(никнейм)</label>
+                    @if($errors->has('login'))
+                        <div class="form-control-feedback">
+                            {{ $errors->first('login') }}
+                        </div>
+                    @endif
                 </div>
-            @endif
-        </div>
 
-        <div class="form-group {{ ($errors->has('name')) ? 'has-danger' : '' }}">
-            <input type="text" id="name" name="name" class="form-control" value="{{ old('name') ?? $name}}"
-                   maxlength="255" required>
-            <label for="name"
-                   class="input-label {{ (empty(old('name')) and empty($name)) ? '' : 'active' }}">Реальное
-                имя</label>
-            @if($errors->has('name'))
-                <div class="form-control-feedback">
-                    {{ $errors->first('name') }}
+                <div class="form-group {{ ($errors->has('name')) ? 'has-danger' : '' }}">
+                    <input type="text" id="name" name="name" class="form-control" value="{{ old('name') ?? $name}}"
+                           maxlength="255" required>
+                    <label for="name"
+                           class="input-label {{ (empty(old('name')) and empty($name)) ? '' : 'active' }}">Реальное
+                        имя</label>
+                    @if($errors->has('name'))
+                        <div class="form-control-feedback">
+                            {{ $errors->first('name') }}
+                        </div>
+                    @endif
                 </div>
-            @endif
-        </div>
+            </div>
+            <div>
+                <figure id="user-profile-img-change-wrapper">
+                    <img src="{{ empty($file = getStorageFile('users', Auth::id())) ? asset('images/no_avatar.jpg') : asset($file) }}"
+                         alt="{{ Auth::getUser()->login ?? Auth::getUser()->name }}">
+                </figure>
+                <div id="img-change-btn-wrapper" class="hidden">
+                    <div class="img-change-btn update-btn" data-url="{{ asset('updateProfileImg') }}">
+                        <i class="fa fa-camera fa-fw" aria-hidden="true"></i>
+                    </div>
+                    <div class="img-change-btn delete-btn" data-url="{{ asset('deleteProfileImg') }}">
+                        <i class="fa fa-trash fa-fw" aria-hidden="true"></i>
+                    </div>
+                </div>
+            </div>
+        </section>
 
         <div class="gender form-group" data-toggle="buttons">
             <label class="btn-switch-label {{ $gender=='мужской' ? 'active' : '' }}">

@@ -81,4 +81,13 @@
         $('.form-control-feedback').text('');
         $('.form-group').removeClass('has-danger');
     }
+
+    $('#user-profile-img-change-wrapper').hover(
+        function () {
+            $('#img-change-btn-wrapper').removeClass('hidden');
+        },
+        function () {
+            $('#img-change-btn-wrapper').addClass('hidden');
+        }
+    );
 })(jQuery);

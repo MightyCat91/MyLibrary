@@ -4,12 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\AuthorAddRequest;
 use App\Series;
-use Illuminate\Auth\Access\AuthorizationException;
+use App\User;
 use Illuminate\Http\Request;
 use App\Author;
-use Illuminate\Validation\UnauthorizedException;
 use Storage;
-use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Validator;
 
 class AuthorController extends Controller
@@ -114,21 +112,30 @@ class AuthorController extends Controller
             if (!$id) {
                 $view = view('authors', [
                     'type' => 'author',
-                    'authors' => Author::get(['id','name'])
+                    'authors' => Author::get(['id', 'name'])
                 ]);
             } else {
                 $author = Author::FindOrFail($id);
+                if (\Auth::check()) {
+                    $favorite = User::findOrFail(\Auth::id())->favorite;
+                    $favoriteOfType = array_has($favorite, 'author');
+                    $inFavorite = $favoriteOfType ? array_has($favorite['author'], array_search($id,
+                        $favorite['author']) ?: '') : null;
+                } else {
+                    $inFavorite = null;
+                }
                 $view = view('author', [
                     'author' => $author,
                     'authorSeries' => $author->series(),
                     'books' => $author->books,
-                    'categories' => $author->categories()
+                    'categories' => $author->categories(),
+                    'inFavorite' => $inFavorite,
                 ]);
             }
         } else {
             $view = view('authors', [
                 'type' => 'author',
-                'authors' => Author::where('name', 'LIKE', $request->filter . '%')->get(['id','name'])
+                'authors' => Author::where('name', 'LIKE', $request->filter . '%')->get(['id', 'name'])
             ]);
         }
 

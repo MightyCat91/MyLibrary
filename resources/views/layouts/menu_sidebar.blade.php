@@ -22,7 +22,7 @@
                 <div class="nav-item-name">Жанры</div>
             </a>
             <a href="{{ route('publishers') }}" class="nav-item {{ active('publishers') }}">
-                <i class="fa fa-pencil fa-lg fa-fw nav-item-icon" aria-hidden="true"></i>
+                <i class="fa fa-address-book fa-lg fa-fw nav-item-icon" aria-hidden="true"></i>
 
                 <div class="nav-item-name">Издатели</div>
             </a>

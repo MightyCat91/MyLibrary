@@ -1,16 +1,16 @@
 @push('styles')
-    <link href="{{ asset('/css/Custom/commonGrid.css') }}" rel='stylesheet' type='text/css' media="all"/>
-    <link href="{{ asset('/css/Custom/itemInfo.css') }}" rel='stylesheet' type='text/css' media="all"/>
-    <link href="{{ asset('/css/Library/Owl.Carousel/owl.carousel.min.css') }}" rel='stylesheet' type='text/css'
-          media="all"/>
-    <link href="{{ asset('/css/Library/Owl.Carousel/owl.theme.default.min.css') }}" rel='stylesheet' type='text/css'
+<link href="{{ asset('/css/Custom/commonGrid.css') }}" rel='stylesheet' type='text/css' media="all"/>
+<link href="{{ asset('/css/Custom/itemInfo.css') }}" rel='stylesheet' type='text/css' media="all"/>
+<link href="{{ asset('/css/Library/Owl.Carousel/owl.carousel.min.css') }}" rel='stylesheet' type='text/css'
       media="all"/>
-    <link href="{{ asset('/css/Library/Owl.Carousel/owl.theme.default.css') }}" rel='stylesheet' type='text/css'
+<link href="{{ asset('/css/Library/Owl.Carousel/owl.theme.default.min.css') }}" rel='stylesheet' type='text/css'
+      media="all"/>
+<link href="{{ asset('/css/Library/Owl.Carousel/owl.theme.default.css') }}" rel='stylesheet' type='text/css'
       media="all"/>
 @endpush
 @push('scripts')
-    <script type="text/javascript" src="{{ asset('/js/Library/Owl.Carousel/owl.carousel.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('/js/Custom/book.js') }}"></script>
+<script type="text/javascript" src="{{ asset('/js/Library/Owl.Carousel/owl.carousel.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('/js/Custom/book.js') }}"></script>
 @endpush
 {{ Session::flash('title', $book->name) }}
 @extends('layouts.main',['title'=>$book->name])
@@ -22,10 +22,31 @@
             </header>
             {{Breadcrumbs::render()}}
             <section id="short-info">
-                <figure class="short-img owl-carousel owl-theme">
+                <figure class="short-img">
+                    <div class="slider owl-carousel owl-theme">
                         @foreach(getPublicFiles('books', $book->id) as $bookCover)
                             <img class="item" src="{{ asset($bookCover)}}" alt="{{ $book->name }}">
                         @endforeach
+                    </div>
+                    @if(Auth::check())
+                        <div id="user-actions-wrapper">
+                            <div class="user-actions-item" title="Написать комментарий">
+                                <a id="add-comment" href="#"><i class="fa fa-comments fa-fw" aria-hidden="true"></i></a>
+                            </div>
+                            <div class="user-actions-item">
+                                <a id="add-review" href="#" title="Написать рецензию">
+                                    <i class="fa fa-pencil fa-fw" aria-hidden="true"></i>
+                                </a>
+                            </div>
+                            <div class="user-actions-item">
+                                <a id="add-to-favorite" class="{{ ($inFavorite) ? 'active' : '' }}" data-type="book"
+                                   href="#" title="{{ ($inFavorite) ? 'Удалить из избранного' : 'Добавить в избранное'
+                                   }}">
+                                    <i class="fa fa-heart fa-fw" aria-hidden="true"></i>
+                                </a>
+                            </div>
+                        </div>
+                    @endif
                 </figure>
                 <aside class="short-info-items">
                     <ul>
@@ -64,7 +85,7 @@
                             </li>
                         @endif
                         <li>
-                            <span><i class="fa fa-pencil fa-lg item-icon" aria-hidden="true"></i>Издатель:</span>
+                            <span><i class="fa fa-address-book fa-lg item-icon" aria-hidden="true"></i>Издатель:</span>
                             @foreach($publishers as $publisher)
                                 <a href="{{ route('publisher-books', [$publisher->id]) }}"
                                    class="item-link publisher-item">{{ $publisher->name . ' ' }}</a>
@@ -79,10 +100,6 @@
                         <li>
                             <span><i class="fa fa-hourglass-half fa-lg item-icon" aria-hidden="true"></i>Количество страниц:</span>
                             <span>{{ $book->page_counts }}</span>
-                        </li>
-                        <li>
-                            <a id="add-to-favorite" href="#">
-                                <i class="fa fa-heart-o fa-lg item-icon" aria-hidden="true"></i>Добавить в любимые</a>
                         </li>
                     </ul>
                 </aside>

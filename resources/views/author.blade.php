@@ -14,6 +14,25 @@
             <section id="short-info">
                 <figure class="short-img">
                     <img src="{{ asset(getPublicFiles('authors', $author->id)[0])}}" alt="{{ $author->name }}">
+                    @if(Auth::check())
+                        <div id="user-actions-wrapper">
+                            <div class="user-actions-item" title="Написать комментарий">
+                                <a id="add-comment" href="#"><i class="fa fa-comments fa-fw" aria-hidden="true"></i></a>
+                            </div>
+                            <div class="user-actions-item">
+                                <a id="add-review" href="#" title="Написать рецензию">
+                                    <i class="fa fa-pencil fa-fw" aria-hidden="true"></i>
+                                </a>
+                            </div>
+                            <div class="user-actions-item">
+                                <a id="add-to-favorite" class="{{ ($inFavorite) ? 'active' : '' }}" data-type="author"
+                                   href="#" title="{{ ($inFavorite) ? 'Удалить из избранного' : 'Добавить в избранное'
+                                   }}">
+                                    <i class="fa fa-heart fa-fw" aria-hidden="true"></i>
+                                </a>
+                            </div>
+                        </div>
+                    @endif
                 </figure>
                 <aside class="short-info-items">
                     <ul>
@@ -42,10 +61,6 @@
                                 </div>
                             </li>
                         @endif
-                        <li>
-                            <a id="add-to-favorite" href="#">
-                                <i class="fa fa-heart-o fa-lg item-icon" aria-hidden="true"></i>Добавить в любимые</a>
-                        </li>
                     </ul>
                 </aside>
             </section>

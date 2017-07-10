@@ -1,3 +1,4 @@
+
 (function($){
     //элемент body
     var body = $("body");
@@ -13,6 +14,7 @@
         $('html, body').animate({scrollTop: 0}, 500);
         $(this).blur();
     });
+
 
     //анимация лейбла при фокусе на поле ввода
     body.on('focus', '.form-control', function () {
@@ -32,4 +34,26 @@
             $('.user-profile-btn-control').toggleClass('visible');
         }
     });
-})(jQuery);
+
+    $('#add-to-favorite').on('click', function (e) {
+        var favoriteBtn = $(this);
+        var action = favoriteBtn.hasClass('active');
+        e.preventDefault();
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $.ajax({
+            url: window.location.pathname,
+            data: 'type=' + $(this).data('type') + '&delete=' + action,
+            type: 'POST'
+        })
+            .done(function () {
+                favoriteBtn.toggleClass('active')
+                    .attr('title', action ? 'Добавить в избранное' : 'Удалить из избранного');
+            })
+    })
+})
+(jQuery);
+

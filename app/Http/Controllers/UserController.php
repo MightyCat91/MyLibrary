@@ -1,17 +1,11 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Александр
- * Date: 21.06.2017
- * Time: 22:59
- */
 
 namespace App\Http\Controllers;
 
 
 use App\Http\Requests\EditUserProfile;
 use App\User;
-use Validator;
+use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
@@ -87,6 +81,24 @@ class UserController extends Controller
             $user->save();
 
             return alert()->success('Изменения сохранены.', '5000', true);
+        }
+    }
+
+    public function addToFavorite($id, Request $request) {
+        if ($request->ajax()) {
+            $type = $request->get('type');
+            $user = User::findOrFail(\Auth::id());
+            $favorite = $user->favorite;
+            $arrayOfType = array_get($favorite, $type, []);
+            if ($request->get('delete')=='true') {
+                array_forget($arrayOfType, array_search($id, $arrayOfType));
+            } else {
+                array_push($arrayOfType, $id);
+            }
+            array_set($favorite, $type, $arrayOfType);
+            $user->favorite = $favorite;
+            $user->save();
+            return alert()->success(($type == 'book') ? 'Книга добавлена' : 'Автор  добавлен' . ' в избранное', '5000', true);
         }
     }
 }

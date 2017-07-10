@@ -7,6 +7,7 @@ use App\Categories;
 use App\Http\Requests\BookAddRequest;
 use App\Publisher;
 use App\Series;
+use App\User;
 use Illuminate\Http\Request;
 use App\Book;
 use Storage;
@@ -78,13 +79,22 @@ class BookController extends Controller
                 } else {
                     $sidebarBooks = $book->authorBooks();
                 }
+                if (\Auth::check()) {
+                    $favorite = User::findOrFail(\Auth::id())->favorite;
+                    $favoriteOfType = array_has($favorite, 'book');
+                    $inFavorite = $favoriteOfType ? array_has($favorite['book'], array_search($id,
+                        $favorite['book']) ?: '') : null;
+                } else {
+                    $inFavorite = null;
+                }
                 $view = view('book', [
                     'book' => $book,
                     'authors' => $book->authors,
                     'bookSeries' => $series,
                     'categories' => $book->categories,
                     'publishers' => $book->publishers,
-                    'sidebarBooks' => $sidebarBooks
+                    'sidebarBooks' => $sidebarBooks,
+                    'inFavorite' => $inFavorite,
                 ]);
             }
         } else {

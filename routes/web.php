@@ -58,9 +58,14 @@ Route::group(['prefix' => 'book'], function () {
             'uses' => 'BookController@addImgAJAX'
         ])->middleware('auth');
     });
-    Route::get('{id}', [
-        'as' => 'book', 'uses' => 'BookController@show'
-    ]);
+    Route::group(['prefix' => '{id}'], function () {
+        Route::get('', [
+            'as' => 'book', 'uses' => 'BookController@show'
+        ]);
+        Route::post('', [
+            'as' => 'addToFavorite', 'uses' => 'UserController@addToFavorite'
+        ]);
+    });
 });
 
 Route::group(['prefix' => 'author'], function () {
@@ -70,6 +75,9 @@ Route::group(['prefix' => 'author'], function () {
         ]);
         Route::get('', [
             'as' => 'author', 'uses' => 'AuthorController@show'
+        ]);
+        Route::post('', [
+            'as' => 'addToFavorite', 'uses' => 'UserController@addToFavorite'
         ]);
     });
     Route::group(['prefix' => 'add'], function () {

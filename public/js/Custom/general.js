@@ -49,9 +49,11 @@
             data: 'type=' + $(this).data('type') + '&delete=' + action,
             type: 'POST'
         })
-            .done(function () {
+            .done(function (data) {
                 favoriteBtn.toggleClass('active')
                     .attr('title', action ? 'Добавить в избранное' : 'Удалить из избранного');
+                //добавление ответа сервера(алерт)
+                body.append(data);
             })
     })
 })

@@ -19,6 +19,10 @@ Route::get('year/{year}/books', [
     'as' => 'year-books', 'uses' => 'BookController@showBooksForYear'
 ]);
 
+Route::post('changeImg', [
+    'as' => 'chanc'
+]);
+
 Route::group(['prefix' => 'publisher'], function () {
     Route::group(['prefix' => '{id}', 'where' => ['id' => '[0-9]+']], function (){
         Route::get('', [

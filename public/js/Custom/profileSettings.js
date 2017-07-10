@@ -8,7 +8,7 @@
     //контейнер модального окна
     var modalDialog = $("#changeEmailPass");
 
-    //переключение togle-кнопки "Пол"
+    //переключение toggle-кнопки "Пол"
     $('.btn-switch-label').on('click', function () {
         $(this).addClass('active').children('options').prop("checked", true);
         $(this).siblings('label').removeClass('active').children('options').prop("checked", false);
@@ -76,18 +76,35 @@
 
     });
 
+    $('#imageInput').change(function () {
+        var imgFile = $(this).val();
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $.ajax({
+            url: 'changeAvatar',
+            data: imgFile,
+            processData: false,
+            contentType: false,
+            type: 'POST'
+        })
+            .done(function(response){
+                $('#user-profile-img-change-wrapper img').attr('src', response);
+                $('#user-profile-img-wrapper img').attr('src', response);
+            })
+            .fail(function (response) {
+                //добавление ответа сервера(алерт)
+                body.append(response);
+            })
+
+    });
+
     //удаление с формы результатов предыдущей неуспешной валидации
     function clearValidateErrors() {
         $('.form-control-feedback').text('');
         $('.form-group').removeClass('has-danger');
     }
 
-    $('#user-profile-img-change-wrapper').hover(
-        function () {
-            $('#img-change-btn-wrapper').removeClass('hidden');
-        },
-        function () {
-            $('#img-change-btn-wrapper').addClass('hidden');
-        }
-    );
 })(jQuery);

@@ -48,6 +48,7 @@ class EditUserProfile extends FormRequest
                     Rule::unique('users')->ignore(\Auth::id()),
                 ],
                 'password' => 'string|max:255|nullable|required_if:password,*|different:password',
+                'imageInput' => 'image|mimes:jpg,jpeg,png,gif|max:6080',
             ];
         } else {
             $rules = [
@@ -80,6 +81,11 @@ class EditUserProfile extends FormRequest
             'login.max' => 'Логин не должен содержать больше :max символов',
             'login.unique' => 'Такой логин уже существует',
             'name.max' => 'Имя не должен содержать больше :max символов',
+            'imageInput.required' => 'Необходимо загрузить файл',
+            'imageInput.image' => 'Загружаемый файл должен быть изображением',
+            'imageInput.mimes' => 'Загружаемый файл должен иметь расширения: :values',
+            'imageInput.max' => 'Максимальный размер загружаемого файла не должен превышать :max',
+            'imageInput.dimension' => 'Загруженное изображение имеет некорректное разрешение',
         ];
     }
 }

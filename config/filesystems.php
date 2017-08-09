@@ -88,6 +88,13 @@ return [
             'root' => storage_path('app/public/temporary/books'),
             'visibility' => 'public',
             'url' => env('APP_URL') . '/storage/temporary/books',
+        ],
+
+        'users' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/users'),
+            'visibility' => 'public',
+            'url' => env('APP_URL') . '/storage/users',
         ]
     ],
 

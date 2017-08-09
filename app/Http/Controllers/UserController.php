@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\EditUserProfile;
 use App\User;
 use Illuminate\Http\Request;
+use Storage;
 
 class UserController extends Controller
 {
@@ -81,6 +82,21 @@ class UserController extends Controller
             $user->save();
 
             return alert()->success('Изменения сохранены.', '5000', true);
+        }
+    }
+
+    public function updateProfileImg($id, EditUserProfile $request) {
+        if($request->ajax()) {
+            \Debugbar::info($request);
+            if ($request->hasFile('imageInput')) {
+                $file = $request->file('imageInput');
+                Storage::disk('users')->put(
+                    $id,
+                    file_get_contents($file)
+                );
+                $url = Storage::disk('authorsTemporary')->url($id);
+                return $url;
+            }
         }
     }
 

@@ -76,30 +76,39 @@
 
     });
 
-    $('#imageInput').change(function () {
-        var imgFile = $(this).val();
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-        $.ajax({
-            url: 'changeAvatar',
-            data: imgFile,
-            processData: false,
-            contentType: false,
-            type: 'POST'
-        })
-            .done(function(response){
-                $('#user-profile-img-change-wrapper img').attr('src', response);
-                $('#user-profile-img-wrapper img').attr('src', response);
-            })
-            .fail(function (response) {
-                //добавление ответа сервера(алерт)
-                body.append(response);
-            })
-
+    $('.update-btn').on('click', function () {
+       updateProfileImg(false, $(this).data('url'));
     });
+
+    $('.delete-btn').on('click', function () {
+        updateProfileImg(true, $(this).data('url'));
+    });
+
+    function updateProfileImg(needDelete, url) {
+        $('#imageInput').on('change', function () {
+            var imgFile = $(this).val();
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            $.ajax({
+                url: url,
+                data: { needDelete: needDelete, imgFile : imgFile },
+                processData: false,
+                contentType: false,
+                type: 'POST'
+            })
+                .done(function(response){
+                    $('#user-profile-img-change-wrapper img').attr('src', response);
+                    $('#user-profile-img-wrapper img').attr('src', response);
+                })
+                .fail(function (response) {
+                    //добавление ответа сервера(алерт)
+                    body.append(response);
+                })
+        });
+    }
 
     //удаление с формы результатов предыдущей неуспешной валидации
     function clearValidateErrors() {

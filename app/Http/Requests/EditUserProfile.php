@@ -32,16 +32,18 @@ class EditUserProfile extends FormRequest
      */
     public function rules()
     {
+        \Debugbar::info($this->request);
+        \Debugbar::info($this->route()->getName());
         if ($this->ajax()) {
             $rules = [
                 'oldPassword' => [
-                    'required',
+                    'required_without:imageInput',
                     'string',
                     'max:255',
                     'check_password'
                 ],
                 'email' => [
-                    'required',
+                    'required_without:imageInput',
                     'email',
                     'max:255',
                     'required_with:password',
@@ -67,7 +69,7 @@ class EditUserProfile extends FormRequest
     public function messages()
     {
         return [
-            '*.required' => 'Поле обязательно к заполнению',
+            '*.required_without' => 'Поле обязательно к заполнению',
             '*.string' => 'Вводимое значение должно быть строкой',
             'oldPassword.max' => 'Пароль не должен содержать больше :max символов',
             'oldPassword.check_password' => 'Пароль не совпадает с ранее сохраненным',

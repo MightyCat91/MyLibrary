@@ -69,45 +69,48 @@
     });
 
     //очистка полей ввода формы в момент ее закрытия
-    modalDialog.on('hide.bs.modal', function ()
-    {
+    modalDialog.on('hide.bs.modal', function () {
         clearValidateErrors();
         $(this).find('.form-control[name != email]').val('').next('.input-label').removeClass('active');
 
     });
 
     $('.update-btn').on('click', function () {
-       updateProfileImg(false, $(this).data('url'));
+        $('#imageInput').on('change', function () {
+            updateProfileImg(false, $(this).data('url'), $(this).val());
+        });
     });
 
     $('.delete-btn').on('click', function () {
         updateProfileImg(true, $(this).data('url'));
+        console.log($(this).data('url'));
     });
 
-    function updateProfileImg(needDelete, url) {
-        $('#imageInput').on('change', function () {
-            var imgFile = $(this).val();
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-            $.ajax({
-                url: url,
-                data: { needDelete: needDelete, imgFile : imgFile },
-                processData: false,
-                contentType: false,
-                type: 'POST'
-            })
-                .done(function(response){
-                    $('#user-profile-img-change-wrapper img').attr('src', response);
-                    $('#user-profile-img-wrapper img').attr('src', response);
-                })
-                .fail(function (response) {
-                    //добавление ответа сервера(алерт)
-                    body.append(response);
-                })
+    function updateProfileImg(needDelete, url, imgFile) {
+        var options = {needDelete: needDelete};
+        if (imgFile) {
+            options[imgFile] = imgFile;
+        }
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
         });
+        $.ajax({
+            url: url,
+            data: options,
+            processData: false,
+            contentType: false,
+            type: 'POST'
+        })
+            .done(function (response) {
+                $('#user-profile-img-change-wrapper img').attr('src', response);
+                $('#user-profile-img-wrapper img').attr('src', response);
+            })
+            .fail(function (response) {
+                //добавление ответа сервера(алерт)
+                body.append(response);
+            });
     }
 
     //удаление с формы результатов предыдущей неуспешной валидации

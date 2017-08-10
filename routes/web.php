@@ -168,9 +168,6 @@ Route::group(['prefix' => 'user'], function () {
         Route::post('/updateProfileImg', [
             'as' => 'updateProfileImg', 'uses' => 'UserController@updateProfileImg'
         ]);
-        Route::post('/deleteProfileImg', [
-            'as' => 'deleteProfileImg', 'uses' => 'UserController@deleteProfileImg'
-        ]);
     });
     Route::post('saveEmailPass', [
         'as' => 'saveEmailPass', 'uses' => 'UserController@storeEmailPass'

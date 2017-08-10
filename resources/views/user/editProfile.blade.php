@@ -37,15 +37,18 @@
                 <figure id="user-profile-img-change-wrapper">
                     <img src="{{ empty($file = getStorageFile('users', Auth::id())) ? asset('images/no_avatar.jpg') : asset($file) }}"
                          alt="{{ Auth::getUser()->login ?? Auth::getUser()->name }}">
+
                     <div id="img-change-btn-wrapper">
-                        <div class="img-change-btn update-btn" data-url="{{ asset('/updateProfileImg') }}">
+                        <div class="img-change-btn update-btn"
+                             data-url="{{ route('updateProfileImg', ['id' => Auth::id()]) }}">
                             <input class="hidden" type="file" name="imageInput" id="imageInput"
                                    accept="image/jpeg,image/png,image/gif"/>
                             <label for="imageInput">
                                 <i class="fa fa-camera fa-fw" aria-hidden="true"></i>
                             </label>
                         </div>
-                        <div class="img-change-btn delete-btn" data-url="{{ asset('/deleteProfileImg') }}">
+                        <div class="img-change-btn delete-btn"
+                             data-url="{{ route('updateProfileImg', ['id' => Auth::id()]) }}">
                             <i class="fa fa-trash fa-fw" aria-hidden="true"></i>
                         </div>
                     </div>

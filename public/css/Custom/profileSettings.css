@@ -16,7 +16,8 @@
 }
 
 #user-profile-img-change-wrapper {
-    max-width: 10em;
+    width: 10em;
+    height: 10em;
     border-radius: 50%;
     overflow: hidden;
     border: 1px solid #009926;
@@ -26,8 +27,7 @@
 }
 
 #user-profile-img-change-wrapper img {
-    width: 100%;
-    border-radius: 50%;
+    height: 100%;
 }
 
 #img-change-btn-wrapper {
@@ -60,4 +60,9 @@
 .img-change-btn:hover, .img-change-btn:hover label {
     color: #009926;
     cursor: pointer;
+}
+
+.img-change-btn.delete-btn.forbidden {
+    opacity: .5;
+    cursor: not-allowed;
 }

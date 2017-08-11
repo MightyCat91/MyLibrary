@@ -32,26 +32,29 @@ class EditUserProfile extends FormRequest
      */
     public function rules()
     {
-        \Debugbar::info($this->request);
-        \Debugbar::info($this->route()->getName());
         if ($this->ajax()) {
-            $rules = [
-                'oldPassword' => [
-                    'required_without:imageInput',
-                    'string',
-                    'max:255',
-                    'check_password'
-                ],
-                'email' => [
-                    'required_without:imageInput',
-                    'email',
-                    'max:255',
-                    'required_with:password',
-                    Rule::unique('users')->ignore(\Auth::id()),
-                ],
-                'password' => 'string|max:255|nullable|required_if:password,*|different:password',
-                'imageInput' => 'image|mimes:jpg,jpeg,png,gif|max:6080',
-            ];
+            if($this->route()->getName() === 'updateProfileImg') {
+                $rules = [
+                    'imageInput' => 'image|mimes:jpg,jpeg,png,gif|max:6080',
+                ];
+            } else {
+                $rules = [
+                    'oldPassword' => [
+                        'required_without:imageInput',
+                        'string',
+                        'max:255',
+                        'check_password'
+                    ],
+                    'email' => [
+                        'required_without:imageInput',
+                        'email',
+                        'max:255',
+                        'required_with:password',
+                        Rule::unique('users')->ignore(\Auth::id()),
+                    ],
+                    'password' => 'string|max:255|nullable|required_if:password,*|different:password',
+                ];
+            }
         } else {
             $rules = [
                 'login' => [

@@ -13,8 +13,6 @@ class AuthorAddRequest extends FormRequest
      */
     public function authorize()
     {
-        //TODO: дописать проверку авторизованности юзера добавляющего автора
-        //TODO: реализовать страницу 403
         return true;
     }
 

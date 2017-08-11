@@ -78,12 +78,15 @@
     $('.update-btn').on('click', function () {
         $('#imageInput').on('change', function () {
             updateProfileImg(false, $(this).data('url'), $(this).val());
+            $('.delete-btn').removeClass('forbidden');
         });
     });
 
     $('.delete-btn').on('click', function () {
-        updateProfileImg(true, $(this).data('url'));
-        console.log($(this).data('url'));
+        if(!$(this).hasClass('forbidden')) {
+            updateProfileImg(true, $(this).data('url'));
+            $(this).addClass('forbidden');
+        }
     });
 
     function updateProfileImg(needDelete, url, imgFile) {

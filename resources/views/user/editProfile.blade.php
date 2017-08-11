@@ -47,7 +47,7 @@
                                 <i class="fa fa-camera fa-fw" aria-hidden="true"></i>
                             </label>
                         </div>
-                        <div class="img-change-btn delete-btn"
+                        <div class="img-change-btn delete-btn {{ empty(getStorageFile('users', Auth::id())) ? 'forbidden' : '' }}"
                              data-url="{{ route('updateProfileImg', ['id' => Auth::id()]) }}">
                             <i class="fa fa-trash fa-fw" aria-hidden="true"></i>
                         </div>

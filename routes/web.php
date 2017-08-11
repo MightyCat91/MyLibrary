@@ -165,7 +165,7 @@ Route::group(['prefix' => 'user'], function () {
         Route::post('edit', [
             'as' => 'editProfile', 'uses' => 'UserController@editUserProfilePage'
         ])->middleware('auth');
-        Route::post('/updateProfileImg', [
+        Route::post('updateProfileImg', [
             'as' => 'updateProfileImg', 'uses' => 'UserController@updateProfileImg'
         ]);
     });

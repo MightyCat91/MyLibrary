@@ -76,8 +76,9 @@
     });
 
     $('.update-btn').on('click', function () {
+        var url = $(this).data('url');
         $('#imageInput').on('change', function () {
-            updateProfileImg(false, $(this).data('url'), $(this).val());
+            updateProfileImg(false, url, $(this).val());
             $('.delete-btn').removeClass('forbidden');
         });
     });
@@ -92,8 +93,9 @@
     function updateProfileImg(needDelete, url, imgFile) {
         var options = {needDelete: needDelete};
         if (imgFile) {
-            options[imgFile] = imgFile;
+            options['imageInput'] = imgFile;
         }
+        console.log(options);
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')

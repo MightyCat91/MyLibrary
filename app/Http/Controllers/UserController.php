@@ -87,20 +87,20 @@ class UserController extends Controller
 
     public function updateProfileImg($id, EditUserProfile $request) {
         if($request->ajax()) {
+            \Debugbar::info($request->input());
             if ($request->hasFile('imageInput')) {
                 $file = $request->file('imageInput');
-                Storage::disk('users')->put(
-                    $id,
-                    file_get_contents($file)
-                );
+                $filename = $file->getClientOriginalName();
+                \Debugbar::info($filename);
+                Storage::disk('users')->put(sprintf('/%s/%s', $id, $filename), file_get_contents($file));
                 $url = Storage::disk('users')->url($id);
-                return $url;
             } else {
                 $fileName = Storage::disk('users')->files($id)[0];
                 Storage::disk('users')->delete($fileName);
-                \File::delete(sprintf('storage/users/%s', $fileName));
-                return asset('images/no_avatar.jpg');
+//                \File::delete(sprintf('storage/users/%s', $fileName));
+                $url =  asset('images/no_avatar.jpg');
             }
+            return $url;
         }
     }
 

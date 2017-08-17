@@ -78,6 +78,7 @@
     $('.update-btn').on('click', function () {
         var url = $(this).data('url');
         $('#imageInput').on('change', function () {
+            console.log('upl');
             updateProfileImg(false, url, $(this).val());
             $('.delete-btn').removeClass('forbidden');
         });
@@ -85,6 +86,7 @@
 
     $('.delete-btn').on('click', function () {
         if(!$(this).hasClass('forbidden')) {
+            console.log('del');
             updateProfileImg(true, $(this).data('url'));
             $(this).addClass('forbidden');
         }
@@ -95,7 +97,6 @@
         if (imgFile) {
             options['imageInput'] = imgFile;
         }
-        console.log(options);
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -103,12 +104,13 @@
         });
         $.ajax({
             url: url,
-            data: options,
+            data: new FormData($("#edit-form")[0]),
             processData: false,
             contentType: false,
             type: 'POST'
         })
             .done(function (response) {
+                console.log(response);
                 $('#user-profile-img-change-wrapper img').attr('src', response);
                 $('#user-profile-img-wrapper img').attr('src', response);
             })

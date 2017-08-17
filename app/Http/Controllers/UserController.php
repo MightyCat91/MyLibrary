@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\EditUserProfile;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Input;
 use Storage;
 
 class UserController extends Controller
@@ -87,18 +88,17 @@ class UserController extends Controller
 
     public function updateProfileImg($id, EditUserProfile $request) {
         if($request->ajax()) {
-            \Debugbar::info($request->input());
             if ($request->hasFile('imageInput')) {
+//                \Debugbar::info('true');
+                $this->DeleteProfileImg($id);
                 $file = $request->file('imageInput');
-                $filename = $file->getClientOriginalName();
-                \Debugbar::info($filename);
-                Storage::disk('users')->put(sprintf('/%s/%s', $id, $filename), file_get_contents($file));
-                $url = Storage::disk('users')->url($id);
+                $filepath = sprintf('/%s/%s.%s', $id, $id, $file->getClientOriginalExtension());
+                Storage::disk('users')->put($filepath, file_get_contents($file));
+                $url = Storage::disk('users')->url($filepath);
             } else {
-                $fileName = Storage::disk('users')->files($id)[0];
-                Storage::disk('users')->delete($fileName);
-//                \File::delete(sprintf('storage/users/%s', $fileName));
-                $url =  asset('images/no_avatar.jpg');
+//                \Debugbar::info('false');
+                $this->DeleteProfileImg($id);
+                $url = asset('images/no_avatar.jpg');
             }
             return $url;
         }
@@ -119,6 +119,24 @@ class UserController extends Controller
             $user->favorite = $favorite;
             $user->save();
             return alert()->success(($type == 'book') ? 'Книга добавлена' : 'Автор  добавлен' . ' в избранное', '5000', true);
+        }
+    }
+
+
+
+
+    private function DeleteProfileImg($id) {
+//        \Debugbar::info(Storage::disk('users')->directories());
+//        if (!Storage::disk('users')->directories($id)) {
+//            Storage::disk('users')->deleteDirectory($id);
+//            \Debugbar::info(Storage::disk('users')->directories());
+//        }
+
+        $files = Storage::disk('users')->files($id);
+        \Debugbar::info(Storage::disk('users')->files($id));
+        if ($files) {
+//            unlink(public_path('storage/users/') . $files);
+            Storage::disk('users')->delete($files);
         }
     }
 }

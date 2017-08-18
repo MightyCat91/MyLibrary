@@ -75,14 +75,14 @@
 
     });
 
-    $('.update-btn').on('click', function () {
-        var url = $(this).data('url');
+    //$('.update-btn').on('click', function () {
         $('#imageInput').on('change', function () {
             console.log('upl');
-            updateProfileImg(false, url, $(this).val());
+            var url = $('.update-btn').data('url');
+            updateProfileImg(false, url, $('.update-btn').val());
             $('.delete-btn').removeClass('forbidden');
         });
-    });
+    //});
 
     $('.delete-btn').on('click', function () {
         if(!$(this).hasClass('forbidden')) {
@@ -110,9 +110,9 @@
             type: 'POST'
         })
             .done(function (response) {
-                console.log(response);
-                $('#user-profile-img-change-wrapper img').attr('src', response);
-                $('#user-profile-img-wrapper img').attr('src', response);
+                var src = response + "?" + (new Date()).getTime();
+                $('#user-profile-img-change-wrapper img').prop('src', src);
+                $('#user-profile-img-wrapper img').prop('src', src);
             })
             .fail(function (response) {
                 //добавление ответа сервера(алерт)

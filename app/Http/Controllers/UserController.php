@@ -58,7 +58,8 @@ class UserController extends Controller
         ]);
     }
 
-    public function editUserProfilePage($id, EditUserProfile $request) {
+    public function editUserProfilePage($id, EditUserProfile $request)
+    {
         $user = \Auth::getUser();
         $user->login = $request->input(['login']);
         $user->name = $request->input(['name']);
@@ -86,31 +87,34 @@ class UserController extends Controller
         }
     }
 
-    public function updateProfileImg($id, EditUserProfile $request) {
-        if($request->ajax()) {
-            if ($request->hasFile('imageInput')) {
-//                \Debugbar::info('true');
-                $this->DeleteProfileImg($id);
-                $file = $request->file('imageInput');
-                $filepath = sprintf('/%s/%s.%s', $id, $id, $file->getClientOriginalExtension());
-                Storage::disk('users')->put($filepath, file_get_contents($file));
-                $url = Storage::disk('users')->url($filepath);
-            } else {
-//                \Debugbar::info('false');
-                $this->DeleteProfileImg($id);
-                $url = asset('images/no_avatar.jpg');
-            }
+    public function updateProfileImg($id, EditUserProfile $request)
+    {
+        if ($request->ajax() and $request->hasFile('imageInput')) {
+            $this->deleteProfileImgFromStorage($id);
+            $file = $request->file('imageInput');
+            $filepath = sprintf('/%s/%s.%s', $id, $id, $file->getClientOriginalExtension());
+            Storage::disk('users')->put($filepath, file_get_contents($file));
+            $url = Storage::disk('users')->url($filepath);
             return $url;
         }
     }
 
-    public function addToFavorite($id, Request $request) {
+    public function deleteProfileImg($id, Request $request)
+    {
+        if ($request->ajax()) {
+            $this->deleteProfileImgFromStorage($id);
+            return asset('images/no_avatar.jpg');
+        }
+    }
+
+    public function addToFavorite($id, Request $request)
+    {
         if ($request->ajax()) {
             $type = $request->get('type');
             $user = User::findOrFail(\Auth::id());
             $favorite = $user->favorite;
             $arrayOfType = array_get($favorite, $type, []);
-            if ($request->get('delete')=='true') {
+            if ($request->get('delete') == 'true') {
                 array_forget($arrayOfType, array_search($id, $arrayOfType));
             } else {
                 array_push($arrayOfType, $id);
@@ -123,19 +127,10 @@ class UserController extends Controller
     }
 
 
-
-
-    private function DeleteProfileImg($id) {
-//        \Debugbar::info(Storage::disk('users')->directories());
-//        if (!Storage::disk('users')->directories($id)) {
-//            Storage::disk('users')->deleteDirectory($id);
-//            \Debugbar::info(Storage::disk('users')->directories());
-//        }
-
+    private function deleteProfileImgFromStorage($id)
+    {
         $files = Storage::disk('users')->files($id);
-        \Debugbar::info(Storage::disk('users')->files($id));
         if ($files) {
-//            unlink(public_path('storage/users/') . $files);
             Storage::disk('users')->delete($files);
         }
     }

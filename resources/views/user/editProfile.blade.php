@@ -34,44 +34,46 @@
                 </div>
             </div>
             <div>
-                <figure id="user-profile-img-change-wrapper">
-                    <img src="{{ empty($file = getStorageFile('users', Auth::id())) ? asset('images/no_avatar.jpg') : asset($file) }}"
-                         alt="{{ Auth::getUser()->login ?? Auth::getUser()->name }}">
+            </div>
+            <div class="gender form-group" data-toggle="buttons">
+                <label class="btn-switch-label {{ $gender=='мужской' ? 'active' : '' }}">
+                    <input type="radio" name="man" id="option1" autocomplete="off">
+                    <i class="fa fa-male" aria-hidden="true"></i>
+                </label>
+                <label class="btn-switch-label {{ $gender=='женский' ? 'active' : '' }}">
+                    <input type="radio" name="woman" id="option2" autocomplete="off">
+                    <i class="fa fa-female" aria-hidden="true"></i>
+                </label>
+            </div>
 
-                    <div id="img-change-btn-wrapper">
-                        <div class="img-change-btn update-btn"
-                             data-url="{{ route('updateProfileImg', ['id' => Auth::id()]) }}">
-                            <input class="hidden" type="file" name="imageInput" id="imageInput"
-                                   accept="image/jpeg,image/png,image/gif"/>
-                            <label for="imageInput">
-                                <i class="fa fa-camera fa-fw" aria-hidden="true"></i>
-                            </label>
-                        </div>
-                        <div class="img-change-btn delete-btn {{ empty(getStorageFile('users', Auth::id())) ? 'forbidden' : '' }}"
-                             data-url="{{ route('updateProfileImg', ['id' => Auth::id()]) }}">
-                            <i class="fa fa-trash fa-fw" aria-hidden="true"></i>
-                        </div>
-                    </div>
-                </figure>
+            <a href='#' id="openDialog" data-toggle="modal" data-target="#changeEmailPass">Сменить email или пароль</a>
+
+            <div class="form-group submit-btn">
+                <button type="submit" id="submit-edit-form" class="btn btn-primary">Сохранить</button>
+            </div>
+        </section>
+        <section id="edit-img-wrapper">
+            <figure id="user-profile-img-change-wrapper">
+                <img src="{{ empty($file = getStorageFile('users', Auth::id())) ? asset('images/no_avatar.jpg') : asset($file) }}"
+                     alt="{{ Auth::getUser()->login ?? Auth::getUser()->name }}">
+            </figure>
+            <div id="img-change-btn-wrapper">
+                <div class="img-change-btn update-btn"
+                     data-url="{{ route('updateProfileImg', ['id' => Auth::id()]) }}">
+                    <input class="hidden" type="file" name="imageInput" id="imageInput"
+                           accept="image/jpeg,image/png,image/gif"/>
+                    <label for="imageInput">
+                        <i class="fa fa-camera fa-fw" aria-hidden="true"></i>
+                    </label>
+                </div>
+                <div class="img-change-btn delete-btn {{ empty(getStorageFile('users', Auth::id())) ? 'forbidden' : '' }}"
+                     data-url="{{ route('deleteProfileImg', ['id' => Auth::id()]) }}">
+                    <i class="fa fa-trash fa-fw" aria-hidden="true"></i>
+                </div>
             </div>
         </section>
 
-        <div class="gender form-group" data-toggle="buttons">
-            <label class="btn-switch-label {{ $gender=='мужской' ? 'active' : '' }}">
-                <input type="radio" name="man" id="option1" autocomplete="off">
-                <i class="fa fa-male" aria-hidden="true"></i>
-            </label>
-            <label class="btn-switch-label {{ $gender=='женский' ? 'active' : '' }}">
-                <input type="radio" name="woman" id="option2" autocomplete="off">
-                <i class="fa fa-female" aria-hidden="true"></i>
-            </label>
-        </div>
 
-        <a href='#' id="openDialog" data-toggle="modal" data-target="#changeEmailPass">Сменить email или пароль</a>
-
-        <div class="form-group submit-btn">
-            <button type="submit" id="submit-edit-form" class="btn btn-primary">Сохранить</button>
-        </div>
     </form>
 
     <!-- The modal -->

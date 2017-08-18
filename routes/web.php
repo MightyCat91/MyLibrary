@@ -167,7 +167,10 @@ Route::group(['prefix' => 'user'], function () {
         ])->middleware('auth');
         Route::post('updateProfileImg', [
             'as' => 'updateProfileImg', 'uses' => 'UserController@updateProfileImg'
-        ]);
+        ])->middleware('auth');
+        Route::post('deleteProfileImg', [
+            'as' => 'deleteProfileImg', 'uses' => 'UserController@deleteProfileImg'
+        ])->middleware('auth');
     });
     Route::post('saveEmailPass', [
         'as' => 'saveEmailPass', 'uses' => 'UserController@storeEmailPass'

@@ -1,0 +1,24 @@
+.user-favorite-img.item {
+    padding: 5px;
+    border: 1px solid #009926;
+    border-radius: 5px;
+    height: 240px;
+    background: rgba(255, 255, 255, 0.4) url(../../images/alert.png);
+    display: flex;
+    align-items: center;
+}
+
+.user-favorite-img img {
+    max-height: 100%;
+}
+
+@media screen and (min-width: 300px) {
+    .owl-stage-outer {
+        z-index: 1;
+    }
+
+    .owl-nav {
+        width: calc(100% + 48px);
+        margin-left: -24px;
+    }
+}

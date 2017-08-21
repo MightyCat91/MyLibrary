@@ -33,8 +33,6 @@
                     @endif
                 </div>
             </div>
-            <div>
-            </div>
             <div class="gender form-group" data-toggle="buttons">
                 <label class="btn-switch-label {{ $gender=='мужской' ? 'active' : '' }}">
                     <input type="radio" name="man" id="option1" autocomplete="off">
@@ -72,8 +70,6 @@
                 </div>
             </div>
         </section>
-
-
     </form>
 
     <!-- The modal -->
@@ -131,5 +127,5 @@
 @endsection
 
 @push('scripts')
-<script type="text/javascript" src="{{ asset('/js/Custom/profileSettings.js') }}"></script>
+<script type="text/javascript" src="{{ asset('/js/Custom/userProfileSettings.js') }}"></script>
 @endpush

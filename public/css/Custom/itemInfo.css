@@ -29,24 +29,6 @@ div.page-content {
     border-radius: 5px;
 }
 
-.owl-nav {
-    position: absolute;
-    top: 50%;
-    display: flex;
-    width: 100%;
-    justify-content: space-between;
-}
-
-.owl-nav i {
-    border-radius: 50%;
-    color: #35447b;
-    box-shadow: 0 0 5px 3px rgba(255,255,255,1);
-}
-
-.owl-nav i:hover {
-    color: #009926;
-}
-
 #user-actions-wrapper {
     display: flex;
     justify-content: space-around;

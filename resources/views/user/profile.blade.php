@@ -1,3 +1,12 @@
+@push('styles')
+<link href="{{ asset('/css/Library/Owl.Carousel/owl.carousel.min.css') }}" rel='stylesheet' type='text/css'
+      media="all"/>
+<link href="{{ asset('/css/custom/userProfile.css') }}" rel='stylesheet' type='text/css' media="all"/>
+@endpush
+@push('scripts')
+<script type="text/javascript" src="{{ asset('/js/Library/Owl.Carousel/owl.carousel.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('/js/Custom/userProfile.js') }}"></script>
+@endpush
 @extends('layouts.main',['title'=>'Профиль'])
 @section('content')
     <section id="user-information" class="user-section">
@@ -72,28 +81,37 @@
     </section>
     <section id="user-favorite-books" class="user-section">
         <h2>Любимые книги</h2>
-        <figure class="owl-carousel owl-theme">
-            {{--@foreach($favoriteBooks as $book)--}}
-                {{--<a href="{{ route('book', [$book->id]) }}">--}}
-                    {{--<img class="item" src="{{ asset(getStorageFile('book', $book->id))}}" alt="{{ $book->name }}">--}}
-                {{--</a>--}}
-            {{--@endforeach--}}
-        </figure>
+
+        <div class="owl-carousel owl-theme">
+            @foreach($favoriteBooks as $book)
+                <a href="{{ route('book', [$book]) }}">
+                    <figure class="user-favorite-img item">
+                        <img src="{{ asset(getStorageFile('books', $book))}}" alt="{{ $book }}">
+                    </figure>
+                </a>
+            @endforeach
+        </div>
     </section>
     <section id="user-favorite-authors" class="user-section">
         <h2>Любимые авторы</h2>
-        <figure class="owl-carousel owl-theme">
-            {{--@foreach($favoriteAuthors as $author)--}}
-                {{--<a href="{{ route('author', [$author->id]) }}">--}}
-                    {{--<img class="item" src="{{ asset(getStorageFile('book', $author->id))}}" alt="{{ $author->name }}">--}}
-                {{--</a>--}}
-            {{--@endforeach--}}
-        </figure>
+        <div class="owl-carousel owl-theme">
+            @foreach($favoriteAuthors as $author)
+                <a href="{{ route('author', [$author]) }}">
+                    <figure class="user-favorite-img item">
+                        <img src="{{ asset(getStorageFile('authors', $author))}}" alt="{{ $author }}">
+                    </figure>
+                </a>
+            @endforeach
+        </div>
     </section>
     <section id="user-favorite-categories" class="user-section">
         <h2>Любимые жанры</h2>
-        {{--@foreach($favoriteCategories as $category)--}}
-            {{--<a href="{{ route('category-books', [$category->id]) }}" class="category">{{ $category->name . ' ' }}</a>--}}
-        {{--@endforeach--}}
+        @foreach($favoriteCategories as $category)
+            <a href="{{ route('category', [$category]) }}">
+                <figure class="user-favorite-img item">
+                    <img src="{{ asset(getStorageFile('categories', $category))}}" alt="{{ $category }}">
+                </figure>
+            </a>
+        @endforeach
     </section>
 @endsection

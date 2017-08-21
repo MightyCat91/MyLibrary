@@ -15,14 +15,11 @@ class UserController extends Controller
     public function showUserProfilePage($id)
     {
         $user = User::find($id);
-        if ($array = $user->favorite) {
-            $favorite = unserialize($array);
-            $favoriteBooks = $favorite['books'];
-            $favoriteAuthors = $favorite['authors'];
-            $favoriteCategories = $favorite['categories'];
-        } else {
-            $favoriteBooks = $favoriteAuthors = $favoriteCategories = null;
-        }
+        $favorite = $user->favorite;
+        $favoriteBooks = array_get($favorite, 'book');
+        $favoriteAuthors = array_get($favorite, 'author');
+        $favoriteCategories = array_get($favorite, 'categories');
+
         if ($array = $user->statistics) {
             $statistics = unserialize($array);
             $statisticsBooks = $statistics['books']->lenght;

@@ -83,35 +83,42 @@
         <h2>Любимые книги</h2>
 
         <div class="owl-carousel owl-theme">
-            @foreach($favoriteBooks as $book)
-                <a href="{{ route('book', [$book]) }}">
-                    <figure class="user-favorite-img item">
-                        <img src="{{ asset(getStorageFile('books', $book))}}" alt="{{ $book }}">
-                    </figure>
-                </a>
-            @endforeach
+            @isset($favoriteBooks)
+                @foreach($favoriteBooks as $book)
+                    <a href="{{ route('book', [$book]) }}">
+                        <figure class="user-favorite-img item">
+                            <img src="{{ asset(getStorageFile('books', $book))}}" alt="{{ $book }}">
+                        </figure>
+                    </a>
+                @endforeach
+            @endisset
         </div>
     </section>
     <section id="user-favorite-authors" class="user-section">
         <h2>Любимые авторы</h2>
+
         <div class="owl-carousel owl-theme">
-            @foreach($favoriteAuthors as $author)
-                <a href="{{ route('author', [$author]) }}">
-                    <figure class="user-favorite-img item">
-                        <img src="{{ asset(getStorageFile('authors', $author))}}" alt="{{ $author }}">
-                    </figure>
-                </a>
-            @endforeach
+            @isset($favoriteAuthors)
+                @foreach($favoriteAuthors as $author)
+                    <a href="{{ route('author', [$author]) }}">
+                        <figure class="user-favorite-img item">
+                            <img src="{{ asset(getStorageFile('authors', $author))}}" alt="{{ $author }}">
+                        </figure>
+                    </a>
+                @endforeach
+            @endisset
         </div>
     </section>
     <section id="user-favorite-categories" class="user-section">
         <h2>Любимые жанры</h2>
-        @foreach($favoriteCategories as $category)
-            <a href="{{ route('category', [$category]) }}">
-                <figure class="user-favorite-img item">
-                    <img src="{{ asset(getStorageFile('categories', $category))}}" alt="{{ $category }}">
-                </figure>
-            </a>
-        @endforeach
+        @isset($favoriteCategories)
+            @foreach($favoriteCategories as $category)
+                <a href="{{ route('category', [$category]) }}">
+                    <figure class="user-favorite-img item">
+                        <img src="{{ asset(getStorageFile('categories', $category))}}" alt="{{ $category }}">
+                    </figure>
+                </a>
+            @endforeach
+        @endisset
     </section>
 @endsection

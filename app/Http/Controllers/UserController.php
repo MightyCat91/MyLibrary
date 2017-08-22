@@ -15,6 +15,7 @@ class UserController extends Controller
     public function showUserProfilePage($id)
     {
         $user = User::find($id);
+//        dd($user);
         $favorite = $user->favorite;
         $favoriteBooks = array_get($favorite, 'book');
         $favoriteAuthors = array_get($favorite, 'author');

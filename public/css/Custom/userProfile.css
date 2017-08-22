@@ -1,8 +1,11 @@
+.owl-carousel {
+    max-width: 1600px;
+}
 .user-favorite-img.item {
     padding: 5px;
     border: 1px solid #009926;
     border-radius: 5px;
-    height: 240px;
+    height: 220px;
     background: rgba(255, 255, 255, 0.4) url(../../images/alert.png);
     display: flex;
     align-items: center;
@@ -20,5 +23,29 @@
     .owl-nav {
         width: calc(100% + 48px);
         margin-left: -24px;
+    }
+}
+
+@media screen and (min-width: 450px) {
+    .user-favorite-img.item {
+        height: 140px;
+    }
+}
+
+@media screen and (min-width: 678px) {
+    .user-favorite-img.item {
+        height: 170px;
+    }
+}
+
+@media screen and (min-width: 1000px) {
+    .user-favorite-img.item {
+        height: 200px;
+    }
+}
+
+@media screen and (min-width: 1100px) {
+    .user-favorite-img.item {
+        height: 240px;
     }
 }

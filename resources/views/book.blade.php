@@ -29,21 +29,33 @@
                         @endforeach
                     </div>
                     @if(Auth::check())
-                        <div id="user-actions-wrapper">
-                            <div class="user-actions-item" title="Написать комментарий">
-                                <a id="add-comment" href="#"><i class="fa fa-comments fa-fw" aria-hidden="true"></i></a>
-                            </div>
-                            <div class="user-actions-item">
-                                <a id="add-review" href="#" title="Написать рецензию">
-                                    <i class="fa fa-pencil fa-fw" aria-hidden="true"></i>
-                                </a>
-                            </div>
-                            <div class="user-actions-item">
-                                <a id="add-to-favorite" class="{{ ($inFavorite) ? 'active' : '' }}" data-type="book"
-                                   href="#" title="{{ ($inFavorite) ? 'Удалить из избранного' : 'Добавить в избранное'
+                        <div class="user-action-container">
+                            <div id="user-actions-wrapper">
+                                <div class="user-actions-item" title="Написать комментарий">
+                                    <a id="add-comment" href="#"><i class="fa fa-comments fa-fw" aria-hidden="true"></i></a>
+                                </div>
+                                <div class="user-actions-item">
+                                    <a id="add-review" href="#" title="Написать рецензию">
+                                        <i class="fa fa-pencil fa-fw" aria-hidden="true"></i>
+                                    </a>
+                                </div>
+                                <div class="user-actions-item">
+                                    <a id="add-to-favorite" class="{{ ($inFavorite) ? 'active' : '' }}" data-type="book"
+                                       href="#" title="{{ ($inFavorite) ? 'Удалить из избранного' : 'Добавить в избранное'
                                    }}">
-                                    <i class="fa fa-heart fa-fw" aria-hidden="true"></i>
-                                </a>
+                                        <i class="fa fa-heart fa-fw" aria-hidden="true"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            <div class="users-book-status">
+                                <button class="dropdown-toggle" data-toggle="dropdown"
+                                        aria-labelledby="statusButton">Статус:</button>
+                                <div class="dropdown-menu" aria-labelledby="statusButton">
+                                    <a class="dropdown-item" href="#">Action</a>
+                                    <a class="dropdown-item" href="#">Action</a>
+                                    <a class="dropdown-item" href="#">Action</a>
+                                    <a class="dropdown-item" href="#">Action</a>
+                                </div>
                             </div>
                         </div>
                     @endif

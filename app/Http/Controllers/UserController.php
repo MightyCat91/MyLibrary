@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 
+use App\Author;
+use App\Book;
+use App\Categories;
 use App\Http\Requests\EditUserProfile;
 use App\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Input;
 use Storage;
 
 class UserController extends Controller
@@ -14,12 +16,27 @@ class UserController extends Controller
 
     public function showUserProfilePage($id)
     {
+        $books = $authors = $collections = [];
         $user = User::find($id);
-//        dd($user);
         $favorite = $user->favorite;
         $favoriteBooks = array_get($favorite, 'book');
+        if(!empty($favoriteBooks)) {
+            foreach ($favoriteBooks as $bookId) {
+                $books = array_add($books, $bookId, Book::findOrFail($bookId)->name);
+            }
+        }
         $favoriteAuthors = array_get($favorite, 'author');
+        if(!empty($favoriteAuthors)) {
+            foreach ($favoriteAuthors as $authorId) {
+                $authors = array_add($authors, $authorId, Author::findOrFail($authorId)->name);
+            }
+        }
         $favoriteCategories = array_get($favorite, 'categories');
+        if(!empty($favoriteCategories)) {
+            foreach ($favoriteCategories as $categoryId) {
+                $collections = array_add($collections, $categoryId, Categories::findOrFail($categoryId)->name);
+            }
+        }
 
         if ($array = $user->statistics) {
             $statistics = unserialize($array);
@@ -36,9 +53,9 @@ class UserController extends Controller
             'gender' => $user->gender,
             'created_at' => $user->created_at,
             'last_visit' => $user->last_visit,
-            'favoriteBooks' => $favoriteBooks,
-            'favoriteAuthors' => $favoriteAuthors,
-            'favoriteCategories' => $favoriteCategories,
+            'favoriteBooks' => $books,
+            'favoriteAuthors' => $authors,
+            'favoriteCategories' => $collections,
             'statisticsBooks' => $statisticsBooks,
             'statisticsAuthors' => $statisticsAuthors,
             'statisticsCategories' => $statisticsCategories

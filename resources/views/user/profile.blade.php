@@ -83,11 +83,11 @@
         <h2>Любимые книги</h2>
 
         @isset($favoriteBooks)
-            <div class="owl-carousel owl-theme">
-                @foreach($favoriteBooks as $book)
-                    <a href="{{ route('book', [$book]) }}">
+            <div class="books-slider owl-carousel owl-theme">
+                @foreach($favoriteBooks as $id => $name)
+                    <a href="{{ route('book', [$id]) }}" target="_blank" title="{{ $name }}">
                         <figure class="user-favorite-img item">
-                            <img src="{{ asset(getStorageFile('books', $book))}}" alt="{{ $book }}">
+                            <img src="{{ asset(getStorageFile('books', $id))}}" alt="{{ $name }}">
                         </figure>
                     </a>
                 @endforeach
@@ -97,28 +97,30 @@
     <section id="user-favorite-authors" class="user-section">
         <h2>Любимые авторы</h2>
 
-        <div class="owl-carousel owl-theme">
-            @isset($favoriteAuthors)
-            @foreach($favoriteAuthors as $author)
-                <a href="{{ route('author', [$author]) }}">
-                    <figure class="user-favorite-img item">
-                        <img src="{{ asset(getStorageFile('authors', $author))}}" alt="{{ $author }}">
-                    </figure>
-                </a>
-            @endforeach
-            @endisset
-        </div>
+        @isset($favoriteAuthors)
+            <div class="author-slider owl-carousel owl-theme">
+                @foreach($favoriteAuthors as $id => $name)
+                    <a href="{{ route('author', [$id]) }}" target="_blank" title="{{ $name }}">
+                        <figure class="user-favorite-img item">
+                            <img src="{{ asset(getStorageFile('authors', $id))}}" alt="{{ $name }}">
+                        </figure>
+                    </a>
+                @endforeach
+            </div>
+        @endisset
     </section>
     <section id="user-favorite-categories" class="user-section">
         <h2>Любимые жанры</h2>
         @isset($favoriteCategories)
-        @foreach($favoriteCategories as $category)
-            <a href="{{ route('category', [$category]) }}">
-                <figure class="user-favorite-img item">
-                    <img src="{{ asset(getStorageFile('categories', $category))}}" alt="{{ $category }}">
-                </figure>
-            </a>
-        @endforeach
+            <div class="owl-carousel owl-theme">
+            @foreach($favoriteCategories as $id => $name)
+                <a href="{{ route('category', [$id]) }}" target="_blank" title="{{ $name }}">
+                    <figure class="user-favorite-img item">
+                        <img src="{{ asset(getStorageFile('categories', $id))}}" alt="{{ $name }}">
+                    </figure>
+                </a>
+            @endforeach
+        </div>
         @endisset
     </section>
 @endsection

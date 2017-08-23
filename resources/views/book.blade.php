@@ -48,13 +48,13 @@
                                 </div>
                             </div>
                             <div class="users-book-status">
-                                <button class="dropdown-toggle" data-toggle="dropdown"
-                                        aria-labelledby="statusButton">Статус:</button>
-                                <div class="dropdown-menu" aria-labelledby="statusButton">
-                                    <a class="dropdown-item" href="#">Action</a>
-                                    <a class="dropdown-item" href="#">Action</a>
-                                    <a class="dropdown-item" href="#">Action</a>
-                                    <a class="dropdown-item" href="#">Action</a>
+                                <a tabindex="0" id="status-btn" data-toggle="popover" >Статус</a>
+                                <div id="status-list" class="hidden">
+                                    <div class="status-option" data-status="completed">Прочитано</div>
+                                    <div class="status-option" data-status="reading">Читаю</div>
+                                    <div class="status-option" data-status="drop">Бросил</div>
+                                    <div class="status-option" data-status="on-hold">Временно отложил</div>
+                                    <div class="status-option" data-status="inPlans">В планах</div>
                                 </div>
                             </div>
                         </div>

@@ -42,6 +42,59 @@ div.page-content {
     color: #009926;
 }
 
+#status-btn {
+    border: 1px solid #35447b;
+    border-radius: 10px;
+    margin: 0 1em;
+    text-align: center;
+    line-height: 2;
+    cursor: default;
+    display: block;
+    color: #35447b;
+}
+
+#status-btn:focus {
+    color: #009926;
+}
+
+.popover-content {
+    padding: 0;
+}
+
+.status-option {
+    text-align: center;
+    padding: 5px 10px;
+    border-radius: 10px;
+    margin: 10px;
+    color: #fff;
+    cursor: default;
+    font-family: 'Philosopher', Roboto, sans-serif;
+}
+
+.status-option:hover {
+    transform: scale(1.1);
+}
+
+.status-option[data-status="completed"] {
+    background-color: #009926;
+}
+
+.status-option[data-status="reading"] {
+    background-color: #0275d8;
+}
+
+.status-option[data-status="drop"] {
+    background-color: #FF3933;
+}
+
+.status-option[data-status="on-hold"] {
+    background-color: #fb990e;
+}
+
+.status-option[data-status="inPlans"] {
+    background-color: #999;
+}
+
 .short-info-items {
     padding-left: 15px;
     border-left: 2px solid #009926;

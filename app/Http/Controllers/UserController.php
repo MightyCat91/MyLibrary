@@ -141,6 +141,26 @@ class UserController extends Controller
         }
     }
 
+    public function changeStatus($id, Request $request)
+    {
+        if ($request->ajax()) {
+            $newStatus = $request->get('newStatus');
+            $oldStatus = $request->get('oldStatus');
+            $user = User::findOrFail(\Auth::id());
+            $statistic = $user->statistic;
+            if (!empty($oldStatus)) {
+                $arrayOfStatus = array_get($statistic, $oldStatus, []);
+                array_forget($arrayOfStatus, array_search($id, $arrayOfStatus));
+            }
+            $arrayOfStatus = array_get($statistic, $newStatus, []);
+            array_push($arrayOfStatus, $id);
+            array_set($statistic, $newStatus, $arrayOfStatus);
+            $user->statistic = $statistic;
+            $user->save();
+            return alert()->success('Статус книги изменен', '5000', true);
+        }
+    }
+
 
     private function deleteProfileImgFromStorage($id)
     {

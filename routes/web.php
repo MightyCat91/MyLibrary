@@ -69,6 +69,9 @@ Route::group(['prefix' => 'book'], function () {
         Route::post('', [
             'as' => 'addToFavorite', 'uses' => 'UserController@addToFavorite'
         ]);
+        Route::post('changeStatus', [
+            'as' => 'changeStatus', 'uses' => 'UserController@changeStatus'
+        ]);
     });
 });
 

@@ -53,10 +53,6 @@ div.page-content {
     color: #35447b;
 }
 
-#status-btn:focus {
-    color: #009926;
-}
-
 .popover-content {
     padding: 0;
 }
@@ -75,23 +71,23 @@ div.page-content {
     transform: scale(1.1);
 }
 
-.status-option[data-status="completed"] {
+[data-status="completed"] {
     background-color: #009926;
 }
 
-.status-option[data-status="reading"] {
+[data-status="reading"] {
     background-color: #0275d8;
 }
 
-.status-option[data-status="drop"] {
+[data-status="drop"] {
     background-color: #FF3933;
 }
 
-.status-option[data-status="on-hold"] {
+[data-status="on-hold"] {
     background-color: #fb990e;
 }
 
-.status-option[data-status="inPlans"] {
+[data-status="inPlans"] {
     background-color: #999;
 }
 

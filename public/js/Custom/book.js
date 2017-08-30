@@ -28,18 +28,25 @@
             trigger: 'focus'
     });
 
-    $(".status-option").on('click', function () {
+    $(document).on('click', ".status-option", function () {
+        console.log(window.location.pathname);
+        var statusBtn = $('#status-btn'),
+            data = {
+            'oldStatus': statusBtn.data('status'),
+            'newStatus': $(this).data('status')
+        };
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
         $.ajax({
-            url: window.location.pathname,
-            data: 'type=' + $(this).data('status'),
+            url: window.location.pathname + '/changeStatus',
+            data: data,
             type: 'POST'
         })
             .done(function (data) {
+                statusBtn.html($(this).html());
                 favoriteBtn.toggleClass('active')
                     .attr('title', action ? 'Добавить в избранное' : 'Удалить из избранного');
                 //добавление ответа сервера(алерт)

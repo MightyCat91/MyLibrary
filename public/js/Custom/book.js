@@ -29,11 +29,12 @@
     });
 
     $(document).on('click', ".status-option", function () {
-        console.log(window.location.pathname);
         var statusBtn = $('#status-btn'),
+            clickedBtn = $(this),
+            newStatus = clickedBtn.data('status'),
             data = {
-            'oldStatus': statusBtn.data('status'),
-            'newStatus': $(this).data('status')
+            'oldStatus': statusBtn.attr('data-status'),
+            'newStatus': newStatus
         };
         $.ajaxSetup({
             headers: {
@@ -46,9 +47,8 @@
             type: 'POST'
         })
             .done(function (data) {
-                statusBtn.html($(this).html());
-                favoriteBtn.toggleClass('active')
-                    .attr('title', action ? 'Добавить в избранное' : 'Удалить из избранного');
+                console.log(newStatus);
+                statusBtn.attr('data-status', newStatus).text(clickedBtn.text());
                 //добавление ответа сервера(алерт)
                 body.append(data);
             })

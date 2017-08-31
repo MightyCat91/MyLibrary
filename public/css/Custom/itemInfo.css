@@ -53,6 +53,11 @@ div.page-content {
     color: #35447b;
 }
 
+#status-btn[data-status] {
+     border-color: #fff;
+    color: #fff;
+}
+
 .popover-content {
     padding: 0;
 }

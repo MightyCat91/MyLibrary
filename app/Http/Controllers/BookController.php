@@ -8,6 +8,7 @@ use App\Http\Requests\BookAddRequest;
 use App\Publisher;
 use App\Series;
 use App\User;
+use function foo\func;
 use Illuminate\Http\Request;
 use App\Book;
 use Storage;
@@ -80,10 +81,19 @@ class BookController extends Controller
                     $sidebarBooks = $book->authorBooks();
                 }
                 if (\Auth::check()) {
-                    $favorite = User::findOrFail(\Auth::id())->favorite;
+                    $user = User::findOrFail(\Auth::id());
+                    $favorite = $user->favorite;
                     $favoriteOfType = array_has($favorite, 'book');
                     $inFavorite = $favoriteOfType ? array_has($favorite['book'], array_search($id,
                         $favorite['book']) ?: '') : null;
+
+                    $statistic = $user->statistic;
+                    $status = null;
+                    array_map(function ($statusArray, $id)  {
+                        if (array_search($id, $statusArray)) {
+                            
+                        }
+                    }, $statistic);
                 } else {
                     $inFavorite = null;
                 }

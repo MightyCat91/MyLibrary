@@ -48,7 +48,7 @@
                                 </div>
                             </div>
                             <div class="users-book-status">
-                                <a tabindex="0" id="status-btn" data-toggle="popover" data-status="">Статус</a>
+                                <a tabindex="0" id="status-btn" data-toggle="popover">Статус</a>
                                 <div id="status-list" class="hidden">
                                     <div class="status-option" data-status="completed">Прочитано</div>
                                     <div class="status-option" data-status="reading">Читаю</div>

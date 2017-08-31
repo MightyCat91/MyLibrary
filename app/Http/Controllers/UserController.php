@@ -151,10 +151,12 @@ class UserController extends Controller
             if (!empty($oldStatus)) {
                 $arrayOfStatus = array_get($statistic, $oldStatus, []);
                 array_forget($arrayOfStatus, array_search($id, $arrayOfStatus));
+                array_set($statistic, $oldStatus, $arrayOfStatus);
             }
             $arrayOfStatus = array_get($statistic, $newStatus, []);
             array_push($arrayOfStatus, $id);
             array_set($statistic, $newStatus, $arrayOfStatus);
+            \Debugbar::info($statistic);
             $user->statistic = $statistic;
             $user->save();
             return alert()->success('Статус книги изменен', '5000', true);

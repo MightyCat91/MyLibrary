@@ -53,8 +53,8 @@ div.page-content {
     color: #35447b;
 }
 
-#status-btn[data-status] {
-     border-color: #fff;
+#status-btn[data-status]:not([data-status='']) {
+    border-color: #fff;
     color: #fff;
 }
 

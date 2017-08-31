@@ -1,16 +1,16 @@
 @push('styles')
-<link href="{{ asset('/css/Custom/commonGrid.css') }}" rel='stylesheet' type='text/css' media="all"/>
-<link href="{{ asset('/css/Custom/itemInfo.css') }}" rel='stylesheet' type='text/css' media="all"/>
-<link href="{{ asset('/css/Library/Owl.Carousel/owl.carousel.min.css') }}" rel='stylesheet' type='text/css'
-      media="all"/>
-<link href="{{ asset('/css/Library/Owl.Carousel/owl.theme.default.min.css') }}" rel='stylesheet' type='text/css'
-      media="all"/>
-<link href="{{ asset('/css/Library/Owl.Carousel/owl.theme.default.css') }}" rel='stylesheet' type='text/css'
-      media="all"/>
+    <link href="{{ asset('/css/Custom/commonGrid.css') }}" rel='stylesheet' type='text/css' media="all"/>
+    <link href="{{ asset('/css/Custom/itemInfo.css') }}" rel='stylesheet' type='text/css' media="all"/>
+    <link href="{{ asset('/css/Library/Owl.Carousel/owl.carousel.min.css') }}" rel='stylesheet' type='text/css'
+          media="all"/>
+    <link href="{{ asset('/css/Library/Owl.Carousel/owl.theme.default.min.css') }}" rel='stylesheet' type='text/css'
+          media="all"/>
+    <link href="{{ asset('/css/Library/Owl.Carousel/owl.theme.default.css') }}" rel='stylesheet' type='text/css'
+          media="all"/>
 @endpush
 @push('scripts')
-<script type="text/javascript" src="{{ asset('/js/Library/Owl.Carousel/owl.carousel.min.js') }}"></script>
-<script type="text/javascript" src="{{ asset('/js/Custom/book.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('/js/Library/Owl.Carousel/owl.carousel.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('/js/Custom/book.js') }}"></script>
 @endpush
 {{ Session::flash('title', $book->name) }}
 @extends('layouts.main',['title'=>$book->name])
@@ -48,13 +48,13 @@
                                 </div>
                             </div>
                             <div class="users-book-status">
-                                <a tabindex="0" id="status-btn" data-toggle="popover">Статус</a>
+                                <a tabindex="0" id="status-btn" data-toggle="popover"
+                                   data-status="{{ $status ? $status->name : '' }}">{{ $status ? $status->uname : 'Статус' }}</a>
                                 <div id="status-list" class="hidden">
-                                    <div class="status-option" data-status="completed">Прочитано</div>
-                                    <div class="status-option" data-status="reading">Читаю</div>
-                                    <div class="status-option" data-status="drop">Бросил</div>
-                                    <div class="status-option" data-status="on-hold">Временно отложил</div>
-                                    <div class="status-option" data-status="inPlans">В планах</div>
+                                    @foreach($allStatus as $status)
+                                        <div class="status-option"
+                                             data-status="{{ $status->name }}">{{ $status->uname }}</div>
+                                    @endforeach
                                 </div>
                             </div>
                         </div>

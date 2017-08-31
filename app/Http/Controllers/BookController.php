@@ -7,6 +7,7 @@ use App\Categories;
 use App\Http\Requests\BookAddRequest;
 use App\Publisher;
 use App\Series;
+use App\Status;
 use App\User;
 use function foo\func;
 use Illuminate\Http\Request;
@@ -89,13 +90,16 @@ class BookController extends Controller
 
                     $statistic = $user->statistic;
                     $status = null;
-                    array_map(function ($statusArray, $id)  {
-                        if (array_search($id, $statusArray)) {
-                            
+                    if (!empty($statistic)) {
+                        foreach ($statistic as $key => $value) {
+                            if (in_array($id, $value)) {
+                                $status = Status::where('name', '=', $key)->first(['name', 'uname']);
+                            }
                         }
-                    }, $statistic);
+                    }
                 } else {
                     $inFavorite = null;
+                    $status = null;
                 }
                 $view = view('book', [
                     'book' => $book,
@@ -105,6 +109,8 @@ class BookController extends Controller
                     'publishers' => $book->publishers,
                     'sidebarBooks' => $sidebarBooks,
                     'inFavorite' => $inFavorite,
+                    'status' => $status,
+                    'allStatus' => Status::get(['name', 'uname'])
                 ]);
             }
         } else {

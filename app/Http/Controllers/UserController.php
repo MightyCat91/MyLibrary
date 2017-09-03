@@ -7,7 +7,10 @@ use App\Author;
 use App\Book;
 use App\Categories;
 use App\Http\Requests\EditUserProfile;
+use App\Status;
 use App\User;
+use Crypt;
+use function foo\func;
 use Illuminate\Http\Request;
 use Storage;
 
@@ -21,31 +24,40 @@ class UserController extends Controller
         $favorite = $user->favorite;
         $favoriteBooks = array_get($favorite, 'book');
         if(!empty($favoriteBooks)) {
-            foreach ($favoriteBooks as $bookId) {
-                $books = array_add($books, $bookId, Book::findOrFail($bookId)->name);
+            $favoriteBooks = Book::whereIn('id', $favoriteBooks)->get(['id','name']);
+            foreach ($favoriteBooks as $book) {
+                $books = array_add($books, $book->id, $book->name);
             }
         }
         $favoriteAuthors = array_get($favorite, 'author');
         if(!empty($favoriteAuthors)) {
-            foreach ($favoriteAuthors as $authorId) {
-                $authors = array_add($authors, $authorId, Author::findOrFail($authorId)->name);
+            $favoriteAuthors = Author::whereIn('id', $favoriteAuthors)->get(['id','name']);
+            foreach ($favoriteAuthors as $author) {
+                $authors = array_add($authors, $author->id, $author->name);
             }
         }
         $favoriteCategories = array_get($favorite, 'categories');
         if(!empty($favoriteCategories)) {
-            foreach ($favoriteCategories as $categoryId) {
-                $collections = array_add($collections, $categoryId, Categories::findOrFail($categoryId)->name);
+            $favoriteCategories = Categories::whereIn('id', $favoriteCategories)->get(['id','name']);
+            foreach ($favoriteCategories as $category) {
+                $collections = array_add($collections, $category->id, $category->name);
             }
         }
 
-        if ($array = $user->statistics) {
-            $statistics = unserialize($array);
-            $statisticsBooks = $statistics['books']->lenght;
-            $statisticsAuthors = $statistics['authors']->lenght;
-            $statisticsCategories = $statistics['categories']->lenght;
+        if ($statisticBooks = $user->statistic) {
+            $statisticAuthors = $statisticCategories = [];
+            foreach (Book::whereIn('id', array_flatten($statisticBooks))->get() as $book) {
+                foreach ($book->authors as $author) {
+                    $statisticAuthors[$author->id] = $author->name;
+                }
+                foreach ($book->categories as $category) {
+                    $statisticCategories[$category->id] = $category->name;
+                }
+            }
         } else {
-            $statisticsBooks = $statisticsAuthors = $statisticsCategories = null;
+            $statisticBooks = $statisticAuthors = $statisticCategories = [];
         }
+
         return view('user.profile', [
             'name' => $user->name,
             'login' => $user->login,
@@ -56,9 +68,9 @@ class UserController extends Controller
             'favoriteBooks' => $books,
             'favoriteAuthors' => $authors,
             'favoriteCategories' => $collections,
-            'statisticsBooks' => $statisticsBooks,
-            'statisticsAuthors' => $statisticsAuthors,
-            'statisticsCategories' => $statisticsCategories
+            'statisticBooks' => $statisticBooks,
+            'statisticAuthors' => $statisticAuthors,
+            'statisticCategories' => $statisticCategories
         ]);
     }
 
@@ -160,6 +172,60 @@ class UserController extends Controller
             $user->save();
             return alert()->success('Статус книги изменен', '5000', true);
         }
+    }
+
+    /**
+     * Возврат шаблона с книгами, которым юзер установил какой-либо статус
+     *
+     * @param int $id
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function showBooksForUser($id, Request $request)
+    {
+        $statistic = array_wrap(Crypt::decrypt($request->books));
+        foreach ($statistic as $key => $value) {
+            $newKey = Status::where('name', $key)->first(['uname'])->uname;
+            $statistic[$newKey] = $value ? Book::whereIn('id', $value)->get(['id', 'name']) : [];
+            array_forget($statistic, $key);
+        }
+
+        return view('user.user-books', [
+            'statistic' => $statistic,
+            'title' => 'Статистика. Книги'
+        ]);
+    }
+
+    /**
+     * Возврат шаблона с авторами, книгам которых юзер установил какой-либо статус
+     *
+     * @param int $id
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function showAuthorsForUser($id, Request $request)
+    {
+        $authors = array_keys(array_wrap(Crypt::decrypt($request->authors)));
+        return view('user.user-authors', [
+            'authors' => Author::whereIn('id', $authors)->get(['id', 'name']),
+            'title' => 'Статистика. Авторы'
+        ]);
+    }
+
+    /**
+     * Возврат шаблона с жанрами, книгам которых юзер установил какой-либо статус
+     *
+     * @param int $id
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function showCategoriesForUser($id, Request $request)
+    {
+        $categories = array_keys(array_wrap(Crypt::decrypt($request->categories)));
+        return view('user.user-categories', [
+            'categories' => Categories::whereIn('id', $categories)->get(['id', 'name']),
+            'title' => 'Статистика. Жанры'
+        ]);
     }
 
 

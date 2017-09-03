@@ -1,4 +1,5 @@
 <div class="container-link row">
+    {{ \Debugbar::info($array) }}
     @foreach($array as $item)
         <a href="{{ route($routeName, $item->id) }}" class="item-container-link">
             <figure class="col-md-4 col-sm-5 col-xs-6 item-container">

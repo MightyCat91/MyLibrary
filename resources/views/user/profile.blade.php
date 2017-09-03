@@ -47,34 +47,43 @@
         </div>
         <div id="diagram-legend">
             <div>
-                <a href="#" class="reading">
+                <a href="#" class="reading" data-books="{{ count($statisticBooks['reading']) }}">
                     <span>Читаю</span>
                 </a>
-                <a href="#" class="complited">
+                <a href="#" class="completed"  data-books="{{ count($statisticBooks['completed']) }}">
                     <span>Прочитано</span>
                 </a>
-                <a href="#" class="drop">
+                <a href="#" class="drop"  data-books="{{ count($statisticBooks['drop']) }}">
                     <span>Бросил</span>
                 </a>
-                <a href="#" class="hold">
+                <a href="#" class="on-hold"  data-books="{{ count($statisticBooks['on-hold']) }}">
                     <span>Отложил</span>
                 </a>
-                <a href="#" class="planing">
+                <a href="#" class="inPlans"  data-books="{{ count($statisticBooks['inPlans']) }}">
                     <span>Запланировано</span>
                 </a>
             </div>
             <div>
                 <div>
                     <span>Всего книг:</span>
-                    <span>{{ $statisticsBooks }}</span>
+                    <a href="{{ action('UserController@showBooksForUser',
+                        ['books' => Crypt::encrypt($statisticBooks), 'id' => auth()->id()]) }}">
+                        {{ count(array_flatten($statisticBooks)) }}
+                    </a>
                 </div>
                 <div>
                     <span>Всего авторов:</span>
-                    <span>{{ $statisticsAuthors }}</span>
+                    <a href="{{ action('UserController@showAuthorsForUser',
+                        ['authors' => Crypt::encrypt($statisticAuthors), 'id' => auth()->id()]) }}">
+                        {{ count($statisticAuthors) }}
+                    </a>
                 </div>
                 <div>
                     <span>Всего жанров:</span>
-                    <span>{{ $statisticsCategories }}</span>
+                    <a href="{{ action('UserController@showCategoriesForUser',
+                        ['categories' => Crypt::encrypt($statisticCategories), 'id' => auth()->id()]) }}">
+                        {{ count($statisticCategories) }}
+                    </a>
                 </div>
             </div>
         </div>

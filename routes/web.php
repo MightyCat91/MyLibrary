@@ -24,7 +24,7 @@ Route::post('changeImg', [
 ]);
 
 Route::group(['prefix' => 'publisher'], function () {
-    Route::group(['prefix' => '{id}', 'where' => ['id' => '[0-9]+']], function (){
+    Route::group(['prefix' => '{id}', 'where' => ['id' => '[0-9]+']], function () {
         Route::get('', [
             'as' => 'publisher-books', 'uses' => 'PublisherController@show'
         ]);
@@ -32,7 +32,7 @@ Route::group(['prefix' => 'publisher'], function () {
             'uses' => 'Controller@showFiltered'
         ]);
     });
-    Route::group(['prefix' => 'all'], function (){
+    Route::group(['prefix' => 'all'], function () {
         Route::get('', [
             'as' => 'publishers', 'uses' => 'PublisherController@show'
         ]);
@@ -164,6 +164,15 @@ Route::group(['prefix' => 'user'], function () {
         ])->middleware('auth');
         Route::get('edit', [
             'as' => 'userEditProfile', 'uses' => 'UserController@showEditUserProfilePage'
+        ])->middleware('auth');
+        Route::get('userBooks', [
+            'as' => 'user-books', 'uses' => 'UserController@showBooksForUser'
+        ])->middleware('auth');
+        Route::get('userAuthors', [
+            'as' => 'user-authors', 'uses' => 'UserController@showAuthorsForUser'
+        ])->middleware('auth');
+        Route::get('userCategories', [
+            'as' => 'user-categories', 'uses' => 'UserController@showCategoriesForUser'
         ])->middleware('auth');
         Route::post('edit', [
             'as' => 'editProfile', 'uses' => 'UserController@editUserProfilePage'

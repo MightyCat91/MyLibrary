@@ -10,8 +10,10 @@
 <script type="text/javascript" src="{{ asset('/js/Library/MorrisCharts/morris.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('/js/Custom/userProfile.js') }}"></script>
 @endpush
+{{ Session::flash('title', 'Профиль пользователя') }}
 @extends('layouts.main',['title'=>'Профиль'])
 @section('content')
+    {{Breadcrumbs::render()}}
     <section id="user-information" class="user-section">
         <h2>Информация</h2>
         <ul>

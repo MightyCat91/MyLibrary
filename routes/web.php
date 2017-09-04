@@ -150,7 +150,7 @@ Route::group(['prefix' => 'series'], function () {
 
 Route::group(['prefix' => 'user'], function () {
     Route::group(['prefix' => '{id}', 'where' => ['id' => '[0-9]+']], function () {
-        Route::get('', [
+        Route::get('profile', [
             'as' => 'userProfile', 'uses' => 'UserController@showUserProfilePage'
         ])->middleware('auth');
         Route::get('collections', [
@@ -165,14 +165,14 @@ Route::group(['prefix' => 'user'], function () {
         Route::get('edit', [
             'as' => 'userEditProfile', 'uses' => 'UserController@showEditUserProfilePage'
         ])->middleware('auth');
-        Route::get('userBooks', [
-            'as' => 'userBooks', 'uses' => 'UserController@showBooksForUser'
+        Route::get('userBooksStatistic', [
+            'as' => 'userBooksStatistic', 'uses' => 'UserController@showBooksForUser'
         ])->middleware('auth');
-        Route::get('userAuthors', [
-            'as' => 'userAuthors', 'uses' => 'UserController@showAuthorsForUser'
+        Route::get('userAuthorsStatistic', [
+            'as' => 'userAuthorsStatistic', 'uses' => 'UserController@showAuthorsForUser'
         ])->middleware('auth');
-        Route::get('userCategories', [
-            'as' => 'userCategories', 'uses' => 'UserController@showCategoriesForUser'
+        Route::get('userCategoriesStatistic', [
+            'as' => 'userCategoriesStatistic', 'uses' => 'UserController@showCategoriesForUser'
         ])->middleware('auth');
         Route::get('{status}', [
             'as' => 'userStatusBooks', 'uses' => 'UserController@showStatusBooksForUser'

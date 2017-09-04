@@ -55,7 +55,8 @@ class Breadcrumbs
         if (empty($parameters)) {
             $this->createBreadcrumbs($name, route($route), $parent);
         } else {
-            current($parameters)->unique()->each(function ($item) use ($name, $route, $parent) {
+            current($parameters)->unique()->each(function ($item, $key) use ($name, $route, $parent) {
+                $key+1
                 $this->createBreadcrumbs($name, route($route, [$item]), $parent);
             });
         }
@@ -101,6 +102,7 @@ class Breadcrumbs
      */
     protected function getBreadcrumbs()
     {
+        dd($this->breadcrumbsCollections);
         if ($this->currentRoute != route('home')) {
             if (!$this->hasBreadcrumbs('url', $this->currentRoute)) {
                 throw new NotFoundHttpException("No breadcrumbs defined for route [{$this->currentRoute}].");

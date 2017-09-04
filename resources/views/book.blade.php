@@ -52,7 +52,7 @@
                                    data-status="{{ $status ? $status->name : '' }}">{{ $status ? $status->uname : 'Статус' }}</a>
                                 <div id="status-list" class="hidden">
                                     @foreach($allStatus as $status)
-                                        <div class="status-option"
+                                        <div class="status-option {{ $status->name }}"
                                              data-status="{{ $status->name }}">{{ $status->uname }}</div>
                                     @endforeach
                                 </div>

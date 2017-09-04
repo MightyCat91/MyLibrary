@@ -1,6 +1,57 @@
 .owl-carousel {
     max-width: 1600px;
 }
+
+#statistic-wrapper, #statistic-chart {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+#statistic-count > div {
+    margin: 10px 0;
+}
+
+#diagram-legend {
+    display: flex;
+    flex-direction: column;
+   text-align: center;
+}
+
+#diagram-legend > a {
+    display: block;
+    width: 100%;
+    color: #fff;
+    padding: 2px 10px;
+    margin: 5px 0;
+    border-radius: 10px;
+}
+
+.reading {
+    background-color: #0275d8;
+}
+
+.completed {
+    background-color: #009926;
+}
+
+.drop {
+    background-color: #FF3933;
+}
+
+.on-hold {
+    background-color: #fb990e;
+}
+
+.inPlans {
+    background-color: #999;
+}
+
+#book-diagram {
+    height: 250px;
+    width: 250px;
+}
+
 .user-favorite-img.item {
     padding: 5px;
     border: 1px solid #009926;

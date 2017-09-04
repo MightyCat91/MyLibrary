@@ -166,13 +166,16 @@ Route::group(['prefix' => 'user'], function () {
             'as' => 'userEditProfile', 'uses' => 'UserController@showEditUserProfilePage'
         ])->middleware('auth');
         Route::get('userBooks', [
-            'as' => 'user-books', 'uses' => 'UserController@showBooksForUser'
+            'as' => 'userBooks', 'uses' => 'UserController@showBooksForUser'
         ])->middleware('auth');
         Route::get('userAuthors', [
-            'as' => 'user-authors', 'uses' => 'UserController@showAuthorsForUser'
+            'as' => 'userAuthors', 'uses' => 'UserController@showAuthorsForUser'
         ])->middleware('auth');
         Route::get('userCategories', [
-            'as' => 'user-categories', 'uses' => 'UserController@showCategoriesForUser'
+            'as' => 'userCategories', 'uses' => 'UserController@showCategoriesForUser'
+        ])->middleware('auth');
+        Route::get('{status}', [
+            'as' => 'userStatusBooks', 'uses' => 'UserController@showStatusBooksForUser'
         ])->middleware('auth');
         Route::post('edit', [
             'as' => 'editProfile', 'uses' => 'UserController@editUserProfilePage'

@@ -197,6 +197,24 @@ class UserController extends Controller
     }
 
     /**
+     * Возврат шаблона с книгами, которым юзер установил какой-либо статус
+     *
+     * @param int $id
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+    public function showStatusBooksForUser($id, Request $request)
+    {
+        $books = array_wrap(Crypt::decrypt($request->books));
+        \Debugbar::info($books);
+        return view('books', [
+            'type' => 'book',
+            'books' => Book::whereIn('id', $books)->get(['id', 'name']),
+            'title' => $request->status
+        ]);
+    }
+
+    /**
      * Возврат шаблона с авторами, книгам которых юзер установил какой-либо статус
      *
      * @param int $id

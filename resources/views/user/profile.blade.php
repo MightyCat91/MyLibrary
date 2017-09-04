@@ -1,10 +1,13 @@
 @push('styles')
 <link href="{{ asset('/css/Library/Owl.Carousel/owl.carousel.min.css') }}" rel='stylesheet' type='text/css'
       media="all"/>
+<link href="{{ asset('/css/Library/MorrisCharts/morris.css') }}" rel='stylesheet' type='text/css' media="all"/>
 <link href="{{ asset('/css/custom/userProfile.css') }}" rel='stylesheet' type='text/css' media="all"/>
 @endpush
 @push('scripts')
 <script type="text/javascript" src="{{ asset('/js/Library/Owl.Carousel/owl.carousel.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('/js/Library/MorrisCharts/raphael-min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('/js/Library/MorrisCharts/morris.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('/js/Custom/userProfile.js') }}"></script>
 @endpush
 @extends('layouts.main',['title'=>'Профиль'])
@@ -37,33 +40,8 @@
     </section>
     <section id="user-statistic" class="user-selection">
         <h2>Статистика</h2>
-
-        <div id="book-diagram">
-            <span class="reading"></span>
-            <span class="complited"></span>
-            <span class="drop"></span>
-            <span class="hold"></span>
-            <span class="planing"></span>
-        </div>
-        <div id="diagram-legend">
-            <div>
-                <a href="#" class="reading" data-books="{{ count($statisticBooks['reading']) }}">
-                    <span>Читаю</span>
-                </a>
-                <a href="#" class="completed"  data-books="{{ count($statisticBooks['completed']) }}">
-                    <span>Прочитано</span>
-                </a>
-                <a href="#" class="drop"  data-books="{{ count($statisticBooks['drop']) }}">
-                    <span>Бросил</span>
-                </a>
-                <a href="#" class="on-hold"  data-books="{{ count($statisticBooks['on-hold']) }}">
-                    <span>Отложил</span>
-                </a>
-                <a href="#" class="inPlans"  data-books="{{ count($statisticBooks['inPlans']) }}">
-                    <span>Запланировано</span>
-                </a>
-            </div>
-            <div>
+        <div id="statistic-wrapper">
+            <div id="statistic-count">
                 <div>
                     <span>Всего книг:</span>
                     <a href="{{ action('UserController@showBooksForUser',
@@ -84,6 +62,53 @@
                         ['categories' => Crypt::encrypt($statisticCategories), 'id' => auth()->id()]) }}">
                         {{ count($statisticCategories) }}
                     </a>
+                </div>
+            </div>
+            <div id="statistic-chart">
+                {{\Debugbar::info(array_has($statisticBooks, 'reading') ? $statisticBooks['reading']: [])}}
+                <div id="diagram-legend">
+                    <a href="{{ action('UserController@showStatusBooksForUser',
+                        ['books' => Crypt::encrypt(array_has($statisticBooks, 'reading') ? $statisticBooks['reading']: []),
+                        'id' => auth()->id(),
+                        'status' => 'reading']) }}"
+                       class="reading"
+                       data-books="{{ array_has($statisticBooks, 'reading') ? count($statisticBooks['reading']) : 0 }}">
+                        <span>Читаю</span>
+                    </a>
+                    <a href="{{ action('UserController@showStatusBooksForUser',
+                        ['books' => Crypt::encrypt(array_has($statisticBooks, 'completed') ? $statisticBooks['completed']: []),
+                        'id' => auth()->id(),
+                        'status' => 'completed']) }}"
+                       class="completed"
+                       data-books="{{ array_has($statisticBooks, 'completed') ? count($statisticBooks['completed']) : 0 }}">
+                        <span>Прочитано</span>
+                    </a>
+                    <a href="{{ action('UserController@showStatusBooksForUser',
+                        ['books' => Crypt::encrypt(array_has($statisticBooks, 'drop') ? $statisticBooks['drop']: []),
+                        'id' => auth()->id(),
+                        'status' => 'drop']) }}"
+                       class="drop"
+                       data-books="{{ array_has($statisticBooks, 'drop') ? count($statisticBooks['drop']) : 0 }}">
+                        <span>Бросил</span>
+                    </a>
+                    <a href="{{ action('UserController@showStatusBooksForUser',
+                        ['books' => Crypt::encrypt(array_has($statisticBooks, 'on-hold') ? $statisticBooks['on-hold']: []),
+                        'id' => auth()->id(),
+                        'status' => 'on-hold']) }}"
+                       class="on-hold"
+                       data-books="{{ array_has($statisticBooks, 'on-hold') ? count($statisticBooks['on-hold']) : 0 }}">
+                        <span>Отложил</span>
+                    </a>
+                    <a href="{{ action('UserController@showStatusBooksForUser',
+                        ['books' => Crypt::encrypt(array_has($statisticBooks, 'inPlans') ? $statisticBooks['inPlans']: []),
+                        'id' => auth()->id(),
+                        'status' => 'inPlans']) }}"
+                       class="inPlans"
+                       data-books="{{ array_has($statisticBooks, 'inPlans') ? count($statisticBooks['inPlans']) : 0 }}">
+                        <span>Запланировано</span>
+                    </a>
+                </div>
+                <div id="book-diagram">
                 </div>
             </div>
         </div>

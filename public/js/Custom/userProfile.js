@@ -32,4 +32,24 @@
             }
         }
     });
+
+    new Morris.Donut({
+        element: 'book-diagram',
+        data: [
+            {value: $('a.reading').data('books'), label: 'Книг:'},
+            {value: $('a.completed').data('books'), label: 'Книг:'},
+            {value: $('a.drop').data('books'), label: 'Книг:'},
+            {value: $('a.on-hold').data('books'), label: 'Книг:'},
+            {value: $('a.inPlans').data('books'), label: 'Книг:'}
+        ],
+        labelColor: '#292b2c',
+        colors: [
+            '#0275d8',
+            '#009926',
+            '#FF3933',
+            '#fb990e',
+            '#999'
+        ]
+        // formatter: function (x) { return x + "%"}
+    });
 })(jQuery);

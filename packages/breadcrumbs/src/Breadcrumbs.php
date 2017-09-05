@@ -33,6 +33,8 @@ class Breadcrumbs
         $this->currentRoute = url()->current();
         $this->breadcrumbsCollections = new Collection();
         $this->breadcrumbs = new Collection();
+
+        $this->arr = [];
     }
 
     /**
@@ -55,12 +57,47 @@ class Breadcrumbs
         if (empty($parameters)) {
             $this->createBreadcrumbs($name, route($route), $parent);
         } else {
-            current($parameters)->unique()->each(function ($item, $key) use ($name, $route, $parent) {
-                $key+1
-                $this->createBreadcrumbs($name, route($route, [$item]), $parent);
-            });
+//            dd(next($parameters));
+
+            foreach ($parameters as $key => $nestedArray) {
+//                foreach ($nestedArray as $paramValue) {
+//                    if (!empty($parameters[$key + 1])) {
+//                        foreach ($parameters[$key + 1] as $item) {
+//                            $this->createBreadcrumbs($name, route($route, [$paramValue, $item]), $parent);
+//                        }
+//                    }
+//                }
+                    $this->createRouteParams($parameters, $key, $name, $route, $parent, []);
+
+//                dump($w);
+            }
+//            dd($w);
         }
     }
+
+    public function createRouteParams($parameters, $key, $name, $route, $parent, $arr) {
+        foreach ($parameters[$key] as $paramValue) {
+            $arr[$key]= $paramValue;
+            if (!empty($parameters[$key + 1])) {
+                dump($key);
+//                foreach ($parameters[$key + 1] as $item) {
+//                    $this->createBreadcrumbs($name, route($route, [$paramValue, $item]), $parent);
+//                    array_push($this->arr, [$paramValue, $item]);
+                    array_add($arr, $key, $parameters[$key + 1][$key]);
+//                    dump($this->arr);
+                    $this->createRouteParams($parameters, ($key+1), $name, $route, $parent, $arr);
+//                }
+            }
+//            array_forget($arr, $key);
+//            else {
+//                array_add($this->arr, $key, $parameters[$key + 1][$key]);
+//                $this->createBreadcrumbs($name, route($route, [$paramValue]), $parent);
+//            }
+//            dump($arr);
+        }
+
+    }
+
 
     /**
      * Рендер хлебных крошек

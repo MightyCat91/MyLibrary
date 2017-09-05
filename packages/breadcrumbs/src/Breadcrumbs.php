@@ -57,9 +57,9 @@ class Breadcrumbs
         if (empty($parameters)) {
             $this->createBreadcrumbs($name, route($route), $parent);
         } else {
-//            dd(next($parameters));
+//            dd($parent);
 
-            foreach ($parameters as $key => $nestedArray) {
+//            foreach ($parameters as $key => $nestedArray) {
 //                foreach ($nestedArray as $paramValue) {
 //                    if (!empty($parameters[$key + 1])) {
 //                        foreach ($parameters[$key + 1] as $item) {
@@ -67,33 +67,31 @@ class Breadcrumbs
 //                        }
 //                    }
 //                }
-                    $this->createRouteParams($parameters, $key, $name, $route, $parent, []);
+            $this->createRouteParams($parameters, 0, $name, $route, $parent);
 
 //                dump($w);
-            }
-//            dd($w);
+//            }
+            dd($this->arr);
         }
     }
 
-    public function createRouteParams($parameters, $key, $name, $route, $parent, $arr) {
-        foreach ($parameters[$key] as $paramValue) {
-            $arr[$key]= $paramValue;
-            if (!empty($parameters[$key + 1])) {
-                dump($key);
-//                foreach ($parameters[$key + 1] as $item) {
-//                    $this->createBreadcrumbs($name, route($route, [$paramValue, $item]), $parent);
-//                    array_push($this->arr, [$paramValue, $item]);
-                    array_add($arr, $key, $parameters[$key + 1][$key]);
-//                    dump($this->arr);
-                    $this->createRouteParams($parameters, ($key+1), $name, $route, $parent, $arr);
-//                }
+    public function createRouteParams($parameters, $key, $name, $route, $parent, $tempArrExist = false)
+    {
+        foreach ($parameters[$key] as $currKey => $paramValue) {
+            if (!$tempArrExist) {
+                array_push($this->arr, $paramValue);
+            } else {
+                $last = array_pop($this->arr);
+                $array = array_merge(is_array($last)?$last:[$last], [$paramValue]);
+                array_push($this->arr, $array);
+//                array_add($this->arr, key($this->arr), $paramValue);
+//                dump($this->arr);
             }
-//            array_forget($arr, $key);
-//            else {
-//                array_add($this->arr, $key, $parameters[$key + 1][$key]);
-//                $this->createBreadcrumbs($name, route($route, [$paramValue]), $parent);
-//            }
-//            dump($arr);
+            if (!empty($parameters[$key + 1])) {
+//                    array_add($this->arr, $key, $parameters[$key + 1][$currKey]);
+                $this->createRouteParams($parameters, $key + 1, $name, $route, $parent, true);
+            }
+//            dump($this->arr);
         }
 
     }

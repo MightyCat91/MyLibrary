@@ -13,7 +13,7 @@ Breadcrumbs::add('home', 'home');
 //authors
 Breadcrumbs::add('authors', 'authors', 'home');
 //author
-Breadcrumbs::add('author', 'author', 'authors', [['a','b'], ['1','2']]);
+Breadcrumbs::add('author', 'author', 'authors', [['a','b'], ['1','2'], ['+','-']]);
 //add authors
 Breadcrumbs::add('add-authors', 'author-add-get', 'home');
 //books

@@ -11,7 +11,7 @@
             <h2 class="page-title">{{ $title }}</h2>
         </header>
     @endif
-        {{--{{ Breadcrumbs::render()}}--}}
+    {{ Breadcrumbs::render()}}
     <div id="main-container" class="container">
         @foreach($statistic as $status => $books)
             <section>

@@ -33,8 +33,6 @@ class Breadcrumbs
         $this->currentRoute = url()->current();
         $this->breadcrumbsCollections = new Collection();
         $this->breadcrumbs = new Collection();
-
-        $this->arr = [];
     }
 
     /**
@@ -57,44 +55,15 @@ class Breadcrumbs
         if (empty($parameters)) {
             $this->createBreadcrumbs($name, route($route), $parent);
         } else {
-//            dd($parent);
-
-//            foreach ($parameters as $key => $nestedArray) {
-//                foreach ($nestedArray as $paramValue) {
-//                    if (!empty($parameters[$key + 1])) {
-//                        foreach ($parameters[$key + 1] as $item) {
-//                            $this->createBreadcrumbs($name, route($route, [$paramValue, $item]), $parent);
-//                        }
-//                    }
-//                }
-            $this->createRouteParams($parameters, 0, $name, $route, $parent);
-
-//                dump($w);
-//            }
-            dd($this->arr);
+            list($keys, $values) = array_divide($parameters);
+            $paramsForRoute = $this->getParams($values);
+            foreach ($paramsForRoute as $value) {
+                $params = array_combine($keys, explode( ',', $value ));
+                $this->createBreadcrumbs($name, route($route, $params), $parent);
+            }
         }
     }
 
-    public function createRouteParams($parameters, $key, $name, $route, $parent, $tempArrExist = false)
-    {
-        foreach ($parameters[$key] as $currKey => $paramValue) {
-            if (!$tempArrExist) {
-                array_push($this->arr, $paramValue);
-            } else {
-                $last = array_pop($this->arr);
-                $array = array_merge(is_array($last)?$last:[$last], [$paramValue]);
-                array_push($this->arr, $array);
-//                array_add($this->arr, key($this->arr), $paramValue);
-//                dump($this->arr);
-            }
-            if (!empty($parameters[$key + 1])) {
-//                    array_add($this->arr, $key, $parameters[$key + 1][$currKey]);
-                $this->createRouteParams($parameters, $key + 1, $name, $route, $parent, true);
-            }
-//            dump($this->arr);
-        }
-
-    }
 
 
     /**
@@ -110,6 +79,30 @@ class Breadcrumbs
             return new HtmlString(
                 view('breadcrumbs::breadcrumbs')->with('breadcrumbs', $breadcrumbs)->render()
             );
+        }
+    }
+
+
+    /**
+     * @param $data
+     * @return array
+     */
+    protected function getParams($data)
+    {
+        if (count($data) === 0) {
+            return [];
+        } elseif (count($data) === 1) {
+            return $data[0];
+        } else {
+            $result = [];
+            $allCasesOfRest = $this->getParams(array_slice($data, 1));
+            foreach ($allCasesOfRest as $key => $case) {
+                for ($i = 0; $i < count($data[0]); $i++) {
+                    $val = $data[0][$i] .",". $allCasesOfRest[$key];
+                    array_push($result, $val);
+                }
+            }
+            return $result;
         }
     }
 
@@ -137,7 +130,6 @@ class Breadcrumbs
      */
     protected function getBreadcrumbs()
     {
-        dd($this->breadcrumbsCollections);
         if ($this->currentRoute != route('home')) {
             if (!$this->hasBreadcrumbs('url', $this->currentRoute)) {
                 throw new NotFoundHttpException("No breadcrumbs defined for route [{$this->currentRoute}].");
@@ -147,7 +139,6 @@ class Breadcrumbs
             return $item['url'] == $this->currentRoute;
         });
         $activeBreadcrumbCollection = collect($this->breadcrumbsCollections->get($key));
-//        dump($activeBreadcrumbCollection);
         $this->breadcrumbs->push([
             'title' => session('title'),
             'url' => $activeBreadcrumbCollection->get('url')

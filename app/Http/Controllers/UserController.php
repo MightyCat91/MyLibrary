@@ -58,6 +58,8 @@ class UserController extends Controller
             $statisticBooks = $statisticAuthors = $statisticCategories = [];
         }
 
+        $status = Status::all('name', 'uname');
+
         return view('user.profile', [
             'name' => $user->name,
             'login' => $user->login,
@@ -70,7 +72,8 @@ class UserController extends Controller
             'favoriteCategories' => $collections,
             'statisticBooks' => $statisticBooks,
             'statisticAuthors' => $statisticAuthors,
-            'statisticCategories' => $statisticCategories
+            'statisticCategories' => $statisticCategories,
+            'status' => $status,
         ]);
     }
 
@@ -210,7 +213,8 @@ class UserController extends Controller
         return view('books', [
             'type' => 'book',
             'books' => Book::whereIn('id', $books)->get(['id', 'name']),
-            'title' => $request->status
+            'title' => $request->status,
+            'header' => $request->title
         ]);
     }
 

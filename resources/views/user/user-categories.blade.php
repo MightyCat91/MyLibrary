@@ -8,7 +8,7 @@
 @endpush
 {{ Session::flash('title', 'Жанры') }}
 @section('content')
-    {{--{{Breadcrumbs::render()}}--}}
+    {{Breadcrumbs::render()}}
     <div id="main-container" class="container">
         @include('layouts.commonGrid',
         [

@@ -1,14 +1,14 @@
 @push('styles')
-<link href="{{ asset('/css/Library/Owl.Carousel/owl.carousel.min.css') }}" rel='stylesheet' type='text/css'
-      media="all"/>
-<link href="{{ asset('/css/Library/MorrisCharts/morris.css') }}" rel='stylesheet' type='text/css' media="all"/>
-<link href="{{ asset('/css/custom/userProfile.css') }}" rel='stylesheet' type='text/css' media="all"/>
+    <link href="{{ asset('/css/Library/Owl.Carousel/owl.carousel.min.css') }}" rel='stylesheet' type='text/css'
+          media="all"/>
+    <link href="{{ asset('/css/Library/MorrisCharts/morris.css') }}" rel='stylesheet' type='text/css' media="all"/>
+    <link href="{{ asset('/css/custom/userProfile.css') }}" rel='stylesheet' type='text/css' media="all"/>
 @endpush
 @push('scripts')
-<script type="text/javascript" src="{{ asset('/js/Library/Owl.Carousel/owl.carousel.min.js') }}"></script>
-<script type="text/javascript" src="{{ asset('/js/Library/MorrisCharts/raphael-min.js') }}"></script>
-<script type="text/javascript" src="{{ asset('/js/Library/MorrisCharts/morris.min.js') }}"></script>
-<script type="text/javascript" src="{{ asset('/js/Custom/userProfile.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('/js/Library/Owl.Carousel/owl.carousel.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('/js/Library/MorrisCharts/raphael-min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('/js/Library/MorrisCharts/morris.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('/js/Custom/userProfile.js') }}"></script>
 @endpush
 {{ Session::flash('title', 'Профиль пользователя') }}
 @extends('layouts.main',['title'=>'Профиль'])
@@ -67,48 +67,18 @@
                 </div>
             </div>
             <div id="statistic-chart">
-                {{\Debugbar::info(array_has($statisticBooks, 'reading') ? $statisticBooks['reading']: [])}}
                 <div id="diagram-legend">
-                    <a href="{{ action('UserController@showStatusBooksForUser',
-                        ['books' => Crypt::encrypt(array_has($statisticBooks, 'reading') ? $statisticBooks['reading']: []),
+                    @foreach($status as $st)
+                        <a href="{{ action('UserController@showStatusBooksForUser',
+                        ['books' => Crypt::encrypt(array_has($statisticBooks, $st->name) ? $statisticBooks[$st->name]: []),
                         'id' => auth()->id(),
-                        'status' => 'reading']) }}"
-                       class="reading"
-                       data-books="{{ array_has($statisticBooks, 'reading') ? count($statisticBooks['reading']) : 0 }}">
-                        <span>Читаю</span>
-                    </a>
-                    <a href="{{ action('UserController@showStatusBooksForUser',
-                        ['books' => Crypt::encrypt(array_has($statisticBooks, 'completed') ? $statisticBooks['completed']: []),
-                        'id' => auth()->id(),
-                        'status' => 'completed']) }}"
-                       class="completed"
-                       data-books="{{ array_has($statisticBooks, 'completed') ? count($statisticBooks['completed']) : 0 }}">
-                        <span>Прочитано</span>
-                    </a>
-                    <a href="{{ action('UserController@showStatusBooksForUser',
-                        ['books' => Crypt::encrypt(array_has($statisticBooks, 'drop') ? $statisticBooks['drop']: []),
-                        'id' => auth()->id(),
-                        'status' => 'drop']) }}"
-                       class="drop"
-                       data-books="{{ array_has($statisticBooks, 'drop') ? count($statisticBooks['drop']) : 0 }}">
-                        <span>Бросил</span>
-                    </a>
-                    <a href="{{ action('UserController@showStatusBooksForUser',
-                        ['books' => Crypt::encrypt(array_has($statisticBooks, 'on-hold') ? $statisticBooks['on-hold']: []),
-                        'id' => auth()->id(),
-                        'status' => 'on-hold']) }}"
-                       class="on-hold"
-                       data-books="{{ array_has($statisticBooks, 'on-hold') ? count($statisticBooks['on-hold']) : 0 }}">
-                        <span>Отложил</span>
-                    </a>
-                    <a href="{{ action('UserController@showStatusBooksForUser',
-                        ['books' => Crypt::encrypt(array_has($statisticBooks, 'inPlans') ? $statisticBooks['inPlans']: []),
-                        'id' => auth()->id(),
-                        'status' => 'inPlans']) }}"
-                       class="inPlans"
-                       data-books="{{ array_has($statisticBooks, 'inPlans') ? count($statisticBooks['inPlans']) : 0 }}">
-                        <span>Запланировано</span>
-                    </a>
+                        'status' => $st->uname,
+                        'title' => $st->name]) }}"
+                           class="{{$st->name}}"
+                           data-books="{{ array_has($statisticBooks, $st->name) ? count($statisticBooks[$st->name]) : 0 }}">
+                            <span>{{ $st->uname }}</span>
+                        </a>
+                    @endforeach
                 </div>
                 <div id="book-diagram">
                 </div>
@@ -149,14 +119,14 @@
         <h2>Любимые жанры</h2>
         @isset($favoriteCategories)
             <div class="owl-carousel owl-theme">
-            @foreach($favoriteCategories as $id => $name)
-                <a href="{{ route('category', [$id]) }}" target="_blank" title="{{ $name }}">
-                    <figure class="user-favorite-img item">
-                        <img src="{{ asset(getStorageFile('categories', $id))}}" alt="{{ $name }}">
-                    </figure>
-                </a>
-            @endforeach
-        </div>
+                @foreach($favoriteCategories as $id => $name)
+                    <a href="{{ route('category', [$id]) }}" target="_blank" title="{{ $name }}">
+                        <figure class="user-favorite-img item">
+                            <img src="{{ asset(getStorageFile('categories', $id))}}" alt="{{ $name }}">
+                        </figure>
+                    </a>
+                @endforeach
+            </div>
         @endisset
     </section>
 @endsection

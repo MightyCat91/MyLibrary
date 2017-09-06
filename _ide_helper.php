@@ -12153,20 +12153,20 @@ namespace MyLibrary\Alerts\Facades {
 namespace MyLibrary\Breadcrumbs\Facades { 
 
     class Breadcrumbs {
-        
+
         /**
          * Создание хлебной крошки
          *
          * @param $name string хлебной крошки
          * @param $route string урл соответствующий хлебной крошке
+         * @param $title string текст хлебной крошки
          * @param null $parent string идентификатор родительской хлебной крошки
          * @param null $parameters array массив динамических параметров для урла
-         * @throws AlreadyExistsException
-         * @static 
-         */ 
-        public static function add($name, $route, $parent = null, $parameters = null)
+         * @static
+         */
+        public static function add($name, $route, $title, $parent = null, $parameters = null)
         {
-            return \MyLibrary\Breadcrumbs\Breadcrumbs::add($name, $route, $parent, $parameters);
+            return \MyLibrary\Breadcrumbs\Breadcrumbs::add($name, $route, $title, $parent, $parameters);
         }
         
         /**

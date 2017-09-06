@@ -195,7 +195,8 @@ class UserController extends Controller
 
         return view('user.user-books', [
             'statistic' => $statistic,
-            'title' => 'Статистика. Книги'
+            'title' => 'Статистика. Книги',
+            'breadcrumbParams' => ['id' => $request->id]
         ]);
     }
 

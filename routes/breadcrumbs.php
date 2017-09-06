@@ -9,11 +9,11 @@ $userId = \App\User::pluck('id');
 $bookStatus = \App\Status::pluck('name');
 
 //home
-Breadcrumbs::add('home', 'home');
+Breadcrumbs::add('home', 'home', '');
 //authors
-Breadcrumbs::add('authors', 'authors', 'home');
+Breadcrumbs::add('authors', 'authors', 'Авторы', 'home');
 //author
-Breadcrumbs::add('author', 'author', 'authors', ['id' => $authorId]);
+Breadcrumbs::add('author', 'author', '', 'authors', ['id' => $authorId]);
 //add authors
 Breadcrumbs::add('add-authors', 'author-add-get', 'home');
 //books

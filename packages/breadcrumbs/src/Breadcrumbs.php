@@ -40,11 +40,12 @@ class Breadcrumbs
      *
      * @param $name string хлебной крошки
      * @param $route string урл соответствующий хлебной крошке
+     * @param $title string текст хлебной крошки
      * @param null $parent string идентификатор родительской хлебной крошки
      * @param null $parameters array массив динамических параметров для урла
      * @throws AlreadyExistsException
      */
-    public function add($name, $route, $parent = null, $parameters = null)
+    public function add($name, $route, $title, $parent = null, $parameters = null)
     {
         if ($this->hasBreadcrumbs('name', $name)) {
             throw new AlreadyExistsException("Breadcrumbs have already been defined for route [{$name}].");
@@ -53,28 +54,28 @@ class Breadcrumbs
             throw new AlreadyExistsException("No defined parent with name [{$parent}].");
         }
         if (empty($parameters)) {
-            $this->createBreadcrumbs($name, route($route), $parent);
+            $this->createBreadcrumbs($name, route($route), $title, $parent);
         } else {
             list($keys, $values) = array_divide($parameters);
             $paramsForRoute = $this->getParams($values);
             foreach ($paramsForRoute as $value) {
-                $params = array_combine($keys, explode( ',', $value ));
-                $this->createBreadcrumbs($name, route($route, $params), $parent);
+                $params = array_combine($keys, explode(',', $value));
+                $this->createBreadcrumbs($name, route($route, $params), $title, $parent, $params);
             }
         }
     }
 
 
-
     /**
      * Рендер хлебных крошек
      *
+     * @param null $parameters
      * @return HtmlString html-строка
-     * @throws NotFoundException
      */
-    public function render()
+    public function render($parameters = null)
     {
-        if ($breadcrumbs = $this->getBreadcrumbs()->toArray()) {
+//        dd($parameters);
+        if ($breadcrumbs = $this->getBreadcrumbs($parameters)->toArray()) {
             \Session::forget('title');
             return new HtmlString(
                 view('breadcrumbs::breadcrumbs')->with('breadcrumbs', $breadcrumbs)->render()
@@ -84,6 +85,8 @@ class Breadcrumbs
 
 
     /**
+     * Формирование массива всех пересечений параметров для роутов
+     *
      * @param $data
      * @return array
      */
@@ -98,7 +101,7 @@ class Breadcrumbs
             $allCasesOfRest = $this->getParams(array_slice($data, 1));
             foreach ($allCasesOfRest as $key => $case) {
                 for ($i = 0; $i < count($data[0]); $i++) {
-                    $val = $data[0][$i] .",". $allCasesOfRest[$key];
+                    $val = $data[0][$i] . "," . $allCasesOfRest[$key];
                     array_push($result, $val);
                 }
             }
@@ -111,41 +114,50 @@ class Breadcrumbs
      *
      * @param $name string хлебной крошки
      * @param $url string урл соответствующий хлебной крошке
+     * @param $title
      * @param $parent string идентификатор родительской хлебной крошки
+     * @param array $parameters
      */
-    protected function createBreadcrumbs($name, $url, $parent)
+    protected function createBreadcrumbs($name, $url, $title, $parent, $parameters = [])
     {
         $this->breadcrumbsCollections->push([
             'name' => $name,
             'url' => $url,
-            'parent' => $parent
+            'title' => $title,
+            'parent' => $parent,
+            'parameters' => $parameters
         ]);
     }
 
     /**
      * Получение хлебной крошки из коллекции-хранилища
      *
+     * @param $parameters
      * @return Collection
-     * @throws NotFoundException
      */
-    protected function getBreadcrumbs()
+    protected function getBreadcrumbs($parameters)
     {
         if ($this->currentRoute != route('home')) {
             if (!$this->hasBreadcrumbs('url', $this->currentRoute)) {
                 throw new NotFoundHttpException("No breadcrumbs defined for route [{$this->currentRoute}].");
             }
         }
-        $key = $this->breadcrumbsCollections->search(function ($item) {
+//        && (!empty($parameters) ? $item['parameters'] == $parameters : true)
+        $key = $this->breadcrumbsCollections->search(function ($item) use ($parameters) {
+//            dump($item['url'] == $this->currentRoute  && (!empty($parameters) ? $item['parameters'] == $parameters : true),'---------');
             return $item['url'] == $this->currentRoute;
         });
+
         $activeBreadcrumbCollection = collect($this->breadcrumbsCollections->get($key));
         $this->breadcrumbs->push([
             'title' => session('title'),
             'url' => $activeBreadcrumbCollection->get('url')
         ]);
+//        dd($this->breadcrumbsCollections);
         if ($parent = $activeBreadcrumbCollection->get('parent')) {
-            $this->call($parent);
+            $this->call($parent, $parameters);
         }
+//        dd($this->breadcrumbs);
         return $this->breadcrumbs;
     }
 
@@ -155,24 +167,31 @@ class Breadcrumbs
      * @param $name string идентификатор предка хлебной крошки
      * @return null
      */
-    protected function call($name)
+    protected function call($name, $parameters)
     {
         if (!$name) {
             return null;
         } else {
-            $key = $this->breadcrumbsCollections->search(function ($item) use ($name) {
-                return $item['name'] == $name;
+            $key = $this->breadcrumbsCollections->search(function ($item) use ($name, $parameters) {
+//                dump($item['parameters'], $parameters, $item['name'] == $name && (!empty($parameters) ? $item['parameters'] ==
+//                        $parameters : true),'---------');
+                return $item['name'] == $name && (!empty($parameters) ? $item['parameters'] == $parameters : true);
             });
             $activeBreadcrumbCollection = collect($this->breadcrumbsCollections->get($key));
             $url = $activeBreadcrumbCollection->get('url');
-
+            \Debugbar::info($url);
             if ($title = $this->getPageTitle($url)) {
+                \Debugbar::info($title);
                 $this->breadcrumbs->prepend([
                     'title' => $title,
                     'url' => $url
                 ]);
             }
-            return $this->call($activeBreadcrumbCollection->get('parent'));
+
+            if ($parameters) {
+                $parameters = array_slice($parameters, 1);
+            }
+            return $this->call($activeBreadcrumbCollection->get('parent'), $parameters);
         }
     }
 
@@ -213,7 +232,7 @@ class Breadcrumbs
         $res = preg_match("/<title>(.*)<\/title>/siU", $fp, $title_matches);
         if (!$res)
             return null;
-
+        dd($fp);
         $title = preg_replace('/\s+/', ' ', $title_matches[1]);
         $title = trim($title);
         return $title;

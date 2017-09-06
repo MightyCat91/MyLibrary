@@ -11,7 +11,7 @@
     <script type="text/javascript" src="{{ asset('/js/Custom/userProfile.js') }}"></script>
 @endpush
 {{ Session::flash('title', 'Профиль пользователя') }}
-@extends('layouts.main',['title'=>'Профиль'])
+@extends('layouts.main',['title'=>'Профиль пользователя'])
 @section('content')
     {{Breadcrumbs::render()}}
     <section id="user-information" class="user-section">
@@ -72,8 +72,8 @@
                         <a href="{{ action('UserController@showStatusBooksForUser',
                         ['books' => Crypt::encrypt(array_has($statisticBooks, $st->name) ? $statisticBooks[$st->name]: []),
                         'id' => auth()->id(),
-                        'status' => $st->uname,
-                        'title' => $st->name]) }}"
+                        'status' => $st->name,
+                        'title' => $st->uname]) }}"
                            class="{{$st->name}}"
                            data-books="{{ array_has($statisticBooks, $st->name) ? count($statisticBooks[$st->name]) : 0 }}">
                             <span>{{ $st->uname }}</span>

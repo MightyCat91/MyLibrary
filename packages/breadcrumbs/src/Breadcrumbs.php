@@ -7,6 +7,7 @@ use Illuminate\Routing\Exceptions\UrlGenerationException;
 use Illuminate\Support\Collection;
 use Illuminate\Support\HtmlString;
 use MyLibrary\Breadcrumbs\Exceptions\AlreadyExistsException;
+use MyLibrary\Breadcrumbs\Exceptions\NotArrayException;
 use MyLibrary\Breadcrumbs\Exceptions\NotFoundException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
@@ -40,12 +41,13 @@ class Breadcrumbs
      *
      * @param $name string хлебной крошки
      * @param $route string урл соответствующий хлебной крошке
-     * @param $title string текст хлебной крошки
+     * @param $title string|array массив вида ['имя параметра' => [массив необходимых строк]]
      * @param null $parent string идентификатор родительской хлебной крошки
      * @param null $parameters array массив динамических параметров для урла
      * @throws AlreadyExistsException
+     * @throws NotArrayException
      */
-    public function add($name, $route, $title, $parent = null, $parameters = null)
+    public function add($name, $route, $title, $parent = null, $parameters = [])
     {
         if ($this->hasBreadcrumbs('name', $name)) {
             throw new AlreadyExistsException("Breadcrumbs have already been defined for route [{$name}].");
@@ -53,13 +55,28 @@ class Breadcrumbs
         if ($parent and !$this->hasBreadcrumbs('name', $parent)) {
             throw new AlreadyExistsException("No defined parent with name [{$parent}].");
         }
+        if (!is_array($title) and !is_string($title)) {
+            throw new NotArrayException("Parameter 'title'=[{$title}] is not array or string.");
+        }
+        if (!is_array($parameters)) {
+            throw new NotArrayException("Parameter 'parameters'=[{$parameters}] is not array.");
+        }
+
+
         if (empty($parameters)) {
             $this->createBreadcrumbs($name, route($route), $title, $parent);
         } else {
             list($keys, $values) = array_divide($parameters);
             $paramsForRoute = $this->getParams($values);
+
+            if (is_array($title)) {
+                $paramForTitle = key($title);
+                $keysForTitlesArray = array_get($parameters, $paramForTitle)->toArray();
+                $titlesArray = array_combine($keysForTitlesArray, array_get($title, $paramForTitle));
+            }
             foreach ($paramsForRoute as $value) {
                 $params = array_combine($keys, explode(',', $value));
+                $title = is_array($title) ? array_get($titlesArray, head($params)) : $title;
                 $this->createBreadcrumbs($name, route($route, $params), $title, $parent, $params);
             }
         }
@@ -74,9 +91,8 @@ class Breadcrumbs
      */
     public function render($parameters = null)
     {
-//        dd($parameters);
         if ($breadcrumbs = $this->getBreadcrumbs($parameters)->toArray()) {
-            \Session::forget('title');
+//            \Session::forget('title');
             return new HtmlString(
                 view('breadcrumbs::breadcrumbs')->with('breadcrumbs', $breadcrumbs)->render()
             );
@@ -142,9 +158,8 @@ class Breadcrumbs
                 throw new NotFoundHttpException("No breadcrumbs defined for route [{$this->currentRoute}].");
             }
         }
-//        && (!empty($parameters) ? $item['parameters'] == $parameters : true)
+
         $key = $this->breadcrumbsCollections->search(function ($item) use ($parameters) {
-//            dump($item['url'] == $this->currentRoute  && (!empty($parameters) ? $item['parameters'] == $parameters : true),'---------');
             return $item['url'] == $this->currentRoute;
         });
 
@@ -153,11 +168,11 @@ class Breadcrumbs
             'title' => session('title'),
             'url' => $activeBreadcrumbCollection->get('url')
         ]);
-//        dd($this->breadcrumbsCollections);
+
         if ($parent = $activeBreadcrumbCollection->get('parent')) {
             $this->call($parent, $parameters);
         }
-//        dd($this->breadcrumbs);
+
         return $this->breadcrumbs;
     }
 
@@ -173,20 +188,14 @@ class Breadcrumbs
             return null;
         } else {
             $key = $this->breadcrumbsCollections->search(function ($item) use ($name, $parameters) {
-//                dump($item['parameters'], $parameters, $item['name'] == $name && (!empty($parameters) ? $item['parameters'] ==
-//                        $parameters : true),'---------');
                 return $item['name'] == $name && (!empty($parameters) ? $item['parameters'] == $parameters : true);
             });
             $activeBreadcrumbCollection = collect($this->breadcrumbsCollections->get($key));
-            $url = $activeBreadcrumbCollection->get('url');
-            \Debugbar::info($url);
-            if ($title = $this->getPageTitle($url)) {
-                \Debugbar::info($title);
-                $this->breadcrumbs->prepend([
-                    'title' => $title,
-                    'url' => $url
-                ]);
-            }
+
+            $this->breadcrumbs->prepend([
+                'title' => $activeBreadcrumbCollection->get('title'),
+                'url' => $activeBreadcrumbCollection->get('url')
+            ]);
 
             if ($parameters) {
                 $parameters = array_slice($parameters, 1);
@@ -207,34 +216,5 @@ class Breadcrumbs
         return $this->breadcrumbsCollections->contains(function ($item) use ($key, $value) {
             return $item[$key] == $value;
         });
-    }
-
-    /**
-     * Получение заголовка страницы
-     *
-     * @param $url string урл страницы
-     * @return mixed|null|string
-     */
-    protected function getPageTitle($url)
-    {
-        $curl_handle = curl_init();
-        curl_setopt($curl_handle, CURLOPT_URL, $url);
-        curl_setopt($curl_handle, CURLOPT_CONNECTTIMEOUT, 2);
-        curl_setopt($curl_handle, CURLOPT_RETURNTRANSFER, 1);
-        curl_setopt(
-            $curl_handle,
-            CURLOPT_USERAGENT,
-            'Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:1.8.1.13) Gecko/20080311 Firefox/2.0.0.13'
-        );
-        $fp = curl_exec($curl_handle);
-        curl_close($curl_handle);
-
-        $res = preg_match("/<title>(.*)<\/title>/siU", $fp, $title_matches);
-        if (!$res)
-            return null;
-        dd($fp);
-        $title = preg_replace('/\s+/', ' ', $title_matches[1]);
-        $title = trim($title);
-        return $title;
     }
 }

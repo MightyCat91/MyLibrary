@@ -1,58 +1,69 @@
 <?php
-$authorId = \App\Author::pluck('id');
-$bookId = \App\Book::pluck('id');
+$author = \App\Author::all('id', 'name');
+$book = \App\Book::all('id', 'name');
 $bookYear = \App\Book::pluck('year');
-$categoryId = \App\Categories::pluck('id');
-$seriesId = \App\Series::pluck('id');
-$publisherId = \App\Publisher::pluck('id');
+$category = \App\Categories::all('id', 'name');
+$series = \App\Series::all('id', 'name');
+$publisher = \App\Publisher::all('id', 'name');
 $userId = \App\User::pluck('id');
-$bookStatus = \App\Status::pluck('name');
+$bookStatus = \App\Status::all('name', 'uname');
 
 //home
 Breadcrumbs::add('home', 'home', '');
 //authors
 Breadcrumbs::add('authors', 'authors', 'Авторы', 'home');
 //author
-Breadcrumbs::add('author', 'author', '', 'authors', ['id' => $authorId]);
+Breadcrumbs::add('author', 'author', ['id' => $author->pluck('name')->toArray()],
+    'authors', ['id' => $author->pluck('id')]);
 //add authors
-Breadcrumbs::add('add-authors', 'author-add-get', 'home');
+Breadcrumbs::add('add-authors', 'author-add-get', 'Добавление автора', 'home');
 //books
-Breadcrumbs::add('books', 'books', 'home');
+Breadcrumbs::add('books', 'books', 'Книги', 'home');
 //book
-Breadcrumbs::add('book', 'book', 'books', ['id' => $bookId]);
+Breadcrumbs::add('book', 'book', ['id' => $book->pluck('name')->toArray()],
+    'books', ['id' => $book->pluck('id')]);
 //author-books
-Breadcrumbs::add('author-books', 'author-books', 'books', ['id' => $authorId]);
+Breadcrumbs::add('author-books', 'author-books', 'Книги', 'books', ['id' => $author->pluck('id')]);
 //year-books
-Breadcrumbs::add('year-books', 'year-books', 'books', ['year' => $bookYear]);
+Breadcrumbs::add('year-books', 'year-books', ['year' => $bookYear->toArray()],
+    'books', ['year' => $bookYear]);
 //add books
-Breadcrumbs::add('add-books', 'book-add-get', 'home');
+Breadcrumbs::add('add-books', 'book-add-get', 'Добавление книги','home');
 //categories
-Breadcrumbs::add('categories', 'categories', 'home');
+Breadcrumbs::add('categories', 'categories', 'Жанры', 'home');
 //category-books
-Breadcrumbs::add('category-books', 'category-books', 'categories', ['id' => $categoryId]);
+Breadcrumbs::add('category-books', 'category-books', ['id' => $category->pluck('name')->toArray()],
+    'categories', ['id' => $category->pluck('id')]);
 //category-authors
-Breadcrumbs::add('category-authors', 'category-authors', 'categories', ['id' => $categoryId]);
+Breadcrumbs::add('category-authors', 'category-authors', ['id' => $category->pluck('name')->toArray()],
+    'categories', ['id' => $category->pluck('id')]);
 //series-books
-Breadcrumbs::add('series-books', 'series-books', 'books', ['id' => $seriesId]);
+Breadcrumbs::add('series-books', 'series-books', ['id' => $series->pluck('name')->toArray()],
+    'books', ['id' => $series->pluck('id')]);
 //publishers
-Breadcrumbs::add('publishers', 'publishers', 'home');
+Breadcrumbs::add('publishers', 'publishers', 'Издательства','home');
 //publisher-books
-Breadcrumbs::add('publisher-books', 'publisher-books', 'publishers', ['id' => $publisherId]);
+Breadcrumbs::add('publisher-books', 'publisher-books', ['id' => $publisher->pluck('name')->toArray()],
+    'publishers', ['id' => $publisher->pluck('id')]);
 //userProfile
-Breadcrumbs::add('userProfile', 'userProfile', 'home', ['id' => $userId]);
+Breadcrumbs::add('userProfile', 'userProfile','Профиль','home', ['id' => $userId]);
 //userCollections
-Breadcrumbs::add('userCollections', 'userCollections', 'home', ['id' => $userId]);
+Breadcrumbs::add('userCollections', 'userCollections','Коллекции','home',
+    ['id' => $userId]);
 //userBooks
-Breadcrumbs::add('userBooks', 'userBooks', 'home', ['id' => $userId]);
+Breadcrumbs::add('userBooks', 'userBooks','Личная библиотека','home', ['id' => $userId]);
 //userHistory
-Breadcrumbs::add('userHistory', 'userHistory', 'home', ['id' => $userId]);
+Breadcrumbs::add('userHistory', 'userHistory','История действий','home', ['id' => $userId]);
 //userEditProfile
-Breadcrumbs::add('userEditProfile', 'userEditProfile', 'home', ['id' => $userId]);
+Breadcrumbs::add('userEditProfile', 'userEditProfile','Настройки профиля','home', ['id' => $userId]);
 //userBooksStatistic
-Breadcrumbs::add('userBooksStatistic', 'userBooksStatistic', 'userProfile', ['id' => $userId]);
+Breadcrumbs::add('userBooksStatistic', 'userBooksStatistic', 'Статистика книг из личной библиотеки',
+    'userProfile', ['id' => $userId]);
 //userAuthorsStatistic
-Breadcrumbs::add('userAuthorsStatistic', 'userAuthorsStatistic', 'userProfile', ['id' => $userId]);
+Breadcrumbs::add('userAuthorsStatistic', 'userAuthorsStatistic','Статистика авторов из личной библиотеки',
+    'userProfile', ['id' => $userId]);
 //userCategoriesStatistic
-Breadcrumbs::add('userCategoriesStatistic', 'userCategoriesStatistic', 'userProfile', ['id' => $userId]);
+Breadcrumbs::add('userCategoriesStatistic', 'userCategoriesStatistic','Статистика жанров из личной библиотеки','userProfile', ['id' => $userId]);
 //userStatusBooks
-Breadcrumbs::add('userStatusBooks', 'userStatusBooks', 'userProfile', ['id' => $userId, 'status' => $bookStatus]);
+Breadcrumbs::add('userStatusBooks', 'userStatusBooks', ['status' => $bookStatus->pluck('uname')->toArray()],
+    'userProfile', ['id' => $userId, 'status' => $bookStatus->pluck('name')]);

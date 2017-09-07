@@ -10,7 +10,7 @@
     <script type="text/javascript" src="{{ asset('/js/Library/MorrisCharts/morris.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('/js/Custom/userProfile.js') }}"></script>
 @endpush
-{{ Session::flash('title', 'Профиль пользователя') }}
+{{--{{ Session::flash('title', 'Профиль пользователя') }}--}}
 @extends('layouts.main',['title'=>'Профиль пользователя'])
 @section('content')
     {{Breadcrumbs::render()}}

@@ -3,7 +3,6 @@
     <link href="{{ asset('/css/Custom/alphabetFilter.css') }}" rel='stylesheet' type='text/css' media="all"/>
     <link href="{{ asset('/css/Custom/commonGrid.css') }}" rel='stylesheet' type='text/css' media="all"/>
 @endpush
-{{ Session::flash('title', $title) }}
 @section('content')
     @yield('category')
     @if (isset($title))
@@ -11,7 +10,7 @@
             <h2 class="page-title">{{ $title }}</h2>
         </header>
     @endif
-    {{ Breadcrumbs::render()}}
+    {{ Breadcrumbs::render($breadcrumbParams)}}
     <div id="main-container" class="container">
         @foreach($statistic as $status => $books)
             <section>

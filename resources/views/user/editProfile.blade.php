@@ -2,7 +2,6 @@
 <link href="{{ asset('/css/Custom/addForm.css') }}" rel='stylesheet' type='text/css' media="all"/>
 <link href="{{ asset('/css/Custom/profileSettings.css') }}" rel='stylesheet' type='text/css' media="all"/>
 @endpush
-{{ Session::flash('title', 'Настройки профиля') }}
 @extends('layouts.main',['title'=>'Настройки'])
 @section('content')
     {{Breadcrumbs::render()}}

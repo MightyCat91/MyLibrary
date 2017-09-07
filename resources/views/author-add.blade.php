@@ -3,7 +3,6 @@
 <link href="{{ asset('/css/Custom/addForm.css') }}" rel='stylesheet' type='text/css' media="all"/>
 <link href="{{ asset('/css/Custom/commonGrid.css') }}" rel='stylesheet' type='text/css' media="all"/>
 @endpush
-{{ Session::flash('title', 'Добавить автора') }}
 @extends('layouts.main',['title'=>'Добавить автора'])
 @section('content')
     {{Breadcrumbs::render()}}

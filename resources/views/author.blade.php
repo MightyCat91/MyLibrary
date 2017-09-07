@@ -2,7 +2,6 @@
 <link href="{{ asset('/css/Custom/commonGrid.css') }}" rel='stylesheet' type='text/css' media="all"/>
 <link href="{{ asset('/css/Custom/itemInfo.css') }}" rel='stylesheet' type='text/css' media="all"/>
 @endpush
-{{ Session::flash('title', $author->name) }}
 @extends('layouts.main',['title'=>$author->name])
 @section('content')
     <div id="wrapper" class="">

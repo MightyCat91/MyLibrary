@@ -6,7 +6,6 @@
 @push('scripts')
     <script type="text/javascript" src="{{ asset('/js/Custom/alphabetFilter.js') }}"></script>
 @endpush
-{{ Session::flash('title', $title) }}
 @section('content')
     @yield('category')
     @if (isset($title))
@@ -14,7 +13,7 @@
             <h2 class="page-title">{{ $title }}</h2>
         </header>
     @endif
-    {{ Breadcrumbs::render()}}
+    {{ Breadcrumbs::render($breadcrumbParams)}}
     <div id="main-container" class="container">
         @include('layouts.commonGrid',
         [

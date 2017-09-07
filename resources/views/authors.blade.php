@@ -6,7 +6,6 @@
 @push('scripts')
     <script type="text/javascript" src="{{ asset('/js/Custom/alphabetFilter.js') }}"></script>
 @endpush
-{{ Session::flash('title', 'Авторы') }}
 @section('content')
     @yield('category')
     @if (!trim($__env->yieldContent('category')))

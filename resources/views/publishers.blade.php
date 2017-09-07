@@ -6,7 +6,6 @@
 @push('scripts')
     <script type="text/javascript" src="{{ asset('/js/Custom/alphabetFilter.js') }}"></script>
 @endpush
-{{ Session::flash('title', 'Издательства') }}
 @section('content')
     {{Breadcrumbs::render()}}
     <div id="main-container" class="container">

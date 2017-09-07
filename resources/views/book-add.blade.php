@@ -3,7 +3,6 @@
 <link href="{{ asset('/css/Custom/addForm.css') }}" rel='stylesheet' type='text/css' media="all"/>
 <link href="{{ asset('/css/Custom/commonGrid.css') }}" rel='stylesheet' type='text/css' media="all"/>
 @endpush
-{{ Session::flash('title', 'Добавить книгу') }}
 @extends('layouts.main',['title'=>'Добавить книгу'])
 @section('content')
     {{Breadcrumbs::render()}}

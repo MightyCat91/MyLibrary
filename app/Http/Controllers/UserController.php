@@ -195,7 +195,8 @@ class UserController extends Controller
 
         return view('user.user-books', [
             'statistic' => $statistic,
-            'title' => 'Статистика. Книги'
+            'title' => 'Статистика. Книги',
+            'breadcrumbParams' => ['id' => $request->id]
         ]);
     }
 
@@ -209,12 +210,14 @@ class UserController extends Controller
     public function showStatusBooksForUser($id, Request $request)
     {
         $books = array_wrap(Crypt::decrypt($request->books));
-        \Debugbar::info($books);
+        \Debugbar::info($request->title);
         return view('books', [
             'type' => 'book',
             'books' => Book::whereIn('id', $books)->get(['id', 'name']),
-            'title' => $request->status,
-            'header' => $request->title
+            'title' => $request->title,
+            'header' => $request->title,
+            'breadcrumbParams' => ['id' => $request->id]
+
         ]);
     }
 
@@ -230,7 +233,8 @@ class UserController extends Controller
         $authors = array_keys(array_wrap(Crypt::decrypt($request->authors)));
         return view('user.user-authors', [
             'authors' => Author::whereIn('id', $authors)->get(['id', 'name']),
-            'title' => 'Статистика. Авторы'
+            'title' => 'Статистика. Авторы',
+            'breadcrumbParams' => ['id' => $request->id]
         ]);
     }
 
@@ -246,7 +250,8 @@ class UserController extends Controller
         $categories = array_keys(array_wrap(Crypt::decrypt($request->categories)));
         return view('user.user-categories', [
             'categories' => Categories::whereIn('id', $categories)->get(['id', 'name']),
-            'title' => 'Статистика. Жанры'
+            'title' => 'Статистика. Жанры',
+            'breadcrumbParams' => ['id' => $request->id]
         ]);
     }
 

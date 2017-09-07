@@ -1,5 +1,4 @@
 @extends($parent_template_name,['title'=>$category->name, 'type'=>$type])
-{{ Session::flash('title', $category->name) }}
 @section('category')
     <header>
         <h2 class="page-title">{{ $category->name }}</h2>

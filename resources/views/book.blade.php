@@ -12,7 +12,6 @@
     <script type="text/javascript" src="{{ asset('/js/Library/Owl.Carousel/owl.carousel.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('/js/Custom/book.js') }}"></script>
 @endpush
-{{ Session::flash('title', $book->name) }}
 @extends('layouts.main',['title'=>$book->name])
 @section('content')
     <div id="wrapper">

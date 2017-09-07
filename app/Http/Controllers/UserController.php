@@ -193,7 +193,7 @@ class UserController extends Controller
             array_forget($statistic, $key);
         }
 
-        return view('user.user-books', [
+        return view('user.userBooks', [
             'statistic' => $statistic,
             'title' => 'Статистика. Книги',
             'breadcrumbParams' => ['id' => $request->id]
@@ -231,7 +231,7 @@ class UserController extends Controller
     public function showAuthorsForUser($id, Request $request)
     {
         $authors = array_keys(array_wrap(Crypt::decrypt($request->authors)));
-        return view('user.user-authors', [
+        return view('user.userAuthors', [
             'authors' => Author::whereIn('id', $authors)->get(['id', 'name']),
             'title' => 'Статистика. Авторы',
             'breadcrumbParams' => ['id' => $request->id]
@@ -248,12 +248,23 @@ class UserController extends Controller
     public function showCategoriesForUser($id, Request $request)
     {
         $categories = array_keys(array_wrap(Crypt::decrypt($request->categories)));
-        return view('user.user-categories', [
+        return view('user.userCategories', [
             'categories' => Categories::whereIn('id', $categories)->get(['id', 'name']),
             'title' => 'Статистика. Жанры',
             'breadcrumbParams' => ['id' => $request->id]
         ]);
     }
+
+    public function showUserFavorite($type, Request $request)
+    {
+        dd($request->favoriteId);
+        return view('books', [
+            'type' => $type,
+            'books' => Book::whereIn('id', $request->favoriteId)->get(['id', 'name']),
+            'title' => $request->title
+        ]);
+    }
+
 
 
     private function deleteProfileImgFromStorage($id)

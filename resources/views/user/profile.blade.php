@@ -85,7 +85,13 @@
         </div>
     </section>
     <section id="user-favorite-books" class="user-section">
-        <h2>Любимые книги</h2>
+        <h2>
+            <a href="{{ route('userFavorite', ['type'=> 'book',
+            'favoriteId' => $favoriteBooks,
+            'title' => 'Любимые книги']) }}">
+                Любимые книги
+            </a>
+        </h2>
 
         @isset($favoriteBooks)
             <div class="books-slider owl-carousel owl-theme">
@@ -100,7 +106,12 @@
         @endisset
     </section>
     <section id="user-favorite-authors" class="user-section">
-        <h2>Любимые авторы</h2>
+        <h2>
+            <a href="{{ route('userFavorite', ['type'=> 'author', 'favoriteId' => $favoriteAuthors,
+            'title' => 'Любимые авторы']) }}">
+                Любимые авторы
+            </a>
+        </h2>
 
         @isset($favoriteAuthors)
             <div class="author-slider owl-carousel owl-theme">
@@ -115,7 +126,13 @@
         @endisset
     </section>
     <section id="user-favorite-categories" class="user-section">
-        <h2>Любимые жанры</h2>
+        <h2>
+            <a href="{{ route('userFavorite', ['type'=> 'category', 'favoriteId' => $favoriteCategories,
+            'title' => 'Любимые жанры']) }}">
+                Любимые жанры
+            </a>
+        </h2>
+
         @isset($favoriteCategories)
             <div class="owl-carousel owl-theme">
                 @foreach($favoriteCategories as $id => $name)

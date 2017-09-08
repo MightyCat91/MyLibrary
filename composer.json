@@ -11,21 +11,21 @@
     "license": "MIT",
     "type": "project",
     "require": {
-        "php": ">=5.6.4",
-        "laravel/framework": "5.4.*",
-        "graham-campbell/exceptions": "^9.2",
-        "barryvdh/laravel-ide-helper": "^2.2",
+        "php": ">=7.0.0",
+        "laravel/framework": "5.5.*",
+        "graham-campbell/exceptions": "^10.0.0",
+        "barryvdh/laravel-ide-helper": "^2.3@dev",
         "doctrine/dbal": "^2.5",
-        "watson/active": "^2.0",
-        "barryvdh/laravel-debugbar": "^2.3"
+        "watson/active": "dev-master",
+        "barryvdh/laravel-debugbar": "^2.3",
+        "doctrine/inflector": "^1.1"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",
         "mockery/mockery": "0.9.*",
-        "phpunit/phpunit": "~5.7",
+        "phpunit/phpunit": "~6.0",
         "symfony/css-selector": "3.1.*",
-        "symfony/dom-crawler": "3.1.*",
-        "filp/whoops": "^2.1"
+        "symfony/dom-crawler": "3.1.*"
     },
     "autoload": {
         "classmap": [
@@ -68,5 +68,6 @@
     "config": {
         "preferred-install": "dist"
     },
-    "minimum-stability": "dev"
+    "minimum-stability": "dev",
+    "prefer-stable": true
 }

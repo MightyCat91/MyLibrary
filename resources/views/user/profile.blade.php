@@ -84,16 +84,17 @@
             </div>
         </div>
     </section>
-    <section id="user-favorite-books" class="user-section">
-        <h2>
-            <a href="{{ route('userFavorite', ['type'=> 'book',
-            'favoriteId' => $favoriteBooks,
-            'title' => 'Любимые книги']) }}">
-                Любимые книги
-            </a>
-        </h2>
+    <section id="user-favorite-books" class="user-section user-favorite">
+        @if(empty($favoriteBooks))
+            <h2>Любимые книги</h2>
 
-        @isset($favoriteBooks)
+        @else
+            <h2>
+                <a href="{{ route('userFavorite', ['type' => 'book', 'id' => auth()->id(),
+                    'favoriteId' => Crypt::encrypt(array_keys($favoriteBooks)), 'title' => 'Любимые книги']) }}">
+                    Любимые книги
+                </a>
+            </h2>
             <div class="books-slider owl-carousel owl-theme">
                 @foreach($favoriteBooks as $id => $name)
                     <a href="{{ route('book', [$id]) }}" target="_blank" title="{{ $name }}">
@@ -103,17 +104,18 @@
                     </a>
                 @endforeach
             </div>
-        @endisset
+        @endif
     </section>
-    <section id="user-favorite-authors" class="user-section">
-        <h2>
-            <a href="{{ route('userFavorite', ['type'=> 'author', 'favoriteId' => $favoriteAuthors,
-            'title' => 'Любимые авторы']) }}">
-                Любимые авторы
-            </a>
-        </h2>
-
-        @isset($favoriteAuthors)
+    <section id="user-favorite-authors" class="user-section user-favorite">
+        @if(empty($favoriteAuthors))
+            <h2>Любимые авторы</h2>
+        @else
+            <h2>
+                <a href="{{ route('userFavorite', ['type'=> 'author', 'id' => auth()->id(),
+                    'favoriteId' => Crypt::encrypt(array_keys($favoriteAuthors)), 'title' => 'Любимые авторы']) }}">
+                    Любимые авторы
+                </a>
+            </h2>
             <div class="author-slider owl-carousel owl-theme">
                 @foreach($favoriteAuthors as $id => $name)
                     <a href="{{ route('author', [$id]) }}" target="_blank" title="{{ $name }}">
@@ -123,17 +125,18 @@
                     </a>
                 @endforeach
             </div>
-        @endisset
+        @endif
     </section>
-    <section id="user-favorite-categories" class="user-section">
-        <h2>
-            <a href="{{ route('userFavorite', ['type'=> 'category', 'favoriteId' => $favoriteCategories,
-            'title' => 'Любимые жанры']) }}">
-                Любимые жанры
-            </a>
-        </h2>
-
-        @isset($favoriteCategories)
+    <section id="user-favorite-categories" class="user-section user-favorite">
+        @if(empty($favoriteCategories))
+            <h2>Любимые жанры</h2>
+        @else
+            <h2>
+                <a href="{{ route('userFavorite', ['type'=> 'category', 'id' => auth()->id(),
+                    'favoriteId' => Crypt::encrypt(array_keys($favoriteCategories)), 'title' => 'Любимые жанры']) }}">
+                    Любимые жанры
+                </a>
+            </h2>
             <div class="owl-carousel owl-theme">
                 @foreach($favoriteCategories as $id => $name)
                     <a href="{{ route('category', [$id]) }}" target="_blank" title="{{ $name }}">
@@ -143,6 +146,6 @@
                     </a>
                 @endforeach
             </div>
-        @endisset
+        @endif
     </section>
 @endsection

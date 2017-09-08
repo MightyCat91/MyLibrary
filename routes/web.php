@@ -173,7 +173,7 @@ Route::group(['prefix' => 'user'], function () {
         Route::get('{status}', [
             'as' => 'userStatusBooks', 'uses' => 'UserController@showStatusBooksForUser'
         ])->middleware('auth');
-        Route::get('{type}', [
+        Route::get('favorite/{type}', [
             'as' => 'userFavorite', 'uses' => 'UserController@showUserFavorite'
         ])->middleware('auth');
         Route::post('edit', [

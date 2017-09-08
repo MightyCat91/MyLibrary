@@ -210,7 +210,6 @@ class UserController extends Controller
     public function showStatusBooksForUser($id, Request $request)
     {
         $books = array_wrap(Crypt::decrypt($request->books));
-        \Debugbar::info($request->title);
         return view('books', [
             'type' => 'book',
             'books' => Book::whereIn('id', $books)->get(['id', 'name']),
@@ -255,12 +254,39 @@ class UserController extends Controller
         ]);
     }
 
-    public function showUserFavorite($type, Request $request)
+    /**
+     *
+     *
+     * @param $id
+     * @param $type
+     * @param Request $request
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
+    public function showUserFavorite($id, $type, Request $request)
     {
-        dd($request->favoriteId);
-        return view('books', [
+        switch ($type) {
+            case 'book':
+                $viewName = 'Books';
+                $itemsType = 'books';
+                $item = Book::whereIn('id', Crypt::decrypt($request->favoriteId))->get(['id', 'name']);
+                break;
+            case 'author' :
+                $viewName = 'Authors';
+                $itemsType = 'authors';
+                $item = Author::whereIn('id', Crypt::decrypt($request->favoriteId))->get(['id', 'name']);
+                break;
+            case 'category' :
+                $viewName = 'Categories';
+                $itemsType = 'categories';
+                $item = Categories::whereIn('id', Crypt::decrypt($request->favoriteId))->get(['id', 'name']);
+                break;
+            default :
+                $viewName = $item = $itemsType = null;
+                abort(500);
+        };
+        return view($viewName, [
             'type' => $type,
-            'books' => Book::whereIn('id', $request->favoriteId)->get(['id', 'name']),
+            $itemsType => $item,
             'title' => $request->title
         ]);
     }

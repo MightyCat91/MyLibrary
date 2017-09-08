@@ -93,3 +93,9 @@ Breadcrumbs::add('userCategoriesStatistic', 'userCategoriesStatistic',
 Breadcrumbs::add('userStatusBooks', 'userStatusBooks',
     ['status' => $bookStatus->pluck('uname')->toArray()],
     'userProfile', ['id' => $userId, 'status' => $bookStatus->pluck('name')]);
+
+//userStatusBooks
+Breadcrumbs::add('userFavorite', 'userFavorite',
+    ['type' => ['Любимые книги', 'Любимые авторы', 'Любимые жанры']],
+    'userProfile', ['id' => $userId, 'type' => collect(['book', 'author', 'category'])]);
+//todo: добавить проверку на то, что получаемое значение в качестве параметра это массив или коллекция

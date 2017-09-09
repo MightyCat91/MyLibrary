@@ -107,35 +107,27 @@ class AuthorController extends Controller
      */
     public function show(Request $request, $id = null)
     {
-
-        if (empty($request->filter)) {
-            if (!$id) {
-                $view = view('authors', [
-                    'type' => 'author',
-                    'authors' => Author::get(['id', 'name'])
-                ]);
-            } else {
-                $author = Author::FindOrFail($id);
-                if (\Auth::check()) {
-                    $favorite = User::findOrFail(\Auth::id())->favorite;
-                    $favoriteOfType = array_has($favorite, 'author');
-                    $inFavorite = $favoriteOfType ? array_has($favorite['author'], array_search($id,
-                        $favorite['author']) ?: '') : null;
-                } else {
-                    $inFavorite = null;
-                }
-                $view = view('author', [
-                    'author' => $author,
-                    'authorSeries' => $author->series(),
-                    'books' => $author->books,
-                    'categories' => $author->categories(),
-                    'inFavorite' => $inFavorite,
-                ]);
-            }
-        } else {
+        if (!$id) {
             $view = view('authors', [
                 'type' => 'author',
-                'authors' => Author::where('name', 'LIKE', $request->filter . '%')->get(['id', 'name'])
+                'authors' => Author::get(['id', 'name'])
+            ]);
+        } else {
+            $author = Author::FindOrFail($id);
+            if (\Auth::check()) {
+                $favorite = User::findOrFail(\Auth::id())->favorite;
+                $favoriteOfType = array_has($favorite, 'author');
+                $inFavorite = $favoriteOfType ? array_has($favorite['author'], array_search($id,
+                    $favorite['author']) ?: '') : null;
+            } else {
+                $inFavorite = null;
+            }
+            $view = view('author', [
+                'author' => $author,
+                'authorSeries' => $author->series(),
+                'books' => $author->books,
+                'categories' => $author->categories(),
+                'inFavorite' => $inFavorite,
             ]);
         }
 

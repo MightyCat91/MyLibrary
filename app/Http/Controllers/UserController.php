@@ -287,7 +287,8 @@ class UserController extends Controller
         return view($viewName, [
             'type' => $type,
             $itemsType => $item,
-            'title' => $request->title
+            'title' => $request->title,
+            'breadcrumbParams' => ['id' => $id]
         ]);
     }
 

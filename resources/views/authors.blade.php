@@ -9,7 +9,7 @@
 @section('content')
     @yield('category')
     @if (!trim($__env->yieldContent('category')))
-        {{ Breadcrumbs::render()}}
+        {{ Breadcrumbs::render($breadcrumbParams ?? null)}}
     @endif
     <div id="main-container" class="container">
         @include('layouts.commonGrid',

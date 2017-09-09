@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Book;
+
 use App\Series;
 use Illuminate\Http\Request;
 
@@ -18,21 +18,12 @@ class SeriesController extends Controller
     public function showBooks($id, Request $request)
     {
         $series = Series::FindOrFail($id);
-        if (empty($request->filter)) {
-            $view = view('books', [
-                'type' => 'series',
-                'header' => $series->name,
-                'books' => $series->books,
-                'title' => $series->name
-            ]);
-        } else {
-            $view = view('books', [
-                'type' => 'series',
-                'header' => $series->name,
-                'books' => $series->books()->where('name', 'LIKE', $request->filter . '%')->get(),
-                'title' => $series->name
-            ]);
-        }
+        $view = view('books', [
+            'type' => 'series',
+            'header' => $series->name,
+            'books' => $series->books,
+            'title' => $series->name
+        ]);
         return $view;
     }
 }

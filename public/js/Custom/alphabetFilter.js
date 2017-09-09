@@ -65,68 +65,33 @@
         $('.letter-filter:contains("'+urlParameter+'")').addClass('active');
     }
 
-    //подгрузка контента отфильтрованного по выбранной букве
     filterLetter.on('click', function (e) {
         e.preventDefault();
-        //выбранная буква
         var letter = $(this).html();
-        //основной урл страницы(без параметров)
-        var mainUrl = window.location.href.split('?')[0];
-        //урл, устанавливающийся в адресную строку браузера
-        var historyUrl = mainUrl;
-        //урл, по которому будет оправляться аякс-запрос
-        var ajaxUrl = mainUrl + '/filterLetter';
-        //параметры урл
-        var data = {type: filterContainer.attr('class')};
-        //массив частей урл разделенных слешем
-        var urlParts = mainUrl.split('/');
-        var pages = ['series', 'publisher', 'author'];
-        //если страница, на которой происходит фильтрация содержит книги опреденной серии, то в параметры
-        // аякс-запроса передаем id данной серии
-        if ($.isArray(urlParts[3], pages) != -1) {
-            data['id'] = (urlParts[4] == 'all') ? null : urlParts[4];
-        }
+        var filterHeader = $('#filter-header');
+
         //если выбранная буква не является текущей, по которой происходит фильтрация
         if (!$(this).hasClass('active')) {
             //снимаем с других букв класс активной
             $('.letter-filter').removeClass('active');
             //текущей букве устанавливаем класс активной
             $(this).addClass('active');
-            //в пареметры урл записываем массив с необходимыми значениями
-            data['filter'] = letter;
-            //в урл для адресной строки дописыаем парметр
-            historyUrl = mainUrl + '?filter=' + letter;
+
+            var filteredItems = $('.container-title').filter(function () {
+                if(!$(this).text().startsWith(letter)) {
+                    $(this).closest('.item-container-link').addClass('hidden');
+                }
+                else {
+                    return this;
+                }
+            });
+
+            (filteredItems.length > 0) ?  filterHeader.text('Отфильтровано по букве ' + letter).removeClass('hidden') : filterHeader.text('К сожалению ничего не найдено').removeClass('hidden');
         } else {
             //иначе убираем с текущей буквы класс активной
             $(this).removeClass('active');
+            $('.item-container-link').removeClass('hidden');
+            filterHeader.text('').addClass('hidden');
         }
-        $.ajaxSetup({
-            headers: {'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content')}
-        });
-        $.ajax({
-            type: "GET",
-            //урл по которому будет вызван соответсвующий контроллер
-            url: ajaxUrl,
-            data: data,
-            beforeSend: function () {
-                //перед отправкой аякс-запроса вешам спинер
-                $('.page-content').addClass('spinner');
-            },
-            success: function (data) {
-                //TODO: добавить уведомление об отсутсвии авторов с выбранной фильтрацией
-                //меняем урл в адресной строке
-                history.pushState('filter=' + letter, '', historyUrl);
-                //заменяем в основном контейнере старый контент полученным
-                $('#main-container').html(data);
-                //убираем спинер
-                $('.page-content').removeClass('spinner');
-                //перерасчет смещения, при наступлении которого происходит прилипание контейнера с фильтром по алфавиту
-                limit = $('.footer').offset().top - filterContainer.height() - 20;
-                //скролл к верху страницы
-                $('body').animate({scrollTop: 0}, 300);
-            },
-            error: function () {
-            }
-        });
-    })
+    });
 })(jQuery);

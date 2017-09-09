@@ -24,29 +24,16 @@ Route::group(['prefix' => 'publisher'], function () {
         Route::get('', [
             'as' => 'publisher-books', 'uses' => 'PublisherController@show'
         ]);
-        Route::get('filterLetter', [
-            'uses' => 'Controller@showFiltered'
-        ]);
     });
-    Route::group(['prefix' => 'all'], function () {
-        Route::get('', [
-            'as' => 'publishers', 'uses' => 'PublisherController@show'
-        ]);
-        Route::get('filterLetter', [
-            'uses' => 'Controller@showFiltered'
-        ]);
-    });
+    Route::get('all', [
+        'as' => 'publishers', 'uses' => 'PublisherController@show'
+    ]);
 });
 
 Route::group(['prefix' => 'book'], function () {
-    Route::group(['prefix' => 'all'], function () {
-        Route::get('', [
-            'as' => 'books', 'uses' => 'BookController@show'
-        ]);
-        Route::get('filterLetter', [
-            'uses' => 'BookController@showFiltered'
-        ]);
-    });
+    Route::get('all', [
+        'as' => 'books', 'uses' => 'BookController@show'
+    ]);
     Route::group(['prefix' => 'add'], function () {
         Route::get('', [
             'as' => 'book-add-get', 'uses' => 'BookController@create'
@@ -94,52 +81,29 @@ Route::group(['prefix' => 'author'], function () {
             'uses' => 'AuthorController@addImgAJAX'
         ])->middleware('auth');
     });
-    Route::group(['prefix' => 'all'], function () {
-        Route::get('', [
-            'as' => 'authors', 'uses' => 'AuthorController@show'
-        ]);
-        Route::get('filterLetter', [
-            'uses' => 'Controller@showFiltered'
-        ]);
-    });
+    Route::get('all', [
+        'as' => 'authors', 'uses' => 'AuthorController@show'
+    ]);
 });
 
 Route::group(['prefix' => 'category'], function () {
     Route::group(['prefix' => '{id}', 'where' => ['id' => '[0-9]+']], function () {
-        Route::group(['prefix' => 'books'], function () {
-            Route::get('', [
-                'as' => 'category-books', 'uses' => 'CategoriesController@showBooks'
-            ]);
-            Route::get('filterLetter', [
-                'uses' => 'Controller@showFiltered'
-            ]);
-        });
-        Route::group(['prefix' => 'authors'], function () {
-            Route::get('', [
-                'as' => 'category-authors', 'uses' => 'CategoriesController@showAuthors'
-            ]);
-            Route::get('filterLetter', [
-                'uses' => 'Controller@showFiltered'
-            ]);
-        });
-    });
-    Route::group(['prefix' => 'all'], function () {
-        Route::get('', [
-            'as' => 'categories', 'uses' => 'CategoriesController@show'
+        Route::get('books', [
+            'as' => 'category-books', 'uses' => 'CategoriesController@showBooks'
         ]);
-        Route::get('filterLetter', [
-            'uses' => 'Controller@showFiltered'
+        Route::get('authors', [
+            'as' => 'category-authors', 'uses' => 'CategoriesController@showAuthors'
         ]);
     });
+    Route::get('all', [
+        'as' => 'categories', 'uses' => 'CategoriesController@show'
+    ]);
 });
 
 Route::group(['prefix' => 'series'], function () {
     Route::group(['prefix' => '{id}', 'where' => ['id' => '[0-9]+']], function () {
         Route::get('', [
             'as' => 'series-books', 'uses' => 'SeriesController@showBooks'
-        ]);
-        Route::get('filterLetter', [
-            'uses' => 'Controller@showFiltered'
         ]);
     });
 });

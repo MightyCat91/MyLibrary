@@ -42,11 +42,11 @@ class BookController extends Controller
      */
     public function showBooksForYear($year)
     {
-        $books = Book::where('year', $year)->get(['id','name']);
+        $books = Book::where('year', $year)->get(['id', 'name']);
         return view('books', [
             'type' => 'book',
             'books' => $books,
-            'header' => 'Книги изданные в '.$year.' году',
+            'header' => 'Книги изданные в ' . $year . ' году',
             'title' => $year
         ]);
     }
@@ -58,66 +58,58 @@ class BookController extends Controller
      * @param int $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request, $id = null)
+    public function show($id = null)
     {
-        if (empty($request->filter)) {
-            if (!$id) {
-                $view = view('books', [
-                    'type' => 'book',
-                    'books' => Book::get(['id','name']),
-                    'title' => 'Все книги'
-                ]);
-            } else {
-                $book = Book::FindOrFail($id);
-                $series = $book->series;
-                if (count($series)) {
-                    $sidebarBooks = $book->AuthorSeriesBooks();
-                    if (!count($sidebarBooks)) {
-                        $sidebarBooks = $book->publisherSeriesBooks();
-                        if (!count($sidebarBooks) or empty($sidebarBooks)) {
-                            $sidebarBooks = $book->authorBooks();
-                        }
-                    }
-                } else {
-                    $sidebarBooks = $book->authorBooks();
-                }
-                if (\Auth::check()) {
-                    $user = User::findOrFail(\Auth::id());
-                    $favorite = $user->favorite;
-                    $favoriteOfType = array_has($favorite, 'book');
-                    $inFavorite = $favoriteOfType ? array_has($favorite['book'], array_search($id,
-                        $favorite['book']) ?: '') : null;
-
-                    $statistic = $user->statistic;
-                    $status = null;
-                    if (!empty($statistic)) {
-                        foreach ($statistic as $key => $value) {
-                            if (in_array($id, $value)) {
-                                $status = Status::where('name', '=', $key)->first(['name', 'uname']);
-                            }
-                        }
-                    }
-                } else {
-                    $inFavorite = null;
-                    $status = null;
-                }
-                $view = view('book', [
-                    'book' => $book,
-                    'authors' => $book->authors,
-                    'bookSeries' => $series,
-                    'categories' => $book->categories,
-                    'publishers' => $book->publishers,
-                    'sidebarBooks' => $sidebarBooks,
-                    'inFavorite' => $inFavorite,
-                    'status' => $status,
-                    'allStatus' => Status::get(['name', 'uname'])
-                ]);
-            }
-        } else {
+        if (!$id) {
             $view = view('books', [
                 'type' => 'book',
-                'title' => 'Все книги',
-                'books' => Book::where('name', 'LIKE', $request->filter . '%')->get(['id','name']),
+                'books' => Book::get(['id', 'name']),
+                'title' => 'Все книги'
+            ]);
+        } else {
+            $book = Book::FindOrFail($id);
+            $series = $book->series;
+            if (count($series)) {
+                $sidebarBooks = $book->AuthorSeriesBooks();
+                if (!count($sidebarBooks)) {
+                    $sidebarBooks = $book->publisherSeriesBooks();
+                    if (!count($sidebarBooks) or empty($sidebarBooks)) {
+                        $sidebarBooks = $book->authorBooks();
+                    }
+                }
+            } else {
+                $sidebarBooks = $book->authorBooks();
+            }
+            if (\Auth::check()) {
+                $user = User::findOrFail(\Auth::id());
+                $favorite = $user->favorite;
+                $favoriteOfType = array_has($favorite, 'book');
+                $inFavorite = $favoriteOfType ? array_has($favorite['book'], array_search($id,
+                    $favorite['book']) ?: '') : null;
+
+                $statistic = $user->statistic;
+                $status = null;
+                if (!empty($statistic)) {
+                    foreach ($statistic as $key => $value) {
+                        if (in_array($id, $value)) {
+                            $status = Status::where('name', '=', $key)->first(['name', 'uname']);
+                        }
+                    }
+                }
+            } else {
+                $inFavorite = null;
+                $status = null;
+            }
+            $view = view('book', [
+                'book' => $book,
+                'authors' => $book->authors,
+                'bookSeries' => $series,
+                'categories' => $book->categories,
+                'publishers' => $book->publishers,
+                'sidebarBooks' => $sidebarBooks,
+                'inFavorite' => $inFavorite,
+                'status' => $status,
+                'allStatus' => Status::get(['name', 'uname'])
             ]);
         }
         return $view;

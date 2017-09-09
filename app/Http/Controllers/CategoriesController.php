@@ -29,21 +29,14 @@ class CategoriesController extends Controller
                     'imgFolder' => 'books'
                 ])->render();
         }
-        if (empty($request->filter)) {
-            $view = view('category', [
-                'type' => 'book',
-                'category' => $category,
-                'books' => $books,
-                'parent_template_name' => 'books'
-            ]);
-        } else {
-            $view = view('category', [
-                'type' => 'book',
-                'category' => $category,
-                'books' => Book::where('name', 'LIKE', $request->filter . '%')->get(['id','name']),
-                'parent_template_name' => 'books'
-            ]);
-        }
+
+        $view = view('category', [
+            'type' => 'book',
+            'category' => $category,
+            'books' => $books,
+            'parent_template_name' => 'books'
+        ]);
+
         return $view;
     }
 
@@ -60,26 +53,19 @@ class CategoriesController extends Controller
         $authors = $category->authors();
         if ($request->ajax()) {
             return view('layouts.commonGrid', [
-                    'array' => $authors,
-                    'routeName' => 'author',
-                    'imgFolder' => 'authors'
-                ])->render();
+                'array' => $authors,
+                'routeName' => 'author',
+                'imgFolder' => 'authors'
+            ])->render();
         }
-        if (empty($request->filter)) {
-            $view = view('category', [
-                'type' => 'author',
-                'category' => $category,
-                'authors' => $authors,
-                'parent_template_name' => 'authors'
-            ]);
-        } else {
-            $view = view('category', [
-                'type' => 'author',
-                'category' => $category,
-                'authors' => Author::where('name', 'LIKE', $request->filter . '%')->get(['id','name']),
-                'parent_template_name' => 'authors'
-            ]);
-        }
+
+        $view = view('category', [
+            'type' => 'author',
+            'category' => $category,
+            'authors' => $authors,
+            'parent_template_name' => 'authors'
+        ]);
+
         return $view;
     }
 
@@ -91,17 +77,9 @@ class CategoriesController extends Controller
      */
     public function show(Request $request)
     {
-        if (empty($request->filter)) {
-            $view = view('categories', [
-                'type' => 'category',
-                'categories' => Categories::get(['id','name'])
-            ]);
-        } else {
-            $view = view('categories', [
-                'type' => 'category',
-                'categories' => Categories::where('name', 'LIKE', $request->filter . '%')->get(['id','name'])
-            ]);
-        }
-        return $view;
+        return view('categories', [
+            'type' => 'category',
+            'categories' => Categories::get(['id', 'name'])
+        ]);
     }
 }

@@ -255,7 +255,7 @@ class UserController extends Controller
     }
 
     /**
-     *
+     * Возврат шаблона избранных книг, авторов, жанров в зависимости от полученного типа
      *
      * @param $id
      * @param $type
@@ -289,6 +289,33 @@ class UserController extends Controller
             $itemsType => $item,
             'title' => $request->title,
             'breadcrumbParams' => ['id' => $id]
+        ]);
+    }
+
+    public function showUserLibrary($id, Request $request)
+    {
+        $user = \Auth::user();
+        foreach ($user->statistic as $status => $bookId) {
+            $book = Book::where('id', $bookId)->get(['page_counts', 'name']);
+            $books[$bookId] = [
+                'status' => $status,
+                'page_counts' => $book->page_counts,
+                'name' => $book->name
+            ];
+        }
+//        todo: ждать завершения работы с фукнционалом оценок
+        $books = Book::whereIn('id', array_flatten($user->statistic))->get();
+        foreach ($books as $book) {
+            foreach ($book->authors as $author) {
+                $authors[$author->id] = $author->name;
+            }
+            foreach ($book->categories as $category) {
+                $categories[$category->id] = $category->name;
+            }
+        }
+
+        return view('user.userLibrary', [
+            'books' => $books,
         ]);
     }
 

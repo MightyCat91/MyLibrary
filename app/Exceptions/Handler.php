@@ -2,32 +2,28 @@
 
 namespace App\Exceptions;
 
-use ErrorException;
 use Exception;
-use Illuminate\Auth\AuthenticationException;
-use GrahamCampbell\Exceptions\NewExceptionHandler as ExceptionHandler;
-use Illuminate\Database\Eloquent\ModelNotFoundException;
-use Illuminate\Support\HtmlString;
-use Illuminate\Validation\UnauthorizedException;
-use MyLibrary\Breadcrumbs\Exceptions\NotFoundException;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-use Symfony\Component\HttpKernel\Exception\ServiceUnavailableHttpException;
-use Symfony\Component\Debug\Exception\FatalErrorException;
+use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
 class Handler extends ExceptionHandler
 {
     /**
-     * A list of the exception types that should not be reported.
+     * A list of the exception types that are not reported.
      *
      * @var array
      */
     protected $dontReport = [
-        \Illuminate\Auth\AuthenticationException::class,
-        \Illuminate\Auth\Access\AuthorizationException::class,
-        \Symfony\Component\HttpKernel\Exception\HttpException::class,
-        \Illuminate\Database\Eloquent\ModelNotFoundException::class,
-        \Illuminate\Session\TokenMismatchException::class,
-        \Illuminate\Validation\ValidationException::class,
+        //
+    ];
+
+    /**
+     * A list of the inputs that are never flashed for validation exceptions.
+     *
+     * @var array
+     */
+    protected $dontFlash = [
+        'password',
+        'password_confirmation',
     ];
 
     /**
@@ -52,38 +48,6 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-        if ($exception instanceof NotFoundHttpException or $exception instanceof ModelNotFoundException or $exception
-        instanceof NotFoundException) {
-            if ($request->ajax()) {
-                return response()->json(['error' => 'Not Found'], 404);
-            }
-            return response()->view('errors.404', [], 404);
-        }
-        if ($exception instanceof AuthenticationException or $exception instanceof UnauthorizedException) {
-            return response()->view('errors.403', [], 403);
-        }
-        if ($exception instanceof ServiceUnavailableHttpException) {
-            return response()->view('errors.503', [], 503);
-        }
-        if ($exception instanceof ErrorException or $exception instanceof FatalErrorException) {
-//            return response()->view('errors.500', [], 500);
-        }
         return parent::render($request, $exception);
-    }
-
-    /**
-     * Convert an authentication exception into an unauthenticated response.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \Illuminate\Auth\AuthenticationException  $exception
-     * @return \Illuminate\Http\Response
-     */
-    protected function unauthenticated($request, AuthenticationException $exception)
-    {
-        if ($request->expectsJson()) {
-            return response()->json(['error' => 'Unauthenticated.'], 401);
-        }
-
-        return redirect()->guest('login');
     }
 }

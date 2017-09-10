@@ -116,8 +116,8 @@ Route::group(['prefix' => 'user'], function () {
         Route::get('collections', [
             'as' => 'userCollections', 'uses' => 'UserController@showUserCollectionsPage'
         ])->middleware('auth');
-        Route::get('books', [
-            'as' => 'userBooks', 'uses' => 'UserController@showUserBooksPage'
+        Route::get('library', [
+            'as' => 'userLibrary', 'uses' => 'UserController@showUserLibrary'
         ])->middleware('auth');
         Route::get('history', [
             'as' => 'userHistory', 'uses' => 'UserController@showUserHistoryPage'

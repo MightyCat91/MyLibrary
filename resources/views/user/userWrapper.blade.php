@@ -9,7 +9,7 @@
             <i class="fa fa-user fa-fw" aria-hidden="true"></i></a>
         <a class="btn-control" href="{{ route('userCollections', ['id' => Auth::id()]) }}" title="Мои коллекции">
             <i class="fa fa-archive fa-fw" aria-hidden="true"></i></a>
-        <a class="btn-control" href="{{ route('userBooks', ['id' => Auth::id()]) }}" title="Мои книги">
+        <a class="btn-control" href="{{ route('userLibrary', ['id' => Auth::id()]) }}" title="Моя библиотека">
             <i class="fa fa-book fa-fw" aria-hidden="true"></i></a>
         <a class="btn-control" href="{{ route('userHistory', ['id' => Auth::id()]) }}" title="Моя история">
             <i class="fa fa-history fa-fw" aria-hidden="true"></i></a>

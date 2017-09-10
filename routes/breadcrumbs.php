@@ -67,8 +67,8 @@ Breadcrumbs::add('userProfile', 'userProfile','Профиль','home', ['id' => 
 //userCollections
 Breadcrumbs::add('userCollections', 'userCollections','Коллекции','home', ['id' => $userId]);
 
-//userBooks
-Breadcrumbs::add('userBooks', 'userBooks','Личная библиотека','home', ['id' => $userId]);
+//userLibrary
+Breadcrumbs::add('userLibrary', 'userLibrary','Личная библиотека','home', ['id' => $userId]);
 
 //userHistory
 Breadcrumbs::add('userHistory', 'userHistory','История действий','home', ['id' => $userId]);

@@ -17,23 +17,23 @@
         <h2>Информация</h2>
         <ul>
             <li>
-                <span>Имя:</span>
+                <span class="information-item-title">Имя:</span>
                 <span>{{ $name }}</span>
             </li>
             <li>
-                <span>Email:</span>
+                <span class="information-item-title">Email:</span>
                 <span>{{ $email }}</span>
             </li>
             <li>
-                <span>Пол:</span>
+                <span class="information-item-title">Пол:</span>
                 <span>{{ $gender }}</span>
             </li>
             <li>
-                <span>Дата регистрации:</span>
+                <span class="information-item-title">Дата регистрации:</span>
                 <span>{{ $created_at }}</span>
             </li>
             <li>
-                <span>Последний визит:</span>
+                <span class="information-item-title">Последний визит:</span>
                 <span>{{ $last_visit }}</span>
             </li>
 

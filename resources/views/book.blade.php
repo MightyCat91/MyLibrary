@@ -56,7 +56,8 @@
                                     @endforeach
                                 </div>
                             </div>
-                            <div class="user-item-rating {{ $status ? 'hidden' : '' }}" data-rating="{{ $rating }}">
+                            <div class="user-item-rating {{ empty($status) ? 'hidden' : '' }}"
+                                 data-rating="{{ $rating }}">
                                 <div class="rating-star-container">
                                     <div class="hover-rating-container">
                                         <div class="left-half"></div>
@@ -65,7 +66,7 @@
                                     <div class="star-icon-container">
                                         <i class="fa star-icon fa-star-o active" aria-hidden="true"></i>
                                         <i class="fa star-icon fa-star-half-o" data-rating="1" aria-hidden="true"></i>
-                                        <i class="fa star-icon fa-star hidden" data-rating="2" aria-hidden="true"></i>
+                                        <i class="fa star-icon fa-star" data-rating="2" aria-hidden="true"></i>
                                     </div>
                                 </div>
                                 <div class="rating-star-container">

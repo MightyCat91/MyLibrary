@@ -54,9 +54,9 @@ class BookController extends Controller
     /**
      * Возврат шаблона со всеми книгами
      *
-     * @param Request $request
      * @param int $id
      * @return \Illuminate\Http\Response
+     * @internal param Request $request
      */
     public function show($id = null)
     {
@@ -80,13 +80,12 @@ class BookController extends Controller
             } else {
                 $sidebarBooks = $book->authorBooks();
             }
-            if (\Auth::check()) {
-                $user = User::findOrFail(\Auth::id());
+            if (auth()->check()) {
+                $user = auth()->user();// User::findOrFail(\Auth::id());
                 $favorite = $user->favorite;
                 $favoriteOfType = array_has($favorite, 'book');
                 $inFavorite = $favoriteOfType ? array_has($favorite['book'], array_search($id,
                     $favorite['book']) ?: '') : null;
-
                 $statistic = $user->statistic;
                 $status = null;
                 if (!empty($statistic)) {
@@ -96,9 +95,11 @@ class BookController extends Controller
                         }
                     }
                 }
+                $userRating = $user->rating;
             } else {
                 $inFavorite = null;
                 $status = null;
+                $userRating = null;
             }
             $view = view('book', [
                 'book' => $book,
@@ -109,7 +110,10 @@ class BookController extends Controller
                 'sidebarBooks' => $sidebarBooks,
                 'inFavorite' => $inFavorite,
                 'status' => $status,
-                'allStatus' => Status::get(['name', 'uname'])
+                'allStatus' => Status::get(['name', 'uname']),
+                'avgRating' => $book->average_rating,
+                'quantityRating' => $book->rating_quantity,
+                'rating' => $userRating
             ]);
         }
         return $view;

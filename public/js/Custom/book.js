@@ -63,7 +63,7 @@
 
             halfStar.addClass('active').siblings().removeClass('active');
             currContainer.prevAll('.rating-star-container').find('.fa-star').addClass('active').siblings().removeClass('active');
-            currContainer.nextAll('.rating-star-container').find('.fa-star-o').addClass('active').siblings().removeClass('active');
+            // currContainer.nextAll('.rating-star-container').find('.fa-star-o').addClass('active').siblings().removeClass('active');
             $(this).on('click', function () {
                 $('.user-item-rating .selected').removeClass('selected');
                 halfStar.addClass('selected');
@@ -72,13 +72,41 @@
         },
         function () {
             var currContainer = $(this).closest('.rating-star-container'),
-                selected = $(this).find('.star-icon .selected');
+                selected = $('.star-icon .selected');
 
             currContainer.find('.fa-star-half-o').removeClass('active').siblings('.fa-star-o').addClass('active');
-            if (empty(selected)) {
-                
+            currContainer.siblings('.rating-star-container').find('.fa-star-o').addClass('active').siblings().removeClass('active');
+            if (selected.length) {
+                selected.addClass('active').closest('.rating-star-container').prevAll('.rating-star-container').find('.fa-star').addClass('active');
             }
-            currContainer.sibling('.rating-star-container').find('.fa-star-o').addClass('active').siblings().removeClass('active');
+    }
+    );
+
+    $('.right-half').hover(
+        function () {
+            var currContainer = $(this).closest('.rating-star-container'),
+                star = currContainer.find('.fa-star');
+
+            star.addClass('active').siblings().removeClass('active');
+            currContainer.prevAll('.rating-star-container').find('.fa-star').addClass('active').siblings().removeClass('active');
+            // currContainer.nextAll('.rating-star-container').find('.fa-star-o').addClass('active').siblings().removeClass('active');
+            $(this).on('click', function () {
+                $('.user-item-rating .selected').removeClass('selected');
+                star.addClass('selected');
+
+            });
+        },
+        function () {
+            var currContainer = $(this).closest('.rating-star-container'),
+                selected = $('.star-icon .selected');
+
+            currContainer.find('.fa-star').removeClass('active').siblings('.fa-star-o').addClass('active');
+            currContainer.siblings('.rating-star-container').find('.fa-star-o').addClass('active').siblings().removeClass('active');
+
+            if (selected.length) {
+                console.log('1');
+                selected.addClass('active').closest('.rating-star-container').prevAll('.rating-star-container').find('.fa-star').addClass('active');
+            }
         }
     );
 

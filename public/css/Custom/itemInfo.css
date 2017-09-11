@@ -208,6 +208,37 @@ div.page-content {
     box-shadow: inset 0 -3px 2px -1px #009926;
 }
 
+.user-item-rating {
+    display: flex;
+    margin-top: 1rem;
+    font-size: 25px;
+}
+
+.rating-star-container {
+    flex-grow: 1;
+    text-align: center;
+    position: relative;
+}
+
+.hover-rating-container {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+}
+
+.hover-rating-container > div {
+    width: 100%;
+}
+
+.star-icon {
+    display: none;
+}
+
+.star-icon.active {
+    display: block;
+}
+
 @media only screen and (max-width: 1224px) {
     #books-sidebar{
         margin-right: 20px;

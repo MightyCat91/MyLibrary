@@ -47,7 +47,6 @@
             type: 'POST'
         })
             .done(function (data) {
-                console.log(newStatus);
                 statusBtn.attr('data-status', newStatus).text(clickedBtn.text());
                 //добавление ответа сервера(алерт)
                 body.append(data);
@@ -58,31 +57,21 @@
 
     $('.left-half').hover(
         function () {
-            var currContainer = $(this).closest('.rating-star-container'),
-                currRatingIcon = currContainer.find('.fa-star-half-o');
-
-            currRatingIcon.addClass('active').siblings().removeClass('active');
-            currContainer.prevAll('.rating-star-container').find('.fa-star').addClass('active').siblings().removeClass('active');
-
-            setRating(this, currRatingIcon);
+            iconStarIn(this, '.fa-star-half-o');
+            доб очистку
         },
         function () {
-            $('.rating-star-container').find('.fa-star-o').addClass('active').siblings().removeClass('active');
+            iconStarOut();
         }
     );
 
     $('.right-half').hover(
         function () {
-            var currContainer = $(this).closest('.rating-star-container'),
-                currRatingIcon = currContainer.find('.fa-star');
-
-            currRatingIcon.addClass('active').siblings().removeClass('active');
-            currContainer.prevAll('.rating-star-container').find('.fa-star').addClass('active').siblings().removeClass('active');
-
-            setRating(this, currRatingIcon);
+            iconStarIn(this, '.fa-star');
+            доб очистку
         },
         function () {
-            $('.rating-star-container').find('.fa-star-o').addClass('active').siblings().removeClass('active');
+            iconStarOut();
         }
     );
 
@@ -103,11 +92,43 @@
             }
         });
 
-    function setRating(el, currIcon) {
-        $(el).on('click', function () {
-            $('.user-item-rating .selected').removeClass('selected');
-            currIcon.addClass('selected');
-        });
+    function iconStarIn(el, iconClass) {
+        var currContainer = $(el).closest('.rating-star-container'),
+            currRatingIcon = currContainer.find(iconClass);
+
+        currRatingIcon.addClass('active').siblings().removeClass('active');
+        currContainer.prevAll('.rating-star-container').find('.fa-star').addClass('active').siblings().removeClass('active');
     }
+
+    function iconStarOut() {
+        $('.rating-star-container').find('.fa-star-o').addClass('active').siblings().removeClass('active');
+    }
+
+
+    $('.hover-rating-container > div').on('click', function () {
+        var currIcon = $(this).closest('.rating-star-container').find('.active');
+
+        $('.user-item-rating .selected').removeClass('selected');
+        currIcon.addClass('selected');
+        console.log(currIcon.data('rating'), $(this).closest('.user-item-rating').data('type'));
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $.ajax({
+            url: window.location.pathname + '/changeRating',
+            data: {
+                'rating': currIcon.data('rating'),
+                'type': $(this).closest('.user-item-rating').data('type')
+            },
+            type: 'POST'
+        })
+            .done(function (data) {
+                console.log('123');
+                //добавление ответа сервера(алерт)
+                body.append(data);
+            });
+    });
 })(jQuery);
 

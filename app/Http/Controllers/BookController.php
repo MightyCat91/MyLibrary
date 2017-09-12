@@ -95,7 +95,9 @@ class BookController extends Controller
                         }
                     }
                 }
-                $userRating = $user->rating;
+                $userRating['type'] = 'book';
+                $userRating['score'] = array_get($user->rating, $userRating['type'] . '.' . $id, null);
+
             } else {
                 $inFavorite = null;
                 $status = null;

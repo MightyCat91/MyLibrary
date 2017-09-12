@@ -20,7 +20,7 @@ class UserController extends Controller
     public function showUserProfilePage($id)
     {
         $books = $authors = $collections = [];
-        $user = User::find($id);
+        $user = auth()->user();
         $favorite = $user->favorite;
         $favoriteBooks = array_get($favorite, 'book');
         if(!empty($favoriteBooks)) {
@@ -79,7 +79,7 @@ class UserController extends Controller
 
     public function showEditUserProfilePage($id)
     {
-        $user = User::find($id);
+        $user = auth()->user();
         return view('user.editProfile', [
             'login' => $user->login,
             'email' => $user->email,
@@ -90,7 +90,7 @@ class UserController extends Controller
 
     public function editUserProfilePage($id, EditUserProfile $request)
     {
-        $user = \Auth::getUser();
+        $user = auth()->user();
         $user->login = $request->input(['login']);
         $user->name = $request->input(['name']);
         $user->gender = $request->input(['man']) ? 'мужской' : 'женский';
@@ -103,7 +103,7 @@ class UserController extends Controller
     public function storeEmailPass(EditUserProfile $request)
     {
         if ($request->ajax()) {
-            $user = \Auth::getUser();
+            $user = auth()->user();
             $inputs = array_where(array_except($request->input(), ['_token', 'oldPassword']),
                 function ($value, $key) {
                     return !empty($value);
@@ -141,7 +141,7 @@ class UserController extends Controller
     {
         if ($request->ajax()) {
             $type = $request->get('type');
-            $user = User::findOrFail(\Auth::id());
+            $user = auth()->user();
             $favorite = $user->favorite;
             $arrayOfType = array_get($favorite, $type, []);
             if ($request->get('delete') == 'true') {
@@ -161,7 +161,7 @@ class UserController extends Controller
         if ($request->ajax()) {
             $newStatus = $request->get('newStatus');
             $oldStatus = $request->get('oldStatus');
-            $user = User::findOrFail(\Auth::id());
+            $user = auth()->user();
             $statistic = $user->statistic;
             if (!empty($oldStatus)) {
                 $arrayOfStatus = array_get($statistic, $oldStatus, []);
@@ -174,6 +174,30 @@ class UserController extends Controller
             $user->statistic = $statistic;
             $user->save();
             return alert()->success('Статус книги изменен', '5000', true);
+        }
+    }
+
+    public function changeRating($id, Request $request)
+    {
+        if ($request->ajax()) {
+            $newRating = $request->rating;
+            $type = $request->type;
+            $user = auth()->user();
+            $rating = $user->rating;
+
+            if (empty($rating)) {
+                $rating[$type] = [$id => $newRating];
+            } else {
+                if (array_has($rating, $type . '.' . $id)) {
+                    array_set($rating[$type], $id, $newRating);
+                } else {
+                    array_add($rating[$type], $id, $newRating);
+                }
+            }
+            \Debugbar::info($rating);
+            $user->rating = $rating;
+            $user->save();
+            return alert()->success('Ваша оценка обновлена', '5000', true);
         }
     }
 

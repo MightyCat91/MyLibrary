@@ -29,6 +29,7 @@ class User extends Authenticatable
 
     protected $casts = [
         'favorite' => 'array',
-        'statistic' => 'array'
+        'statistic' => 'array',
+        'rating' => 'array'
     ];
 }

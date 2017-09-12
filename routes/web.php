@@ -55,6 +55,9 @@ Route::group(['prefix' => 'book'], function () {
         Route::post('changeStatus', [
             'as' => 'changeStatus', 'uses' => 'UserController@changeStatus'
         ]);
+        Route::post('changeRating', [
+            'as' => 'changeRating', 'uses' => 'UserController@changeRating'
+        ]);
     });
 });
 

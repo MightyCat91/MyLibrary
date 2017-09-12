@@ -1,7 +1,7 @@
 <?php
 /**
  * A helper file for Laravel 5, to provide autocomplete information to your IDE
- * Generated for Laravel 5.4.28 on 2017-06-30.
+ * Generated for Laravel 5.4.23 on 2017-09-12.
  *
  * @author Barry vd. Heuvel <barryvdh@gmail.com>
  * @see https://github.com/barryvdh/laravel-ide-helper
@@ -1171,19 +1171,6 @@ namespace Illuminate\Support\Facades {
         {
             //Method inherited from \Illuminate\Container\Container            
             return \Illuminate\Foundation\Application::getAlias($abstract);
-        }
-        
-        /**
-         * Remove all of the extender callbacks for a given type.
-         *
-         * @param string $abstract
-         * @return void 
-         * @static 
-         */ 
-        public static function forgetExtenders($abstract)
-        {
-            //Method inherited from \Illuminate\Container\Container            
-            \Illuminate\Foundation\Application::forgetExtenders($abstract);
         }
         
         /**
@@ -4131,18 +4118,6 @@ namespace Illuminate\Support\Facades {
         }
         
         /**
-         * Get the MD5 hash of the file at the given path.
-         *
-         * @param string $path
-         * @return string 
-         * @static 
-         */ 
-        public static function hash($path)
-        {
-            return \Illuminate\Filesystem\Filesystem::hash($path);
-        }
-        
-        /**
          * Write the contents of a file.
          *
          * @param string $path
@@ -6354,18 +6329,6 @@ namespace Illuminate\Support\Facades {
         }
         
         /**
-         * Check if the route name matches the given string.
-         *
-         * @param string $name
-         * @return bool 
-         * @static 
-         */ 
-        public static function routeIs($name)
-        {
-            return \Illuminate\Http\Request::routeIs($name);
-        }
-        
-        /**
          * Determine if the current request URL and query string matches a pattern.
          *
          * @return bool 
@@ -6765,7 +6728,7 @@ namespace Illuminate\Support\Facades {
          * You should only list the reverse proxies that you manage directly.
          *
          * @param array $proxies A list of trusted proxies
-         * @param int $trustedHeaderSet A bit field of Request::HEADER_*, to set which headers to trust from your proxies
+         * @param int $trustedHeaderSet A bit field of Request::HEADER_*, usually either Request::HEADER_FORWARDED or Request::HEADER_X_FORWARDED_ALL, to set which headers to trust from your proxies
          * @throws \InvalidArgumentException When $trustedHeaderSet is invalid
          * @static 
          */ 
@@ -6841,7 +6804,7 @@ namespace Illuminate\Support\Facades {
          * @param string $key The header key
          * @param string $value The header name
          * @throws \InvalidArgumentException
-         * @deprecated since version 3.3, to be removed in 4.0. Use the $trustedHeaderSet argument of the Request::setTrustedProxies() method instead.
+         * @deprecated since version 3.3, to be removed in 4.0. Use "X-Forwarded-*" headers or the "Forwarded" header defined in RFC7239, and the $trustedHeaderSet argument of the Request::setTrustedProxies() method instead.
          * @static 
          */ 
         public static function setTrustedHeaderName($key, $value)
@@ -7014,8 +6977,8 @@ namespace Illuminate\Support\Facades {
          * adding the IP address where it received the request from.
          * 
          * If your reverse proxy uses a different header name than "X-Forwarded-For",
-         * ("Client-Ip" for instance), configure it via the $trustedHeaderSet
-         * argument of the Request::setTrustedProxies() method instead.
+         * ("Client-Ip" for instance), configure it via "setTrustedHeaderName()" with
+         * the "client-ip" key.
          *
          * @return string|null The client IP address
          * @see getClientIps()
@@ -7118,8 +7081,7 @@ namespace Illuminate\Support\Facades {
          * The "X-Forwarded-Port" header must contain the client port.
          * 
          * If your reverse proxy uses a different header name than "X-Forwarded-Port",
-         * configure it via via the $trustedHeaderSet argument of the
-         * Request::setTrustedProxies() method instead.
+         * configure it via "setTrustedHeaderName()" with the "client-port" key.
          *
          * @return int|string can be a string if fetched from the server bag
          * @static 
@@ -7282,8 +7244,8 @@ namespace Illuminate\Support\Facades {
          * The "X-Forwarded-Proto" header must contain the protocol: "https" or "http".
          * 
          * If your reverse proxy uses a different header name than "X-Forwarded-Proto"
-         * ("SSL_HTTPS" for instance), configure it via the $trustedHeaderSet
-         * argument of the Request::setTrustedProxies() method instead.
+         * ("SSL_HTTPS" for instance), configure it via "setTrustedHeaderName()" with
+         * the "client-proto" key.
          *
          * @return bool 
          * @static 
@@ -7303,8 +7265,7 @@ namespace Illuminate\Support\Facades {
          * The "X-Forwarded-Host" header must contain the client host name.
          * 
          * If your reverse proxy uses a different header name than "X-Forwarded-Host",
-         * configure it via the $trustedHeaderSet argument of the
-         * Request::setTrustedProxies() method instead.
+         * configure it via "setTrustedHeaderName()" with the "client-host" key.
          *
          * @return string 
          * @throws SuspiciousOperationException when the host name is invalid or not trusted
@@ -8421,20 +8382,6 @@ namespace Illuminate\Support\Facades {
         public static function resource($name, $controller, $options = array())
         {
             \Illuminate\Routing\Router::resource($name, $controller, $options);
-        }
-        
-        /**
-         * Route an api resource to a controller.
-         *
-         * @param string $name
-         * @param string $controller
-         * @param array $options
-         * @return void 
-         * @static 
-         */ 
-        public static function apiResource($name, $controller, $options = array())
-        {
-            \Illuminate\Routing\Router::apiResource($name, $controller, $options);
         }
         
         /**
@@ -10625,7 +10572,7 @@ namespace Illuminate\Support\Facades {
         }
         
         /**
-         * Register a custom dependent validator extension.
+         * Register a custom implicit validator extension.
          *
          * @param string $rule
          * @param \Closure|string $extension
@@ -10639,7 +10586,7 @@ namespace Illuminate\Support\Facades {
         }
         
         /**
-         * Register a custom validator message replacer.
+         * Register a custom implicit validator message replacer.
          *
          * @param string $rule
          * @param \Closure|string $replacer
@@ -11250,19 +11197,6 @@ namespace Illuminate\Support\Facades {
         public static function hasSection($name)
         {
             return \Illuminate\View\Factory::hasSection($name);
-        }
-        
-        /**
-         * Get the contents of a section.
-         *
-         * @param string $name
-         * @param string $default
-         * @return mixed 
-         * @static 
-         */ 
-        public static function getSection($name, $default = null)
-        {
-            return \Illuminate\View\Factory::getSection($name, $default);
         }
         
         /**
@@ -12086,12 +12020,13 @@ namespace MyLibrary\Alerts\Facades {
          * @param string|string $message
          * @param string $type
          * @param $lifetime
+         * @param bool $ajax
          * @return $this 
          * @static 
          */ 
-        public static function flash($message, $type, $lifetime)
+        public static function flash($message, $type, $lifetime, $ajax)
         {
-            return \MyLibrary\Alerts\Alert::flash($message, $type, $lifetime);
+            return \MyLibrary\Alerts\Alert::flash($message, $type, $lifetime, $ajax);
         }
         
         /**
@@ -12099,12 +12034,13 @@ namespace MyLibrary\Alerts\Facades {
          *
          * @param string|string $message
          * @param null $lifetime
+         * @param bool $ajax
          * @return $this 
          * @static 
          */ 
-        public static function error($message, $lifetime = null)
+        public static function error($message, $lifetime = null, $ajax = false)
         {
-            return \MyLibrary\Alerts\Alert::error($message, $lifetime);
+            return \MyLibrary\Alerts\Alert::error($message, $lifetime, $ajax);
         }
         
         /**
@@ -12112,12 +12048,13 @@ namespace MyLibrary\Alerts\Facades {
          *
          * @param string|string $message
          * @param null $lifetime
+         * @param bool $ajax
          * @return $this 
          * @static 
          */ 
-        public static function info($message, $lifetime = null)
+        public static function info($message, $lifetime = null, $ajax = false)
         {
-            return \MyLibrary\Alerts\Alert::info($message, $lifetime);
+            return \MyLibrary\Alerts\Alert::info($message, $lifetime, $ajax);
         }
         
         /**
@@ -12125,12 +12062,13 @@ namespace MyLibrary\Alerts\Facades {
          *
          * @param string|string $message
          * @param null $lifetime
+         * @param bool $ajax
          * @return $this 
          * @static 
          */ 
-        public static function success($message, $lifetime = null)
+        public static function success($message, $lifetime = null, $ajax = false)
         {
-            return \MyLibrary\Alerts\Alert::success($message, $lifetime);
+            return \MyLibrary\Alerts\Alert::success($message, $lifetime, $ajax);
         }
         
         /**
@@ -12138,12 +12076,13 @@ namespace MyLibrary\Alerts\Facades {
          *
          * @param string|string $message
          * @param null $lifetime
+         * @param bool $ajax
          * @return $this 
          * @static 
          */ 
-        public static function warning($message, $lifetime = null)
+        public static function warning($message, $lifetime = null, $ajax = false)
         {
-            return \MyLibrary\Alerts\Alert::warning($message, $lifetime);
+            return \MyLibrary\Alerts\Alert::warning($message, $lifetime, $ajax);
         }
          
     }
@@ -12153,32 +12092,34 @@ namespace MyLibrary\Alerts\Facades {
 namespace MyLibrary\Breadcrumbs\Facades { 
 
     class Breadcrumbs {
-
+        
         /**
          * Создание хлебной крошки
          *
          * @param $name string хлебной крошки
          * @param $route string урл соответствующий хлебной крошке
-         * @param $title string текст хлебной крошки
+         * @param $titles string|array массив вида ['имя параметра' => [массив необходимых строк]]
          * @param null $parent string идентификатор родительской хлебной крошки
-         * @param null $parameters array массив динамических параметров для урла
-         * @static
-         */
-        public static function add($name, $route, $title, $parent = null, $parameters = null)
+         * @param array|null $parameters array массив динамических параметров для урла
+         * @throws AlreadyExistsException
+         * @throws NotArrayException
+         * @static 
+         */ 
+        public static function add($name, $route, $titles, $parent = null, $parameters = array())
         {
-            return \MyLibrary\Breadcrumbs\Breadcrumbs::add($name, $route, $title, $parent, $parameters);
+            return \MyLibrary\Breadcrumbs\Breadcrumbs::add($name, $route, $titles, $parent, $parameters);
         }
         
         /**
          * Рендер хлебных крошек
          *
+         * @param null $parameters
          * @return \MyLibrary\Breadcrumbs\HtmlString html-строка
-         * @throws NotFoundException
          * @static 
          */ 
-        public static function render()
+        public static function render($parameters = null)
         {
-            return \MyLibrary\Breadcrumbs\Breadcrumbs::render();
+            return \MyLibrary\Breadcrumbs\Breadcrumbs::render($parameters);
         }
          
     }
@@ -12210,7 +12151,7 @@ namespace  {
 
     class Eloquent extends \Illuminate\Database\Eloquent\Model {         
             /**
-             * Create and return an un-saved model instance.
+             * Create and return and un-saved model instance.
              *
              * @param array $attributes
              * @return \Illuminate\Database\Eloquent\Model 
@@ -12575,7 +12516,7 @@ namespace  {
              * Save a new model and return the instance.
              *
              * @param array $attributes
-             * @return \Illuminate\Database\Eloquent\Model|$this 
+             * @return \Illuminate\Database\Eloquent\Model 
              * @static 
              */ 
             public static function create($attributes = array())
@@ -12587,7 +12528,7 @@ namespace  {
              * Save a new model and return the instance. Allow mass-assignment.
              *
              * @param array $attributes
-             * @return \Illuminate\Database\Eloquent\Model|$this 
+             * @return \Illuminate\Database\Eloquent\Model 
              * @static 
              */ 
             public static function forceCreate($attributes)
@@ -12788,28 +12729,14 @@ namespace  {
              * Apply the callback's query changes if the given "value" is true.
              *
              * @param mixed $value
-             * @param callable $callback
-             * @param callable $default
+             * @param \Closure $callback
+             * @param \Closure $default
              * @return mixed 
              * @static 
              */ 
             public static function when($value, $callback, $default = null)
             {    
                 return \Illuminate\Database\Eloquent\Builder::when($value, $callback, $default);
-            }
-         
-            /**
-             * Apply the callback's query changes if the given "value" is false.
-             *
-             * @param mixed $value
-             * @param callable $callback
-             * @param callable $default
-             * @return mixed 
-             * @static 
-             */ 
-            public static function unless($value, $callback, $default = null)
-            {    
-                return \Illuminate\Database\Eloquent\Builder::unless($value, $callback, $default);
             }
          
             /**

@@ -237,6 +237,15 @@ div.page-content {
 
 .star-icon.active {
     display: block;
+
+}
+
+.fa-star-o {
+    color: rgba(0, 0, 0, .5);
+}
+
+.fa-star-half-o.active, .fa-star.active {
+    color: #ccbf09;
 }
 
 @media only screen and (max-width: 1224px) {

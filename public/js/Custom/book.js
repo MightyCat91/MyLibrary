@@ -1,4 +1,17 @@
 (function ($) {
+    var body = $('body'),
+        ratingContainer = $('.user-item-rating'),
+        rating = ratingContainer.data('rating');
+
+    if (rating) {
+        var selected = ratingContainer.find('.star-icon[data-rating=' + rating + ']'),
+            currContainer = selected.closest('.rating-star-container');
+
+        selected.addClass('selected active').siblings().removeClass('active');
+        currContainer.prevAll('.rating-star-container').find('.fa-star').addClass('active').siblings().removeClass('active');
+    }
+
+
     $('.owl-carousel').owlCarousel({
         nav: true,
         lazyLoad: true,
@@ -57,8 +70,8 @@
 
     $('.left-half').hover(
         function () {
+            iconStarOut();
             iconStarIn(this, '.fa-star-half-o');
-            доб очистку
         },
         function () {
             iconStarOut();
@@ -67,24 +80,15 @@
 
     $('.right-half').hover(
         function () {
+            iconStarOut();
             iconStarIn(this, '.fa-star');
-            доб очистку
         },
         function () {
             iconStarOut();
         }
     );
 
-    $('.user-item-rating')
-        .on('load', function () {
-            var rating = $(this).data('rating'),
-                selected = $(this).find('.star-icon[data-rating=' + rating + ']'),
-                currContainer = selected.closest('.rating-star-container');
-
-            selected.addClass('selected active');
-            currContainer.prevAll('.rating-star-container').find('.fa-star').addClass('active').siblings().removeClass('active');
-        })
-        .mouseleave(function () {
+    ratingContainer.mouseleave(function () {
             var selected = $('.star-icon.selected');
             if (selected.length) {
                 selected.addClass('active').siblings().removeClass('active').closest('.rating-star-container')
@@ -101,7 +105,7 @@
     }
 
     function iconStarOut() {
-        $('.rating-star-container').find('.fa-star-o').addClass('active').siblings().removeClass('active');
+        ratingContainer.find('.fa-star-o').addClass('active').siblings().removeClass('active');
     }
 
 
@@ -110,7 +114,6 @@
 
         $('.user-item-rating .selected').removeClass('selected');
         currIcon.addClass('selected');
-        console.log(currIcon.data('rating'), $(this).closest('.user-item-rating').data('type'));
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -125,7 +128,6 @@
             type: 'POST'
         })
             .done(function (data) {
-                console.log('123');
                 //добавление ответа сервера(алерт)
                 body.append(data);
             });

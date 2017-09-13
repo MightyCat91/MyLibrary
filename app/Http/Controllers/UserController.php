@@ -177,30 +177,6 @@ class UserController extends Controller
         }
     }
 
-    public function changeRating($id, Request $request)
-    {
-        if ($request->ajax()) {
-            $newRating = $request->rating;
-            $type = $request->type;
-            $user = auth()->user();
-            $rating = $user->rating;
-
-            if (empty($rating)) {
-                $rating[$type] = [$id => $newRating];
-            } else {
-                if (array_has($rating, $type . '.' . $id)) {
-                    array_set($rating[$type], $id, $newRating);
-                } else {
-                    array_add($rating[$type], $id, $newRating);
-                }
-            }
-            \Debugbar::info($rating);
-            $user->rating = $rating;
-            $user->save();
-            return alert()->success('Ваша оценка обновлена', '5000', true);
-        }
-    }
-
     /**
      * Возврат шаблона с книгами, которым юзер установил какой-либо статус
      *

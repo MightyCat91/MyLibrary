@@ -97,7 +97,6 @@ class BookController extends Controller
                 }
                 $userRating['type'] = 'book';
                 $userRating['score'] = array_get($user->rating, $userRating['type'] . '.' . $id, null);
-
             } else {
                 $inFavorite = null;
                 $status = null;
@@ -199,6 +198,32 @@ class BookController extends Controller
     {
         if ($request->ajax()) {
             return $this->putFileToTemporaryStorage($request);
+        }
+    }
+
+    public function changeRating($id, Request $request)
+    {
+        if ($request->ajax()) {
+            \Debugbar::info($id);
+            $newRating = $request->rating;
+            $type = $request->type;
+            $user = auth()->user();
+            $rating = $user->rating;
+
+            if (empty($rating)) {
+                $rating[$type] = [$id => $newRating];
+            } else {
+                if (array_has($rating, $type . '.' . $id)) {
+                    array_set($rating[$type], $id, $newRating);
+                } else {
+                    array_add($rating[$type], $id, $newRating);
+                }
+            }
+            \Debugbar::info($rating);
+            $user->rating = $rating;
+//            todo некорреткно записывается в базу( не массивом)
+            $user->save();
+            return alert()->success('Ваша оценка обновлена', '5000', true);
         }
     }
 

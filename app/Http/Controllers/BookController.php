@@ -96,7 +96,14 @@ class BookController extends Controller
                     }
                 }
                 $userRating['type'] = 'book';
-                $userRating['score'] = array_get($user->rating, $userRating['type'] . '.' . $id, null);
+                $userRating['score'] = null;
+                if ($ratingsArray = $user->rating[$userRating['type']]) {
+                    foreach ($ratingsArray as $key => $value) {
+                        if (array_search($id, $value) !== false) {
+                            $userRating['score'] = $key;
+                        }
+                    }
+                }
             } else {
                 $inFavorite = null;
                 $status = null;
@@ -204,23 +211,27 @@ class BookController extends Controller
     public function changeRating($id, Request $request)
     {
         if ($request->ajax()) {
-            \Debugbar::info($id);
-            $newRating = $request->rating;
+            $rating = $request->rating;
             $type = $request->type;
             $user = auth()->user();
-            $rating = $user->rating;
-
-            if (empty($rating)) {
-                $rating[$type] = [$id => $newRating];
+            $ratingsCollection = $user->rating;
+            \Debugbar::info($ratingsCollection);
+            if (empty($ratingsCollection)) {
+                $ratingArray[$rating] = array_wrap($id);
+                $ratingsCollection[$type] = array_wrap($ratingArray);
             } else {
-                if (array_has($rating, $type . '.' . $id)) {
-                    array_set($rating[$type], $id, $newRating);
+                if ($ratingItemsId = array_get($ratingsCollection, $type . '.' . $rating, null)) {
+                    dd(array_search($id, array_collapse(array_get($ratingsCollection, $type))));
+                    $a = array_forget($ratingsCollection, array_search($id, array_collapse(array_get($ratingsCollection, $type))));
+//                    \Debugbar::info($a);
+                    $ratingItemsId[] = $id;
+                    array_set($ratingsCollection[$type], $rating, $ratingItemsId);
                 } else {
-                    array_add($rating[$type], $id, $newRating);
+                    array_set($ratingsCollection[$type], $rating, [$id]);
                 }
             }
-            \Debugbar::info($rating);
-            $user->rating = $rating;
+//            \Debugbar::info($ratingsCollection);
+            $user->rating = $ratingsCollection;
 //            todo некорреткно записывается в базу( не массивом)
             $user->save();
             return alert()->success('Ваша оценка обновлена', '5000', true);

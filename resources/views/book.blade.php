@@ -11,6 +11,7 @@
 @push('scripts')
     <script type="text/javascript" src="{{ asset('/js/Library/Owl.Carousel/owl.carousel.min.js') }}"></script>
     <script type="text/javascript" src="{{ asset('/js/Custom/book.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('/js/Custom/rating.js') }}"></script>
 @endpush
 @extends('layouts.main',['title'=>$book->name])
 @section('content')
@@ -22,12 +23,25 @@
             {{Breadcrumbs::render()}}
             <section id="short-info">
                 <figure class="short-img">
+                    @auth
+                        <div id="avg-rating-container">
+                            <div id="avg-rating">
+                                <i class="fa fa-star"></i>
+                                <span>{{ $avgRating }}</span>
+                            </div>
+                            <div id="rating-quantity">
+                                <i class="fa fa-sort-amount-asc" aria-hidden="true"></i>
+                                <span>({{ $quantityRating }})</span>
+                            </div>
+                        </div>
+                    @endauth
                     <div class="slider owl-carousel owl-theme">
                         @foreach(getAllStorageFiles('books', $book->id) as $bookCover)
                             <img class="item" src="{{ asset($bookCover)}}" alt="{{ $book->name }}">
                         @endforeach
                     </div>
-                    @if(Auth::check())
+                    @auth
+                        {{--@if(Auth::check())--}}
                         <div class="user-action-container">
                             <div id="user-actions-wrapper">
                                 <div class="user-actions-item" title="Написать комментарий">
@@ -50,9 +64,9 @@
                                 <a tabindex="0" id="status-btn" data-toggle="popover"
                                    data-status="{{ $status ? $status->name : '' }}">{{ $status ? $status->uname : 'Статус' }}</a>
                                 <div id="status-list" class="hidden">
-                                    @foreach($allStatus as $status)
-                                        <div class="status-option {{ $status->name }}"
-                                             data-status="{{ $status->name }}">{{ $status->uname }}</div>
+                                    @foreach($allStatus as $stat)
+                                        <div class="status-option {{ $stat->name }}"
+                                             data-status="{{ $stat->name }}">{{ $stat->uname }}</div>
                                     @endforeach
                                 </div>
                             </div>
@@ -115,7 +129,8 @@
                                 </div>
                             </div>
                         </div>
-                    @endif
+                        {{--@endif--}}
+                    @endauth
                 </figure>
                 <aside class="short-info-items">
                     <ul>

@@ -122,8 +122,8 @@ class AuthorController extends Controller
                     $favorite['author']) ?: '') : null;
                 $userRating['type'] = 'author';
                 $userRating['score'] = null;
-                if ($ratingsArray = $user->rating[$userRating['type']]) {
-                    foreach ($ratingsArray as $key => $value) {
+                if (array_has($user->rating, $userRating['type'])) {
+                    foreach ($user->rating[$userRating['type']] as $key => $value) {
                         if (array_search($id, $value) !== false) {
                             $userRating['score'] = $key;
                         }

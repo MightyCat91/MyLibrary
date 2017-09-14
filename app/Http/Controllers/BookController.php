@@ -2,16 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Author;
 use App\Categories;
 use App\Http\Requests\BookAddRequest;
 use App\Publisher;
 use App\Series;
 use App\Status;
-use App\User;
-use function foo\func;
-use Illuminate\Http\Request;
+use App\Author;
 use App\Book;
+use Illuminate\Http\Request;
 use Storage;
 use Validator;
 
@@ -97,8 +95,8 @@ class BookController extends Controller
                 }
                 $userRating['type'] = 'book';
                 $userRating['score'] = null;
-                if ($ratingsArray = $user->rating[$userRating['type']]) {
-                    foreach ($ratingsArray as $key => $value) {
+                if (array_has($user->rating, $userRating['type'])) {
+                    foreach ($user->rating[$userRating['type']] as $key => $value) {
                         if (array_search($id, $value) !== false) {
                             $userRating['score'] = $key;
                         }
@@ -199,7 +197,7 @@ class BookController extends Controller
      * Обработка ajax-загрузки файла и возврат урл для отображения превью пользователю.
      *
      * @param BookAddRequest|Request $request
-     * @return \Illuminate\Http\Response
+     * @return array
      */
     public function addImgAJAX(BookAddRequest $request)
     {
@@ -208,35 +206,21 @@ class BookController extends Controller
         }
     }
 
+    /**
+     * Изменение рейтинга книги
+     *
+     * @param $id
+     * @param Request $request
+     * @return mixed
+     */
     public function changeBookRating($id, Request $request)
     {
         if ($request->ajax()) {
+            $book = Book::where('id', $id)->get(['average_rating', 'rating_quantity']);
+            $avgRating = $book->average_rating;
+            $quantityRating = $book->rating_quantity;
+//            todo: запись в базу среднего рейт и кол-ва, подумать над пересчетом среднего
             parent::changeRating($id, $request);
-//            $rating = $request->rating;
-//            $type = $request->type;
-//            $user = auth()->user();
-//            $ratingsCollection = $user->rating;
-//
-//            if (empty($ratingsCollection)) {
-//                $ratingArray[$rating] = array_wrap($id);
-//                $ratingsCollection[$type] = array_wrap($ratingArray);
-//            } else {
-//                if ($ratingItemsId = array_get($ratingsCollection, $type . '.' . $rating, null)) {
-//                    $ratingItemsId[] = $id;
-//                    array_set($ratingsCollection[$type], $rating, $ratingItemsId);
-//                } else {
-//                    foreach (array_get($ratingsCollection, $type) as $key => $value) {
-//                        $idKey = array_search($id, $value);
-//                        if ($idKey !== false) {
-//                            array_forget($ratingsCollection[$type][$key], $idKey);
-//                        }
-//                    }
-//                    array_set($ratingsCollection[$type], $rating, [$id]);
-//                }
-//            }
-//
-//            $user->rating = $ratingsCollection;
-//            $user->save();
             return alert()->success('Ваша оценка обновлена', '5000', true);
         }
     }
@@ -245,7 +229,7 @@ class BookController extends Controller
      * Загрузка изображений во временное хранилище и возврат урл
      *
      * @param $request
-     * @return string
+     * @return array
      */
     private function putFileToTemporaryStorage($request)
     {

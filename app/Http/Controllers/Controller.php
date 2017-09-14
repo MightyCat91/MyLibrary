@@ -42,10 +42,12 @@ class Controller extends BaseController
                 $ratingItemsId[] = $id;
                 array_set($ratingsCollection[$type], $rating, $ratingItemsId);
             } else {
-                foreach (array_get($ratingsCollection, $type) as $key => $value) {
-                    $idKey = array_search($id, $value);
-                    if ($idKey !== false) {
-                        array_forget($ratingsCollection[$type][$key], $idKey);
+                if (array_has($ratingsCollection, $type)) {
+                    foreach (array_get($ratingsCollection, $type) as $key => $value) {
+                        $idKey = array_search($id, $value);
+                        if ($idKey !== false) {
+                            array_forget($ratingsCollection[$type][$key], $idKey);
+                        }
                     }
                 }
                 array_set($ratingsCollection[$type], $rating, [$id]);

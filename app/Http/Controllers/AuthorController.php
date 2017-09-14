@@ -114,13 +114,24 @@ class AuthorController extends Controller
             ]);
         } else {
             $author = Author::FindOrFail($id);
-            if (\Auth::check()) {
-                $favorite = User::findOrFail(\Auth::id())->favorite;
+            if (auth()->check()) {
+                $user = auth()->user();
+                $favorite = $user->favorite;
                 $favoriteOfType = array_has($favorite, 'author');
                 $inFavorite = $favoriteOfType ? array_has($favorite['author'], array_search($id,
                     $favorite['author']) ?: '') : null;
+                $userRating['type'] = 'author';
+                $userRating['score'] = null;
+                if ($ratingsArray = $user->rating[$userRating['type']]) {
+                    foreach ($ratingsArray as $key => $value) {
+                        if (array_search($id, $value) !== false) {
+                            $userRating['score'] = $key;
+                        }
+                    }
+                }
             } else {
                 $inFavorite = null;
+                $userRating = null;
             }
             $view = view('author', [
                 'author' => $author,
@@ -128,10 +139,44 @@ class AuthorController extends Controller
                 'books' => $author->books,
                 'categories' => $author->categories(),
                 'inFavorite' => $inFavorite,
+                'rating' => $userRating
             ]);
         }
 
         return $view;
+    }
+
+    public function changeAuthorRating($id, Request $request)
+    {
+        if ($request->ajax()) {
+            parent::changeRating($id, $request);
+//            $rating = $request->rating;
+//            $type = $request->type;
+//            $user = auth()->user();
+//            $ratingsCollection = $user->rating;
+//
+//            if (empty($ratingsCollection)) {
+//                $ratingArray[$rating] = array_wrap($id);
+//                $ratingsCollection[$type] = array_wrap($ratingArray);
+//            } else {
+//                if ($ratingItemsId = array_get($ratingsCollection, $type . '.' . $rating, null)) {
+//                    $ratingItemsId[] = $id;
+//                    array_set($ratingsCollection[$type], $rating, $ratingItemsId);
+//                } else {
+//                    foreach (array_get($ratingsCollection, $type) as $key => $value) {
+//                        $idKey = array_search($id, $value);
+//                        if ($idKey !== false) {
+//                            array_forget($ratingsCollection[$type][$key], $idKey);
+//                        }
+//                    }
+//                    array_set($ratingsCollection[$type], $rating, [$id]);
+//                }
+//            }
+//
+//            $user->rating = $ratingsCollection;
+//            $user->save();
+            return alert()->success('Ваша оценка обновлена', '5000', true);
+        }
     }
 
     /**

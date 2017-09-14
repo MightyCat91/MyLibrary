@@ -56,7 +56,7 @@ Route::group(['prefix' => 'book'], function () {
             'as' => 'changeStatus', 'uses' => 'UserController@changeStatus'
         ]);
         Route::post('changeRating', [
-            'as' => 'changeRating', 'uses' => 'BookController@changeRating'
+            'as' => 'changeRating', 'uses' => 'BookController@changeBookRating'
         ]);
     });
 });
@@ -71,6 +71,9 @@ Route::group(['prefix' => 'author'], function () {
         ]);
         Route::post('', [
             'as' => 'addToFavorite', 'uses' => 'UserController@addToFavorite'
+        ]);
+        Route::post('changeRating', [
+            'as' => 'changeRating', 'uses' => 'AuthorController@changeAuthorRating'
         ]);
     });
     Route::group(['prefix' => 'add'], function () {

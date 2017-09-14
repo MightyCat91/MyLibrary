@@ -81,7 +81,7 @@ class BookController extends Controller
                 $sidebarBooks = $book->authorBooks();
             }
             if (auth()->check()) {
-                $user = auth()->user();// User::findOrFail(\Auth::id());
+                $user = auth()->user();
                 $favorite = $user->favorite;
                 $favoriteOfType = array_has($favorite, 'book');
                 $inFavorite = $favoriteOfType ? array_has($favorite['book'], array_search($id,
@@ -208,32 +208,35 @@ class BookController extends Controller
         }
     }
 
-    public function changeRating($id, Request $request)
+    public function changeBookRating($id, Request $request)
     {
         if ($request->ajax()) {
-            $rating = $request->rating;
-            $type = $request->type;
-            $user = auth()->user();
-            $ratingsCollection = $user->rating;
-            \Debugbar::info($ratingsCollection);
-            if (empty($ratingsCollection)) {
-                $ratingArray[$rating] = array_wrap($id);
-                $ratingsCollection[$type] = array_wrap($ratingArray);
-            } else {
-                if ($ratingItemsId = array_get($ratingsCollection, $type . '.' . $rating, null)) {
-                    dd(array_search($id, array_collapse(array_get($ratingsCollection, $type))));
-                    $a = array_forget($ratingsCollection, array_search($id, array_collapse(array_get($ratingsCollection, $type))));
-//                    \Debugbar::info($a);
-                    $ratingItemsId[] = $id;
-                    array_set($ratingsCollection[$type], $rating, $ratingItemsId);
-                } else {
-                    array_set($ratingsCollection[$type], $rating, [$id]);
-                }
-            }
-//            \Debugbar::info($ratingsCollection);
-            $user->rating = $ratingsCollection;
-//            todo некорреткно записывается в базу( не массивом)
-            $user->save();
+            parent::changeRating($id, $request);
+//            $rating = $request->rating;
+//            $type = $request->type;
+//            $user = auth()->user();
+//            $ratingsCollection = $user->rating;
+//
+//            if (empty($ratingsCollection)) {
+//                $ratingArray[$rating] = array_wrap($id);
+//                $ratingsCollection[$type] = array_wrap($ratingArray);
+//            } else {
+//                if ($ratingItemsId = array_get($ratingsCollection, $type . '.' . $rating, null)) {
+//                    $ratingItemsId[] = $id;
+//                    array_set($ratingsCollection[$type], $rating, $ratingItemsId);
+//                } else {
+//                    foreach (array_get($ratingsCollection, $type) as $key => $value) {
+//                        $idKey = array_search($id, $value);
+//                        if ($idKey !== false) {
+//                            array_forget($ratingsCollection[$type][$key], $idKey);
+//                        }
+//                    }
+//                    array_set($ratingsCollection[$type], $rating, [$id]);
+//                }
+//            }
+//
+//            $user->rating = $ratingsCollection;
+//            $user->save();
             return alert()->success('Ваша оценка обновлена', '5000', true);
         }
     }

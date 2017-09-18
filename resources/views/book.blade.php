@@ -23,7 +23,8 @@
             {{Breadcrumbs::render()}}
             <section id="short-info">
                 <figure class="short-img">
-                    @auth
+                    {{--@auth--}}
+                    @if(Auth::check())
                         <div id="avg-rating-container">
                             <div id="avg-rating">
                                 <i class="fa fa-star"></i>
@@ -34,14 +35,15 @@
                                 <span>({{ $quantityRating }})</span>
                             </div>
                         </div>
-                    @endauth
+                    {{--@endauth--}}
+                    @endif
                     <div class="slider owl-carousel owl-theme">
                         @foreach(getAllStorageFiles('books', $book->id) as $bookCover)
                             <img class="item" src="{{ asset($bookCover)}}" alt="{{ $book->name }}">
                         @endforeach
                     </div>
-                    @auth
-                        {{--@if(Auth::check())--}}
+                    {{--@auth--}}
+                        @if(Auth::check())
                         <div class="user-action-container">
                             <div id="user-actions-wrapper">
                                 <div class="user-actions-item" title="Написать комментарий">
@@ -129,8 +131,8 @@
                                 </div>
                             </div>
                         </div>
-                        {{--@endif--}}
-                    @endauth
+                        @endif
+                    {{--@endauth--}}
                 </figure>
                 <aside class="short-info-items">
                     <ul>

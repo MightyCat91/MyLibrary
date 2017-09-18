@@ -107,6 +107,7 @@ class BookController extends Controller
                 $status = null;
                 $userRating = null;
             }
+            $avgRating = empty($book->rating) ? 0 : array_sum($book->rating) / count($book->rating);
             $view = view('book', [
                 'book' => $book,
                 'authors' => $book->authors,
@@ -117,8 +118,8 @@ class BookController extends Controller
                 'inFavorite' => $inFavorite,
                 'status' => $status,
                 'allStatus' => Status::get(['name', 'uname']),
-                'avgRating' => $book->average_rating,
-                'quantityRating' => $book->rating_quantity,
+                'avgRating' => $avgRating,
+                'quantityRating' => count($book->rating),
                 'rating' => $userRating
             ]);
         }
@@ -216,10 +217,13 @@ class BookController extends Controller
     public function changeBookRating($id, Request $request)
     {
         if ($request->ajax()) {
-            $book = Book::where('id', $id)->get(['average_rating', 'rating_quantity']);
-            $avgRating = $book->average_rating;
-            $quantityRating = $book->rating_quantity;
-//            todo: запись в базу среднего рейт и кол-ва, подумать над пересчетом среднего
+            $book = Book::where('id', $id)->get(['rating']);
+            \Debugbar::info($book);
+            $rating = $book->rating;
+            array_add($rating, auth()->id(), $request->rating);
+            $book->rating = $rating;
+            \Debugbar::info($rating);
+            $book->save();
             parent::changeRating($id, $request);
             return alert()->success('Ваша оценка обновлена', '5000', true);
         }

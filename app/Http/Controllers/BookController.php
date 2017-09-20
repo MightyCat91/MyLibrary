@@ -10,6 +10,7 @@ use App\Status;
 use App\Author;
 use App\Book;
 use Illuminate\Http\Request;
+use function MongoDB\BSON\toJSON;
 use Storage;
 use Validator;
 
@@ -217,13 +218,17 @@ class BookController extends Controller
     public function changeBookRating($id, Request $request)
     {
         if ($request->ajax()) {
-            $book = Book::where('id', $id)->get(['rating']);
-            \Debugbar::info($book);
-            $rating = $book->rating;
-            array_add($rating, auth()->id(), $request->rating);
-            $book->rating = $rating;
-            \Debugbar::info($rating);
-            $book->save();
+            $rating[auth()->id()] = $request->rating;
+//            Book::where('id', $id)->update(['rating' => json_encode($rating)]);
+            $bookRating = Book::where('id', $id)->first(['rating']);
+
+            \Debugbar::info($rating, $bookRating, $bookRating->first()->rating);
+//            $rating[auth()->id()] = $request->rating;
+////            array_add($rating, auth()->id(), $request->rating);
+            $bookRating->first()->rating = $rating;
+            \Debugbar::info($bookRating, $id);
+            $bookRating->save();
+            \Debugbar::info(Book::where('id', $id)->first(['rating']));
             parent::changeRating($id, $request);
             return alert()->success('Ваша оценка обновлена', '5000', true);
         }

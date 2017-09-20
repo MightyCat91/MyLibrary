@@ -10,9 +10,13 @@ use Illuminate\Support\Facades\DB;
  */
 class Book extends Model
 {
-    protected $fillable = ['name', 'description', 'year', 'page_counts', 'isbn', 'moderate'];
+    protected $fillable = ['name', 'description', 'year', 'page_counts', 'isbn', 'moderate', 'rating'];
 
     protected $guarded = ['id'];
+
+    protected $casts = [
+        'rating' => 'array'
+    ];
 
     /**
      * Авторы, принадлежащие книге

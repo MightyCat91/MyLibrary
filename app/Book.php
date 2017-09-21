@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\DB;
 
 /**
@@ -10,6 +11,8 @@ use Illuminate\Support\Facades\DB;
  */
 class Book extends Model
 {
+    use Notifiable;
+
     protected $fillable = ['name', 'description', 'year', 'page_counts', 'isbn', 'moderate', 'rating'];
 
     protected $guarded = ['id'];

@@ -218,17 +218,9 @@ class BookController extends Controller
     public function changeBookRating($id, Request $request)
     {
         if ($request->ajax()) {
-            $rating[auth()->id()] = $request->rating;
-//            Book::where('id', $id)->update(['rating' => json_encode($rating)]);
-            $bookRating = Book::where('id', $id)->first(['rating']);
-
-            \Debugbar::info($rating, $bookRating, $bookRating->first()->rating);
-//            $rating[auth()->id()] = $request->rating;
-////            array_add($rating, auth()->id(), $request->rating);
-            $bookRating->first()->rating = $rating;
-            \Debugbar::info($bookRating, $id);
-            $bookRating->save();
-            \Debugbar::info(Book::where('id', $id)->first(['rating']));
+            $bookRating = Book::where('id', $id)->first(['rating'])->rating;
+            $bookRating[auth()->id()] = $request->rating;
+            Book::where('id', $id)->update(['rating' => json_encode($bookRating)]);
             parent::changeRating($id, $request);
             return alert()->success('Ваша оценка обновлена', '5000', true);
         }

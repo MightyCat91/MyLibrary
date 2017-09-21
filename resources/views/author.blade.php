@@ -34,8 +34,8 @@
                                 </a>
                             </div>
                         </div>
-                        <div class="user-item-rating" data-rating="{{ $rating['score'] }}"
-                             data-type="{{ $rating['type'] }}">
+                        <div class="user-item-rating {{ empty($status) ? 'hidden' : '' }}"
+                             data-rating="{{ $rating['score'] }}" data-type="{{ $rating['type'] }}">
                             <div class="rating-star-container">
                                 <div class="hover-rating-container">
                                     <div class="left-half"></div>

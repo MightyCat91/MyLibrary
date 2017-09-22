@@ -108,7 +108,8 @@ class BookController extends Controller
                 $status = null;
                 $userRating = null;
             }
-            $avgRating = empty($book->rating) ? 0 : array_sum($book->rating) / count($book->rating);
+            $bookRating = $book->rating;
+            $avgRating = empty($bookRating) ? 0 : array_sum($bookRating) / count($bookRating);
             $view = view('book', [
                 'book' => $book,
                 'authors' => $book->authors,
@@ -120,7 +121,7 @@ class BookController extends Controller
                 'status' => $status,
                 'allStatus' => Status::get(['name', 'uname']),
                 'avgRating' => $avgRating,
-                'quantityRating' => count($book->rating),
+                'quantityRating' => count($bookRating),
                 'rating' => $userRating
             ]);
         }

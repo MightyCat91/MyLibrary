@@ -4,6 +4,7 @@
 @endpush
 @push('scripts')
     <script type="text/javascript" src="{{ asset('/js/Custom/rating.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('/js/Custom/rating.js') }}"></script>
 @endpush
 @extends('layouts.main',['title'=>$author->name])
 @section('content')
@@ -15,6 +16,20 @@
             {{Breadcrumbs::render()}}
             <section id="short-info">
                 <figure class="short-img">
+                    {{--@auth--}}
+                    @if(Auth::check())
+                        <div id="avg-rating-container">
+                            <div id="avg-rating" title="Средний рейтинг">
+                                <i class="fa fa-star"></i>
+                                <span>{{ $avgRating }}</span>
+                            </div>
+                            <div id="rating-quantity" title="Количество оценок">
+                                <i class="fa fa-user-o" aria-hidden="true"></i>
+                                <span>{{ $quantityRating }}</span>
+                            </div>
+                        </div>
+                        {{--@endauth--}}
+                    @endif
                     <img src="{{ asset(getStorageFile('authors', $author->id))}}" alt="{{ $author->name }}">
                     @if(Auth::check())
                         <div id="user-actions-wrapper">
@@ -34,7 +49,7 @@
                                 </a>
                             </div>
                         </div>
-                        <div class="user-item-rating {{ empty($status) ? 'hidden' : '' }}"
+                        <div class="user-item-rating"
                              data-rating="{{ $rating['score'] }}" data-type="{{ $rating['type'] }}">
                             <div class="rating-star-container">
                                 <div class="hover-rating-container">

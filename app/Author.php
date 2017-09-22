@@ -14,6 +14,10 @@ class Author extends Model
 
     protected $guarded = ['id'];
 
+    protected $casts = [
+        'rating' => 'array'
+    ];
+
     /**
      * Книги, принадлежащие автору
      */

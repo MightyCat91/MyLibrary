@@ -32,7 +32,7 @@
             @if (Auth::check())
                 <a href="{{ route('author-add-get') }}" class="nav-item {{ active('author-add-get') }}">
                     <div class="icon-stack fa-fw nav-item-icon">
-                        <i class="fa fa-user-o"></i>
+                        <i class="fa fa-user"></i>
                         <i class="fa fa-plus"></i>
                     </div>
                     <div class="nav-item-name">Добавить автора</div>

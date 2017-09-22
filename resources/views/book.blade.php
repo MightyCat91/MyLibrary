@@ -26,13 +26,13 @@
                     {{--@auth--}}
                     @if(Auth::check())
                         <div id="avg-rating-container">
-                            <div id="avg-rating">
+                            <div id="avg-rating" title="Средний рейтинг">
                                 <i class="fa fa-star"></i>
                                 <span>{{ $avgRating }}</span>
                             </div>
-                            <div id="rating-quantity">
-                                <i class="fa fa-sort-amount-asc" aria-hidden="true"></i>
-                                <span>({{ $quantityRating }})</span>
+                            <div id="rating-quantity" title="Количество оценок">
+                                <i class="fa fa-user-o" aria-hidden="true"></i>
+                                <span>{{ $quantityRating }}</span>
                             </div>
                         </div>
                     {{--@endauth--}}

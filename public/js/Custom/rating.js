@@ -71,8 +71,11 @@
             type: 'POST'
         })
             .done(function (data) {
+                console.log(data);
                 //добавление ответа сервера(алерт)
-                body.append(data);
+                body.append(data.alert);
+                $('#avg-rating > span').text(data.data.avgRating);
+                $('#rating-quantity > span').text(data.data.quantityRating);
             });
     });
 })(jQuery);

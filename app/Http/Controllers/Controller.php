@@ -27,12 +27,23 @@ class Controller extends BaseController
         return view('home');
     }
 
-    public function changeRating($id, $request)
+    /**
+     * Изменение рейтинга книги или автора
+     *
+     * @param $id - идентификатор пользователя изменяющего рейтинг
+     * @param $request - данные реквест-запроса
+     * @param $ModelClass - класс модели сущности, рейтинг которой изменяют(Book::class или Author::class)
+     */
+    public function changeRating($id, $request, $ModelClass)
     {
         $rating = $request->rating;
         $type = $request->type;
         $user = auth()->user();
         $ratingsCollection = $user->rating;
+
+        $elRating = $ModelClass::where('id', $id)->first(['rating'])->rating;
+        $elRating[auth()->id()] = $request->rating;
+        $ModelClass::where('id', $id)->update(['rating' => json_encode($elRating)]);
 
         if (empty($ratingsCollection)) {
             $ratingArray[$rating] = array_wrap($id);
@@ -56,5 +67,7 @@ class Controller extends BaseController
 
         $user->rating = $ratingsCollection;
         $user->save();
+
+        return ['avgRating' => array_sum($elRating) / count($elRating), 'quantityRating' => count($elRating)];
     }
 }

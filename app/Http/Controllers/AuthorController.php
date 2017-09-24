@@ -153,11 +153,11 @@ class AuthorController extends Controller
     public function changeAuthorRating($id, Request $request)
     {
         if ($request->ajax()) {
-            $bookRating = Author::where('id', $id)->first(['rating'])->rating;
-            $bookRating[auth()->id()] = $request->rating;
-            Author::where('id', $id)->update(['rating' => json_encode($bookRating)]);
-            parent::changeRating($id, $request);
-            return alert()->success('Ваша оценка обновлена', '5000', true);
+            $data = parent::changeRating($id, $request, Author::class);
+            return response()->json(array(
+                'alert' => alert()->success('Ваша оценка обновлена', '5000', true),
+                'data'   => $data
+            ));
         }
     }
 

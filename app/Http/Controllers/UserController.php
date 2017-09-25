@@ -300,10 +300,11 @@ class UserController extends Controller
             $books[$bookId] = [
                 'status' => $status,
                 'page_counts' => $book->page_counts,
-                'name' => $book->name
+                'name' => $book->name,
+                'rating' => array_walk_recursive($book->rating['book'], 'my_func')
             ];
         }
-//        todo: ждать завершения работы с фукнционалом оценок
+
         $books = Book::whereIn('id', array_flatten($user->statistic))->get();
         foreach ($books as $book) {
             foreach ($book->authors as $author) {
@@ -320,6 +321,10 @@ class UserController extends Controller
     }
 
 
+    private function my_func()
+    {
+        
+    }
 
     private function deleteProfileImgFromStorage($id)
     {

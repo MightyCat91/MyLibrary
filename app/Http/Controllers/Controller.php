@@ -33,6 +33,7 @@ class Controller extends BaseController
      * @param $id - идентификатор пользователя изменяющего рейтинг
      * @param $request - данные реквест-запроса
      * @param $ModelClass - класс модели сущности, рейтинг которой изменяют(Book::class или Author::class)
+     * @return array
      */
     public function changeRating($id, $request, $ModelClass)
     {

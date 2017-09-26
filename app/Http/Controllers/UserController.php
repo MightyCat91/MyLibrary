@@ -16,6 +16,7 @@ use Storage;
 
 class UserController extends Controller
 {
+    private $rating = [];
 
     public function showUserProfilePage($id)
     {
@@ -292,38 +293,49 @@ class UserController extends Controller
         ]);
     }
 
-    public function showUserLibrary($id, Request $request)
+    public function showUserLibrary($id)
     {
+        $books = $statuses = [];
         $user = \Auth::user();
-        foreach ($user->statistic as $status => $bookId) {
-            $book = Book::where('id', $bookId)->get(['page_counts', 'name']);
-            $books[$bookId] = [
-                'status' => $status,
-                'page_counts' => $book->page_counts,
-                'name' => $book->name,
-                'rating' => array_walk_recursive($book->rating['book'], 'my_func')
-            ];
+        foreach ($user->statistic as $status => $booksId) {
+            foreach ($booksId as $bookId) {
+                $book = Book::findOrFail('id', $bookId);
+                $statuses[] = Status::where('name', $status)->first(['uname'])->uname;
+                array_walk($book->rating['book'], 'my_func');
+                $books[$bookId] = [
+                    'status' => $status,
+                    'authors' => $book->author,
+                    'page_counts' => $book->page_counts,
+                    'name' => $book->name,
+                    'rating' => $this->rating,
+                ];
+            }
+
         }
 
-        $books = Book::whereIn('id', array_flatten($user->statistic))->get();
-        foreach ($books as $book) {
-            foreach ($book->authors as $author) {
-                $authors[$author->id] = $author->name;
-            }
-            foreach ($book->categories as $category) {
-                $categories[$category->id] = $category->name;
-            }
-        }
+        dd($books,$statuses);
+//        $books = Book::whereIn('id', array_flatten($user->statistic))->get();
+//        foreach ($books as $book) {
+//            foreach ($book->authors as $author) {
+//                $authors[$author->id] = $author->name;
+//            }
+//            foreach ($book->categories as $category) {
+//                $categories[$category->id] = $category->name;
+//            }
+//        }
 
         return view('user.userLibrary', [
             'books' => $books,
+            'statuses' => $statuses
         ]);
     }
 
 
-    private function my_func()
+    private function my_func($item, $key)
     {
-        
+        foreach ($item as $val) {
+            $this->rating[$key] = $val;
+        }
     }
 
     private function deleteProfileImgFromStorage($id)

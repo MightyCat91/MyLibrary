@@ -16,7 +16,6 @@ use Storage;
 
 class UserController extends Controller
 {
-    private $rating = [];
 
     public function showUserProfilePage($id)
     {
@@ -297,23 +296,24 @@ class UserController extends Controller
     {
         $books = $statuses = [];
         $user = \Auth::user();
-        foreach ($user->statistic as $status => $booksId) {
+        foreach ($user->statistic as $bookStatus => $booksId) {
             foreach ($booksId as $bookId) {
-                $book = Book::findOrFail('id', $bookId);
-                $statuses[] = Status::where('name', $status)->first(['uname'])->uname;
-                array_walk($book->rating['book'], 'my_func');
+
+                $book = Book::findOrFail($bookId);
+                $status = Status::where('name', $bookStatus)->first(['uname'])->uname;
+                $statuses[] = $status;
                 $books[$bookId] = [
                     'status' => $status,
                     'authors' => $book->author,
                     'page_counts' => $book->page_counts,
                     'name' => $book->name,
-                    'rating' => $this->rating,
+                    'rating' => array_get($book->rating, $id),
                 ];
             }
 
         }
 
-        dd($books,$statuses);
+
 //        $books = Book::whereIn('id', array_flatten($user->statistic))->get();
 //        foreach ($books as $book) {
 //            foreach ($book->authors as $author) {
@@ -326,16 +326,8 @@ class UserController extends Controller
 
         return view('user.userLibrary', [
             'books' => $books,
-            'statuses' => $statuses
+            'statuses' => array_unique($statuses)
         ]);
-    }
-
-
-    private function my_func($item, $key)
-    {
-        foreach ($item as $val) {
-            $this->rating[$key] = $val;
-        }
     }
 
     private function deleteProfileImgFromStorage($id)

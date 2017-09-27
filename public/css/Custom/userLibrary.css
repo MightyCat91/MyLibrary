@@ -1,0 +1,10 @@
+.book-status-container {
+    display: flex;
+    justify-content: space-around;
+}
+
+.book-status--element {
+    line-height: 2;
+    font-size: 22px;
+    font-weight: 600;
+}

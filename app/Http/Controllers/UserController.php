@@ -302,8 +302,10 @@ class UserController extends Controller
                 $book = Book::findOrFail($bookId);
                 $status = Status::where('name', $bookStatus)->first(['uname'])->uname;
                 $statuses[] = $status;
-                $books[$bookId] = [
+                $books[] = [
+                    'id' => $bookId,
                     'status' => $status,
+                    'status_color' => $bookStatus,
                     'authors' => $book->author,
                     'page_counts' => $book->page_counts,
                     'name' => $book->name,

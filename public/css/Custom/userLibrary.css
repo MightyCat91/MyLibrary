@@ -1,10 +1,90 @@
 .book-status-container {
     display: flex;
     justify-content: space-around;
+    background-color: #272c2e;
+    color: #fff;
+    border-radius: 20px;
 }
 
-.book-status--element {
+.book-status.element {
     line-height: 2;
     font-size: 22px;
     font-weight: 600;
+    cursor: pointer;
+}
+
+.book-status.element:hover, .book-status.element.active {
+    color: #009926;
+}
+
+.user-book-library-table {
+    margin: 1em;
+    border-spacing: 2px;
+    border-color: #3b4142;
+}
+
+.table-header {
+    font-size: 25px;
+    background-color: #009926;
+    line-height: 2;
+    color: #fff;
+    padding-left: 1em;
+    font-weight: 600;
+}
+
+.table-body {
+    width: 100%;
+}
+
+.table-row {
+    line-height: 2;
+}
+
+thead .table-row {
+    font-size: 18px;
+    background-color: #3b4142;
+    color: rgb(210, 210, 210);
+}
+
+tbody .table-row:nth-child(odd) {
+    background-color: #f5f5f5;
+}
+
+.table-column {
+    padding-left: 1rem;
+    text-align: center;
+}
+
+.table-column.number-value {
+    display: flex;
+    padding-left: 0;
+}
+
+.table-column.number-value > :last-child {
+    text-align: center;
+    width: 100%;
+}
+
+.status_color {
+    width: 10px;
+}
+
+.reading {
+    background-color: #0275d8;
+}
+
+.completed {
+    background-color: #009926;
+}
+
+.drop {
+    background-color: #FF3933;
+}
+
+.on-hold {
+    background-color: #fb990e;
+}
+
+.inPlans {
+    background-color: #999;
 }

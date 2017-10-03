@@ -11,6 +11,7 @@ body a {
     transition: 0.5s all;
     text-decoration: none !important;
     outline: none;
+    color: #014c8c;
 }
 
 header {

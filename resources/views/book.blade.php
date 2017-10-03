@@ -66,7 +66,7 @@
                                 <a tabindex="0" id="status-btn" data-toggle="popover"
                                    data-status="{{ $status ? $status->name : '' }}">{{ $status ? $status->uname : 'Статус' }}</a>
                                 <div id="status-list" class="hidden">
-                                    @foreach($allStatus as $stat)
+                                    @foreach($allStatuses as $stat)
                                         <div class="status-option {{ $stat->name }}"
                                              data-status="{{ $stat->name }}">{{ $stat->uname }}</div>
                                     @endforeach

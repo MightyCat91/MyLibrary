@@ -1,6 +1,9 @@
 @push('styles')
     <link href="{{ asset('/css/Custom/userLibrary.css') }}" rel='stylesheet' type='text/css' media="all"/>
 @endpush
+@push('scripts')
+    <script type="text/javascript" src="{{ asset('/js/Custom/userLibrary.js') }}"></script>
+@endpush
 @extends('layouts.main',['title'=>'Моя библиотека'])
 @section('content')
     <div class="user-wrapper">
@@ -34,13 +37,21 @@
                         @foreach($books as $key => $book)
                             <tr class="table-row">
                                 <th class="table-column number-value">
-                                    <span class="status_color {{ $book['status_color'] }}"></span>
+                                    <span class="status_color {{ $book['status_name'] }}"></span>
                                     <span>{{ ++$key }}</span>
                                 </th>
                                 <th class="table-column name-value">
                                     <a href="{{ route('book', [$book['id']]) }}">{{ $book['name'] }}</a>
                                 </th>
-                                <th class="table-column status-value">{{ $book['status'] }}</th>
+                                <th class="table-column status-value">
+                                    <a id="status-btn" data-toggle="popover">{{ $book['status_uname'] }}</a>
+                                    <div id="status-list" class="hidden">
+                                        @foreach($allStatuses as $stat)
+                                            <div class="status-option {{ $stat->name }}"
+                                                 data-status="{{ $stat->name }}">{{ $stat->uname }}</div>
+                                        @endforeach
+                                    </div>
+                                </th>
                                 <th class="table-column rating-value">{{ $book['rating'] }}</th>
                                 <th class="table-column authors-value">{{ $book['authors'] }}</th>
                                 <th class="table-column pages-value">{{ $book['page_counts'] }}</th>

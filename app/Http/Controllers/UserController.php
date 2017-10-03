@@ -304,8 +304,8 @@ class UserController extends Controller
                 $statuses[] = $status;
                 $books[] = [
                     'id' => $bookId,
-                    'status' => $status,
-                    'status_color' => $bookStatus,
+                    'status_uname' => $status,
+                    'status_name' => $bookStatus,
                     'authors' => $book->author,
                     'page_counts' => $book->page_counts,
                     'name' => $book->name,
@@ -328,7 +328,8 @@ class UserController extends Controller
 
         return view('user.userLibrary', [
             'books' => $books,
-            'statuses' => array_unique($statuses)
+            'statuses' => array_unique($statuses),
+            'allStatuses' => Status::get(['name', 'uname'])
         ]);
     }
 

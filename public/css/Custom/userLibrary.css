@@ -69,22 +69,53 @@ tbody .table-row:nth-child(odd) {
     width: 10px;
 }
 
-.reading {
-    background-color: #0275d8;
+.status-btn {
+    border: none;
+    outline: none;
+    border-radius: 10px;
+    margin: 0 auto;
+    text-align: center;
+    line-height: 1.75;
+    cursor: default;
+    display: block;
+    color: #fff;
+    width: 50%;
 }
 
-.completed {
+.popover-content {
+    padding: 0;
+}
+
+.status-option {
+    text-align: center;
+    padding: 5px 10px;
+    border-radius: 10px;
+    margin: 10px;
+    color: #fff;
+    cursor: default;
+    font-family: 'Philosopher', Roboto, sans-serif;
+}
+
+.status-option:hover {
+    transform: scale(1.1);
+}
+
+[data-status="completed"] {
     background-color: #009926;
 }
 
-.drop {
+[data-status="reading"] {
+    background-color: #0275d8;
+}
+
+[data-status="drop"] {
     background-color: #FF3933;
 }
 
-.on-hold {
+[data-status="on-hold"] {
     background-color: #fb990e;
 }
 
-.inPlans {
+[data-status="inPlans"] {
     background-color: #999;
 }

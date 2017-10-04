@@ -118,7 +118,7 @@ class BookController extends Controller
                 'sidebarBooks' => $sidebarBooks,
                 'inFavorite' => $inFavorite,
                 'status' => $status,
-                'allStatus' => Status::get(['name', 'uname']),
+                'allStatuses' => Status::get(['name', 'uname']),
                 'avgRating' => $avgRating,
                 'quantityRating' => count($bookRating),
                 'rating' => $userRating

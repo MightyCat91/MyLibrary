@@ -5,6 +5,7 @@
                 currStatus = $(this).attr('data-status');
 
             content.find('.status-option.' + currStatus).remove();
+            console.log(content.html());
             $(this).popover({
                 'placement': 'bottom',
                 'content': content,
@@ -14,6 +15,7 @@
         })
         .blur(function () {
             $("[data-toggle='popover']").popover('hide');
+            // $(this).removeAttr("data-original-title title")
         });
 
 
@@ -21,25 +23,25 @@
         var clickedBtn = $(this),
             statusBtn = $('.status-btn[aria-describedby]'),
             newStatus = clickedBtn.data('status'),
+            url = statusBtn.parent('.table-column').prev('.name-value').find('a').attr('href'),
             data = {
                 'oldStatus': statusBtn.attr('data-status'),
                 'newStatus': newStatus
             };
-        console.log(data);
+
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
         $.ajax({
-            url: window.location.pathname + '/changeStatus',
+            url: url + '/changeStatus',
             data: data,
             type: 'POST'
         })
             .done(function (data) {
-                statusBtn.attr('data-status', newStatus).text(clickedBtn.text());
+                statusBtn.attr('data-status', newStatus).val(clickedBtn.text());
+                statusBtn.closest('tr').find('.status_color').attr('data-status', newStatus);
             });
-
-        $('.user-item-rating').removeClass('hidden');
-    });
+    })
 })(jQuery);

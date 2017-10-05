@@ -37,7 +37,7 @@
                         @foreach($books as $key => $book)
                             <tr class="table-row" data-bookid="{{ $book['id'] }}">
                                 <th class="table-column number-value">
-                                    <span class="status_color " data-status="{{ $book['status_name'] }}"></span>
+                                    <span class="status_color" data-status="{{ $book['status_name'] }}"></span>
                                     <span>{{ ++$key }}</span>
                                 </th>
                                 <th class="table-column name-value">

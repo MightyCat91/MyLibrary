@@ -159,6 +159,7 @@ class UserController extends Controller
     public function changeStatus($id, Request $request)
     {
         if ($request->ajax()) {
+            \Debugbar::info('1');
             $newStatus = $request->get('newStatus');
             $oldStatus = $request->get('oldStatus');
             $user = auth()->user();

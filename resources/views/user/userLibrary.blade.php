@@ -13,6 +13,7 @@
                     <span>Все книги</span>
                 </div>
                 @foreach($statuses as $status)
+                    {{ \Debugbar::info($status) }}
                     <div class="book-status element">
                         <span>{{ $status }}</span>
                     </div>

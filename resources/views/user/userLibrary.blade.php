@@ -12,10 +12,9 @@
                 <div class="book-status element active">
                     <span>Все книги</span>
                 </div>
-                @foreach($statuses as $status)
-                    {{ \Debugbar::info($status) }}
-                    <div class="book-status element">
-                        <span>{{ $status }}</span>
+                @foreach($statuses as $status => $statusName)
+                    <div class="book-status element {{ $status }}">
+                        <span>{{ $statusName }}</span>
                     </div>
                 @endforeach
             </div>

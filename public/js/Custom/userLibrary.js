@@ -36,13 +36,32 @@
             type: 'POST'
         })
             .done(function (data) {
-                var booksWithOldStatusCount = $('.table-row .status-color[data-status="'+olsStatus+'"]').count(),
-                    booksWithNewStatusCount = $('.table-row .status-color[data-status="'+newStatus+'"]').count();
-
                 statusBtn.attr('data-status', newStatus).val(clickedBtn.text());
                 statusBtn.closest('tr').find('.status_color').attr('data-status', newStatus);
-                if (booksWithOldStatusCount==0 )
+                console.log('2');
+
+            })
+            .then(function () {
+                ждать обновления страницы
+                var booksWithOldStatusCount = $('.table-row .status-color[data-status="' + olsStatus + '"]').length,
+                    booksWithNewStatusCount = $('.table-row .status-color[data-status="' + newStatus + '"]').length;
+                if (booksWithOldStatusCount === 0) {
+                    $('.book-status.' + olsStatus).addClass('hidden');
+                }
+                console.log('1');
+                if (booksWithNewStatusCount === 1) {
+                    var statusTab = $('.book-status.' + newStatus);
+                    if (statusTab.length > 0) {
+                        statusTab.removeClass('hidden');
+                    } else {
+                        var newStatusTab = $('.book-status:not(.active):first').clone().attr('data-status', newStatus)
+                            .children('span').text(clickedBtn.text());
+                        $('.book-status-container').append(newStatusTab);
+                    }
+                }
+                console.log($('.table-row .status-color[data-status="' + newStatus + '"]').length);
             });
+
     })
         .on('click', function (event) {
             var popupIsShow = $('[aria-describedby]').length,
@@ -53,5 +72,4 @@
                 $('.table-row[data-bookid="' + popoverBookId + '"] .status-btn').popover('hide');
             }
         });
-
 })(jQuery);

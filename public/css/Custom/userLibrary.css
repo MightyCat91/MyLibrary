@@ -37,7 +37,7 @@
 }
 
 .table-row {
-    line-height: 2;
+    line-height: 2.5;
 }
 
 thead .table-row {
@@ -55,14 +55,37 @@ tbody .table-row:nth-child(odd) {
     text-align: center;
 }
 
-.table-column.number-value {
-    display: flex;
+.table-column.number {
+    width: 7%;
+}
+
+.table-column.name {
+    width: 25%;
+}
+
+.table-column.status {
+    width: 20%;
+}
+
+.table-column.rating {
+    width: 8%;
+}
+
+.table-column.authors {
+    width: 30%;
+}
+
+.table-column.pages {
+    width: 10%;
+}
+
+.table-column.number.value {
     padding-left: 0;
 }
 
-.table-column.number-value > :last-child {
-    text-align: center;
-    width: 100%;
+.number-wrapper {
+    display: flex;
+    justify-content: space-between;
 }
 
 .status_color {
@@ -79,7 +102,8 @@ tbody .table-row:nth-child(odd) {
     cursor: default;
     display: block;
     color: #fff;
-    width: 50%;
+    width: 90%;
+    white-space: pre-line;
 }
 
 .popover-content {
@@ -94,6 +118,7 @@ tbody .table-row:nth-child(odd) {
     color: #fff;
     cursor: default;
     font-family: 'Philosopher', Roboto, sans-serif;
+    width: 10em;
 }
 
 .status-option:hover {

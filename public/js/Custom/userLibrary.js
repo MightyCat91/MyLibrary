@@ -19,7 +19,7 @@
             statusBtn = $('.table-row[data-bookid="' + $(this).attr('data-btnid') + '"] .status-btn'),
             newStatus = clickedBtn.data('status'),
             olsStatus = statusBtn.attr('data-status'),
-            url = statusBtn.parent('.table-column').prev('.name-value').find('a').attr('href'),
+            url = statusBtn.parent('.table-column').prev('.name.value').find('a').attr('href'),
             data = {
                 'oldStatus': olsStatus,
                 'newStatus': newStatus
@@ -36,32 +36,31 @@
             type: 'POST'
         })
             .done(function (data) {
-                statusBtn.attr('data-status', newStatus).val(clickedBtn.text());
-                statusBtn.closest('tr').find('.status_color').attr('data-status', newStatus);
-                console.log('2');
+                var booksWithOldStatusCount = $('.status-btn[data-status="' + olsStatus + '"]').length,
+                    booksWithNewStatusCount = $('.status-btn[data-status="' + newStatus + '"]').length;
 
-            })
-            .then(function () {
-                ждать обновления страницы
-                var booksWithOldStatusCount = $('.table-row .status-color[data-status="' + olsStatus + '"]').length,
-                    booksWithNewStatusCount = $('.table-row .status-color[data-status="' + newStatus + '"]').length;
-                if (booksWithOldStatusCount === 0) {
-                    $('.book-status.' + olsStatus).addClass('hidden');
+                if (booksWithOldStatusCount === 1) {
+                    $('.book-status[data-tab="' + olsStatus + '"]').addClass('hidden');
+                    $('.book-status[data-tab="' + newStatus + '"]').addClass('active')
+                        .siblings().removeClass('active');
+                    // $('.status_color[data-status="' + newStatus + '"]').closest('.table-row').removeClass('hidden')
+                    //     .siblings().addClass('hidden');
                 }
-                console.log('1');
-                if (booksWithNewStatusCount === 1) {
-                    var statusTab = $('.book-status.' + newStatus);
+
+                if (booksWithNewStatusCount === 0) {
+                    var statusTab = $('.book-status[data-tab="' + newStatus + '"]');
                     if (statusTab.length > 0) {
                         statusTab.removeClass('hidden');
                     } else {
-                        var newStatusTab = $('.book-status:not(.active):first').clone().attr('data-status', newStatus)
-                            .children('span').text(clickedBtn.text());
+                        var newStatusTab = $('.book-status:not(.active):first').clone();
+                        newStatusTab.attr('data-tab', newStatus).children('span').text(clickedBtn.text());
                         $('.book-status-container').append(newStatusTab);
                     }
                 }
-                console.log($('.table-row .status-color[data-status="' + newStatus + '"]').length);
-            });
 
+                statusBtn.attr('data-status', newStatus).val(clickedBtn.text());
+                statusBtn.closest('tr').find('.status_color').attr('data-status', newStatus);
+            })
     })
         .on('click', function (event) {
             var popupIsShow = $('[aria-describedby]').length,
@@ -71,5 +70,17 @@
             if (popupIsShow && (statusBtnBookId !== popoverBookId)) {
                 $('.table-row[data-bookid="' + popoverBookId + '"] .status-btn').popover('hide');
             }
-        });
+        })
+        .on('click', '.book-status', function () {
+            var status = $(this).attr('data-tab');
+
+            $(this).addClass('active').siblings().removeClass('active');
+            if (status === 'all') {
+                $('tbody .table-row').removeClass('hidden');
+            } else {
+                $('.status_color[data-status="' + status + '"]').closest('.table-row').removeClass('hidden')
+                    .siblings().addClass('hidden');
+            }
+
+        })
 })(jQuery);

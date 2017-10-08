@@ -9,11 +9,11 @@
     <div class="user-wrapper">
         <div class="user-book-library">
             <div class="book-status-container">
-                <div class="book-status element active">
+                <div class="book-status element active" data-tab="all">
                     <span>Все книги</span>
                 </div>
                 @foreach($statuses as $status => $statusName)
-                    <div class="book-status element {{ $status }}">
+                    <div class="book-status element" data-tab="{{ $status }}">
                         <span>{{ $statusName }}</span>
                     </div>
                 @endforeach
@@ -36,20 +36,22 @@
                     <tbody>
                         @foreach($books as $key => $book)
                             <tr class="table-row" data-bookid="{{ $book['id'] }}">
-                                <th class="table-column number-value">
-                                    <span class="status_color" data-status="{{ $book['status_name'] }}"></span>
-                                    <span>{{ ++$key }}</span>
-                                </th>
-                                <th class="table-column name-value">
+                                <td class="table-column number value">
+                                    <div class="number-wrapper">
+                                        <span class="status_color" data-status="{{ $book['status_name'] }}"></span>
+                                        <span>{{ ++$key }}</span>
+                                    </div>
+                                </td>
+                                <td class="table-column name value">
                                     <a href="{{ route('book', [$book['id']]) }}">{{ $book['name'] }}</a>
-                                </th>
-                                <th class="table-column status-value">
+                                </td>
+                                <td class="table-column status value">
                                     <input type="button" class="status-btn" data-toggle="popover"
                                            data-status="{{ $book['status_name'] }}" value="{{ $book['status_uname'] }}">
-                                </th>
-                                <th class="table-column rating-value">{{ $book['rating'] }}</th>
-                                <th class="table-column authors-value">{{ $book['authors'] }}</th>
-                                <th class="table-column pages-value">{{ $book['page_counts'] }}</th>
+                                </td>
+                                <td class="table-column rating value">{{ $book['rating'] }}</td>
+                                <td class="table-column authors value">{{ $book['authors'] }}</td>
+                                <td class="table-column pages value">{{ $book['page_counts'] }}</td>
                             </tr>
                         @endforeach
                     </tbody>

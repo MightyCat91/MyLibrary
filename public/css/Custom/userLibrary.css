@@ -144,3 +144,7 @@ tbody .table-row:nth-child(odd) {
 [data-status="inPlans"] {
     background-color: #999;
 }
+
+.rating-btn {
+    cursor: pointer;
+}

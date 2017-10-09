@@ -49,7 +49,12 @@
                                     <input type="button" class="status-btn" data-toggle="popover"
                                            data-status="{{ $book['status_name'] }}" value="{{ $book['status_uname'] }}">
                                 </td>
-                                <td class="table-column rating value">{{ $book['rating'] }}</td>
+                                <td class="table-column rating value">
+                                    <div type="button" class="rating-btn">{{ $book['rating'] }}</div>
+                                    <div id="rating-wrapper" class="hidden">
+                                        @include('layouts.rating', ['type'=>'book', 'score'=>$book['rating'], 'status'=>$book['status_name']])
+                                    </div>
+                                </td>
                                 <td class="table-column authors value">{{ $book['authors'] }}</td>
                                 <td class="table-column pages value">{{ $book['page_counts'] }}</td>
                             </tr>

@@ -297,16 +297,20 @@ class UserController extends Controller
         $books = $statuses = [];
         $user = \Auth::user();
         foreach ($user->statistic as $bookStatus => $booksId) {
+            $authors = [];
             foreach ($booksId as $bookId) {
 
                 $book = Book::findOrFail($bookId);
+                foreach ($book->authors as $author) {
+                    $authors[$author->id] = $author->name;
+                }
                 $status = Status::where('name', $bookStatus)->first(['uname'])->uname;
                 $statuses[$bookStatus] = $status;
                 $books[] = [
                     'id' => $bookId,
                     'status_uname' => $status,
                     'status_name' => $bookStatus,
-                    'authors' => $book->author,
+                    'authors' => $authors,
                     'page_counts' => $book->page_counts,
                     'name' => $book->name,
                     'rating' => array_get($book->rating, $id),

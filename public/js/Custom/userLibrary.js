@@ -132,6 +132,6 @@
             }
         })
         .on('click', '.rating-btn', function () {
-            
+
         })
 })(jQuery);

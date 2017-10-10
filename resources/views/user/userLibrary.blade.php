@@ -24,41 +24,54 @@
                 </div>
                 <table class="table-body">
                     <thead>
-                        <tr class="table-row">
-                            <th class="table-column number">#</th>
-                            <th class="table-column name">Название</th>
-                            <th class="table-column status">Статус</th>
-                            <th class="table-column rating">Рейтинг</th>
-                            <th class="table-column authors">Авторы</th>
-                            <th class="table-column pages">Прогресс</th>
-                        </tr>
+                    <tr class="table-row">
+                        <th class="table-column number">#</th>
+                        <th class="table-column name">Название</th>
+                        <th class="table-column status">Статус</th>
+                        <th class="table-column rating">Рейтинг</th>
+                        <th class="table-column authors">Авторы</th>
+                        <th class="table-column pages">Прогресс</th>
+                    </tr>
                     </thead>
                     <tbody>
-                        @foreach($books as $key => $book)
-                            <tr class="table-row" data-bookid="{{ $book['id'] }}">
-                                <td class="table-column number value">
-                                    <div class="number-wrapper">
-                                        <span class="status_color" data-status="{{ $book['status_name'] }}"></span>
-                                        <span>{{ ++$key }}</span>
-                                    </div>
-                                </td>
-                                <td class="table-column name value">
-                                    <a href="{{ route('book', [$book['id']]) }}">{{ $book['name'] }}</a>
-                                </td>
-                                <td class="table-column status value">
-                                    <input type="button" class="status-btn" data-toggle="popover"
-                                           data-status="{{ $book['status_name'] }}" value="{{ $book['status_uname'] }}">
-                                </td>
-                                <td class="table-column rating value">
-                                    <div type="button" class="rating-btn">{{ $book['rating'] }}</div>
-                                    <div id="rating-wrapper" class="hidden">
-                                        @include('layouts.rating', ['type'=>'book', 'score'=>$book['rating'], 'status'=>$book['status_name']])
-                                    </div>
-                                </td>
-                                <td class="table-column authors value">{{ $book['authors'] }}</td>
-                                <td class="table-column pages value">{{ $book['page_counts'] }}</td>
-                            </tr>
-                        @endforeach
+                    @foreach($books as $key => $book)
+                        <tr class="table-row" data-bookid="{{ $book['id'] }}">
+                            <td class="table-column number value">
+                                <div class="number-wrapper">
+                                    <span class="status_color" data-status="{{ $book['status_name'] }}"></span>
+                                    <span>{{ ++$key }}</span>
+                                </div>
+                            </td>
+                            <td class="table-column name value">
+                                <a href="{{ route('book', [$book['id']]) }}">{{ $book['name'] }}</a>
+                            </td>
+                            <td class="table-column status value">
+                                <input type="button" class="status-btn" data-toggle="popover"
+                                       data-status="{{ $book['status_name'] }}" value="{{ $book['status_uname'] }}">
+                            </td>
+                            <td class="table-column rating value">
+                                <div type="button" class="rating-btn">{{ $book['rating'] }}</div>
+                                <div id="rating-wrapper" class="hidden">
+                                    @include('layouts.rating', ['type'=>'book', 'score'=>$book['rating'], 'status'=>$book['status_name']])
+                                </div>
+                            </td>
+                            <td class="table-column authors value">
+                                {{--{{ dd($book['authors']) }}--}}
+                                {{--<a href="{{ route('author', key($book['authors'])) }}">{{ current($book['authors']) }}</a>--}}
+                                {{--@if(count($book['authors']) >= 2)--}}
+                                    {{--<div class="other-authors-controller">--}}
+                                        {{--<span>И другие...</span>--}}
+                                    {{--</div>--}}
+                                    {{--<div class="other-author-wrapper hidden">--}}
+                                        {{--@foreach($book['authors'] as $id => $author)--}}
+                                            {{--<a href="{{ route('author', ++$id) }}">{{ ++$author }}</a>--}}
+                                        {{--@endforeach--}}
+                                    {{--</div>--}}
+                                {{--@endif--}}
+                            </td>
+                            <td class="table-column pages value">{{ $book['page_counts'] }}</td>
+                        </tr>
+                    @endforeach
                     </tbody>
                 </table>
                 <div id="status-list" class="hidden">

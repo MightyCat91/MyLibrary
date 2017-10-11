@@ -1,0 +1,43 @@
+/*
+Rating
+*/
+
+.user-item-rating {
+    display: flex;
+    margin-top: 1rem;
+    font-size: 25px;
+}
+
+.rating-star-container {
+    flex-grow: 1;
+    text-align: center;
+    position: relative;
+}
+
+.hover-rating-container {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    position: absolute;
+}
+
+.hover-rating-container > div {
+    width: 100%;
+}
+
+.star-icon {
+    display: none;
+}
+
+.star-icon.active {
+    display: block;
+
+}
+
+.fa-star-o {
+    color: rgba(0, 0, 0, .5);
+}
+
+.fa-star-half-o.active, .fa-star.active {
+    color: #ccbf09;
+}

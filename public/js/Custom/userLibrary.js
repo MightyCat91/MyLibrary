@@ -31,7 +31,7 @@
             //старый статус
             olsStatus = statusBtn.attr('data-status'),
             //урл, по которому отправится аякс
-            url = statusBtn.parent('.table-column').prev('.name.value').find('a').attr('href')  + '/changeStatus',
+            url = statusBtn.parent('.table-column').prev('.name.value').find('a').attr('href') + '/changeStatus',
             //данные передаваемые через аякс
             data = {
                 'oldStatus': olsStatus,
@@ -98,7 +98,7 @@
                 }
             })
     })
-        //скрытие попапа по клику вне его или кнопки нового статуса
+    //скрытие попапа по клику вне его или кнопки нового статуса
         .on('click', function (event) {
             //наличие уже открытого попапа
             var popupIsShow = $('[aria-describedby]').length,
@@ -130,8 +130,24 @@
                 //отображаем книги соответсвующие статусу нового активного таба
                 $('.status_color[data-status="' + status + '"]').closest('.table-row').removeClass('hidden');
             }
+        });
+
+    $('.rating-btn').on('click', function () {
+        console.log($(this).next().find('option').toArray());
+        $(this).toggleClass('no-focused')
+            .autocomplete({
+                source: $(this).next().find('option').toArray(),
+                minLength: 0,
+                delay: 500,
+                classes: {'ui-autocomplete': 'input-autocomplete'},
+                //удаление автокомплита
+                close: function () {
+                    // $(this).autocomplete('destroy');
+                }
+            }).autocomplete('search', '');
+    })
+        .blur(function () {
+            $(this).toggleClass('no-focused');
         })
-        .on('click', '.rating-btn', function () {
-            
-        })
+    $('.input-autocomplete').width($(this).width() - 50);
 })(jQuery);

@@ -1,8 +1,7 @@
 @push('styles')
+    <link href="{{ asset('/css/Library/jQuery/jquery-ui.min.css')  }} " rel='stylesheet' type='text/css' media="all"/>
     <link href="{{ asset('/css/Custom/userLibrary.css') }}" rel='stylesheet' type='text/css' media="all"/>
-@endpush
-@push('scripts')
-    <script type="text/javascript" src="{{ asset('/js/Custom/userLibrary.js') }}"></script>
+    <link href="{{ asset('/css/Custom/rating.css') }}" rel='stylesheet' type='text/css' media="all"/>
 @endpush
 @extends('layouts.main',['title'=>'Моя библиотека'])
 @section('content')
@@ -50,9 +49,13 @@
                                            data-status="{{ $book['status_name'] }}" value="{{ $book['status_uname'] }}">
                                 </td>
                                 <td class="table-column rating value">
-                                    <div type="button" class="rating-btn">{{ $book['rating'] }}</div>
-                                    <div id="rating-wrapper" class="hidden">
-                                        @include('layouts.rating', ['type'=>'book', 'score'=>$book['rating'], 'status'=>$book['status_name']])
+                                    <input type="text" class="rating-btn no-focused" value="{{ $book['rating'] }}">
+                                    <div class="rating-wrapper">
+                                        <datalist class="rating-list">
+                                            @foreach(range(1, 10) as $rating)
+                                                <option>{{ $rating }}</option>
+                                            @endforeach
+                                        </datalist>
                                     </div>
                                 </td>
                                 <td class="table-column authors value">{{ $book['authors'] }}</td>
@@ -71,3 +74,7 @@
         </div>
     </div>
 @endsection
+@push('scripts')
+    <script type="text/javascript" src="{{ asset('/js/Library/jQuery/jquery-ui.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('/js/Custom/userLibrary.js') }}"></script>
+@endpush

@@ -130,6 +130,10 @@
                 //отображаем книги соответсвующие статусу нового активного таба
                 $('.status_color[data-status="' + status + '"]').closest('.table-row').removeClass('hidden');
             }
+        })
+        .on('click', '.other-authors-controller', function () {
+            $(this).find('.fa-arrow-circle-o-down').toggleClass('hidden').siblings('.fa-arrow-circle-o-up').toggleClass('hidden');
+            $('.other-author-wrapper').toggleClass('hidden');
         });
 
     $('.rating-btn').on('click', function () {
@@ -149,5 +153,6 @@
         .blur(function () {
             $(this).toggleClass('no-focused');
         })
+        
     $('.input-autocomplete').width($(this).width() - 50);
 })(jQuery);

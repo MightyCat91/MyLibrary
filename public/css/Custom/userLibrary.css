@@ -174,3 +174,34 @@ tbody .table-row:nth-child(odd) {
 .ui-menu-item > .ui-state-active {
     margin: 0;
 }
+=======
+}
+
+.table-column.authors.value {
+    display: grid;
+    width: 100%;
+    grid-template-columns: 95% 5%;
+    grid-template-areas: "authors control";
+}
+
+.author-link-wrapper {
+    padding-right: 10px;
+    grid-area: authors;
+}
+
+.other-authors-controller {
+    grid-area: control;
+    cursor: pointer;
+    align-self: center;
+    grid-row-start: 1;
+    grid-row-end: end;
+}
+
+.other-authors-controller:hover {
+    color: #009926;
+}
+
+.other-author-wrapper {
+    grid-area: authors;
+    grid-row-start: 2;
+}

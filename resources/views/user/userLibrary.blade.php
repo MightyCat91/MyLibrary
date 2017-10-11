@@ -56,18 +56,20 @@
                                 </div>
                             </td>
                             <td class="table-column authors value">
-                                {{--{{ dd($book['authors']) }}--}}
-                                {{--<a href="{{ route('author', key($book['authors'])) }}">{{ current($book['authors']) }}</a>--}}
-                                {{--@if(count($book['authors']) >= 2)--}}
-                                    {{--<div class="other-authors-controller">--}}
-                                        {{--<span>И другие...</span>--}}
-                                    {{--</div>--}}
-                                    {{--<div class="other-author-wrapper hidden">--}}
-                                        {{--@foreach($book['authors'] as $id => $author)--}}
-                                            {{--<a href="{{ route('author', ++$id) }}">{{ ++$author }}</a>--}}
-                                        {{--@endforeach--}}
-                                    {{--</div>--}}
-                                {{--@endif--}}
+                                <div class="author-link-wrapper">
+                                    <a href="{{ route('author', key($book['authors'])) }}">{{ current($book['authors']) }}</a>
+                                </div>
+                                @if(count($book['authors']) >= 2)
+                                    <div class="other-authors-controller">
+                                        <i class="fa fa-arrow-circle-o-down" aria-hidden="true"></i>
+                                        <i class="fa fa-arrow-circle-o-up hidden" aria-hidden="true"></i>
+                                    </div>
+                                    <div class="other-author-wrapper hidden">
+                                        @foreach(array_slice($book['authors'],1) as $id => $author)
+                                            <a href="{{ route('author', $id) }}">{{ $author }}</a>
+                                        @endforeach
+                                    </div>
+                                @endif
                             </td>
                             <td class="table-column pages value">{{ $book['page_counts'] }}</td>
                         </tr>

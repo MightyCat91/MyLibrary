@@ -134,4 +134,8 @@
         .on('click', '.rating-btn', function () {
 
         })
+        .on('click', '.other-authors-controller', function () {
+            $(this).find('.fa-arrow-circle-o-down').toggleClass('hidden').siblings('.fa-arrow-circle-o-up').toggleClass('hidden');
+            $('.other-author-wrapper').toggleClass('hidden');
+        })
 })(jQuery);

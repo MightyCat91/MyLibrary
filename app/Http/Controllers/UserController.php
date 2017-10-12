@@ -177,6 +177,13 @@ class UserController extends Controller
         }
     }
 
+    public function changeProgress($id, Request $request)
+    {
+        if ($request->ajax()) {
+            \Debugbar::info($request->get('progress'));
+        }
+    }
+
     /**
      * Возврат шаблона с книгами, которым юзер установил какой-либо статус
      *

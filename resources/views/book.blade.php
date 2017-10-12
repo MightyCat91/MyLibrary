@@ -79,6 +79,9 @@
                                     <input type="text" class="no-focused"
                                            value="{{ sprintf('%s/%s', empty($progress) ?? 0, $book->page_counts) }}">
                                 </div>
+                                <div class="error-message hidden">
+                                    <span>Введенное значение первышает количество страниц книги</span>
+                                </div>
                             </div>
                             @include('layouts.rating', ['type'=>'book', 'score'=>$rating['score'], 'status'=>$status])
                         </div>

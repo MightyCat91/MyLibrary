@@ -127,21 +127,51 @@ Progress
     margin-top: .5rem;
 }
 
+.progress-input-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+}
+
 .progress-label {
-    font-size: 17px;
+    font-size: 15px;
     font-weight: 600;
     line-height: 2;
 }
 
 .progress-input-wrapper input {
-    width: 100%;
     line-height: 2;
+    font-size: 15px;
     text-align: center;
+    width: calc(100% - 2px);
+    height: calc(100% - 2px);
+}
+
+.progress-input-wrapper input:focus {
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    border-color: #009926;
+    outline: none;
 }
 
 .progress-input-wrapper input.no-focused {
     background: none;
     border: none;
+}
+
+.error-message {
+    margin-top: .5rem;
+    grid-column-start: 1;
+    grid-row-start: 2;
+    grid-column-end: 3;
+    font-size: 12px;
+    line-height: 1;
+}
+
+.user-book-progress.error .error-message, .user-book-progress.error input {
+    color: #d9534f;
+    border-color: #d9534f;
 }
 
 /*

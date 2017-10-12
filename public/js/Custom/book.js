@@ -51,6 +51,7 @@
         })
             .done(function (data) {
                 statusBtn.attr('data-status', newStatus).text(clickedBtn.text());
+                $('.user-book-progress').toggleClass('hidden');
                 //добавление ответа сервера(алерт)
                 body.append(data);
             });
@@ -60,14 +61,38 @@
 
     $('.progress-input-wrapper input').on('focus', function () {
         var currValue = $(this).val(),
-            currProgress = currValue.split("/", 1);
+            currProgress = parseInt(currValue.split("/")[0]),
+            bookPages = parseInt(currValue.split("/")[1]);
 
         $(this).toggleClass('no-focused').val(currProgress)
             .keypress(function (event) {
                 var keycode = (event.keyCode ? event.keyCode : event.which);
-                if (keycode === '13') {
+                if (keycode === 13) {
                     var newProgress = $(this).val();
-                    
+                    console.log(newProgress > bookPages);
+                    if (newProgress > bookPages) {
+                        $('.user-book-progress').addClass('error');
+                        $('.error-message').removeClass('hidden');
+                    } else {
+                        $.ajaxSetup({
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            }
+                        });
+                        $.ajax({
+                            url: window.location.pathname + '/changeProgress',
+                            data: {'progress' : newProgress},
+                            type: 'POST'
+                        })
+                            .done(function (data) {
+                                $('.user-book-progress').removeClass('error');
+                                $('.error-message').addClass('hidden');
+                                $(this).val(newProgress + '/' + bookPages);
+                                //добавление ответа сервера(алерт)
+                                body.append(data);
+                            });
+                        $(this).trigger('blur');
+                    }
                 }
             });
     })

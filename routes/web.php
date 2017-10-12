@@ -51,13 +51,16 @@ Route::group(['prefix' => 'book'], function () {
         ]);
         Route::post('', [
             'as' => 'addToFavorite', 'uses' => 'UserController@addToFavorite'
-        ]);
+        ])->middleware('auth');
         Route::post('changeStatus', [
             'as' => 'changeStatus', 'uses' => 'UserController@changeStatus'
-        ]);
+        ])->middleware('auth');
         Route::post('changeRating', [
             'as' => 'changeRating', 'uses' => 'BookController@changeBookRating'
-        ]);
+        ])->middleware('auth');
+        Route::post('changeProgress', [
+            'as' => 'changeProgress', 'uses' => 'UserController@changeProgress'
+        ])->middleware('auth');
     });
 });
 

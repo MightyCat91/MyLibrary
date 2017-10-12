@@ -152,7 +152,7 @@
     })
         .blur(function () {
             $(this).toggleClass('no-focused');
-        })
-        
-    $('.input-autocomplete').width($(this).width() - 50);
+        });
+
+
 })(jQuery);

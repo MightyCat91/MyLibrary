@@ -57,5 +57,22 @@
 
         $('.user-item-rating').removeClass('hidden');
     });
+
+    $('.progress-input-wrapper input').on('focus', function () {
+        var currValue = $(this).val(),
+            currProgress = currValue.split("/", 1);
+
+        $(this).toggleClass('no-focused').val(currProgress)
+            .keypress(function (event) {
+                var keycode = (event.keyCode ? event.keyCode : event.which);
+                if (keycode === '13') {
+                    var newProgress = $(this).val();
+                    
+                }
+            });
+    })
+        .blur(function () {
+            $(this).toggleClass('no-focused');
+        })
 })(jQuery);
 

@@ -36,7 +36,7 @@
                                 <span>{{ $quantityRating }}</span>
                             </div>
                         </div>
-                    {{--@endauth--}}
+                        {{--@endauth--}}
                     @endif
                     <div class="slider owl-carousel owl-theme">
                         @foreach(getAllStorageFiles('books', $book->id) as $bookCover)
@@ -44,7 +44,7 @@
                         @endforeach
                     </div>
                     {{--@auth--}}
-                        @if(Auth::check())
+                    @if(Auth::check())
                         <div class="user-action-container">
                             <div id="user-actions-wrapper">
                                 <div class="user-actions-item" title="Написать комментарий">
@@ -73,9 +73,16 @@
                                     @endforeach
                                 </div>
                             </div>
+                            <div class="user-book-progress {{ empty($status) ? 'hidden' : '' }}">
+                                <div class="progress-label">Прочитано страниц:</div>
+                                <div class="progress-input-wrapper">
+                                    <input type="text" class="no-focused"
+                                           value="{{ sprintf('%s/%s', empty($progress) ?? 0, $book->page_counts) }}">
+                                </div>
+                            </div>
                             @include('layouts.rating', ['type'=>'book', 'score'=>$rating['score'], 'status'=>$status])
                         </div>
-                        @endif
+                    @endif
                     {{--@endauth--}}
                 </figure>
                 <aside class="short-info-items">

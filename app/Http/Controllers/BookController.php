@@ -102,10 +102,9 @@ class BookController extends Controller
                         }
                     }
                 }
+                $progress = array_get($user->progress, $id, null);
             } else {
-                $inFavorite = null;
-                $status = null;
-                $userRating = null;
+                $inFavorite = $status = $userRating = $progress = null;
             }
             $bookRating = $book->rating;
             $avgRating = empty($bookRating) ? 0 : array_sum($bookRating) / count($bookRating);
@@ -121,7 +120,8 @@ class BookController extends Controller
                 'allStatuses' => Status::get(['name', 'uname']),
                 'avgRating' => $avgRating,
                 'quantityRating' => count($bookRating),
-                'rating' => $userRating
+                'rating' => $userRating,
+                'progress' => $progress
             ]);
         }
         return $view;

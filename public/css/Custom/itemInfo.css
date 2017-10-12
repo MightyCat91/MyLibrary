@@ -119,6 +119,32 @@ Status
 }
 
 /*
+Progress
+ */
+.user-book-progress {
+    display: grid;
+    grid-template-columns: 80% 20%;
+    margin-top: .5rem;
+}
+
+.progress-label {
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 2;
+}
+
+.progress-input-wrapper input {
+    width: 100%;
+    line-height: 2;
+    text-align: center;
+}
+
+.progress-input-wrapper input.no-focused {
+    background: none;
+    border: none;
+}
+
+/*
 Short Info
 */
 

@@ -153,6 +153,6 @@
         .blur(function () {
             $(this).toggleClass('no-focused');
         });
-
+//todo: вынести работу с прогрессом в отдельный файл
 
 })(jQuery);

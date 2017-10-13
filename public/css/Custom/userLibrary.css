@@ -1,3 +1,7 @@
+.line-height-1-5 {
+    line-height: 1.5 !important;
+}
+
 .book-status-container {
     display: flex;
     justify-content: space-around;
@@ -153,7 +157,7 @@ tbody .table-row:nth-child(odd) {
     height: calc(100% - 2px);
 }
 
-.rating-btn.no-focused {
+.no-focused {
      background: none;
      border: none;
 }
@@ -190,6 +194,7 @@ tbody .table-row:nth-child(odd) {
 .author-link-wrapper {
     padding-right: 10px;
     grid-area: authors;
+    align-self: center;
 }
 
 .other-authors-controller {
@@ -207,4 +212,13 @@ tbody .table-row:nth-child(odd) {
 .other-author-wrapper {
     grid-area: authors;
     grid-row-start: 2;
+}
+
+/*
+Progress
+ */
+.progress {
+    line-height: 2;
+    outline: none;
+    cursor: pointer;
 }

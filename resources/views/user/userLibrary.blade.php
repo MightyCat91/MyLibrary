@@ -41,24 +41,25 @@
                                     <span>{{ ++$key }}</span>
                                 </div>
                             </td>
-                            <td class="table-column name value">
-                                    <a href="{{ route('book', [$book['id']]) }}">{{ $book['name'] }}</a>
-                                </td>
-                                <td class="table-column status value">
-                                    <input type="button" class="status-btn" data-toggle="popover"
-                                           data-status="{{ $book['status_name'] }}" value="{{ $book['status_uname'] }}">
-                                </td>
-                                <td class="table-column rating value">
-                                    <input type="text" class="rating-btn no-focused" value="{{ $book['rating'] }}">
-                                    <div class="rating-wrapper">
-                                        <datalist class="rating-list">
-                                            @foreach(range(1, 10) as $rating)
-                                                <option>{{ $rating }}</option>
-                                            @endforeach
-                                        </datalist>
+                            <td class="table-column name line-height-1-5 value">
+                                <a href="{{ route('book', [$book['id']]) }}">{{ $book['name'] }}</a>
+                            </td>
+                            <td class="table-column status value">
+                                <input type="button" class="status-btn line-height-1-5" data-toggle="popover"
+                                       data-status="{{ $book['status_name'] }}" value="{{ $book['status_uname'] }}">
+                            </td>
+                            <td class="table-column rating value">
+                                <input type="text" class="rating-btn no-focused" value="{{ $book['rating'] }}">
+                                <div class="rating-wrapper">
+                                    <datalist class="rating-list">
+                                        @foreach(range(1, 10) as $rating)
+                                            <option>{{ $rating }}</option>
+                                        @endforeach
+                                    </datalist>
+                                </div>
                             </td>
                             <td class="table-column authors value">
-                                <div class="author-link-wrapper">
+                                <div class="author-link-wrapper line-height-1-5">
                                     <a href="{{ route('author', key($book['authors'])) }}">{{ current($book['authors']) }}</a>
                                 </div>
                                 @if(count($book['authors']) >= 2)
@@ -66,7 +67,7 @@
                                         <i class="fa fa-arrow-circle-o-down" aria-hidden="true"></i>
                                         <i class="fa fa-arrow-circle-o-up hidden" aria-hidden="true"></i>
                                     </div>
-                                    <div class="other-author-wrapper hidden">
+                                    <div class="other-author-wrapper line-height-1-5 hidden">
                                         @foreach(array_slice($book['authors'],1) as $id => $author)
                                             <a href="{{ route('author', $id) }}">{{ $author }}</a>
                                         @endforeach
@@ -74,7 +75,7 @@
                                 @endif
                             </td>
                             <td class="table-column pages value">
-                                <input type="text" class="progress"
+                                <input type="text" class="progress no-focused"
                                        value="{{ sprintf("%s/%s",$book['progress'], $book['page_counts']) }}">
                             </td>
                         </tr>

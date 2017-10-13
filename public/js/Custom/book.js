@@ -1,5 +1,7 @@
 (function ($) {
-    var body = $('body');
+    var body = $('body'),
+        progressInput = $('.progress-input-wrapper input'),
+        bookPages = parseInt($("#book-pages").text());
 
     $('.owl-carousel').owlCarousel({
         nav: true,
@@ -51,7 +53,15 @@
         })
             .done(function (data) {
                 statusBtn.attr('data-status', newStatus).text(clickedBtn.text());
-                $('.user-book-progress').toggleClass('hidden');
+                $('.user-book-progress').removeClass('hidden');
+                if (newStatus === 'completed') {
+                    changeProgress(bookPages);
+                    progressInput.val(bookPages + '/' + bookPages);
+                }
+                if (newStatus === 'inPlans') {
+                    changeProgress(0);
+                    progressInput.val('0/' + bookPages);
+                }
                 //добавление ответа сервера(алерт)
                 body.append(data);
             });
@@ -59,45 +69,52 @@
         $('.user-item-rating').removeClass('hidden');
     });
 
-    $('.progress-input-wrapper input').on('focus', function () {
-        var currValue = $(this).val(),
-            currProgress = parseInt(currValue.split("/")[0]),
-            bookPages = parseInt(currValue.split("/")[1]);
+    progressInput.on('focus', function () {
+        var progressContainer = $('.user-book-progress'),
+            errorMessage = $('.error-message'),
+            currValue = progressInput.val(),
+            currProgress = parseInt(currValue.split("/")[0]);
 
-        $(this).toggleClass('no-focused').val(currProgress)
+        progressInput.removeClass('no-focused').val(currProgress).select()
             .keypress(function (event) {
                 var keycode = (event.keyCode ? event.keyCode : event.which);
                 if (keycode === 13) {
-                    var newProgress = $(this).val();
-                    console.log(newProgress > bookPages);
-                    if (newProgress > bookPages) {
-                        $('.user-book-progress').addClass('error');
-                        $('.error-message').removeClass('hidden');
-                    } else {
-                        $.ajaxSetup({
-                            headers: {
-                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                            }
-                        });
-                        $.ajax({
-                            url: window.location.pathname + '/changeProgress',
-                            data: {'progress' : newProgress},
-                            type: 'POST'
-                        })
-                            .done(function (data) {
-                                $('.user-book-progress').removeClass('error');
-                                $('.error-message').addClass('hidden');
-                                $(this).val(newProgress + '/' + bookPages);
-                                //добавление ответа сервера(алерт)
-                                body.append(data);
-                            });
-                        $(this).trigger('blur');
-                    }
+                    progressInput.blur();
                 }
+            })
+            .blur(function () {
+                var newProgress = progressInput.val();
+
+                if (newProgress > bookPages) {
+                    progressContainer.addClass('error');
+                    errorMessage.removeClass('hidden');
+                } else {
+                    changeProgress(newProgress);
+                }
+                $(this).addClass('no-focused');
             });
-    })
-        .blur(function () {
-            $(this).toggleClass('no-focused');
+    });
+    
+    function changeProgress(newProgress) {
+        var progressContainer = $('.user-book-progress'),
+            errorMessage = $('.error-message');
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $.ajax({
+            url: window.location.pathname + '/changeProgress',
+            data: {'progress': newProgress},
+            type: 'POST'
         })
+            .done(function (data) {
+                progressContainer.removeClass('error');
+                errorMessage.addClass('hidden');
+                progressInput.val(newProgress + '/' + bookPages);
+                //добавление ответа сервера(алерт)
+                body.append(data);
+            });
+    }
 })(jQuery);
 

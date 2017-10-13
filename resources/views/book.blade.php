@@ -77,7 +77,7 @@
                                 <div class="progress-label">Прочитано страниц:</div>
                                 <div class="progress-input-wrapper">
                                     <input type="text" class="no-focused"
-                                           value="{{ sprintf('%s/%s', empty($progress) ?? 0, $book->page_counts) }}">
+                                           value="{{ sprintf('%s/%s', $progress, $book->page_counts) }}">
                                 </div>
                                 <div class="error-message hidden">
                                     <span>Введенное значение первышает количество страниц книги</span>
@@ -139,7 +139,7 @@
                         @endif
                         <li>
                             <span><i class="fa fa-hourglass-half fa-lg item-icon" aria-hidden="true"></i>Количество страниц:</span>
-                            <span>{{ $book->page_counts }}</span>
+                            <span id="book-pages">{{ $book->page_counts }}</span>
                         </li>
                     </ul>
                 </aside>

@@ -102,7 +102,7 @@ class BookController extends Controller
                         }
                     }
                 }
-                $progress = array_get($user->progress, $id, null);
+                $progress = array_get($user->progress, $id, 0);
             } else {
                 $inFavorite = $status = $userRating = $progress = null;
             }

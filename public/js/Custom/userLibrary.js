@@ -137,7 +137,7 @@
         });
 
     $('.rating-btn').on('click', function () {
-        console.log($(this).next().find('option').toArray());
+        $(this).select();
         $(this).toggleClass('no-focused')
             .autocomplete({
                 source: $(this).next().find('option').toArray(),

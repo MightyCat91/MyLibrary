@@ -180,7 +180,12 @@ class UserController extends Controller
     public function changeProgress($id, Request $request)
     {
         if ($request->ajax()) {
-            \Debugbar::info($request->get('progress'));
+            $user = auth()->user();
+            $progress = $user->progress;
+            $progress[$id] = $request->get('progress');
+            $user->progress = $progress;
+            $user->save();
+            return alert()->success('Прогресс для данной книги изменен', '5000', true);
         }
     }
 
@@ -313,6 +318,7 @@ class UserController extends Controller
                 }
                 $status = Status::where('name', $bookStatus)->first(['uname'])->uname;
                 $statuses[$bookStatus] = $status;
+//                dd($user->progress);
                 $books[] = [
                     'id' => $bookId,
                     'status_uname' => $status,
@@ -321,6 +327,7 @@ class UserController extends Controller
                     'page_counts' => $book->page_counts,
                     'name' => $book->name,
                     'rating' => array_get($book->rating, $id),
+                    'progress' => $user->progress[$bookId]
                 ];
             }
 

@@ -74,8 +74,8 @@
                                 @endif
                             </td>
                             <td class="table-column pages value">
-                                {{--<input type="text" class="progress"--}}
-                                       {{--value="{{ printf("%s/%s",$book['progress'], $book['page_counts']) }}">--}}
+                                <input type="text" class="progress"
+                                       value="{{ sprintf("%s/%s",$book['progress'], $book['page_counts']) }}">
                             </td>
                         </tr>
                     @endforeach

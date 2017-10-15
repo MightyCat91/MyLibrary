@@ -159,7 +159,7 @@
                 },
                 //удаление автокомплита
                 close: function () {
-                    
+
                     console.log(parseInt($(this).val()),$(this).closest('.table-row').attr('data-bookid'));
                     $.ajaxSetup({
                         headers: {

@@ -177,15 +177,53 @@ class UserController extends Controller
         }
     }
 
+    /**
+     * Изменение рейтинга книги
+     *
+     * @param $id
+     * @param Request $request
+     * @return mixed
+     */
+    public function changeBookRating($id, Request $request)
+    {
+        if ($request->ajax()) {
+            $newRating = $request->get('rating');
+            $oldRating = Book::where('id', $request->get('id'))->first(['rating'])->rating[$id];
+            \Debugbar::info($newRating, $oldRating);
+            if ($newRating > $oldRating) {
+                return response()->json(array(
+                    'alert' => alert()->error('Введенное значение больше максимально возможного рейтинга', '5000', true),
+                    'error' => true,
+                    'rating' => $oldRating
+                ));
+            }
+            parent::changeRating($id, $request, Book::class);
+            return response()->json([
+                'error' => false
+            ]);
+        }
+    }
+
     public function changeProgress($id, Request $request)
     {
         if ($request->ajax()) {
+            $newProgress = $request->get('progress');
+            if ($newProgress > Book::where('id', $id)->first(['page_counts'])->page_counts) {
+                return response()->json([
+                    'alert' => alert()->error('Введенное значение больше количества страниц данной книги', '5000', true),
+                    'error' => true
+                ]);
+            }
             $user = auth()->user();
             $progress = $user->progress;
-            $progress[$id] = $request->get('progress');
+            $progress[$id] = $newProgress;
             $user->progress = $progress;
             $user->save();
-            return alert()->success('Прогресс для данной книги изменен', '5000', true);
+
+            return response()->json([
+                'alert' => alert()->success('Прогресс для данной книги изменен', '5000', true),
+                'error' => false
+            ]);
         }
     }
 

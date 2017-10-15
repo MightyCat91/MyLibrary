@@ -58,8 +58,9 @@
                                     </datalist>
                                 </div>
                             </td>
-                            <td class="table-column authors value">
-                                <div class="author-link-wrapper line-height-1-5">
+                            <td class="table-column authors value {{ (count($book['authors']) >= 2)?
+                            '' : 'vertical-middle' }}">
+                                <div class="author-link-wrapper">
                                     <a href="{{ route('author', key($book['authors'])) }}">{{ current($book['authors']) }}</a>
                                 </div>
                                 @if(count($book['authors']) >= 2)
@@ -75,7 +76,7 @@
                                 @endif
                             </td>
                             <td class="table-column pages value">
-                                <input type="text" class="progress no-focused"
+                                <input type="text" class="book-progress no-focused" data-route="{{ route('book', $book['id']) }}"
                                        value="{{ sprintf("%s/%s",$book['progress'], $book['page_counts']) }}">
                             </td>
                         </tr>

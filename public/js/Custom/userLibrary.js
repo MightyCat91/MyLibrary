@@ -131,28 +131,106 @@
                 $('.status_color[data-status="' + status + '"]').closest('.table-row').removeClass('hidden');
             }
         })
+        //отображение всех авторов
         .on('click', '.other-authors-controller', function () {
+            $(this).prev('.author-link-wrapper').toggleClass('line-height-1-5');
             $(this).find('.fa-arrow-circle-o-down').toggleClass('hidden').siblings('.fa-arrow-circle-o-up').toggleClass('hidden');
             $('.other-author-wrapper').toggleClass('hidden');
         });
 
     $('.rating-btn').on('click', function () {
         $(this).select();
-        $(this).toggleClass('no-focused')
+        $(this).removeClass('no-focused')
             .autocomplete({
                 source: $(this).next().find('option').toArray(),
                 minLength: 0,
                 delay: 500,
                 classes: {'ui-autocomplete': 'input-autocomplete'},
+                open: function () {
+                    $(this).keypress(function (event) {
+                        var keycode = (event.keyCode ? event.keyCode : event.which);
+                        if (keycode === 13) {
+                            $(this).autocomplete('close').blur();
+                        }
+                    })
+                },
+                select: function (event, ui) {
+                    $(this).val(ui.item).autocomplete('close').blur();
+                },
                 //удаление автокомплита
                 close: function () {
-                    // $(this).autocomplete('destroy');
+                    
+                    console.log(parseInt($(this).val()),$(this).closest('.table-row').attr('data-bookid'));
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                    });
+                    $.ajax({
+                        url: window.location.pathname + '/changeRating',
+                        data: {
+                            //новая оценка рейтинга
+                            'rating': parseInt($(this).val()),
+                            'id' : $(this).closest('.table-row').attr('data-bookid')
+                        },
+                        type: 'POST'
+                    })
+                        .done(function (data) {
+                            if (data.error) {
+                                $('.rating-btn').val(data.rating);
+                                //добавление ответа сервера(алерт)
+                                $('body').append(data.alert);
+                            }
+                        });
+                    $(this).addClass('no-focused');
+                    $(this).autocomplete('destroy');
                 }
             }).autocomplete('search', '');
     })
         .blur(function () {
-            $(this).toggleClass('no-focused');
+
         });
-//todo: вынести работу с прогрессом в отдельный файл
+
+    $('.book-progress').on('focus', function () {
+        var input = $(this),
+            currValue = input.val(),
+            currProgress = parseInt(currValue.split("/")[0]),
+            bookPages = parseInt(currValue.split("/")[1]);
+
+        input.removeClass('no-focused').val(currProgress).select()
+            .keypress(function (event) {
+                var keycode = (event.keyCode ? event.keyCode : event.which);
+                if (keycode === 13) {
+                    input.blur();
+                }
+            })
+            .blur(function () {
+                var newProgress = input.val();
+
+                if (parseInt(newProgress) !== currProgress) {
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                    });
+                    $.ajax({
+                        url: input.attr('data-route') + '/changeProgress',
+                        data: {'progress': newProgress},
+                        type: 'POST'
+                    })
+                        .done(function (data) {
+                            input.val(newProgress + '/' + bookPages);
+                            if (data.error) {
+                                input.val(currValue);
+                                //добавление ответа сервера(алерт)
+                                $('body').append(data.alert);
+                            }
+                        });
+                } else {
+                    input.val(currValue);
+                }
+                input.addClass('no-focused');
+            });
+    });
 
 })(jQuery);

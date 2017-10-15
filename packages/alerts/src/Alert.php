@@ -4,6 +4,7 @@ namespace MyLibrary\Alerts;
 
 use \Illuminate\Session\Store;
 use Illuminate\Support\HtmlString;
+use Illuminate\Support\Str;
 
 class Alert
 {
@@ -44,11 +45,12 @@ class Alert
             'lifetime' => $lifetime,
         ];
         if ($ajax) {
-            $response = new HtmlString(view('alert::alertContent', $alert)->render());
+            $response = view('alert::alertContent', $alert)->render();
         } else {
             $this->session->flash('alert', $alert);
             $response = $this;
         }
+
         return $response;
     }
 

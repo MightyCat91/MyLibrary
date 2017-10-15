@@ -125,9 +125,14 @@ Route::group(['prefix' => 'user'], function () {
         Route::get('collections', [
             'as' => 'userCollections', 'uses' => 'UserController@showUserCollectionsPage'
         ])->middleware('auth');
-        Route::get('library', [
-            'as' => 'userLibrary', 'uses' => 'UserController@showUserLibrary'
-        ])->middleware('auth');
+        Route::group(['prefix' => 'library'], function () {
+            Route::get('', [
+                'as' => 'userLibrary', 'uses' => 'UserController@showUserLibrary'
+            ])->middleware('auth');
+            Route::post('changeRating', [
+                'as' => 'changeRating', 'uses' => 'UserController@changeBookRating'
+            ])->middleware('auth');
+        });
         Route::get('history', [
             'as' => 'userHistory', 'uses' => 'UserController@showUserHistoryPage'
         ])->middleware('auth');

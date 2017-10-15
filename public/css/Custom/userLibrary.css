@@ -44,6 +44,10 @@
     line-height: 2.5;
 }
 
+.table-row:not(:last-of-type) {
+    border-bottom: 1px solid #009926;
+}
+
 thead .table-row {
     font-size: 18px;
     background-color: #3b4142;
@@ -56,6 +60,7 @@ tbody .table-row:nth-child(odd) {
 
 .table-column {
     padding-left: 1rem;
+    padding-right: 1rem;
     text-align: center;
 }
 
@@ -191,9 +196,15 @@ tbody .table-row:nth-child(odd) {
     grid-template-areas: "authors control";
 }
 
+.table-column.authors.value.vertical-middle {
+    display: table-cell;
+    vertical-align: middle;
+}
+
 .author-link-wrapper {
     padding-right: 10px;
     grid-area: authors;
+    line-height: 3;
     align-self: center;
 }
 
@@ -217,8 +228,10 @@ tbody .table-row:nth-child(odd) {
 /*
 Progress
  */
-.progress {
-    line-height: 2;
+.book-progress {
+    line-height: 1;
     outline: none;
     cursor: pointer;
+    text-align: center;
+    width: 100%;
 }

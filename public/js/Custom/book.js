@@ -89,7 +89,11 @@
                     progressContainer.addClass('error');
                     errorMessage.removeClass('hidden');
                 } else {
-                    changeProgress(newProgress);
+                    if (newProgress === bookPages) {
+                        progressInput.val(currValue);
+                    } else {
+                        changeProgress(newProgress);
+                    }
                 }
                 $(this).addClass('no-focused');
             });
@@ -113,7 +117,7 @@
                 errorMessage.addClass('hidden');
                 progressInput.val(newProgress + '/' + bookPages);
                 //добавление ответа сервера(алерт)
-                body.append(data);
+                body.append(data.alert);
             });
     }
 })(jQuery);

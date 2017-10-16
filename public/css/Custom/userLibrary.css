@@ -1,5 +1,5 @@
 .line-height-1-5 {
-    line-height: 1.5 !important;
+    /*line-height: 1.5 !important;*/
 }
 
 .book-status-container {
@@ -41,7 +41,7 @@
 }
 
 .table-row {
-    line-height: 2.5;
+    line-height: 3;
 }
 
 .table-row:not(:last-of-type) {
@@ -223,6 +223,9 @@ tbody .table-row:nth-child(odd) {
 .other-author-wrapper {
     grid-area: authors;
     grid-row-start: 2;
+    /*line-height: 1.5;*/
+    display: flex;
+    flex-direction: column;
 }
 
 /*
@@ -234,4 +237,15 @@ Progress
     cursor: pointer;
     text-align: center;
     width: 100%;
+}
+
+/*
+Popover
+ */
+.popover {
+    border-color: #009926;
+}
+
+.popover.bs-tether-element-attached-top::before {
+    border-bottom-color: #009926;
 }

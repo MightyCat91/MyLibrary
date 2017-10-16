@@ -10,8 +10,11 @@ Rating
 
 .rating-star-container {
     flex-grow: 1;
-    text-align: center;
     position: relative;
+}
+
+.ui-menu .ui-menu-item-wrapper {
+    padding: 5px 1rem;
 }
 
 .hover-rating-container {

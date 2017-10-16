@@ -112,6 +112,7 @@
                 //скрываем попап
                 $('.table-row[data-bookid="' + popoverBookId + '"] .status-btn').popover('hide');
             }
+            //todo: не скрывается по клику по другим контролам
         })
         //переключение табов-статусов
         .on('click', '.book-status', function () {
@@ -135,61 +136,65 @@
         .on('click', '.other-authors-controller', function () {
             $(this).prev('.author-link-wrapper').toggleClass('line-height-1-5');
             $(this).find('.fa-arrow-circle-o-down').toggleClass('hidden').siblings('.fa-arrow-circle-o-up').toggleClass('hidden');
-            $('.other-author-wrapper').toggleClass('hidden');
+            $(this).next('.other-author-wrapper').toggleClass('hidden');
         });
 
     $('.rating-btn').on('click', function () {
-        $(this).select();
-        $(this).removeClass('no-focused')
+        var ratingField = $(this);
+
+        ratingField.select();
+        ratingField.removeClass('no-focused')
             .autocomplete({
-                source: $(this).next().find('option').toArray(),
+                source: ratingField.next().find('option').toArray(),
                 minLength: 0,
                 delay: 500,
                 classes: {'ui-autocomplete': 'input-autocomplete'},
                 open: function () {
-                    $(this).keypress(function (event) {
+                    ratingField.keypress(function (event) {
                         var keycode = (event.keyCode ? event.keyCode : event.which);
                         if (keycode === 13) {
-                            $(this).autocomplete('close').blur();
+                            ratingField.autocomplete('close').blur();
                         }
                     })
                 },
                 select: function (event, ui) {
-                    $(this).val(ui.item).autocomplete('close').blur();
+                    ratingField.val(ui.item).autocomplete('close').blur();
                 },
                 //удаление автокомплита
                 close: function () {
+                    var oldRating = ratingField.val();
 
-                    console.log(parseInt($(this).val()),$(this).closest('.table-row').attr('data-bookid'));
-                    $.ajaxSetup({
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        }
-                    });
-                    $.ajax({
-                        url: window.location.pathname + '/changeRating',
-                        data: {
-                            //новая оценка рейтинга
-                            'rating': parseInt($(this).val()),
-                            'id' : $(this).closest('.table-row').attr('data-bookid')
-                        },
-                        type: 'POST'
-                    })
-                        .done(function (data) {
-                            if (data.error) {
-                                $('.rating-btn').val(data.rating);
-                                //добавление ответа сервера(алерт)
-                                $('body').append(data.alert);
+                    if ($.isNumeric(oldRating)) {
+                        $.ajaxSetup({
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                             }
                         });
-                    $(this).addClass('no-focused');
-                    $(this).autocomplete('destroy');
+                        $.ajax({
+                            url: window.location.pathname + '/changeRating',
+                            data: {
+                                //новая оценка рейтинга
+                                'rating': parseInt(oldRating),
+                                'id': ratingField.closest('.table-row').attr('data-bookid')
+                            },
+                            type: 'POST'
+                        })
+                            .done(function (data) {
+                                if (data.error) {
+                                    ratingField.val(data.rating);
+                                    //добавление ответа сервера(алерт)
+                                    $('body').append(data.alert);
+                                }
+                            });
+                    } else {
+                        ratingField.val(oldRating);
+                    }
+
+                    ratingField.blur().addClass('no-focused');
+                    ratingField.autocomplete('destroy');
                 }
             }).autocomplete('search', '');
-    })
-        .blur(function () {
-
-        });
+    });
 
     $('.book-progress').on('focus', function () {
         var input = $(this),
@@ -207,28 +212,34 @@
             .blur(function () {
                 var newProgress = input.val();
 
-                if (parseInt(newProgress) !== currProgress) {
-                    $.ajaxSetup({
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        }
-                    });
-                    $.ajax({
-                        url: input.attr('data-route') + '/changeProgress',
-                        data: {'progress': newProgress},
-                        type: 'POST'
-                    })
-                        .done(function (data) {
-                            input.val(newProgress + '/' + bookPages);
-                            if (data.error) {
-                                input.val(currValue);
-                                //добавление ответа сервера(алерт)
-                                $('body').append(data.alert);
+                if ($.isNumeric(newProgress)) {
+                    if (parseInt(newProgress) !== currProgress) {
+                        $.ajaxSetup({
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                             }
                         });
+                        $.ajax({
+                            url: input.attr('data-route') + '/changeProgress',
+                            data: {'progress': newProgress},
+                            type: 'POST'
+                        })
+                            .done(function (data) {
+                                input.val(newProgress + '/' + bookPages);
+                                if (data.error) {
+                                    input.val(currValue);
+                                    //добавление ответа сервера(алерт)
+                                    $('body').append(data.alert);
+                                }
+                            });
+                    }
+                    else {
+                        input.val(currValue);
+                    }
                 } else {
                     input.val(currValue);
                 }
+
                 input.addClass('no-focused');
             });
     });

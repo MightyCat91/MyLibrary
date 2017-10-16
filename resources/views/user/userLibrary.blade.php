@@ -49,7 +49,7 @@
                                        data-status="{{ $book['status_name'] }}" value="{{ $book['status_uname'] }}">
                             </td>
                             <td class="table-column rating value">
-                                <input type="text" class="rating-btn no-focused" value="{{ $book['rating'] }}">
+                                <input type="text" class="rating-btn no-focused" value="{{ $book['rating'] ?: '---' }}">
                                 <div class="rating-wrapper">
                                     <datalist class="rating-list">
                                         @foreach(range(1, 10) as $rating)
@@ -65,8 +65,10 @@
                                 </div>
                                 @if(count($book['authors']) >= 2)
                                     <div class="other-authors-controller">
-                                        <i class="fa fa-arrow-circle-o-down" aria-hidden="true"></i>
-                                        <i class="fa fa-arrow-circle-o-up hidden" aria-hidden="true"></i>
+                                        <i class="fa fa-arrow-circle-o-down" aria-hidden="true"
+                                           title="Показать остальных авторов"></i>
+                                        <i class="fa fa-arrow-circle-o-up hidden" aria-hidden="true"
+                                           title="Скрыть остальных авторов"></i>
                                     </div>
                                     <div class="other-author-wrapper line-height-1-5 hidden">
                                         @foreach(array_slice($book['authors'],1) as $id => $author)

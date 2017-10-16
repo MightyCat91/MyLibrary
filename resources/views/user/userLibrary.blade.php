@@ -24,12 +24,12 @@
                 <table class="table-body">
                     <thead>
                     <tr class="table-row">
-                        <th class="table-column number">#</th>
-                        <th class="table-column name">Название</th>
-                        <th class="table-column status">Статус</th>
-                        <th class="table-column rating">Рейтинг</th>
-                        <th class="table-column authors">Авторы</th>
-                        <th class="table-column pages">Прогресс</th>
+                        <th class="table-column number"><div>#</div></th>
+                        <th class="table-column name"><div>Название</div></th>
+                        <th class="table-column status"><div>Статус</div></th>
+                        <th class="table-column rating"><div>Рейтинг</div></th>
+                        <th class="table-column authors"><div>Авторы</div></th>
+                        <th class="table-column pages"><div>Прогресс</div></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -78,7 +78,8 @@
                                 @endif
                             </td>
                             <td class="table-column pages value">
-                                <input type="text" class="book-progress no-focused" data-route="{{ route('book', $book['id']) }}"
+                                <input type="text" class="book-progress no-focused"
+                                       data-route="{{ route('book', $book['id']) }}"
                                        value="{{ sprintf("%s/%s",$book['progress'], $book['page_counts']) }}">
                             </td>
                         </tr>

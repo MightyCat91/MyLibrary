@@ -1,5 +1,5 @@
 .line-height-1-5 {
-    /*line-height: 1.5 !important;*/
+    line-height: normal !important;
 }
 
 .book-status-container {
@@ -44,28 +44,39 @@
     line-height: 3;
 }
 
-.table-row:not(:last-of-type) {
-    border-bottom: 1px solid #009926;
-}
-
 thead .table-row {
     font-size: 18px;
     background-color: #3b4142;
-    color: rgb(210, 210, 210);
+    color: #D2D2D2;
 }
 
 tbody .table-row:nth-child(odd) {
     background-color: #e8e8e8;
 }
 
-.table-column {
+tbody .table-row {
+    border-bottom: 1px solid #009926;
+}
+
+.table-row th div {
+    padding: 0 10px;
+}
+
+.table-row th:not(:last-of-type) div {
+    border-right: 1px solid #D2D2D2;
+    text-align: center;
+    line-height: 2;
+}
+
+.table-column:not(th) {
     padding-left: 1rem;
     padding-right: 1rem;
     text-align: center;
 }
 
 .table-column.number {
-    width: 7%;
+    width: 6%;
+    min-width: 50px;
 }
 
 .table-column.name {
@@ -85,7 +96,7 @@ tbody .table-row:nth-child(odd) {
 }
 
 .table-column.pages {
-    width: 10%;
+    width: 11%;
 }
 
 .table-column.number.value {
@@ -96,6 +107,10 @@ tbody .table-row:nth-child(odd) {
     display: flex;
     justify-content: space-between;
 }
+
+/*
+Status
+ */
 
 .status_color {
     width: 10px;
@@ -154,6 +169,10 @@ tbody .table-row:nth-child(odd) {
     background-color: #999;
 }
 
+/*
+Rating
+ */
+
 .rating-btn {
     cursor: pointer;
     outline: none;
@@ -188,6 +207,10 @@ tbody .table-row:nth-child(odd) {
 .ui-menu-item > .ui-state-active {
     margin: 0;
 }
+
+/*
+Authors
+ */
 
 .table-column.authors.value {
     display: grid;

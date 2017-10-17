@@ -24,12 +24,36 @@
                 <table class="table-body">
                     <thead>
                     <tr class="table-row">
-                        <th class="table-column number"><div>#</div></th>
-                        <th class="table-column name"><div>Название</div></th>
-                        <th class="table-column status"><div>Статус</div></th>
-                        <th class="table-column rating"><div>Рейтинг</div></th>
-                        <th class="table-column authors"><div>Авторы</div></th>
-                        <th class="table-column pages"><div>Прогресс</div></th>
+                        <th class="table-column number">
+                            <div class="title">#</div>
+                            <i class="fa sort-controls fa-sort-asc hidden" aria-hidden="true"></i>
+                            <i class="fa sort-controls fa-sort-desc hidden" aria-hidden="true"></i>
+                        </th>
+                        <th class="table-column name">
+                            <div class="title">Название</div>
+                            <i class="fa sort-controls fa-sort-asc hidden" aria-hidden="true"></i>
+                            <i class="fa sort-controls fa-sort-desc hidden" aria-hidden="true"></i>
+                        </th>
+                        <th class="table-column status">
+                            <div class="title">Статус</div>
+                            <i class="fa sort-controls fa-sort-asc hidden" aria-hidden="true"></i>
+                            <i class="fa sort-controls fa-sort-desc hidden" aria-hidden="true"></i>
+                        </th>
+                        <th class="table-column rating">
+                            <div class="title">Рейтинг</div>
+                            <i class="fa sort-controls fa-sort-asc hidden" aria-hidden="true"></i>
+                            <i class="fa sort-controls fa-sort-desc" aria-hidden="true"></i>
+                        </th>
+                        <th class="table-column authors">
+                            <div class="title">Авторы</div>
+                            <i class="fa sort-controls fa-sort-asc hidden" aria-hidden="true"></i>
+                            <i class="fa sort-controls fa-sort-desc hidden" aria-hidden="true"></i>
+                        </th>
+                        <th class="table-column pages">
+                            <div class="title">Прогресс</div>
+                            <i class="fa sort-controls fa-sort-asc hidden" aria-hidden="true"></i>
+                            <i class="fa sort-controls fa-sort-desc hidden" aria-hidden="true"></i>
+                        </th>
                     </tr>
                     </thead>
                     <tbody>
@@ -45,7 +69,7 @@
                                 <a href="{{ route('book', [$book['id']]) }}">{{ $book['name'] }}</a>
                             </td>
                             <td class="table-column status value">
-                                <input type="button" class="status-btn line-height-1-5" data-toggle="popover"
+                                <input type="button" class="status-btn" data-toggle="popover"
                                        data-status="{{ $book['status_name'] }}" value="{{ $book['status_uname'] }}">
                             </td>
                             <td class="table-column rating value">

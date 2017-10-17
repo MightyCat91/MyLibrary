@@ -139,8 +139,9 @@
             $(this).next('.other-author-wrapper').toggleClass('hidden');
         });
 
-    $('.rating-btn').on('click', function () {
-        var ratingField = $(this);
+    $('.rating-btn').on('focus', function () {
+        var ratingField = $(this),
+            oldRating = ratingField.val();
 
         ratingField.select();
         ratingField.removeClass('no-focused')
@@ -153,18 +154,19 @@
                     ratingField.keypress(function (event) {
                         var keycode = (event.keyCode ? event.keyCode : event.which);
                         if (keycode === 13) {
-                            ratingField.autocomplete('close').blur();
+                            ratingField.blur();
                         }
                     })
                 },
                 select: function (event, ui) {
-                    ratingField.val(ui.item).autocomplete('close').blur();
-                },
-                //удаление автокомплита
-                close: function () {
-                    var oldRating = ratingField.val();
+                    ratingField.val(ui.item.innerHTML).blur();
+                }
+            }).autocomplete('search', '')
+            .blur(function () {
+                var newRating = ratingField.val();
 
-                    if ($.isNumeric(oldRating)) {
+                if ($.isNumeric(newRating)) {
+                    if (parseInt(oldRating) !== newRating) {
                         $.ajaxSetup({
                             headers: {
                                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -174,14 +176,15 @@
                             url: window.location.pathname + '/changeRating',
                             data: {
                                 //новая оценка рейтинга
-                                'rating': parseInt(oldRating),
+                                'rating': parseInt(newRating),
+                                'type' : 'book',
                                 'id': ratingField.closest('.table-row').attr('data-bookid')
                             },
                             type: 'POST'
                         })
                             .done(function (data) {
                                 if (data.error) {
-                                    ratingField.val(data.rating);
+                                    ratingField.val(oldRating);
                                     //добавление ответа сервера(алерт)
                                     $('body').append(data.alert);
                                 }
@@ -189,11 +192,11 @@
                     } else {
                         ratingField.val(oldRating);
                     }
-
-                    ratingField.blur().addClass('no-focused');
-                    ratingField.autocomplete('destroy');
+                } else {
+                    ratingField.val(newRating);
                 }
-            }).autocomplete('search', '');
+                ratingField.addClass('no-focused');
+            });
     });
 
     $('.book-progress').on('focus', function () {
@@ -243,5 +246,10 @@
                 input.addClass('no-focused');
             });
     });
+
+    $('th.table-column').on('click', function () {
+        $('.sort-controls').addClass('hidden');
+        $(this).children('.sort-controls').toggleClass('hidden')
+    })
 
 })(jQuery);

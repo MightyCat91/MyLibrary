@@ -187,17 +187,17 @@ class UserController extends Controller
     public function changeBookRating($id, Request $request)
     {
         if ($request->ajax()) {
+            $bookId = $request->get('id');
             $newRating = $request->get('rating');
-            $oldRating = Book::where('id', $request->get('id'))->first(['rating'])->rating[$id];
-            \Debugbar::info($newRating, $oldRating);
-            if ($newRating > $oldRating) {
+            $oldRating = Book::where('id', $bookId)->first(['rating'])->rating[$id];
+
+            if ($newRating > 10 and !empty($oldRating)) {
                 return response()->json(array(
                     'alert' => alert()->error('Введенное значение больше максимально возможного рейтинга', '5000', true),
-                    'error' => true,
-                    'rating' => $oldRating
+                    'error' => true
                 ));
             }
-            parent::changeRating($id, $request, Book::class);
+            parent::changeRating($bookId, $request, Book::class);
             return response()->json([
                 'error' => false
             ]);

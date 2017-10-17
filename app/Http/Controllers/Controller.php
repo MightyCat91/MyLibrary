@@ -30,7 +30,7 @@ class Controller extends BaseController
     /**
      * Изменение рейтинга книги или автора
      *
-     * @param $id - идентификатор пользователя изменяющего рейтинг
+     * @param $id - идентификатор сущности, которой меняют рейтинг
      * @param $request - данные реквест-запроса
      * @param $ModelClass - класс модели сущности, рейтинг которой изменяют(Book::class или Author::class)
      * @return array

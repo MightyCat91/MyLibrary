@@ -62,10 +62,34 @@ tbody .table-row {
     padding: 0 10px;
 }
 
-.table-row th:not(:last-of-type) div {
+.table-row th:not(:last-of-type) .title {
     border-right: 1px solid #D2D2D2;
     text-align: center;
     line-height: 2;
+}
+
+.table-row th {
+    position: relative;
+    cursor: pointer;
+}
+
+.sort-controls {
+    position: absolute;
+    left: 0;
+    right: 0;
+    text-align: center;
+}
+
+.fa-sort-asc {
+    top: 5px;
+}
+
+.fa-sort-desc {
+    bottom: 5px;
+}
+
+.table-column:hover > .sort-controls {
+    color: #009926;
 }
 
 .table-column:not(th) {

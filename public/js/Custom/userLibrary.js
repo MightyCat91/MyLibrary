@@ -247,9 +247,66 @@
             });
     });
 
-    $('th.table-column').on('click', function () {
-        $('.sort-controls').addClass('hidden');
-        $(this).children('.sort-controls').toggleClass('hidden')
-    })
+    $('th.can-sort').on('click', function () {
+        var newSortControl = $(this).children('.sort-controls.hidden');
+        $(this).siblings().children('.sort-controls').addClass('hidden');
+        if (newSortControl.length < 2) {
+            var order = newSortControl.attr('data-order'),
+                field = $(this).attr('class').split(' ')[1];
+            newSortControl.removeClass('hidden').siblings('.sort-controls').addClass('hidden');
+            $('.table-body tbody').html(sort(field, order));
+        } else {
+            $(this).children('.sort-controls:last').removeClass('hidden');
+        }
+    });
+
+
+
+    function sort(field, order) {
+        var sortingTable = $('tbody .table-row');
+
+        switch (field) {
+            case 'name':
+                break;
+
+            case 'status':
+                break;
+
+            case 'rating':
+                sortingTable.sort(function (firstRow, secondRow) {
+                    var value1 = parseInt($(firstRow).find('.rating-btn').val()),
+                        value2 = parseInt($(secondRow).find('.rating-btn').val());
+
+                    if (order === 'desc') {
+                        return (value1 < value2) ? 1 : (value1 > value2) ? -1 : 0
+                    } else {
+                        return (value1 > value2) ? 1 : (value1 < value2) ? -1 : 0
+                    }
+                });
+                break;
+
+            case 'authors':
+                break;
+
+            case 'pages':
+                sortingTable.sort(function (firstRow, secondRow) {
+                    var value1 = parseInt($(firstRow).find('.rating-btn').val()),
+                        value2 = parseInt($(secondRow).find('.rating-btn').val());
+
+                    if (order === 'desc') {
+                        return (value1 < value2) ? 1 : (value1 > value2) ? -1 : 0
+                    } else {
+                        return (value1 > value2) ? 1 : (value1 < value2) ? -1 : 0
+                    }
+                });
+                break;
+        }
+        
+        sortingTable.each(function (key, value) {
+            $(value).find('.number-wrapper > span:last').text(++key);
+        });
+
+        return sortingTable;
+    }
 
 })(jQuery);

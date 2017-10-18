@@ -26,33 +26,31 @@
                     <tr class="table-row">
                         <th class="table-column number">
                             <div class="title">#</div>
-                            <i class="fa sort-controls fa-sort-asc hidden" aria-hidden="true"></i>
-                            <i class="fa sort-controls fa-sort-desc hidden" aria-hidden="true"></i>
                         </th>
-                        <th class="table-column name">
+                        <th class="table-column name can-sort">
                             <div class="title">Название</div>
-                            <i class="fa sort-controls fa-sort-asc hidden" aria-hidden="true"></i>
-                            <i class="fa sort-controls fa-sort-desc hidden" aria-hidden="true"></i>
+                            <i class="fa sort-controls fa-sort-asc hidden" aria-hidden="true" data-order="asc"></i>
+                            <i class="fa sort-controls fa-sort-desc hidden" aria-hidden="true" data-order="desc"></i>
                         </th>
-                        <th class="table-column status">
+                        <th class="table-column status can-sort">
                             <div class="title">Статус</div>
-                            <i class="fa sort-controls fa-sort-asc hidden" aria-hidden="true"></i>
-                            <i class="fa sort-controls fa-sort-desc hidden" aria-hidden="true"></i>
+                            <i class="fa sort-controls fa-sort-asc hidden" aria-hidden="true" data-order="asc"></i>
+                            <i class="fa sort-controls fa-sort-desc hidden" aria-hidden="true" data-order="desc"></i>
                         </th>
-                        <th class="table-column rating">
+                        <th class="table-column rating can-sort">
                             <div class="title">Рейтинг</div>
-                            <i class="fa sort-controls fa-sort-asc hidden" aria-hidden="true"></i>
-                            <i class="fa sort-controls fa-sort-desc" aria-hidden="true"></i>
+                            <i class="fa sort-controls fa-sort-asc hidden test" aria-hidden="true" data-order="asc"></i>
+                            <i class="fa sort-controls fa-sort-desc" aria-hidden="true" data-order="desc"></i>
                         </th>
-                        <th class="table-column authors">
+                        <th class="table-column authors can-sort">
                             <div class="title">Авторы</div>
-                            <i class="fa sort-controls fa-sort-asc hidden" aria-hidden="true"></i>
-                            <i class="fa sort-controls fa-sort-desc hidden" aria-hidden="true"></i>
+                            <i class="fa sort-controls fa-sort-asc hidden" aria-hidden="true" data-order="asc"></i>
+                            <i class="fa sort-controls fa-sort-desc hidden" aria-hidden="true" data-order="desc"></i>
                         </th>
-                        <th class="table-column pages">
+                        <th class="table-column pages can-sort">
                             <div class="title">Прогресс</div>
-                            <i class="fa sort-controls fa-sort-asc hidden" aria-hidden="true"></i>
-                            <i class="fa sort-controls fa-sort-desc hidden" aria-hidden="true"></i>
+                            <i class="fa sort-controls fa-sort-asc hidden" aria-hidden="true" data-order="asc"></i>
+                            <i class="fa sort-controls fa-sort-desc hidden" aria-hidden="true" data-order="desc"></i>
                         </th>
                     </tr>
                     </thead>

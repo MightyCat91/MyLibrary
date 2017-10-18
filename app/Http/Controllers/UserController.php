@@ -356,7 +356,6 @@ class UserController extends Controller
                 }
                 $status = Status::where('name', $bookStatus)->first(['uname'])->uname;
                 $statuses[$bookStatus] = $status;
-//                dd($user->progress);
                 $books[] = [
                     'id' => $bookId,
                     'status_uname' => $status,
@@ -368,25 +367,22 @@ class UserController extends Controller
                     'progress' => $user->progress[$bookId]
                 ];
             }
-
         }
 
-
-//        $books = Book::whereIn('id', array_flatten($user->statistic))->get();
-//        foreach ($books as $book) {
-//            foreach ($book->authors as $author) {
-//                $authors[$author->id] = $author->name;
-//            }
-//            foreach ($book->categories as $category) {
-//                $categories[$category->id] = $category->name;
-//            }
-//        }
-
         return view('user.userLibrary', [
-            'books' => $books,
+            'books' => $this->userLibrarySort($books, 'rating'),
             'statuses' => array_unique($statuses),
             'allStatuses' => Status::get(['name', 'uname'])
         ]);
+    }
+
+    private function userLibrarySort($array, $field, $order = 'desc')
+    {
+        usort($array, function ($firstEl, $secondEl) use ($field) {
+            return $firstEl[$field] <=> $secondEl[$field];
+        });
+
+        return ($order == 'desc') ? array_reverse($array) : $array;
     }
 
     private function deleteProfileImgFromStorage($id)

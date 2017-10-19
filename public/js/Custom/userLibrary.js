@@ -177,7 +177,7 @@
                             data: {
                                 //новая оценка рейтинга
                                 'rating': parseInt(newRating),
-                                'type' : 'book',
+                                'type': 'book',
                                 'id': ratingField.closest('.table-row').attr('data-bookid')
                             },
                             type: 'POST'
@@ -201,7 +201,8 @@
 
     $('.book-progress').on('focus', function () {
         var input = $(this),
-            currValue = input.val(),
+            currPercent = input.val(),
+            currValue = input.attr('title'),
             currProgress = parseInt(currValue.split("/")[0]),
             bookPages = parseInt(currValue.split("/")[1]);
 
@@ -228,19 +229,21 @@
                             type: 'POST'
                         })
                             .done(function (data) {
-                                input.val(newProgress + '/' + bookPages);
                                 if (data.error) {
-                                    input.val(currValue);
+                                    input.attr('title',currValue);
                                     //добавление ответа сервера(алерт)
                                     $('body').append(data.alert);
+                                } else {
+                                    input.attr('title',newProgress + '/' + bookPages);
+                                    input.val(Math.round((newProgress / bookPages) * 100) + '%')
                                 }
                             });
                     }
                     else {
-                        input.val(currValue);
+                        input.val(currPercent);
                     }
                 } else {
-                    input.val(currValue);
+                    input.val(currPercent);
                 }
 
                 input.addClass('no-focused');
@@ -248,18 +251,20 @@
     });
 
     $('th.can-sort').on('click', function () {
-        var newSortControl = $(this).children('.sort-controls.hidden');
+        var newSortControl = $(this).children('.sort-controls.hidden'),
+            order = newSortControl.attr('data-order'),
+            field = $(this).attr('class').split(' ')[1];
+
         $(this).siblings().children('.sort-controls').addClass('hidden');
         if (newSortControl.length < 2) {
-            var order = newSortControl.attr('data-order'),
-                field = $(this).attr('class').split(' ')[1];
             newSortControl.removeClass('hidden').siblings('.sort-controls').addClass('hidden');
-            $('.table-body tbody').html(sort(field, order));
+            order = newSortControl.attr('data-order')
         } else {
             $(this).children('.sort-controls:last').removeClass('hidden');
+            order = $(this).children('.sort-controls:last').attr('data-order')
         }
+        $('.table-body tbody').html(sort(field, order));
     });
-
 
 
     function sort(field, order) {
@@ -267,9 +272,29 @@
 
         switch (field) {
             case 'name':
+                sortingTable.sort(function (firstRow, secondRow) {
+                    var value1 = $(firstRow).find('.name a').text(),
+                        value2 = $(secondRow).find('.name a').text();
+
+                    if (order === 'desc') {
+                        return value2.localeCompare(value1)
+                    } else {
+                        return value1.localeCompare(value2)
+                    }
+                });
                 break;
 
             case 'status':
+                sortingTable.sort(function (firstRow, secondRow) {
+                    var value1 = $(firstRow).find('.status-btn').val(),
+                        value2 = $(secondRow).find('.status-btn').val();
+
+                    if (order === 'desc') {
+                        return value2.localeCompare(value1)
+                    } else {
+                        return value1.localeCompare(value2)
+                    }
+                });
                 break;
 
             case 'rating':
@@ -286,12 +311,22 @@
                 break;
 
             case 'authors':
+                sortingTable.sort(function (firstRow, secondRow) {
+                    var value1 = $(firstRow).find('.author-link-wrapper a').text(),
+                        value2 = $(secondRow).find('.author-link-wrapper a').text();
+
+                    if (order === 'desc') {
+                        return value2.localeCompare(value1)
+                    } else {
+                        return value1.localeCompare(value2)
+                    }
+                });
                 break;
 
             case 'pages':
                 sortingTable.sort(function (firstRow, secondRow) {
-                    var value1 = parseInt($(firstRow).find('.rating-btn').val()),
-                        value2 = parseInt($(secondRow).find('.rating-btn').val());
+                    var value1 = parseInt($(firstRow).find('.book-progress').attr('title').split("%")[0]),
+                        value2 = parseInt($(secondRow).find('.book-progress').attr('title').split("%")[0]);
 
                     if (order === 'desc') {
                         return (value1 < value2) ? 1 : (value1 > value2) ? -1 : 0
@@ -301,7 +336,7 @@
                 });
                 break;
         }
-        
+
         sortingTable.each(function (key, value) {
             $(value).find('.number-wrapper > span:last').text(++key);
         });

@@ -102,7 +102,8 @@
                             <td class="table-column pages value">
                                 <input type="text" class="book-progress no-focused"
                                        data-route="{{ route('book', $book['id']) }}"
-                                       value="{{ sprintf("%s/%s",$book['progress'], $book['page_counts']) }}">
+                                       value="{{ round(($book['progress']/$book['page_counts'])*100) }}%"
+                                        title="{{ sprintf("%s/%s",$book['progress'], $book['page_counts']) }}">
                             </td>
                         </tr>
                     @endforeach

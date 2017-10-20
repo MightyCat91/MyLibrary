@@ -20,6 +20,17 @@
             <div class="user-book-library-table">
                 <div class="table-header">
                     <span>Все книги</span>
+                    <div class="filter-container">
+                        <div class="search-wrapper">
+                            <div class="search-field-wrapper">
+                                <input type="text" class="search-field" placeholder="Искомое слово...">
+                            </div>
+                            <i class="fa fa-search" aria-hidden="true"></i>
+                        </div>
+                        <div class="filter-wrapper">
+                            <i class="fa fa-filter" aria-hidden="true"></i>
+                        </div>
+                    </div>
                 </div>
                 <table class="table-body">
                     <thead>
@@ -72,7 +83,7 @@
                             </td>
                             <td class="table-column rating value">
                                 <input type="text" class="rating-btn no-focused" value="{{ $book['rating'] ?: '---' }}">
-                                <div class="rating-wrapper">
+                                <div class="rating-wrapper hidden">
                                     <datalist class="rating-list">
                                         @foreach(range(1, 10) as $rating)
                                             <option>{{ $rating }}</option>

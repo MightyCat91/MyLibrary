@@ -1,4 +1,7 @@
 (function ($) {
+    var progressIsChanged = false,
+        temporaryPercent = null;
+
     //открытие попапа с статусами отличными от текущего
     $('.status-btn').on('focus', function () {
         //текущий статус
@@ -29,74 +32,26 @@
             //новый статус
             newStatus = clickedBtn.data('status'),
             //старый статус
-            olsStatus = statusBtn.attr('data-status'),
-            //урл, по которому отправится аякс
-            url = statusBtn.parent('.table-column').prev('.name.value').find('a').attr('href') + '/changeStatus',
-            //данные передаваемые через аякс
-            data = {
-                'oldStatus': olsStatus,
-                'newStatus': newStatus
-            };
+            oldStatus = statusBtn.attr('data-status'),
+            //строка таблицы в которой меняем статус книги
+            tableRow = statusBtn.closest('.table-row'),
+            //поле прогресса в строке, в которой меняем статус
+            progressField = tableRow.find('.book-progress'),
+            //количество страниц в книге, у которой меняем статус
+            pages = progressField.attr('title').split('/')[1];
 
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-        $.ajax({
-            url: url,
-            data: data,
-            type: 'POST'
-        })
-            .done(function (data) {
-                //количество книг с старым статусом
-                var booksWithOldStatusCount = $('.status-btn[data-status="' + olsStatus + '"]').length,
-                    //количество книг с новым статусом
-                    booksWithNewStatusCount = $('.status-btn[data-status="' + newStatus + '"]').length;
+        changeStatus(statusBtn, tableRow, oldStatus, newStatus, clickedBtn.text());
 
-                //меняем у кнопки статус(цвет) и текст соответсвенно выбранному
-                statusBtn.attr('data-status', newStatus).val(clickedBtn.text());
-                //меняем цвет в блоке-индикаторе соответственно новому статусу
-                statusBtn.closest('tr').find('.status_color').attr('data-status', newStatus);
-
-                //если в момент переключения количество книг со старым статусом на текущщей вкладке было более одной
-                if (booksWithOldStatusCount > 1) {
-                    //скрываем строку с которой установили новый статус
-                    $('.status_color[data-status="' + newStatus + '"]').closest('.table-row').addClass('hidden');
-                }
-
-                //если в момент переключения статуса была одна книга со старым статусом
-                if (booksWithOldStatusCount === 1) {
-                    //скрываем таб остающийся без книг
-                    $('.book-status[data-tab="' + olsStatus + '"]').addClass('hidden').siblings().removeClass('hidden');
-                    //если текущий таб не "все книги"
-                    if ($('.book-status.active').attr('data-tab') !== 'all') {
-                        //переключаем таб на другой, соответствующий новому статусу
-                        $('.book-status[data-tab="' + newStatus + '"]').addClass('active').siblings().removeClass('active');
-                        //отображаем книги соответствующие новому статусу и скрываем остальные
-                        $('.status_color[data-status="' + newStatus + '"]').closest('.table-row').removeClass('hidden');
-                    }
-                }
-
-                //если в момент переключения отсутствуют книги с новым статусом
-                if (booksWithNewStatusCount === 0) {
-                    //таб с новым статусом
-                    var statusTab = $('.book-status[data-tab="' + newStatus + '"]');
-
-                    //если таб с новым статусом существует в дереве
-                    if (statusTab.length > 0) {
-                        //делаем его видимым
-                        statusTab.removeClass('hidden');
-                    } else {
-                        //клонируем первый неактивные таб
-                        var newStatusTab = $('.book-status:not(.active):first').clone();
-                        //меняем у него статус и текс соответствующие новому статусу
-                        newStatusTab.attr('data-tab', newStatus).children('span').text(clickedBtn.text());
-                        //добавляем блок нового таба
-                        $('.book-status-container').append(newStatusTab);
-                    }
-                }
-            })
+        //если статус = "прочитано"
+        if (newStatus === 'completed') {
+            //устанавливаем 100% прогресса и макс. количество прочитанных страниц
+            progressField.val('100%').attr('title', pages + '/' + pages)
+        }
+        //если статус = "в планах"
+        if (newStatus === 'inPlans') {
+            //устанавливаем 0% прогресса и 0 прочитанных страниц
+            progressField.val('0%').attr('title', '0/' + pages)
+        }
     })
     //скрытие попапа по клику вне его или кнопки нового статуса
         .on('click', function (event) {
@@ -203,52 +158,27 @@
         var input = $(this),
             currPercent = input.val(),
             currValue = input.attr('title'),
-            currProgress = parseInt(currValue.split("/")[0]),
-            bookPages = parseInt(currValue.split("/")[1]);
+            currProgress = parseInt(currValue.split("/")[0]);
 
+        temporaryPercent = currPercent;
         input.removeClass('no-focused').val(currProgress).select()
-            .keypress(function (event) {
+            .keydown(function (event) {
+                event.stopImmediatePropagation();
                 var keycode = (event.keyCode ? event.keyCode : event.which);
                 if (keycode === 13) {
+                    progressIsChanged = true;
+                    changeProgress($(this));
                     input.blur();
+                    return false;
                 }
             })
-            .blur(function () {
-                var newProgress = input.val();
-
-                if ($.isNumeric(newProgress)) {
-                    if (parseInt(newProgress) !== currProgress) {
-                        $.ajaxSetup({
-                            headers: {
-                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                            }
-                        });
-                        $.ajax({
-                            url: input.attr('data-route') + '/changeProgress',
-                            data: {'progress': newProgress},
-                            type: 'POST'
-                        })
-                            .done(function (data) {
-                                if (data.error) {
-                                    input.attr('title',currValue);
-                                    //добавление ответа сервера(алерт)
-                                    $('body').append(data.alert);
-                                } else {
-                                    input.attr('title',newProgress + '/' + bookPages);
-                                    input.val(Math.round((newProgress / bookPages) * 100) + '%')
-                                }
-                            });
-                    }
-                    else {
-                        input.val(currPercent);
-                    }
-                } else {
-                    input.val(currPercent);
-                }
-
-                input.addClass('no-focused');
-            });
-    });
+    })
+        .on('blur', function () {
+            if (!progressIsChanged) {
+                changeProgress($(this));
+            }
+            progressIsChanged = false;
+        });
 
     $('th.can-sort').on('click', function () {
         var newSortControl = $(this).children('.sort-controls.hidden'),
@@ -266,6 +196,130 @@
         $('.table-body tbody').html(sort(field, order));
     });
 
+    function changeProgress(input) {
+        var currValue = input.attr('title'),
+            currProgress = parseInt(currValue.split("/")[0]),
+            bookPages = parseInt(currValue.split("/")[1]),
+            newProgress = input.val();
+
+        if ($.isNumeric(newProgress)) {
+            if (parseInt(newProgress) != currProgress) {
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+                $.ajax({
+                    url: input.attr('data-route') + '/changeProgress',
+                    data: {'progress': newProgress},
+                    type: 'POST'
+                })
+                    .done(function (data) {
+                        if (data.error) {
+                            input.val(temporaryPercent);
+                            //добавление ответа сервера(алерт)
+                            $('body').append(data.alert);
+                        } else {
+                            //строка таблицы в которой меняем статус книги
+                            var tableRow = input.closest('.table-row'),
+                                //кнопка со старым статусом
+                                statusBtn = tableRow.find('.status-btn'),
+                                //старый статус
+                                oldStatus = statusBtn.attr('data-status');
+
+                            input.attr('title', newProgress + '/' + bookPages);
+                            input.val(Math.round((newProgress / bookPages) * 100) + '%');
+
+                            if (newProgress == 0) {
+                                changeStatus(statusBtn, tableRow, oldStatus, 'inPlans', 'В планах');
+                            }
+
+                            if (newProgress == bookPages) {
+                                changeStatus(statusBtn, tableRow, oldStatus, 'completed', 'Прочитано');
+                            }
+                        }
+                    });
+            }
+            else {
+                input.val(temporaryPercent);
+            }
+        } else {
+            input.val(temporaryPercent);
+        }
+
+        input.addClass('no-focused');
+    }
+
+    $('.fa-search').on('click', function () {
+       $(this).prev().children().toggleClass('show');
+    });
+
+    function changeStatus(statusBtn, tableRow, oldStatus, newStatus, statusName) {
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $.ajax({
+            url: statusBtn.parent('.table-column').prev('.name.value').find('a').attr('href') + '/changeStatus',
+            data: {
+                'oldStatus': oldStatus,
+                'newStatus': newStatus
+            },
+            type: 'POST'
+        })
+            .done(function (data) {
+                //количество книг с старым статусом
+                var booksWithOldStatusCount = $('.status-btn[data-status="' + oldStatus + '"]').length,
+                    //количество книг с новым статусом
+                    booksWithNewStatusCount = $('.status-btn[data-status="' + newStatus + '"]').length,
+                    activeTab = $('.book-status.active');
+
+                //меняем у кнопки статус(цвет) и текст соответсвенно выбранному
+                statusBtn.attr('data-status', newStatus).val(statusName);
+                //меняем цвет в блоке-индикаторе соответственно новому статусу
+                tableRow.find('.status_color').attr('data-status', newStatus);
+
+
+                //если в момент переключения количество книг со старым статусом на текущей вкладке было более одной
+                if (booksWithOldStatusCount > 1 && activeTab.attr('data-tab') !== 'all') {
+                    //скрываем строку с которой установили новый статус
+                    tableRow.addClass('hidden');
+                }
+
+                //если в момент переключения статуса была одна книга со старым статусом
+                if (booksWithOldStatusCount === 1) {
+                    //скрываем таб остающийся без книг
+                    $('.book-status[data-tab="' + oldStatus + '"]').detach().siblings().removeClass('hidden');
+                    //если текущий таб не "все книги"
+                    if (activeTab.attr('data-tab') !== 'all') {
+                        //переключаем таб на другой, соответствующий новому статусу
+                        $('.book-status[data-tab="' + newStatus + '"]').addClass('active').siblings().removeClass('active');
+                        //отображаем книги соответствующие новому статусу и скрываем остальные
+                        $('.status_color[data-status="' + newStatus + '"]').closest('.table-row').removeClass('hidden');
+                    }
+                }
+
+                //если в момент переключения отсутствуют книги с новым статусом
+                if (booksWithNewStatusCount === 0) {
+                    //таб с новым статусом
+                    var statusTab = $('.book-status[data-tab="' + newStatus + '"]');
+
+                    //если таб с новым статусом существует в дереве
+                    if (statusTab.length > 0) {
+                        //делаем его видимым
+                        statusTab.removeClass('hidden');
+                    } else {
+                        //клонируем первый неактивные таб
+                        var newStatusTab = $('.book-status:not(.active):first').clone();
+                        //меняем у него статус и текс соответствующие новому статусу
+                        newStatusTab.attr('data-tab', newStatus).children('span').text(statusName);
+                        //добавляем блок нового таба
+                        $('.book-status-container').append(newStatusTab);
+                    }
+                }
+            })
+    }
 
     function sort(field, order) {
         var sortingTable = $('tbody .table-row');

@@ -31,9 +31,40 @@
     font-size: 25px;
     background-color: #009926;
     line-height: 2;
+    display: flex;
+    justify-content: space-between;
     color: #fff;
-    padding-left: 1em;
+    padding: 0 1em;
     font-weight: 600;
+}
+
+.filter-container {
+    display: flex;
+    align-items: center;
+    font-size: 18px;
+}
+
+.search-wrapper {
+    padding-right: 1em;
+    display: flex;
+    align-items: center;
+}
+
+.search-field-wrapper {
+    overflow: hidden;
+    margin-right: 10px;
+}
+
+.search-field {
+    line-height: normal;
+    transition: .5s ease;
+    font-size: 14px;
+    transform: translateX(100%);
+}
+
+.search-field.show {
+    transition: .5s ease;
+    transform: translateX(0);
 }
 
 .table-body {
@@ -94,8 +125,7 @@ tbody .table-row {
 }
 
 .table-column:not(th) {
-    padding-left: 1rem;
-    padding-right: 1rem;
+    padding: 0 1rem;
     text-align: center;
 }
 

@@ -23,12 +23,14 @@
                     <div class="filter-container">
                         <div class="search-wrapper">
                             <div class="search-field-wrapper">
-                                <input type="text" class="search-field" placeholder="Искомое слово...">
+                                <input type="text" class="search-field" placeholder="Название или автор">
                             </div>
                             <i class="fa fa-search" aria-hidden="true"></i>
                         </div>
                         <div class="filter-wrapper">
-                            <i class="fa fa-filter" aria-hidden="true"></i>
+                            <a href="#" id="filterDialog" data-toggle="modal" data-target="#filterForm" style="">
+                                <i class="fa fa-filter" aria-hidden="true"></i>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -94,7 +96,8 @@
                             <td class="table-column authors value {{ (count($book['authors']) >= 2)?
                             '' : 'vertical-middle' }}">
                                 <div class="author-link-wrapper">
-                                    <a href="{{ route('author', key($book['authors'])) }}">{{ current($book['authors']) }}</a>
+                                    <a class="author" href="{{ route('author', key($book['authors'])) }}">
+                                        {{ current($book['authors']) }}</a>
                                 </div>
                                 @if(count($book['authors']) >= 2)
                                     <div class="other-authors-controller">
@@ -105,7 +108,7 @@
                                     </div>
                                     <div class="other-author-wrapper line-height-1-5 hidden">
                                         @foreach(array_slice($book['authors'],1) as $id => $author)
-                                            <a href="{{ route('author', $id) }}">{{ $author }}</a>
+                                            <a class="author" href="{{ route('author', $id) }}">{{ $author }}</a>
                                         @endforeach
                                     </div>
                                 @endif
@@ -125,6 +128,23 @@
                         <div class="status-option {{ $stat->name }}"
                              data-status="{{ $stat->name }}">{{ $stat->uname }}</div>
                     @endforeach
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- The modal -->
+    <div class="modal fade" id="filterForm" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall"
+         aria-hidden="true">
+        <div class="modal-dialog modal-vertical-centered modal-sm">
+            <div class="modal-content">
+                <div class="modal-status-container">
+                    @foreach($allStatuses as $stat)
+                        <div class="modal-status-btn" data-status="{{ $stat->name }}">{{ $stat->uname }}</div>
+                    @endforeach
+                </div>
+                <div class="modal-rating-range-container">
+                    <input type="range" multiple min="0" step="1" max="10" data-values="1 9">
                 </div>
             </div>
         </div>

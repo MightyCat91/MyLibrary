@@ -75,17 +75,14 @@
 
     });
 
-    //$('.update-btn').on('click', function () {
-        $('#imageInput').on('change', function () {
-            console.log('upl');
-            var url = $('.update-btn').data('url');
-            updateProfileImg(false, url, $('.update-btn').val());
-            $('.delete-btn').removeClass('forbidden');
-        });
-    //});
+    $('#imageInput').on('change', function () {
+        var url = $('.update-btn').data('url');
+        updateProfileImg(false, url, $('.update-btn').val());
+        $('.delete-btn').removeClass('forbidden');
+    });
 
     $('.delete-btn').on('click', function () {
-        if(!$(this).hasClass('forbidden')) {
+        if (!$(this).hasClass('forbidden')) {
             console.log('del');
             updateProfileImg(true, $(this).data('url'));
             $(this).addClass('forbidden');

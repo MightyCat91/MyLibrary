@@ -130,28 +130,28 @@ tbody .table-row {
 }
 
 .table-column.number {
-    width: 6%;
+    width: calc(100%/15*1);
     min-width: 50px;
 }
 
 .table-column.name {
-    width: 25%;
+    width: calc(100%/15*4);
 }
 
 .table-column.status {
-    width: 20%;
+    width: calc(100%/15*2);
 }
 
 .table-column.rating {
-    width: 8%;
+    width: calc(100%/15*2);
 }
 
 .table-column.authors {
-    width: 30%;
+    width: calc(100%/15*6);
 }
 
 .table-column.pages {
-    width: 11%;
+    width: calc(100%/15*2);
 }
 
 .table-column.number.value {
@@ -175,13 +175,12 @@ Status
     border: none;
     outline: none;
     border-radius: 10px;
-    margin: 0 auto;
     text-align: center;
     line-height: 1.75;
     cursor: default;
     display: block;
     color: #fff;
-    width: 90%;
+    width: 100%;
     white-space: pre-line;
 }
 

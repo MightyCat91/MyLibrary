@@ -55,17 +55,26 @@
     })
     //скрытие попапа по клику вне его или кнопки нового статуса
         .on('click', function (event) {
-            //наличие уже открытого попапа
-            var popupIsShow = $('[aria-describedby]').length,
+            //элемент, по которому совершен клик
+            var targetClick = $(event.target),
+                //поле поиска
+                searchField = $('.search-field'),
+                //наличие уже открытого попапа
+                popupIsShow = $('[aria-describedby]').length,
                 //идентификатор книги у кнопок в попапе
                 popoverBookId = $('.popover .status-option').attr('data-btnid'),
                 //идентификатор книги статус которой меняем
-                statusBtnBookId = $(event.target).closest('.table-row').attr('data-bookid');
+                statusBtnBookId = targetClick.closest('.table-row').attr('data-bookid');
 
             //если попап открыт и клик произошел по кнопке смены статуса отличной от текущей
             if (popupIsShow && (statusBtnBookId !== popoverBookId)) {
                 //скрываем попап
                 $('.table-row[data-bookid="' + popoverBookId + '"] .status-btn').popover('hide');
+            }
+
+            //скрываем поле поиска если клик произошел не по нему или иконке поиска
+            if (!targetClick.hasClass('fa-search') && !targetClick.hasClass('search-field') && searchField.hasClass('show')) {
+                searchField.removeClass('show');
             }
             //todo: не скрывается по клику по другим контролам
         })
@@ -251,8 +260,55 @@
     }
 
     $('.fa-search').on('click', function () {
-       $(this).prev().children().toggleClass('show');
+        $(this).prev().children().toggleClass('show');
     });
+
+    $('.search-field').on('focus', function () {
+        $(this).keydown(function (event) {
+            var keycode = (event.keyCode ? event.keyCode : event.which),
+                status = $('.book-status.active').attr('data-tab');
+            if (keycode === 13) {
+                var searchedValue = $(this).val().toLowerCase(),
+                    booksNameList = $('tbody .name a'),
+                    authorsList = $('tbody .author'),
+                    searchedList = [];
+
+                booksNameList.each(function (index, element) {
+                    var text = $(element).text().toLowerCase();
+
+                    if (~text.indexOf(searchedValue)) {
+                        searchedList.push($(element).closest('.table-row').attr('data-bookid'));
+                    }
+                });
+                authorsList.each(function (index, element) {
+                    var text = $(element).text().toLowerCase(),
+                        rowId = $(element).closest('.table-row').attr('data-bookid');
+                    if (~text.indexOf(searchedValue)) {
+                        if ($.inArray(rowId, searchedList) < 0) {
+                            searchedList.push(rowId);
+                        }
+                    }
+                });
+
+                $('tbody .table-row').addClass('hidden');
+                $.each(searchedList, function (index, element) {
+                    var currRow = $('.table-row[data-bookid="' + element + '"]');
+                    if (status !== 'all') {
+                        if (currRow.find('.status_color').attr('data-status') === status) {
+                            currRow.removeClass('hidden');
+                        }
+                    } else {
+                        currRow.removeClass('hidden');
+                    }
+                });
+            }
+        })
+    })
+        .blur(function () {
+            $(this).removeClass('show');
+        });
+
+
 
     function changeStatus(statusBtn, tableRow, oldStatus, newStatus, statusName) {
         $.ajaxSetup({

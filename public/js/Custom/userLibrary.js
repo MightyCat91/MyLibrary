@@ -308,6 +308,20 @@
             $(this).removeClass('show');
         });
 
+    $("#rating-slider-range").slider({
+        range: true,
+        min: 1,
+        max: 10,
+        values: [ 1, 10 ],
+        classes: {
+            "ui-slider-handle": "range-slider-handler",
+            "ui-slider-range": "selected-range-slider"
+        },
+        slide: function( event, ui ) {
+            // $( "#amount" ).val( "$" + ui.values[ 0 ] + " - $" + ui.values[ 1 ] );
+        }
+    });
+
 
 
     function changeStatus(statusBtn, tableRow, oldStatus, newStatus, statusName) {

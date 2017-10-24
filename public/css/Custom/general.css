@@ -966,7 +966,14 @@ blockquote p {
 * vertical center modal dialog
 */
 .modal-vertical-centered {
-    transform: translate(0,  calc(50% - 165px)) !important;
-    -ms-transform: translate(0,  calc(50% - 165px)) !important; /* IE 9 */
-    -webkit-transform: translate(0,  calc(50% - 165px)) !important; /* Safari and Chrome */
+    min-height: calc(100vh - 60px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    overflow: auto;
+}
+@media(max-width: 768px) {
+    .modal-vertical-centered {
+        min-height: calc(100vh - 20px);
+    }
 }

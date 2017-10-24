@@ -117,7 +117,7 @@
                                 <input type="text" class="book-progress no-focused"
                                        data-route="{{ route('book', $book['id']) }}"
                                        value="{{ round(($book['progress']/$book['page_counts'])*100) }}%"
-                                        title="{{ sprintf("%s/%s",$book['progress'], $book['page_counts']) }}">
+                                       title="{{ sprintf("%s/%s",$book['progress'], $book['page_counts']) }}">
                             </td>
                         </tr>
                     @endforeach
@@ -136,15 +136,22 @@
     <!-- The modal -->
     <div class="modal fade" id="filterForm" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall"
          aria-hidden="true">
-        <div class="modal-dialog modal-vertical-centered modal-sm">
+        <div class="modal-dialog modal-vertical-centered">
             <div class="modal-content">
-                <div class="modal-status-container">
-                    @foreach($allStatuses as $stat)
-                        <div class="modal-status-btn" data-status="{{ $stat->name }}">{{ $stat->uname }}</div>
-                    @endforeach
+                <div class="modal-body">
+                    <div class="modal-status-container">
+                        @foreach($allStatuses as $stat)
+                            <div class="modal-status-btn" data-status="{{ $stat->name }}">{{ $stat->uname }}</div>
+                        @endforeach
+                    </div>
+                    <div class="modal-rating-range-container">
+                        <div id="rating-slider-range"></div>
+                    </div>
                 </div>
-                <div class="modal-rating-range-container">
-                    <input type="range" multiple min="0" step="1" max="10" data-values="1 9">
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary saveEmailPass">
+                        <span class="dflt-text">Применить</span>
+                    </button>
                 </div>
             </div>
         </div>

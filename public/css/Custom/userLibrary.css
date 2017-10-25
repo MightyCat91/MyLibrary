@@ -330,10 +330,32 @@ Popover
 /*
 Modal dialog with Filters
  */
-.modal-status-container {
+.modal-header>h3 {
+    width: 100%;
+    text-align: center;
+}
+
+.modal-container-header {
+    width: 100%;
+    text-align: center;
+    border-bottom: 1px solid #9e9e9e;
+    line-height: 0.1em;
+}
+
+.modal-status-container .modal-container-header {
+    margin-top: 1em;
+}
+
+.modal-container-header span {
+    background:#fff;
+    font-size: 18px;
+    padding:0 10px;
+}
+
+.modal-status-btn-wrapper {
     display: flex;
     justify-content: space-between;
-    margin-bottom: 1rem;
+    margin: 2em 0;
     color: #fff;
 }
 
@@ -353,7 +375,7 @@ Modal dialog with Filters
     width: 100%;
     height: 100%;
     background-color: #fff;
-    opacity: .4;
+    opacity: .7;
     display: block;
     position: absolute;
     left: 0;
@@ -365,27 +387,72 @@ Modal dialog with Filters
     display: none;
 }
 
-.modal-rating-range-container {
+.modal-rating-slider-wrapper {
     padding: 0 1rem;
+    margin: 2em 0;
 }
 
-.ui-slider-handle.range-slider-handler {
+.ui-slider-handle.ui-state-default {
     display: inline-block;
     font: normal normal normal 14px/1 FontAwesome;
     font-size: 1.5em;
     text-rendering: auto;
     -webkit-font-smoothing: antialiased;
-    color: #ccbf09;
     border: none;
     background: none;
     text-align: center;
     outline: none;
 }
 
-.range-slider-handler:before {
+.ui-slider-handle.rating-range-slider-handler {
+    color: #ccbf09;
+}
+
+.rating-range-slider-handler:before {
     content: '\f005';
 }
 
 .selected-range-slider {
     background-color: #009926;
+}
+
+.rating-range-scale {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.modal-progress-slider-wrapper {
+    display: flex;
+    margin-top: 2em;
+    align-items: baseline;
+}
+
+.form-control {
+    padding: 0 5px;
+    width: 3rem;
+    text-align: center;
+}
+
+.input-label {
+    top: -0.3rem;
+    text-align: center;
+    width: 100%;
+}
+
+.input-label.active {
+    transform: translateY(-90%);
+}
+
+.progress-slider-range-wrapper {
+    width: 100%;
+    margin: 0 15px;
+}
+
+.ui-slider-handle.progress-range-slider-handler {
+    color: #292b2c;
+}
+
+.progress-range-slider-handler:before {
+    content: '\f295';
 }

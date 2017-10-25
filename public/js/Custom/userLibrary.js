@@ -308,18 +308,117 @@
             $(this).removeClass('show');
         });
 
+    $('.modal-status-btn').on('click', function () {
+        $(this).toggleClass('selected');
+    });
+
     $("#rating-slider-range").slider({
         range: true,
         min: 1,
         max: 10,
-        values: [ 1, 10 ],
+        values: [1, 10],
         classes: {
-            "ui-slider-handle": "range-slider-handler",
+            "ui-slider-handle": "rating-range-slider-handler",
             "ui-slider-range": "selected-range-slider"
         },
-        slide: function( event, ui ) {
-            // $( "#amount" ).val( "$" + ui.values[ 0 ] + " - $" + ui.values[ 1 ] );
+        slide: function (event, ui) {
+            $(this).attr('data-min', ui.values[0]).attr('data-max', ui.values[1]);
         }
+    });
+
+    $("#progress-slider-range").slider({
+        range: true,
+        min: 0,
+        max: 100,
+        values: [0, 100],
+        classes: {
+            "ui-slider-handle": "progress-range-slider-handler",
+            "ui-slider-range": "selected-range-slider"
+        },
+        slide: function (event, ui) {
+            $(this).attr('data-min', ui.values[0]).attr('data-max', ui.values[1]);
+            $('#min-progress').val(ui.values[0]).next('.input-label').addClass('active');
+            $('#max-progress').val(ui.values[1]).next('.input-label').addClass('active');
+        }
+    });
+
+    $('#min-progress').on('change', function () {
+        var newMin = parseInt($(this).val()),
+            progressSlider = $("#progress-slider-range"),
+            errorMessage = $('.error-message');
+
+        if (newMin > parseInt(progressSlider.attr('data-max'))) {
+            progressSlider.siblings('.form-group').addClass('has-danger');
+            errorMessage.text('Значение "От" не должно быть больше значения "До"');
+        } else {
+            if (0 > newMin || newMin > 100) {
+                $(this).closest('.form-group').addClass('has-danger');
+                errorMessage.text('Поле должно находиться в диапазоне от 0 до 100');
+            } else {
+                $(this).closest('.form-group').removeClass('has-danger');
+                errorMessage.text('');
+                progressSlider.slider("values", 0, newMin).attr('data-min', newMin);
+            }
+        }
+        $(this).blur();
+    });
+
+    $('#max-progress').on('change', function () {
+        var newMax = parseInt($(this).val()),
+            progressSlider = $("#progress-slider-range"),
+            errorMessage = $('.error-message');
+
+        if (newMax < parseInt(progressSlider.attr('data-min'))) {
+            progressSlider.siblings('.form-group').addClass('has-danger');
+            errorMessage.text('Значение поля "От" не должно быть больше значения поля "До"');
+        } else {
+            if (0 > newMax || newMax > 100) {
+                $(this).closest('.form-group').addClass('has-danger');
+                errorMessage.text('Поле должно находиться в диапазоне от 0 до 100');
+            } else {
+                $(this).closest('.form-group').removeClass('has-danger');
+                errorMessage.text('');
+                progressSlider.slider("values", 1, newMax).attr('data-max', newMax);
+            }
+        }
+        $(this).blur();
+    });
+
+    $('.btn-filter').on('click', function () {
+        var ratingSlider = $("#rating-slider-range"),
+            progressSlider = $("#progress-slider-range"),
+            rating = [],
+            progress = [],
+            status = $('.modal-status-btn.selected');
+
+        for(var i = parseInt(ratingSlider.attr('data-min')); i <= parseInt(ratingSlider.attr('data-max')); i++) {
+            rating.push(i);
+        }
+
+        for(i = parseInt(progressSlider.attr('data-min')); i <= parseInt(progressSlider.attr('data-max')); i++) {
+            progress.push(i);
+        }
+
+        $('tbody .table-row').addClass('hidden');
+
+        $.each(rating, function (index, value) {
+            $('.rating-btn[value="' + value + '"]').closest('.table-row').removeClass('hidden');
+        });
+        $.each(progress, function (index, value) {
+            $('tbody .table-row:not(.hidden)').find('.book-progress[value="' + value + '%"]').closest('.table-row').addClass('filtered');
+        });
+        $('tbody .table-row:not(.filtered)').addClass('hidden');
+        $('tbody .filtered').removeClass('filtered');
+
+        if (status.length) {
+            status.each(function (index, value) {
+                $('tbody .table-row:not(.hidden)').find('.status-btn[data-status="' + $(value).attr('data-status') + '"]').closest('.table-row').addClass('filtered');
+            });
+            $('tbody .table-row:not(.filtered)').addClass('hidden');
+            $('tbody .filtered').removeClass('filtered');
+        }
+
+        $('#filterForm').modal('hide');
     });
 
 

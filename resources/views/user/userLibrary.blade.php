@@ -138,18 +138,61 @@
          aria-hidden="true">
         <div class="modal-dialog modal-vertical-centered">
             <div class="modal-content">
+                <div class="modal-header">
+                    <h3>Фильтры</h3>
+                    <button type="button" class="close close-btn" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
                 <div class="modal-body">
                     <div class="modal-status-container">
-                        @foreach($allStatuses as $stat)
-                            <div class="modal-status-btn" data-status="{{ $stat->name }}">{{ $stat->uname }}</div>
-                        @endforeach
+                        <div class="modal-container-header">
+                            <span>Статус</span>
+                        </div>
+                        <div class="modal-status-btn-wrapper">
+                            @foreach($allStatuses as $stat)
+                                <div class="modal-status-btn" data-status="{{ $stat->name }}">{{ $stat->uname }}</div>
+                            @endforeach
+                        </div>
                     </div>
                     <div class="modal-rating-range-container">
-                        <div id="rating-slider-range"></div>
+                        <div class="modal-container-header">
+                            <span>Рейтинг</span>
+                        </div>
+                        <div class="modal-rating-slider-wrapper">
+                            <div class="rating-range-scale">
+                                @foreach(range(1, 10) as $rating)
+                                    <div>{{ $rating }}</div>
+                                @endforeach
+                            </div>
+                            <div id="rating-slider-range" data-min="1" data-max="10"></div>
+                        </div>
                     </div>
+                    <div class="modal-progress-slider-container">
+                        <div class="modal-container-header">
+                            <span>Прогресс</span>
+                        </div>
+                        <div class="modal-progress-slider-wrapper">
+                            <div class="form-group">
+                                <input type="text" id="min-progress" name="min-progress" class="form-control"
+                                        maxlength="3">
+                                <label for="min-progress" class="input-label">От</label>
+                            </div>
+                            <div class="progress-slider-range-wrapper">
+                                <div id="progress-slider-range" data-min="0" data-max="100"></div>
+                                <div class="error-message"></div>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" id="max-progress" name="max-progress" class="form-control"
+                                       maxlength="3">
+                                <label for="max-progress" class="input-label">До</label>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
                 <div class="modal-footer">
-                    <button type="submit" class="btn btn-primary saveEmailPass">
+                    <button class="btn btn-primary btn-filter">
                         <span class="dflt-text">Применить</span>
                     </button>
                 </div>

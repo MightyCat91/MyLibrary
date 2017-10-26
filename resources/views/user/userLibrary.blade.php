@@ -28,9 +28,9 @@
                             <i class="fa fa-search" aria-hidden="true"></i>
                         </div>
                         <div class="filter-wrapper">
-                            <a href="#" id="filterDialog" data-toggle="modal" data-target="#filterForm" style="">
+                            <div id="filterDialog" data-toggle="modal" data-target="#filterForm">
                                 <i class="fa fa-filter" aria-hidden="true"></i>
-                            </a>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -192,6 +192,9 @@
 
                 </div>
                 <div class="modal-footer">
+                    <button class="btn btn-primary btn-filter-clear">
+                        <span class="dflt-text">Сбросить</span>
+                    </button>
                     <button class="btn btn-primary btn-filter">
                         <span class="dflt-text">Применить</span>
                     </button>

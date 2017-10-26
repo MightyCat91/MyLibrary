@@ -384,12 +384,17 @@
         $(this).blur();
     });
 
+    $('#filterForm').on('show.bs.modal', function() {
+        // do something when the modal is shown
+    };
+
     $('.btn-filter').on('click', function () {
         var ratingSlider = $("#rating-slider-range"),
             progressSlider = $("#progress-slider-range"),
+            statusElem = $('.modal-status-btn.selected'),
             rating = [],
             progress = [],
-            status = $('.modal-status-btn.selected');
+            status = [];
 
         for(var i = parseInt(ratingSlider.attr('data-min')); i <= parseInt(ratingSlider.attr('data-max')); i++) {
             rating.push(i);
@@ -410,15 +415,26 @@
         $('tbody .table-row:not(.filtered)').addClass('hidden');
         $('tbody .filtered').removeClass('filtered');
 
-        if (status.length) {
-            status.each(function (index, value) {
+        if (statusElem.length) {
+            statusElem.each(function (index, value) {
                 $('tbody .table-row:not(.hidden)').find('.status-btn[data-status="' + $(value).attr('data-status') + '"]').closest('.table-row').addClass('filtered');
+                status.push($(value).attr('data-status'))
             });
             $('tbody .table-row:not(.filtered)').addClass('hidden');
             $('tbody .filtered').removeClass('filtered');
         }
 
+        setURLParameter({rating: rating, progress: progress, status: status});
+
+        $('.book-status').removeClass('active');
+
         $('#filterForm').modal('hide');
+    });
+
+    $('.btn-filter-clear').on('click', function () {
+        $('.modal-status-btn').removeClass('selected');
+        $("#rating-slider-range").slider("values", [1, 10]).attr('data-min', 1).attr('data-max', 10);
+        $("#progress-slider-range").slider("values", [0, 100]).attr('data-min', 0).attr('data-max', 100);
     });
 
 
@@ -565,6 +581,35 @@
         });
 
         return sortingTable;
+    }
+
+    /*
+    * функция получения параметров из адресной строки
+     */
+    function getURLParameter(name)
+    {
+        name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+        var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+        var results = regex.exec(location.search);
+        if (results === null) {
+            results = '';
+        } else {
+            results = decodeURIComponent(results[1].replace(/\+/g, ' '));
+        }
+        return results;
+    }
+
+    function setURLParameter(param){
+        var paramStr ='';
+        if($.isPlainObject(param)) {
+            $.each(param, function (name, value) {
+                paramStr = paramStr + '&' + name + '=' + value;
+            });
+            history.pushState(null, null, location.href + '?' + paramStr);
+        } else {
+            throw new TypeError("Передаваемый параметр должен быть объектом");
+        }
+
     }
 
 })(jQuery);

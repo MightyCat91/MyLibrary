@@ -88,10 +88,10 @@
             //если данный таб соответствует общему "все книги"
             if (status === 'all') {
                 //отображаем все книги
-                $('tbody .table-row').removeClass('hidden');
+                $('.table-body .table-row').removeClass('hidden');
             } else {
                 //скрываем все книги
-                $('tbody .table-row').addClass('hidden');
+                $('.table-body .table-row').addClass('hidden');
                 //отображаем книги соответсвующие статусу нового активного таба
                 $('.status_color[data-status="' + status + '"]').closest('.table-row').removeClass('hidden');
             }
@@ -103,18 +103,25 @@
             $(this).next('.other-author-wrapper').toggleClass('hidden');
         });
 
+    //смена рейтинга книги
     $('.rating-btn').on('focus', function () {
+        //поле рейтинга, который меняем
         var ratingField = $(this),
+            //значение рейтинга до изменения
             oldRating = ratingField.val();
 
+        //автовыделение значение в поле ввода
         ratingField.select();
+        //применение стилей выделенности к выбранному полю
         ratingField.removeClass('no-focused')
+            //открытие списка автокомплита
             .autocomplete({
                 source: ratingField.next().find('option').toArray(),
                 minLength: 0,
                 delay: 500,
                 classes: {'ui-autocomplete': 'input-autocomplete'},
                 open: function () {
+                    //при нажатии клавиши Enter снимаем фокус с поля ввода
                     ratingField.keypress(function (event) {
                         var keycode = (event.keyCode ? event.keyCode : event.which);
                         if (keycode === 13) {
@@ -122,15 +129,22 @@
                         }
                     })
                 },
+                //при выборе нового значения из списка
                 select: function (event, ui) {
+                    //устанавливаем в поле рейтинга новое значение и с нимаем с него фокус
                     ratingField.val(ui.item.innerHTML).blur();
                 }
             }).autocomplete('search', '')
+            //при снятии фокуса меняем значение рейтинга на сервере
             .blur(function () {
+                //новый рейтинг
                 var newRating = ratingField.val();
 
+                //если введенное значение - число
                 if ($.isNumeric(newRating)) {
+                    //и не равно старому рейтингу
                     if (parseInt(oldRating) !== newRating) {
+                        //отправляем аякс-запрос на сервер
                         $.ajaxSetup({
                             headers: {
                                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -141,13 +155,18 @@
                             data: {
                                 //новая оценка рейтинга
                                 'rating': parseInt(newRating),
+                                //тип сущности, которому меняем рейтинг(в данном случае всегда книга)
                                 'type': 'book',
+                                //идентификатор книги, которой меняем рейтинг
                                 'id': ratingField.closest('.table-row').attr('data-bookid')
                             },
                             type: 'POST'
                         })
+                            //при окончании запроса
                             .done(function (data) {
+                                //при ошибке
                                 if (data.error) {
+                                    //в поле рейтинга устанавливаем старое значение
                                     ratingField.val(oldRating);
                                     //добавление ответа сервера(алерт)
                                     $('body').append(data.alert);
@@ -156,63 +175,455 @@
                     } else {
                         ratingField.val(oldRating);
                     }
+                //если новый рейтинг совпадает со старым
                 } else {
-                    ratingField.val(newRating);
+                    //оставляем старый
+                    ratingField.val(oldRating);
                 }
+                //снимаем стили выделенности с поля рейтинга
                 ratingField.addClass('no-focused');
             });
     });
 
+    //смена прогресса книги
     $('.book-progress').on('focus', function () {
+        //поле прогресса, которое меняем
         var input = $(this),
+            //старое значение прогресса в процентах
             currPercent = input.val(),
+            //старое значение прогресса в формате прочитанные страницы/количество страниц
             currValue = input.attr('title'),
+            //старое значение прогресса в страницах
             currProgress = parseInt(currValue.split("/")[0]);
 
+        //временной переменной устанавливаем значение - старый процент
         temporaryPercent = currPercent;
+        //устанавливаем стили выбранности, значения-количество прочитанных страниц, и выделяем текст в поле
         input.removeClass('no-focused').val(currProgress).select()
             .keydown(function (event) {
                 event.stopImmediatePropagation();
                 var keycode = (event.keyCode ? event.keyCode : event.which);
+                //при нажатии кнопки Enter
                 if (keycode === 13) {
+                    //устанавливаем флаг того, что значение прогресса изменено
                     progressIsChanged = true;
+                    //вызов функции смены прогресса
                     changeProgress($(this));
+                    //снимаем фокус с поля
                     input.blur();
                     return false;
                 }
             })
     })
+        //при снятии фокуса с поля
         .on('blur', function () {
+            //если прогресс еще не был изменен
             if (!progressIsChanged) {
+                //вызов функции смены прогресса
                 changeProgress($(this));
             }
+            //снимаем флаг того, что прогресс изменен
             progressIsChanged = false;
         });
 
+    //сортировка таблицы
     $('th.can-sort').on('click', function () {
+        //не активные иконки сортировки в выбранном столбце
         var newSortControl = $(this).children('.sort-controls.hidden'),
-            order = newSortControl.attr('data-order'),
+            //порядок сортировки
+            order = null,
+            //имя столбца, по которому сортируем таблицу
             field = $(this).attr('class').split(' ')[1];
 
+        //скрываем иконки сортировки в других столбцах
         $(this).siblings().children('.sort-controls').addClass('hidden');
+        //если клик произошел по столбцу, по которому уже была установлена сортировка
         if (newSortControl.length < 2) {
+            //скрываем старую иконку сортировки и отображаем новую
             newSortControl.removeClass('hidden').siblings('.sort-controls').addClass('hidden');
+            //переменной порядка сортировки присваиваем тип соответсвующий отображаемой иконки
             order = newSortControl.attr('data-order')
+        //если клик произоел по другому столбцу
         } else {
+            //отображаем иконку сортировки по умолчанию(desc)
             $(this).children('.sort-controls:last').removeClass('hidden');
+            //переменной сортировки устанавливаем соответсвующий порядок
             order = $(this).children('.sort-controls:last').attr('data-order')
         }
-        $('.table-body tbody').html(sort(field, order));
+        //перерисовываем таблицу в соответсвии с новой сортировкой
+        $('.table-body .table-body').html(sort(field, order));
     });
 
+    //отображение поля ввода поиска при клике по соответствующей иконке
+    $('.fa-search').on('click', function () {
+        $(this).prev().children().toggleClass('show');
+    });
+
+    //поиск по таблице(по полям имя и автор)
+    $('.search-field').on('focus', function () {
+        $(this).keydown(function (event) {
+            //клавиша, которую нажали
+            var keycode = (event.keyCode ? event.keyCode : event.which),
+                //статус, таб которого активен
+                status = $('.book-status.active').attr('data-tab');
+            //если нажатая клавиша Enter
+            if (keycode === 13) {
+                //значение, которое ввели в поле поиска(в нижнем регистре)
+                var searchedValue = $(this).val().toLowerCase(),
+                    //список имен книг
+                    booksNameList = $('.table-body .name a'),
+                    //список авторов
+                    authorsList = $('.table-body .author'),
+                    //результирующий список
+                    searchedList = [];
+
+                //для каждого имени из списка имен
+                booksNameList.each(function (index, element) {
+                    //имя
+                    var text = $(element).text().toLowerCase();
+
+                    //если имя содержит искомое значение
+                    if (~text.indexOf(searchedValue)) {
+                        //помещаем идентификтор книги в результирующий список
+                        searchedList.push($(element).closest('.table-row').attr('data-bookid'));
+                    }
+                });
+                //для каждого автора из списка авторов
+                authorsList.each(function (index, element) {
+                    //автор
+                    var text = $(element).text().toLowerCase(),
+                        //идентификатор книги
+                        rowId = $(element).closest('.table-row').attr('data-bookid');
+
+                    //если автор содержит искомое значение
+                    if (~text.indexOf(searchedValue)) {
+                        //если идентификатор соответствующей книги не содержится в результирующем списке
+                        if ($.inArray(rowId, searchedList) < 0) {
+                            //помещаем идентификатор в результирующий список
+                            searchedList.push(rowId);
+                        }
+                    }
+                });
+
+                //скрываем все книги
+                $('.table-body .table-row').addClass('hidden');
+                //для каждого идентификатора книги из результирующего списка
+                $.each(searchedList, function (index, element) {
+                    //строка соответсвующая текущему идентификатору
+                    var currRow = $('.table-row[data-bookid="' + element + '"]');
+                    //если активный статус не "Все книги"
+                    if (status !== 'all') {
+                        //если статус книги соответсвует активному
+                        if (currRow.find('.status_color').attr('data-status') === status) {
+                            //отображаем данную строку
+                            currRow.removeClass('hidden');
+                        }
+                    //еслиактивный статус соответствует "все книги"
+                    } else {
+                        //отображаем данную вне зависимоти от статуса
+                        currRow.removeClass('hidden');
+                    }
+                });
+            }
+        })
+    })
+        //при снятии фокуса с поля ввода поиска
+        .blur(function () {
+            //скрываем данное поле ввода
+            $(this).removeClass('show');
+        });
+
+    //выбор статуса в диалоге фильтров
+    $('.modal-status-btn').on('click', function () {
+        $(this).toggleClass('selected');
+    });
+
+    //инициализация слайдера рейтинга
+    $("#rating-slider-range").slider({
+        range: true,
+        min: 1,
+        max: 10,
+        values: [1, 10],
+        classes: {
+            "ui-slider-handle": "rating-range-slider-handler",
+            "ui-slider-range": "selected-range-slider"
+        },
+        slide: function (event, ui) {
+            //запись выбранных значенийв соответствующие атрибуты
+            $(this).attr('data-min', ui.values[0]).attr('data-max', ui.values[1]);
+        }
+    });
+
+    //инициализация слайдера прогресса
+    $("#progress-slider-range").slider({
+        range: true,
+        min: 0,
+        max: 100,
+        values: [0, 100],
+        classes: {
+            "ui-slider-handle": "progress-range-slider-handler",
+            "ui-slider-range": "selected-range-slider"
+        },
+        slide: function (event, ui) {
+            //запись выбранных значений в соответствующие атрибуты
+            $(this).attr('data-min', ui.values[0]).attr('data-max', ui.values[1]);
+            //подстановка минимального значения в соответствующее поле ввода
+            $('#min-progress').val(ui.values[0]).next('.input-label').addClass('active');
+            //подстановка максимального значения в соответствующее поле ввода
+            $('#max-progress').val(ui.values[1]).next('.input-label').addClass('active');
+        }
+    });
+
+    //изменение минимального значения прогресса
+    $('#min-progress').on('change', function () {
+        //новое минимальное значение прогресса
+        var newMin = parseInt($(this).val()),
+            //элемент слайдера
+            progressSlider = $("#progress-slider-range"),
+            //элемент сообщения об ошибки
+            errorMessage = $('.error-message');
+
+        //если новое минимальное значение больше максимального
+        if (newMin > parseInt(progressSlider.attr('data-max'))) {
+            //подсвечиваем поля ввода как невалидные
+            progressSlider.siblings('.form-group').addClass('has-danger');
+            //отображаем текст ошибки
+            errorMessage.text('Значение "От" не должно быть больше значения "До"');
+        } else {
+            //если новое значение меньше 0 и больше 100
+            if (0 > newMin || newMin > 100) {
+                //подсвечиваем поле минимума как невалидное
+                $(this).closest('.form-group').addClass('has-danger');
+                //отображаем текст ошибки
+                errorMessage.text('Поле должно находиться в диапазоне от 0 до 100');
+            } else {
+                //снимаем класс невалидности
+                $(this).closest('.form-group').removeClass('has-danger');
+                //убираем текст ошибки
+                errorMessage.text('');
+                //меняем минимальную позицию в слайдере и записываем новое значение в соответствующий атрибут
+                progressSlider.slider("values", 0, newMin).attr('data-min', newMin);
+            }
+        }
+        //снимаем фокус с поля ввода
+        $(this).blur();
+    });
+
+    //изменение максимального значения прогресса
+    $('#max-progress').on('change', function () {
+        //новое максимальное значение прогресса
+        var newMax = parseInt($(this).val()),
+            //элемент слайдера
+            progressSlider = $("#progress-slider-range"),
+            //элемент сообщения об ошибки
+            errorMessage = $('.error-message');
+
+        //если новое максимальное значение больше максимального
+        if (newMax < parseInt(progressSlider.attr('data-min'))) {
+            //подсвечиваем поля ввода как невалидные
+            progressSlider.siblings('.form-group').addClass('has-danger');
+            //отображаем текст ошибки
+            errorMessage.text('Значение поля "От" не должно быть больше значения поля "До"');
+        } else {
+            //если новое значение меньше 0 и больше 100
+            if (0 > newMax || newMax > 100) {
+                //подсвечиваем поле максимума как невалидное
+                $(this).closest('.form-group').addClass('has-danger');
+                //отображаем текст ошибки
+                errorMessage.text('Поле должно находиться в диапазоне от 0 до 100');
+            } else {
+                //снимаем класс невалидности
+                $(this).closest('.form-group').removeClass('has-danger');
+                //убираем текст ошибки
+                errorMessage.text('');
+                //меняем максимальную позицию в слайдере и записываем новое значение в соответствующий атрибут
+                progressSlider.slider("values", 1, newMax).attr('data-max', newMax);
+            }
+        }
+        //снимаем фокус с поля ввода
+        $(this).blur();
+    });
+
+    //применение фильтрации
+    $('.btn-filter').on('click', function () {
+        //слайдер рейтинга
+        var ratingSlider = $("#rating-slider-range"),
+            //слайдер прогресса
+            progressSlider = $("#progress-slider-range"),
+            //выбранные для фильтрации статусы
+            statusElem = $('.modal-status-btn.selected'),
+            //минимальное значение рейтинга
+            ratingMin = parseInt(ratingSlider.attr('data-min')),
+            //максимальное значение рейтинга
+            ratingMax = parseInt(ratingSlider.attr('data-max')),
+            //минимальное значение прогресса
+            progressMin = parseInt(progressSlider.attr('data-min')),
+            //максимальное значение прогресса
+            progressMax = parseInt(progressSlider.attr('data-max')),
+            //массив значений рейтинга
+            rating = [],
+            //массив значений прогресса
+            progress = [];
+
+        //если граничные значения рейтинга и пргоресса не соответсвуют дефолтным и не выбран ни один статус
+        if ((ratingMin == 1 && ratingMax == 10) && (progressMin == 0 && progressMax == 100) && statusElem.length == 0) {
+            //удаляем из адресной строки атрибуты
+            history.pushState(null, null, location.href.split('?')[0]);
+            //устанавливаем таб "все книги" как активный
+            $('.book-status[data-tab="all"]').addClass('active');
+            //отображаем все строки таблицы
+            $('.table-body .table-row').removeClass('hidden');
+        } else {
+            //формируем массив всех значений рейтинга между выбранными граничными
+            for (var i = ratingMin; i <= ratingMax; i++) {
+                rating.push(i);
+            }
+            //формируем массив всех значений прогресса между выбранными граничными
+            for (i = progressMin; i <= progressMax; i++) {
+                progress.push(i);
+            }
+
+            //применяем выбранные фильтры к таблице(возвращаем выбранные статусы)
+            status = setFilter(rating, progress, statusElem);
+
+            //записываем выбранные фильтры в атрибуты адресной строки
+            setURLParameter({rating: rating, progress: progress, status: status});
+
+            //убираем со всех табов статус активного
+            $('.book-status').removeClass('active');
+        }
+
+        //скрываем диалог фильтров
+        $('#filterForm').modal('hide');
+    });
+
+    //сброс фильтров в диалоге в дефолтное состояние
+    $('.btn-filter-clear').on('click', function () {
+        $('.modal-status-btn').removeClass('selected');
+        $("#rating-slider-range").slider("values", [1, 10]).attr('data-min', 1).attr('data-max', 10);
+        $("#progress-slider-range").slider("values", [0, 100]).attr('data-min', 0).attr('data-max', 100);
+    });
+
+    //формирование диалога фильтров при наличии их в адресной строке
+    if (location.search) {
+        //рейтинг из адресной строки
+        var rating = getURLParameter('rating'),
+            //минимальное значение рейтинга
+            ratingFirst = rating[0],
+            //максимальное значение рейтинга
+            ratingLast = rating[rating.length - 1],
+            //массив статусов
+            status = getURLParameter('status').split(','),
+            //массив значений прогресса
+            progress = getURLParameter('progress').split(','),
+            //минимальное значение прогресса
+            progressFirst = progress[0],
+            //максимальное значение прогресса
+            progressLast = progress[progress.length - 1];
+
+        //делаем выбранными кнопки статусов соответствующие тем, что в адресной строке
+        $.each(status, function (index, value) {
+            $('.modal-status-btn[data-status="' + value + '"]').addClass('selected');
+        });
+
+        //устанавливаем минимальное и максимальное значения в слайдере рейтинга
+        $("#rating-slider-range").slider("values", [ratingFirst, ratingLast]).attr('data-min', ratingFirst).attr('data-max', ratingLast);
+        //устанавливаем минимальное и максимальное значения в слайдере прогресса
+        $("#progress-slider-range").slider("values", [progressFirst, progressLast]).attr('data-min', progressFirst).attr('data-max', progressLast);
+        //устанавливаем минимальное значение прогресса в соответствующее поле ввода
+        $('#min-progress').val(progressFirst);
+        //устанавливаем максимальное значение прогресса в соответствующее поле ввода
+        $('#max-progress').val(progressLast);
+        //делаем поля ввода активными
+        $('.input-label').addClass('active');
+
+        //применяем фильтры в соответсвии с атрибутами в адресной строке
+        setFilter(rating.split(','), progress, status)
+    }
+
+
+
+    /*
+    * отображение таблицы в соответсвии с фильтрами
+    * @array rating рейтинг
+    * @array progress прогресс
+    * @object|@array statusElem список элементов статусов
+     */
+    function setFilter(rating, progress, statusElem) {
+        //массив статусов
+        var status = [];
+
+        //скрываем все строки таблицы
+        $('.table-body .table-row').addClass('hidden');
+
+        //отображаем строки таблицы рейтинг которых входит в диапазон фильтра рейтинга
+        $.each(rating, function (index, value) {
+            $('.rating-btn[value="' + value + '"]').closest('.table-row').removeClass('hidden');
+        });
+        //отмечаем среди уже видимых строк таблицы те строки, прогресс которых входит в диапазон фильтра прогресса
+        $.each(progress, function (index, value) {
+            $('.table-body .table-row:not(.hidden)').find('.book-progress[value="' + value + '%"]')
+                .closest('.table-row').addClass('filtered');
+        });
+
+        //скрываем те строки, которые не помечены как отфильтрованные
+        $('.table-body .table-row:not(.filtered)').addClass('hidden');
+        //отображаем отфильтрованные строки и удаляем флаг фильтрации
+        $('.table-body .filtered').removeClass('hidden').removeClass('filtered');
+
+        //если список статусов это массив значений
+        if ($.isArray(statusElem)) {
+            //отмечаем среди уже видимых строк таблицы те строки, статус которых входит в диапазон фильтра статусов
+            $.each(statusElem, function (index, value) {
+                $('.table-body .table-row:not(.hidden)').find('.status_color[data-status="' + value + '"]')
+                    .closest('.table-row').addClass('filtered');
+            });
+            //скрываем те строки, которые не помечены как отфильтрованные
+            $('.table-body .table-row:not(.filtered)').addClass('hidden');
+            //отображаем отфильтрованные строки и удаляем флаг фильтрации
+            $('.table-body .filtered').removeClass('hidden').removeClass('filtered');
+        //если список статусов это список элементов
+        } else {
+            //если был выбран хоть один статус для фильтрации
+            if (statusElem.length) {
+                //отмечаем среди уже видимых строк таблицы те строки, статус которых входит в диапазон фильтра статусов
+                statusElem.each(function (index, value) {
+                    $('.table-body .table-row:not(.hidden)')
+                        .find('.status-btn[data-status="' + $(value).attr('data-status') + '"]')
+                        .closest('.table-row').addClass('filtered');
+                    //помещаем текущий статус в массив статусов
+                    status.push($(value).attr('data-status'))
+                });
+                //скрываем те строки, которые не помечены как отфильтрованные
+                $('.table-body .table-row:not(.filtered)').addClass('hidden');
+                //отображаем отфильтрованные строки и удаляем флаг фильтрации
+                $('.table-body .filtered').removeClass('hidden').removeClass('filtered');
+                //возвращаем массив статусов
+                return status;
+            }
+        }
+
+    }
+
+    /*
+    * смена прогресса
+    * @object input поле ввода прогресса
+     */
     function changeProgress(input) {
+        //занчение прогресса в формате "количество прочитанных страниц/количество страниц в книге"
         var currValue = input.attr('title'),
+            //текущий прогресс в странице
             currProgress = parseInt(currValue.split("/")[0]),
+            //количество страниц в книге
             bookPages = parseInt(currValue.split("/")[1]),
+            //новое значение прогресса
             newProgress = input.val();
 
+        //если новое значение прогресса - число
         if ($.isNumeric(newProgress)) {
+            // и не совпадает со старым прогрессом
             if (parseInt(newProgress) != currProgress) {
+                //отправляем соответствующий аякс-запрос с новым значением прогресса
                 $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -223,8 +634,11 @@
                     data: {'progress': newProgress},
                     type: 'POST'
                 })
+                    //после выполнения аякс-запроса
                     .done(function (data) {
+                        //если вернулась ошибка
                         if (data.error) {
+                            //в поле прогресса устанавливаем старое значение
                             input.val(temporaryPercent);
                             //добавление ответа сервера(алерт)
                             $('body').append(data.alert);
@@ -236,209 +650,48 @@
                                 //старый статус
                                 oldStatus = statusBtn.attr('data-status');
 
+                            //записываем новый прогресс в страницах в title
                             input.attr('title', newProgress + '/' + bookPages);
+                            //записываем новый прогресс в процентах в значение поля прогресса
                             input.val(Math.round((newProgress / bookPages) * 100) + '%');
 
+                            //если новый прогресс равен 0
                             if (newProgress == 0) {
+                                //меняем соответствующей книге статус на "В планах"
                                 changeStatus(statusBtn, tableRow, oldStatus, 'inPlans', 'В планах');
                             }
 
+                            //если новый прогресс равен количеству страниц в книге
                             if (newProgress == bookPages) {
+                                //меняем соответствующей книге статус на "Прочитано"
                                 changeStatus(statusBtn, tableRow, oldStatus, 'completed', 'Прочитано');
                             }
                         }
                     });
             }
+            //если новый прогресс совпадает со старым
             else {
+                //устанавливаем в поле прогресса старое значение
                 input.val(temporaryPercent);
             }
+        //если новое значение не число
         } else {
+            //устанавливаем в поле прогресса старое значение
             input.val(temporaryPercent);
         }
 
+        //снимаем фокус с поля ввода прогресса
         input.addClass('no-focused');
     }
 
-    $('.fa-search').on('click', function () {
-        $(this).prev().children().toggleClass('show');
-    });
-
-    $('.search-field').on('focus', function () {
-        $(this).keydown(function (event) {
-            var keycode = (event.keyCode ? event.keyCode : event.which),
-                status = $('.book-status.active').attr('data-tab');
-            if (keycode === 13) {
-                var searchedValue = $(this).val().toLowerCase(),
-                    booksNameList = $('tbody .name a'),
-                    authorsList = $('tbody .author'),
-                    searchedList = [];
-
-                booksNameList.each(function (index, element) {
-                    var text = $(element).text().toLowerCase();
-
-                    if (~text.indexOf(searchedValue)) {
-                        searchedList.push($(element).closest('.table-row').attr('data-bookid'));
-                    }
-                });
-                authorsList.each(function (index, element) {
-                    var text = $(element).text().toLowerCase(),
-                        rowId = $(element).closest('.table-row').attr('data-bookid');
-                    if (~text.indexOf(searchedValue)) {
-                        if ($.inArray(rowId, searchedList) < 0) {
-                            searchedList.push(rowId);
-                        }
-                    }
-                });
-
-                $('tbody .table-row').addClass('hidden');
-                $.each(searchedList, function (index, element) {
-                    var currRow = $('.table-row[data-bookid="' + element + '"]');
-                    if (status !== 'all') {
-                        if (currRow.find('.status_color').attr('data-status') === status) {
-                            currRow.removeClass('hidden');
-                        }
-                    } else {
-                        currRow.removeClass('hidden');
-                    }
-                });
-            }
-        })
-    })
-        .blur(function () {
-            $(this).removeClass('show');
-        });
-
-    $('.modal-status-btn').on('click', function () {
-        $(this).toggleClass('selected');
-    });
-
-    $("#rating-slider-range").slider({
-        range: true,
-        min: 1,
-        max: 10,
-        values: [1, 10],
-        classes: {
-            "ui-slider-handle": "rating-range-slider-handler",
-            "ui-slider-range": "selected-range-slider"
-        },
-        slide: function (event, ui) {
-            $(this).attr('data-min', ui.values[0]).attr('data-max', ui.values[1]);
-        }
-    });
-
-    $("#progress-slider-range").slider({
-        range: true,
-        min: 0,
-        max: 100,
-        values: [0, 100],
-        classes: {
-            "ui-slider-handle": "progress-range-slider-handler",
-            "ui-slider-range": "selected-range-slider"
-        },
-        slide: function (event, ui) {
-            $(this).attr('data-min', ui.values[0]).attr('data-max', ui.values[1]);
-            $('#min-progress').val(ui.values[0]).next('.input-label').addClass('active');
-            $('#max-progress').val(ui.values[1]).next('.input-label').addClass('active');
-        }
-    });
-
-    $('#min-progress').on('change', function () {
-        var newMin = parseInt($(this).val()),
-            progressSlider = $("#progress-slider-range"),
-            errorMessage = $('.error-message');
-
-        if (newMin > parseInt(progressSlider.attr('data-max'))) {
-            progressSlider.siblings('.form-group').addClass('has-danger');
-            errorMessage.text('Значение "От" не должно быть больше значения "До"');
-        } else {
-            if (0 > newMin || newMin > 100) {
-                $(this).closest('.form-group').addClass('has-danger');
-                errorMessage.text('Поле должно находиться в диапазоне от 0 до 100');
-            } else {
-                $(this).closest('.form-group').removeClass('has-danger');
-                errorMessage.text('');
-                progressSlider.slider("values", 0, newMin).attr('data-min', newMin);
-            }
-        }
-        $(this).blur();
-    });
-
-    $('#max-progress').on('change', function () {
-        var newMax = parseInt($(this).val()),
-            progressSlider = $("#progress-slider-range"),
-            errorMessage = $('.error-message');
-
-        if (newMax < parseInt(progressSlider.attr('data-min'))) {
-            progressSlider.siblings('.form-group').addClass('has-danger');
-            errorMessage.text('Значение поля "От" не должно быть больше значения поля "До"');
-        } else {
-            if (0 > newMax || newMax > 100) {
-                $(this).closest('.form-group').addClass('has-danger');
-                errorMessage.text('Поле должно находиться в диапазоне от 0 до 100');
-            } else {
-                $(this).closest('.form-group').removeClass('has-danger');
-                errorMessage.text('');
-                progressSlider.slider("values", 1, newMax).attr('data-max', newMax);
-            }
-        }
-        $(this).blur();
-    });
-
-    $('#filterForm').on('show.bs.modal', function() {
-        // do something when the modal is shown
-    };
-
-    $('.btn-filter').on('click', function () {
-        var ratingSlider = $("#rating-slider-range"),
-            progressSlider = $("#progress-slider-range"),
-            statusElem = $('.modal-status-btn.selected'),
-            rating = [],
-            progress = [],
-            status = [];
-
-        for(var i = parseInt(ratingSlider.attr('data-min')); i <= parseInt(ratingSlider.attr('data-max')); i++) {
-            rating.push(i);
-        }
-
-        for(i = parseInt(progressSlider.attr('data-min')); i <= parseInt(progressSlider.attr('data-max')); i++) {
-            progress.push(i);
-        }
-
-        $('tbody .table-row').addClass('hidden');
-
-        $.each(rating, function (index, value) {
-            $('.rating-btn[value="' + value + '"]').closest('.table-row').removeClass('hidden');
-        });
-        $.each(progress, function (index, value) {
-            $('tbody .table-row:not(.hidden)').find('.book-progress[value="' + value + '%"]').closest('.table-row').addClass('filtered');
-        });
-        $('tbody .table-row:not(.filtered)').addClass('hidden');
-        $('tbody .filtered').removeClass('filtered');
-
-        if (statusElem.length) {
-            statusElem.each(function (index, value) {
-                $('tbody .table-row:not(.hidden)').find('.status-btn[data-status="' + $(value).attr('data-status') + '"]').closest('.table-row').addClass('filtered');
-                status.push($(value).attr('data-status'))
-            });
-            $('tbody .table-row:not(.filtered)').addClass('hidden');
-            $('tbody .filtered').removeClass('filtered');
-        }
-
-        setURLParameter({rating: rating, progress: progress, status: status});
-
-        $('.book-status').removeClass('active');
-
-        $('#filterForm').modal('hide');
-    });
-
-    $('.btn-filter-clear').on('click', function () {
-        $('.modal-status-btn').removeClass('selected');
-        $("#rating-slider-range").slider("values", [1, 10]).attr('data-min', 1).attr('data-max', 10);
-        $("#progress-slider-range").slider("values", [0, 100]).attr('data-min', 0).attr('data-max', 100);
-    });
-
-
-
+    /*
+    * смена статуса
+    * @object statusBtn кнопка статуса
+    * @object tableRow строка таблицы, в которой меняем статус
+    * @string oldStatus старый статус
+    * @string newStatus новый статус
+    * @string statusName имя нового статуса отображаемое пользователю
+     */
     function changeStatus(statusBtn, tableRow, oldStatus, newStatus, statusName) {
         $.ajaxSetup({
             headers: {
@@ -506,15 +759,25 @@
             })
     }
 
+    /*
+    * сортировка строк таблицы
+    * @string field имя столбца, по которому осуществляется сортировка
+    * @string order направление сортировки
+     */
     function sort(field, order) {
-        var sortingTable = $('tbody .table-row');
+        //строки таблицы
+        var sortingTable = $('.table-body .table-row');
 
+        //поиск соответсвия имени столбца одному из вариантов
         switch (field) {
+            //если сортировка по имени
             case 'name':
+                //сортируем строки таблицы по имени по алфавиту
                 sortingTable.sort(function (firstRow, secondRow) {
                     var value1 = $(firstRow).find('.name a').text(),
                         value2 = $(secondRow).find('.name a').text();
 
+                    //взависимости от направления возвращаем таблицу в необходимом порядке
                     if (order === 'desc') {
                         return value2.localeCompare(value1)
                     } else {
@@ -523,11 +786,14 @@
                 });
                 break;
 
+            //если сортировка по статусу
             case 'status':
+                //сортируем строки таблицы по статусу по алфавиту
                 sortingTable.sort(function (firstRow, secondRow) {
                     var value1 = $(firstRow).find('.status-btn').val(),
                         value2 = $(secondRow).find('.status-btn').val();
 
+                    //взависимости от направления возвращаем таблицу в необходимом порядке
                     if (order === 'desc') {
                         return value2.localeCompare(value1)
                     } else {
@@ -536,11 +802,14 @@
                 });
                 break;
 
+            //если сортировка по рейтингу
             case 'rating':
+                //сортируем строки таблицы по рейтингу
                 sortingTable.sort(function (firstRow, secondRow) {
                     var value1 = parseInt($(firstRow).find('.rating-btn').val()),
                         value2 = parseInt($(secondRow).find('.rating-btn').val());
 
+                    //взависимости от направления возвращаем таблицу в необходимом порядке
                     if (order === 'desc') {
                         return (value1 < value2) ? 1 : (value1 > value2) ? -1 : 0
                     } else {
@@ -549,11 +818,14 @@
                 });
                 break;
 
+            //если сортировка по авторам
             case 'authors':
+                //сортируем строки таблицы по авторам по алфавиту
                 sortingTable.sort(function (firstRow, secondRow) {
                     var value1 = $(firstRow).find('.author-link-wrapper a').text(),
                         value2 = $(secondRow).find('.author-link-wrapper a').text();
 
+                    //взависимости от направления возвращаем таблицу в необходимом порядке
                     if (order === 'desc') {
                         return value2.localeCompare(value1)
                     } else {
@@ -562,11 +834,14 @@
                 });
                 break;
 
+            //если сортировка по прогрессу
             case 'pages':
+                //сортируем строки таблицы по прогрессу
                 sortingTable.sort(function (firstRow, secondRow) {
                     var value1 = parseInt($(firstRow).find('.book-progress').attr('title').split("%")[0]),
                         value2 = parseInt($(secondRow).find('.book-progress').attr('title').split("%")[0]);
 
+                    //взависимости от направления возвращаем таблицу в необходимом порядке
                     if (order === 'desc') {
                         return (value1 < value2) ? 1 : (value1 > value2) ? -1 : 0
                     } else {
@@ -576,18 +851,20 @@
                 break;
         }
 
+        //меняем порядковые номера строк таблицы с учетом новой сортировки
         sortingTable.each(function (key, value) {
             $(value).find('.number-wrapper > span:last').text(++key);
         });
 
+        //возвращаем отсортированную страницу
         return sortingTable;
     }
 
     /*
     * функция получения параметров из адресной строки
+    * @string name искомый отрибут в адресной строке
      */
-    function getURLParameter(name)
-    {
+    function getURLParameter(name) {
         name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
         var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
         var results = regex.exec(location.search);
@@ -599,17 +876,37 @@
         return results;
     }
 
-    function setURLParameter(param){
-        var paramStr ='';
-        if($.isPlainObject(param)) {
+    /*
+    * запись параметров в адресную строку
+    * @object param объект с параметрами
+     */
+    function setURLParameter(param) {
+        //строка записываемая в адресную строку
+        var paramStr = '',
+            //url без параметров
+            href = location.href.split('?')[0];
+
+        //если переданный параметр объект
+        if ($.isPlainObject(param)) {
+            //для каждого параметра в объекте
             $.each(param, function (name, value) {
-                paramStr = paramStr + '&' + name + '=' + value;
+                //если строка еще пустая
+                if (paramStr.length == 0) {
+                    //записываем новый параметр и его значение
+                    paramStr += (name + '=' + value)
+                //если не пустая
+                } else {
+                    //дописываем параметр и егозанчение через амперсанд
+                    paramStr += ('&' + name + '=' + value)
+                }
             });
-            history.pushState(null, null, location.href + '?' + paramStr);
+
+            //записываем в адресную строку новый урл с параметрами
+            history.pushState(null, null, href + '?' + paramStr);
+        //если не объект, то бросаем исключение
         } else {
             throw new TypeError("Передаваемый параметр должен быть объектом");
         }
-
     }
 
 })(jQuery);

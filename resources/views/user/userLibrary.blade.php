@@ -34,7 +34,7 @@
                         </div>
                     </div>
                 </div>
-                <table class="table-body">
+                <table class="table">
                     <thead>
                     <tr class="table-row">
                         <th class="table-column number">
@@ -67,7 +67,7 @@
                         </th>
                     </tr>
                     </thead>
-                    <tbody>
+                    <tbody class="table-body">
                     @foreach($books as $key => $book)
                         <tr class="table-row" data-bookid="{{ $book['id'] }}">
                             <td class="table-column number value">
@@ -123,6 +123,74 @@
                     @endforeach
                     </tbody>
                 </table>
+                <div class="mobile-table">
+                    @foreach($books as $key => $book)
+                        <div class="mobile-table-row">
+                            <div class="mobile-short-info-container">
+                                <div class="number-wrapper">
+                                    <span class="status_color" data-status="{{ $book['status_name'] }}"></span>
+                                    <span>{{ ++$key }}</span>
+                                </div>
+                                <div class="mobile-short-info-wrapper">
+                                    <div class="name">
+                                        <a href="{{ route('book', [$book['id']]) }}">{{ $book['name'] }}</a>
+                                    </div>
+                                    <div class="mobile-other-short-field-wrapper">
+                                        <div class="authors-short">
+                                            @if(count($book['authors']) > 1)
+                                                <div>{{ current($book['authors']) }} ...</div>
+                                            @else
+                                                <div>{{ current($book['authors']) }}</div>
+                                            @endif
+                                        </div>
+                                        <div class="status-short">
+                                            <div>{{ $book['status_uname'] }}</div>
+                                        </div>
+                                        <div class="rating-short">
+                                            <div>{{ $book['rating'] ?: '' }}</div>
+                                        </div>
+                                        <div class="progress-short">
+                                            <div>{{ round(($book['progress']/$book['page_counts'])*100) }}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="show-full-controller">
+                                    <i class="fa fa-arrow-circle-o-down" aria-hidden="true"
+                                       title="Показать полную информацию"></i>
+                                    <i class="fa fa-arrow-circle-o-up hidden" aria-hidden="true"
+                                       title="Скрыть полную информацию"></i>
+                                </div>
+                            </div>
+                            <div class="mobile-full-info-wrapper hidden">
+                                <div class="authors">
+                                    @foreach($book['authors'] as $id => $author)
+                                        <a class="author" href="{{ route('author', $id) }}">{{ $author }}</a>
+                                    @endforeach
+                                </div>
+                                <div class="status">
+                                    <input type="button" class="status-btn" data-toggle="popover"
+                                           data-status="{{ $book['status_name'] }}" value="{{ $book['status_uname'] }}">
+                                </div>
+                                <div class="rating">
+                                    <input type="text" class="rating-btn no-focused" value="{{ $book['rating'] ?: '---' }}">
+                                    <div class="rating-wrapper hidden">
+                                        <datalist class="rating-list">
+                                            @foreach(range(1, 10) as $rating)
+                                                <option>{{ $rating }}</option>
+                                            @endforeach
+                                        </datalist>
+                                    </div>
+                                </div>
+                                <div class="progress">
+                                    <input type="text" class="book-progress no-focused"
+                                           data-route="{{ route('book', $book['id']) }}"
+                                           value="{{ round(($book['progress']/$book['page_counts'])*100) }}%"
+                                           title="{{ sprintf("%s/%s",$book['progress'], $book['page_counts']) }}">
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
                 <div id="status-list" class="hidden">
                     @foreach($allStatuses as $stat)
                         <div class="status-option {{ $stat->name }}"
@@ -175,7 +243,7 @@
                         <div class="modal-progress-slider-wrapper">
                             <div class="form-group">
                                 <input type="text" id="min-progress" name="min-progress" class="form-control"
-                                        maxlength="3">
+                                       maxlength="3">
                                 <label for="min-progress" class="input-label">От</label>
                             </div>
                             <div class="progress-slider-range-wrapper">

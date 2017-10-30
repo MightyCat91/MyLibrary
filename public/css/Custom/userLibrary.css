@@ -67,7 +67,7 @@
     transform: translateX(0);
 }
 
-.table-body {
+.table {
     width: 100%;
 }
 
@@ -455,4 +455,51 @@ Modal dialog with Filters
 
 .progress-range-slider-handler:before {
     content: '\f295';
+}
+
+
+@media screen and (max-width: 1013px) {
+    .table {
+        display: none;
+    }
+
+    .mobile-table {
+        display: block;
+    }
+
+    .mobile-table-row {
+        line-height: 2;
+        border-bottom: 1px solid #9e9e9e;
+    }
+
+    .number-wrapper span:last-child {
+        padding: 5px;
+    }
+
+    .number-wrapper {
+        align-items: center;
+        margin-right: 15px;
+    }
+
+    .status_color {
+        height: 100%;
+    }
+
+    .mobile-short-info-container {
+        display: flex;
+    }
+
+    .mobile-short-info-wrapper {
+        width: 100%;
+    }
+
+    .mobile-short-info-wrapper .name {
+        font-size: 22px;
+    }
+
+    .mobile-other-short-field-wrapper {
+        display: flex;
+        font-size: 15px;
+        justify-content: space-between;
+    }
 }

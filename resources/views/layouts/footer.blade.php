@@ -28,6 +28,7 @@
 </div>
 <script type="text/javascript" src="{{ asset('/js/Library/jQuery/jquery-3.2.1.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('/js/Library/Tether/tether.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('/js/Library/Popper/popper.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('/js/Library/Bootstrap/bootstrap.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('/js/Custom/general.js') }}"></script>
 @if (Auth::guest())

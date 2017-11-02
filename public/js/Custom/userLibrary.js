@@ -44,13 +44,21 @@
 
         //если статус = "прочитано"
         if (newStatus === 'completed') {
+            progressField.val(pages);
+            changeProgress(progressField);
             //устанавливаем 100% прогресса и макс. количество прочитанных страниц
-            progressField.val('100%').attr('title', pages + '/' + pages)
+            progressField.attr('title', pages + '/' + pages);
+            tableRow.find('.progress-short').text('100%');
+
         }
         //если статус = "в планах"
         if (newStatus === 'inPlans') {
+            progressField.val(0);
+            changeProgress(progressField);
             //устанавливаем 0% прогресса и 0 прочитанных страниц
-            progressField.val('0%').attr('title', '0/' + pages)
+            progressField.attr('title', '0/' + pages);
+            tableRow.find('.progress-short').text('0%');
+
         }
     })
     //скрытие попапа по клику вне его или кнопки нового статуса
@@ -76,7 +84,6 @@
             if (!targetClick.hasClass('fa-search') && !targetClick.hasClass('search-field') && searchField.hasClass('show')) {
                 searchField.removeClass('show');
             }
-            //todo: не скрывается по клику по другим контролам
         })
         //переключение табов-статусов
         .on('click', '.book-status', function () {
@@ -114,7 +121,7 @@
         ratingField.select();
         //применение стилей выделенности к выбранному полю
         ratingField.removeClass('no-focused')
-            //открытие списка автокомплита
+        //открытие списка автокомплита
             .autocomplete({
                 source: ratingField.next().find('option').toArray(),
                 minLength: 0,
@@ -135,7 +142,7 @@
                     ratingField.val(ui.item.innerHTML).blur();
                 }
             }).autocomplete('search', '')
-            //при снятии фокуса меняем значение рейтинга на сервере
+        //при снятии фокуса меняем значение рейтинга на сервере
             .blur(function () {
                 //новый рейтинг
                 var newRating = ratingField.val();
@@ -162,7 +169,7 @@
                             },
                             type: 'POST'
                         })
-                            //при окончании запроса
+                        //при окончании запроса
                             .done(function (data) {
                                 //при ошибке
                                 if (data.error) {
@@ -171,11 +178,12 @@
                                     //добавление ответа сервера(алерт)
                                     $('body').append(data.alert);
                                 }
+                                $('.mobile-table-row[data-bookid="' + ratingField.closest('.table-row').attr('data-bookid') + '"]').find('.rating-short').text(newRating);
                             });
                     } else {
                         ratingField.val(oldRating);
                     }
-                //если новый рейтинг совпадает со старым
+                    //если новый рейтинг совпадает со старым
                 } else {
                     //оставляем старый
                     ratingField.val(oldRating);
@@ -194,12 +202,13 @@
             //старое значение прогресса в формате прочитанные страницы/количество страниц
             currValue = input.attr('title'),
             //старое значение прогресса в страницах
-            currProgress = parseInt(currValue.split("/")[0]);
+            currProgress = parseInt(currValue.split("/")[0]),
+            bookPages = currValue.split("/")[1];
 
         //временной переменной устанавливаем значение - старый процент
         temporaryPercent = currPercent;
         //устанавливаем стили выбранности, значения-количество прочитанных страниц, и выделяем текст в поле
-        input.removeClass('no-focused').val(currProgress).select()
+        input.val(currValue).removeClass('no-focused').select()
             .keydown(function (event) {
                 event.stopImmediatePropagation();
                 var keycode = (event.keyCode ? event.keyCode : event.which);
@@ -215,7 +224,7 @@
                 }
             })
     })
-        //при снятии фокуса с поля
+    //при снятии фокуса с поля
         .on('blur', function () {
             //если прогресс еще не был изменен
             if (!progressIsChanged) {
@@ -243,7 +252,7 @@
             newSortControl.removeClass('hidden').siblings('.sort-controls').addClass('hidden');
             //переменной порядка сортировки присваиваем тип соответсвующий отображаемой иконки
             order = newSortControl.attr('data-order')
-        //если клик произоел по другому столбцу
+            //если клик произоел по другому столбцу
         } else {
             //отображаем иконку сортировки по умолчанию(desc)
             $(this).children('.sort-controls:last').removeClass('hidden');
@@ -318,7 +327,7 @@
                             //отображаем данную строку
                             currRow.removeClass('hidden');
                         }
-                    //еслиактивный статус соответствует "все книги"
+                        //еслиактивный статус соответствует "все книги"
                     } else {
                         //отображаем данную вне зависимоти от статуса
                         currRow.removeClass('hidden');
@@ -327,7 +336,7 @@
             }
         })
     })
-        //при снятии фокуса с поля ввода поиска
+    //при снятии фокуса с поля ввода поиска
         .blur(function () {
             //скрываем данное поле ввода
             $(this).removeClass('show');
@@ -541,6 +550,29 @@
         setFilter(rating.split(','), progress, status)
     }
 
+    $('.show-full-controller > .show').on('click', function () {
+        var row = $(this).closest('.mobile-table-row');
+
+        if ($('.mobile-full-info-wrapper.show').length) {
+            $('.mobile-full-info-wrapper').collapse('hide');
+            $('.show').removeClass('hidden');
+            $('.hide').addClass('hidden');
+        }
+
+        row.find('.mobile-full-info-wrapper').collapse('show');
+        row.removeClass('opacity').siblings().addClass('opacity');
+        row.find('.show').toggleClass('hidden');
+        row.find('.hide').toggleClass('hidden');
+    });
+
+    $('.show-full-controller > .hide').on('click', function () {
+        var row = $(this).closest('.mobile-table-row');
+
+        row.find('.mobile-full-info-wrapper').collapse('hide');
+        row.siblings().removeClass('opacity');
+        row.find('.show').toggleClass('hidden');
+        row.find('.hide').toggleClass('hidden');
+    });
 
 
     /*
@@ -582,7 +614,7 @@
             $('.table-body .table-row:not(.filtered)').addClass('hidden');
             //отображаем отфильтрованные строки и удаляем флаг фильтрации
             $('.table-body .filtered').removeClass('hidden').removeClass('filtered');
-        //если список статусов это список элементов
+            //если список статусов это список элементов
         } else {
             //если был выбран хоть один статус для фильтрации
             if (statusElem.length) {
@@ -634,7 +666,7 @@
                     data: {'progress': newProgress},
                     type: 'POST'
                 })
-                    //после выполнения аякс-запроса
+                //после выполнения аякс-запроса
                     .done(function (data) {
                         //если вернулась ошибка
                         if (data.error) {
@@ -648,23 +680,28 @@
                                 //кнопка со старым статусом
                                 statusBtn = tableRow.find('.status-btn'),
                                 //старый статус
-                                oldStatus = statusBtn.attr('data-status');
+                                oldStatus = statusBtn.attr('data-status'),
+                                //новый прогресс в процентах
+                                newPercent = Math.round((newProgress / bookPages) * 100) + '%';
 
                             //записываем новый прогресс в страницах в title
                             input.attr('title', newProgress + '/' + bookPages);
+                            input.attr('value', newPercent);
                             //записываем новый прогресс в процентах в значение поля прогресса
-                            input.val(Math.round((newProgress / bookPages) * 100) + '%');
+                            input.val(newPercent);
+                            //записываем новый прогресс в краткую мобильную таблицу
+                            $('.mobile-table-row[data-bookid="' + tableRow.attr('data-bookid') + '"]').find('.progress-short').text(newPercent);
 
                             //если новый прогресс равен 0
                             if (newProgress == 0) {
                                 //меняем соответствующей книге статус на "В планах"
-                                changeStatus(statusBtn, tableRow, oldStatus, 'inPlans', 'В планах');
+                                // changeStatus(statusBtn, tableRow, oldStatus, 'inPlans', 'В планах');
                             }
 
                             //если новый прогресс равен количеству страниц в книге
                             if (newProgress == bookPages) {
                                 //меняем соответствующей книге статус на "Прочитано"
-                                changeStatus(statusBtn, tableRow, oldStatus, 'completed', 'Прочитано');
+                                // changeStatus(statusBtn, tableRow, oldStatus, 'completed', 'Прочитано');
                             }
                         }
                     });
@@ -674,7 +711,7 @@
                 //устанавливаем в поле прогресса старое значение
                 input.val(temporaryPercent);
             }
-        //если новое значение не число
+            //если новое значение не число
         } else {
             //устанавливаем в поле прогресса старое значение
             input.val(temporaryPercent);
@@ -699,7 +736,7 @@
             }
         });
         $.ajax({
-            url: statusBtn.parent('.table-column').prev('.name.value').find('a').attr('href') + '/changeStatus',
+            url: statusBtn.closest('.table-row').find('.name > a').attr('href') + '/changeStatus',
             data: {
                 'oldStatus': oldStatus,
                 'newStatus': newStatus
@@ -717,16 +754,18 @@
                 statusBtn.attr('data-status', newStatus).val(statusName);
                 //меняем цвет в блоке-индикаторе соответственно новому статусу
                 tableRow.find('.status_color').attr('data-status', newStatus);
+                //меняем текст статуса в краткой информации в мобильной таблице
+                $('.mobile-table-row[data-bookid="' + tableRow.attr('data-bookid') + '"]').find('.status-short').text(statusName);
 
 
                 //если в момент переключения количество книг со старым статусом на текущей вкладке было более одной
-                if (booksWithOldStatusCount > 1 && activeTab.attr('data-tab') !== 'all') {
+                if (booksWithOldStatusCount > 2 && activeTab.attr('data-tab') !== 'all') {
                     //скрываем строку с которой установили новый статус
                     tableRow.addClass('hidden');
                 }
 
                 //если в момент переключения статуса была одна книга со старым статусом
-                if (booksWithOldStatusCount === 1) {
+                if (booksWithOldStatusCount === 2) {
                     //скрываем таб остающийся без книг
                     $('.book-status[data-tab="' + oldStatus + '"]').detach().siblings().removeClass('hidden');
                     //если текущий таб не "все книги"
@@ -894,7 +933,7 @@
                 if (paramStr.length == 0) {
                     //записываем новый параметр и его значение
                     paramStr += (name + '=' + value)
-                //если не пустая
+                    //если не пустая
                 } else {
                     //дописываем параметр и егозанчение через амперсанд
                     paramStr += ('&' + name + '=' + value)
@@ -903,7 +942,7 @@
 
             //записываем в адресную строку новый урл с параметрами
             history.pushState(null, null, href + '?' + paramStr);
-        //если не объект, то бросаем исключение
+            //если не объект, то бросаем исключение
         } else {
             throw new TypeError("Передаваемый параметр должен быть объектом");
         }

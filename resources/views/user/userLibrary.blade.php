@@ -34,7 +34,7 @@
                         </div>
                     </div>
                 </div>
-                <table class="table">
+                <table class="library-table">
                     <thead>
                     <tr class="table-row">
                         <th class="table-column number">
@@ -125,7 +125,7 @@
                 </table>
                 <div class="mobile-table">
                     @foreach($books as $key => $book)
-                        <div class="mobile-table-row">
+                        <div class="mobile-table-row table-row" data-bookid="{{ $book['id'] }}">
                             <div class="mobile-short-info-container">
                                 <div class="number-wrapper">
                                     <span class="status_color" data-status="{{ $book['status_name'] }}"></span>
@@ -138,54 +138,56 @@
                                     <div class="mobile-other-short-field-wrapper">
                                         <div class="authors-short">
                                             @if(count($book['authors']) > 1)
-                                                <div>{{ current($book['authors']) }} ...</div>
+                                                {{ current($book['authors']) }}...
                                             @else
-                                                <div>{{ current($book['authors']) }}</div>
+                                                {{ current($book['authors']) }}
                                             @endif
                                         </div>
                                         <div class="status-short">
-                                            <div>{{ $book['status_uname'] }}</div>
+                                            {{ $book['status_uname'] }}
                                         </div>
                                         <div class="rating-short">
-                                            <div>{{ $book['rating'] ?: '' }}</div>
+                                            {{ $book['rating'] ?: '' }}
                                         </div>
                                         <div class="progress-short">
-                                            <div>{{ round(($book['progress']/$book['page_counts'])*100) }}</div>
+                                            {{ round(($book['progress']/$book['page_counts'])*100) }}%
                                         </div>
                                     </div>
                                 </div>
-                                <div class="show-full-controller">
-                                    <i class="fa fa-arrow-circle-o-down" aria-hidden="true"
+                                <div class="show-full-controller" data-parent=".mobile-table">
+                                    <i class="fa show fa-arrow-circle-o-down" aria-hidden="true"
                                        title="Показать полную информацию"></i>
-                                    <i class="fa fa-arrow-circle-o-up hidden" aria-hidden="true"
+                                    <i class="fa hide fa-arrow-circle-o-up hidden" aria-hidden="true"
                                        title="Скрыть полную информацию"></i>
                                 </div>
                             </div>
-                            <div class="mobile-full-info-wrapper hidden">
+                            <div class="mobile-full-info-wrapper collapse">
                                 <div class="authors">
                                     @foreach($book['authors'] as $id => $author)
                                         <a class="author" href="{{ route('author', $id) }}">{{ $author }}</a>
                                     @endforeach
                                 </div>
-                                <div class="status">
-                                    <input type="button" class="status-btn" data-toggle="popover"
-                                           data-status="{{ $book['status_name'] }}" value="{{ $book['status_uname'] }}">
-                                </div>
-                                <div class="rating">
-                                    <input type="text" class="rating-btn no-focused" value="{{ $book['rating'] ?: '---' }}">
-                                    <div class="rating-wrapper hidden">
-                                        <datalist class="rating-list">
-                                            @foreach(range(1, 10) as $rating)
-                                                <option>{{ $rating }}</option>
-                                            @endforeach
-                                        </datalist>
+                                <div class="mobile-controls">
+                                    <div class="rating">
+                                        <input type="text" class="rating-btn no-focused" value="{{ $book['rating'] ?: '---' }}">
+                                        <div class="rating-wrapper hidden">
+                                            <datalist class="rating-list">
+                                                @foreach(range(1, 10) as $rating)
+                                                    <option>{{ $rating }}</option>
+                                                @endforeach
+                                            </datalist>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="progress">
-                                    <input type="text" class="book-progress no-focused"
-                                           data-route="{{ route('book', $book['id']) }}"
-                                           value="{{ round(($book['progress']/$book['page_counts'])*100) }}%"
-                                           title="{{ sprintf("%s/%s",$book['progress'], $book['page_counts']) }}">
+                                    <div class="status">
+                                        <input type="button" class="status-btn" data-toggle="popover"
+                                               data-status="{{ $book['status_name'] }}" value="{{ $book['status_uname'] }}">
+                                    </div>
+                                    <div class="pages">
+                                        <input type="text" class="book-progress no-focused"
+                                               data-route="{{ route('book', $book['id']) }}"
+                                               value="{{ round(($book['progress']/$book['page_counts'])*100) }}%"
+                                               title="{{ sprintf("%s/%s",$book['progress'], $book['page_counts']) }}">
+                                    </div>
                                 </div>
                             </div>
                         </div>

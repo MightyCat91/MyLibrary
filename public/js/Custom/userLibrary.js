@@ -1,6 +1,8 @@
 (function ($) {
     var progressIsChanged = false,
-        temporaryPercent = null;
+        temporaryPercent = null,
+        statusTab = $('.book-status-container'),
+        statusBarBottom = statusTab.position().top + statusTab.height();
 
     //открытие попапа с статусами отличными от текущего
     $('.status-btn').on('focus', function () {
@@ -573,6 +575,27 @@
         row.find('.show').toggleClass('hidden');
         row.find('.hide').toggleClass('hidden');
     });
+
+    $(window).on('scroll', function () {
+        var scroll = $(this).scrollTop();
+
+        if (scroll > statusBarBottom) {
+            statusTab.addClass('fixed');
+            $('.user-book-library-table').addClass('statusTabIsFixed');
+        } else {
+            setTimeout(function () {
+                statusTab.removeClass('fixed');
+                $('.user-book-library-table').removeClass('statusTabIsFixed');
+            }, 500);
+        }
+
+        if (scroll > $('.table-header').position().top) {
+            statusTab.addClass('animate');
+        } else {
+            statusTab.removeClass('animate');
+        }
+    });
+
 
 
     /*

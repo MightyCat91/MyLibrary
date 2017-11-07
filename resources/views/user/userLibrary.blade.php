@@ -16,14 +16,17 @@
                         <span>{{ $statusName }}</span>
                     </div>
                 @endforeach
+                <i class="fa fa-bars fa-lg hidden" aria-hidden="true"></i>
             </div>
             <div class="user-book-library-table">
                 <div class="table-header">
                     <span>Все книги</span>
                     <div class="filter-container">
                         <div class="search-wrapper">
-                            <div class="search-field-wrapper">
-                                <input type="text" class="search-field" placeholder="Название или автор">
+                            <div class="search-field-container">
+                                <div class="search-field-wrapper">
+                                    <input type="text" class="search-field" placeholder="Название или автор">
+                                </div>
                             </div>
                             <i class="fa fa-search" aria-hidden="true"></i>
                         </div>

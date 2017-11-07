@@ -900,6 +900,12 @@ div.page-content {
     }
 }
 
+@media screen and (max-width: 560px) {
+    .page-content {
+        padding: 0 1em;
+    }
+}
+
 /*
  * footer
  */

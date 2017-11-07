@@ -2,7 +2,43 @@
     var progressIsChanged = false,
         temporaryPercent = null,
         statusTab = $('.book-status-container'),
-        statusBarBottom = statusTab.position().top + statusTab.height();
+        statusTabsWidth =  0;
+
+    $('.book-status').each(function(){
+        statusTabsWidth += $(this).width();
+    });
+
+    if (statusTab.width() < statusTabsWidth) {
+        statusTab.addClass('mobile').find('i').removeClass('hidden');
+        $('.book-status:not(.active)').addClass('hidden');
+    }
+
+    $(window).on('scroll', function () {
+        var scroll = $(this).scrollTop();
+
+        if (scroll > $('.table-header').offset().top) {
+            statusTab.addClass('fixed');
+            $('.user-book-library-table').addClass('statusTabIsFixed');
+            statusTab.addClass('animate');
+        } else {
+            statusTab.removeClass('animate');
+            statusTab.removeClass('fixed');
+            $('.user-book-library-table').removeClass('statusTabIsFixed');
+        }
+    })
+        .on('resize', function () {
+            if (statusTab.width() < statusTabsWidth) {
+                statusTab.addClass('mobile').find('i').removeClass('hidden');
+                $('.book-status:not(.active)').addClass('hidden');
+            } else {
+                statusTab.removeClass('mobile').find('i').addClass('hidden');
+                $('.book-status:not(.active)').removeClass('hidden');
+            }
+        });
+
+    $('.book-status-container.mobile > .fa-bars').on('click', function () {
+        $('.book-status:not(.active):not(i)').toggleClass('hidden');
+    });
 
     //открытие попапа с статусами отличными от текущего
     $('.status-btn').on('focus', function () {
@@ -94,6 +130,9 @@
 
             //устанавливаем данному табу статус активного
             $(this).addClass('active').siblings().removeClass('active');
+            if ($('.book-status-container').hasClass('mobile')) {
+                $(this).siblings(':not(i)').addClass('hidden');
+            }
             //если данный таб соответствует общему "все книги"
             if (status === 'all') {
                 //отображаем все книги
@@ -576,25 +615,7 @@
         row.find('.hide').toggleClass('hidden');
     });
 
-    $(window).on('scroll', function () {
-        var scroll = $(this).scrollTop();
 
-        if (scroll > statusBarBottom) {
-            statusTab.addClass('fixed');
-            $('.user-book-library-table').addClass('statusTabIsFixed');
-        } else {
-            setTimeout(function () {
-                statusTab.removeClass('fixed');
-                $('.user-book-library-table').removeClass('statusTabIsFixed');
-            }, 500);
-        }
-
-        if (scroll > $('.table-header').position().top) {
-            statusTab.addClass('animate');
-        } else {
-            statusTab.removeClass('animate');
-        }
-    });
 
 
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Role;
 use App\User;
 use Carbon\Carbon;
 use Validator;
@@ -84,6 +85,8 @@ class RegisterController extends Controller
         $user->subscribed = isset($data['subscribe']);
         $user->last_visit = Carbon::now();
         $user->save();
+
+        $user->roles()->attach(Role::where('name', 'user')->first());
         return $user;
     }
 }

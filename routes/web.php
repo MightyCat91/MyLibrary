@@ -138,7 +138,7 @@ Route::group(['prefix' => 'user'], function () {
         ])->middleware('auth');
         Route::get('edit', [
             'as' => 'userEditProfile', 'uses' => 'UserController@showEditUserProfilePage'
-        ])->middleware('auth');
+        ])->middleware(['auth']);
         Route::get('userBooksStatistic', [
             'as' => 'userBooksStatistic', 'uses' => 'UserController@showBooksForUser'
         ])->middleware('auth');

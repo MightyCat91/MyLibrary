@@ -40,4 +40,61 @@ class User extends Authenticatable
         'rating' => 'array',
         'progress' =>'array'
     ];
+
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class);
+    }
+
+    /**
+     *
+     * @param string|array $roles
+     * @return bool
+     */
+    public function authorizeRoles($roles)
+    {
+        if (is_array($roles)) {
+            return $this->hasAnyRole($roles);
+        }
+        return $this->hasRole($roles) || alert('Недостаточно прав для данного действия', 'danger');
+    }
+
+    /**
+     * Проверка наличия хотя бы одной из ролей из списка у пользователя
+     * @param array $roles
+     * @return bool
+     */
+    public function hasAnyRole($roles)
+    {
+        if (is_array($roles)) {
+            return null !== $this->roles()->whereIn('name', $roles)->first();
+        }
+        return abort(401);
+    }
+
+    /**
+     * Проверка наличия роли у пользователя
+     * @param string $role
+     * @return bool
+     */
+    public function hasRole($role)
+    {
+        return null !== $this->roles()->where('name', $role)->first();
+    }
+
+    public function addRoles($roles)
+    {
+        if (is_array($roles)) {
+            foreach ($roles as $role) {
+                if (Role::where('name', $role)->firstOrFail()) {
+                    $this->roles()->attach($role);
+                }
+            }
+
+        }
+
+        if (is_string($roles)) {
+            
+        }
+    }
 }

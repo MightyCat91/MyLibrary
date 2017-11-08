@@ -93,6 +93,10 @@
     display: flex;
     align-items: center;
     font-size: 18px;
+    right: 1em;
+    height: 100%;
+    top: 0;
+    position: absolute;
 }
 
 .search-wrapper {
@@ -105,8 +109,9 @@
 .search-field-container {
     overflow: hidden;
     margin-right: 10px;
-    width: 20rem;
+    width: 15rem;
     height: 100%;
+    position: relative;
 }
 
 .search-field-wrapper {
@@ -115,10 +120,11 @@
     width: 95%;
     right: 10px;
     height: 100%;
+    display: flex;
     border-radius: 9px;
-    padding: 3px 5px;
+    padding: 5px;
     background-color: #3b4142;
-    transform: translateX(100%);
+    transform: translateX(105%);
     transition: .5s ease;
 }
 
@@ -127,10 +133,10 @@
     height: 0;
     position: absolute;
     right: -7px;
-    top: 4px;
+    top: 2px;
     width: 0;
     border-style: solid;
-    border-width: 11px 0 11px 9px;
+    border-width: 15px 0 13px 11px;
     border-color: transparent transparent transparent #3b4142;
 }
 

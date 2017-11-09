@@ -31,7 +31,7 @@
             "App\\": "app/",
             "MyLibrary\\Alerts\\": "packages/alerts/src",
             "MyLibrary\\Breadcrumbs\\": "packages/breadcrumbs/src",
-            "MyLibrary\\customValidator\\": "packages/customValidator"
+            "MyLibrary\\customServiceProviders\\": "app/Providers/Custom"
         },
         "files": [
             "app/Http/helpers.php",

@@ -72,6 +72,11 @@ class User extends Authenticatable
         return abort(401);
     }
 
+    public function isAdmin()
+    {
+        return $this->hasRole('admin');
+    }
+
     /**
      * Проверка наличия роли у пользователя
      * @param string $role
@@ -82,6 +87,10 @@ class User extends Authenticatable
         return null !== $this->roles()->where('name', $role)->first();
     }
 
+    /**
+     * Добавление роли или списка ролей пользователю
+     * @param array|string $roles
+     */
     public function addRoles($roles)
     {
         if (is_array($roles)) {
@@ -94,7 +103,42 @@ class User extends Authenticatable
         }
 
         if (is_string($roles)) {
-            
+            if (Role::where('name', $roles)->firstOrFail()) {
+                $this->roles()->attach($roles);
+            }
         }
     }
+
+    /**
+     * Удаление роли или списка ролей пользователю
+     * @param array|string $roles
+     */
+    public function removeRoles($roles)
+    {
+        if (is_array($roles)) {
+            foreach ($roles as $role) {
+                if (Role::where('name', $role)->firstOrFail()) {
+                    $this->roles()->detach($role);
+                }
+            }
+
+        }
+
+        if (is_string($roles)) {
+            if (Role::where('name', $roles)->firstOrFail()) {
+                $this->roles()->detach($roles);
+            }
+        }
+    }
+
+    /**
+     * Получение коллекции ролей пользователя
+     * @return \Illuminate\Database\Eloquent\Collection
+     */
+    public function getRoles()
+    {
+        return $this->roles()->get();
+    }
+
+
 }

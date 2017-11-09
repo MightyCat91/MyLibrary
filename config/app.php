@@ -174,7 +174,6 @@ return [
         /*
          * Application Service Providers...
          */
-        App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
@@ -186,7 +185,8 @@ return [
          */
         MyLibrary\Alerts\AlertServiceProvider::class,
         MyLibrary\Breadcrumbs\BreadcrumbsServiceProvider::class,
-        MyLibrary\customValidator\CustomValidatorServiceProvider::class
+        MyLibrary\customServiceProviders\ValidatorServiceProvider::class,
+        MyLibrary\customServiceProviders\AdminServiceProvider::class
         // Laracasts\Generators\GeneratorsServiceProvider::class,
     ],
 

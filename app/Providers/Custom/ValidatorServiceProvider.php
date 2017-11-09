@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Providers;
+namespace MyLibrary\customServiceProviders;
 
 use Illuminate\Support\Facades\Input;
 use Validator;
 use Illuminate\Support\ServiceProvider;
 
-class AppServiceProvider extends ServiceProvider
+class ValidatorServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap any application services.
@@ -48,6 +48,11 @@ class AppServiceProvider extends ServiceProvider
         //инициализация атрибута имени валидируемого файла в правиле dimensions
         Validator::replacer('dimensions', function ($message, $attribute, $rule, $parameters) {
             return str_replace(':fileName', Input::file($attribute)->getClientOriginalName(), $message);
+        });
+
+        //правило проверки пароля
+        Validator::extend('check_password', function ($attribute, $value, $parameters, $validator) {
+            return \Hash::check($value, \Auth::getUser()->getAuthPassword());
         });
     }
 

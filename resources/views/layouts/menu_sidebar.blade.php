@@ -45,6 +45,9 @@
                     <div class="nav-item-name">Добавить книгу</div>
                 </a>
             @endif
+            @isAdmin
+                <i class="fa fa-star"></i>
+            @endisAdmin
         </section>
         <section id="bottom-container">
             @if (Auth::guest())

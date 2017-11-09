@@ -9,6 +9,7 @@
 namespace MyLibrary\customServiceProviders;
 
 
+use Auth;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 
@@ -22,7 +23,7 @@ class AdminServiceProvider extends ServiceProvider
     public function boot()
     {
         Blade::if('isAdmin', function () {
-            return \Auth::user()->isAdmin();
+            return (Auth::check()) ? \Auth::user()->isAdmin() : false;
         });
     }
 

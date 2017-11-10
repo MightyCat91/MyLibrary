@@ -25,7 +25,7 @@ Route::group(['prefix' => 'publisher'], function () {
             'as' => 'publisher-books', 'uses' => 'PublisherController@show'
         ]);
     });
-    Route::get('all', ['middleware' => 'isAdmin',
+    Route::get('all', [
         'as' => 'publishers', 'uses' => 'PublisherController@show'
     ]);
 });

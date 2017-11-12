@@ -41,7 +41,7 @@ class Alert
         $alert = [
             'icon'     => $icons[$type] ?? null,
             'type'     => $type,
-            'message' => $message,
+            'message'  => $message,
             'lifetime' => $lifetime,
         ];
         if ($ajax) {
@@ -62,7 +62,7 @@ class Alert
      * @param bool $ajax
      * @return $this
      */
-    public function error($message, $lifetime = null, $ajax = false)
+    public function danger($message, $lifetime = null, $ajax = false)
     {
         return $this->flash($message, 'danger', $lifetime, $ajax);
     }

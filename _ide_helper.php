@@ -12040,7 +12040,7 @@ namespace MyLibrary\Alerts\Facades {
          */ 
         public static function error($message, $lifetime = null, $ajax = false)
         {
-            return \MyLibrary\Alerts\Alert::error($message, $lifetime, $ajax);
+            return \MyLibrary\Alerts\Alert::danger($message, $lifetime, $ajax);
         }
         
         /**

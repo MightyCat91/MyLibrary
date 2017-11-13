@@ -44,26 +44,35 @@ class Alert
             'message'  => $message,
             'lifetime' => $lifetime,
         ];
+
         \Debugbar::info($this->session->get('alert'));
         $session = $this->session->get('alert');
         if ($session) {
+            \Debugbar::info(1);
             array_push($session, $alert);
-            if ($ajax) {
-                $response = view('alert::alertContent', $alert)->render();
-            } else {
-                $this->session->flash('alert', $session);
-                $response = $this;
-            }
         } else {
-            if ($ajax) {
-                $response = view('alert::alertContent', $alert)->render();
-            } else {
-                $this->session->flash('alert', $alert);
-                $response = $this;
-            }
+            \Debugbar::info(2);
+            $session[] = $alert;
         }
+        session(['alert' => $session]);
 
-        \Debugbar::info();
+//            $this->session->push('alert', $alert);
+//            array_push($session, $alert);
+//            if ($ajax) {
+//                $response = view('alert::alertContent', $alert)->render();
+//            } else {
+//                $this->session->flash('alert', $session);
+//                $response = $this;
+//            }
+//        } else {
+//            if ($ajax) {
+//                $response = view('alert::alertContent', $alert)->render();
+//            } else {
+//                $this->session->flash('alert', $alert);
+//                $response = $this;
+//            }
+//        }
+
 
         return $response;
     }

@@ -1,4 +1,4 @@
-<link href="{{ asset('/css/Custom/alert.css') }}" rel="stylesheet" type='text/css' media="all">
+
 <div id="alert-container">
     <div class="alert alert-{{ $alert['type'] ?? $type }} alert-dismissible"
          data-lifetime="{{ $alert['lifetime'] ?? $lifetime }}">
@@ -7,4 +7,3 @@
         <i class="fa fa-times" aria-hidden="true"></i>
     </div>
 </div>
-<script type="text/javascript" src="{{ asset('/js/Custom/alert.js') }}"></script>

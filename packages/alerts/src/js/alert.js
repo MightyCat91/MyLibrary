@@ -7,7 +7,6 @@
     //установка делея перед закрытием алерта
     var a = $.now();
     console.log(1,$.now());
-    console.log($.session.get("alert"));
     setTimeout(function () {
         //закрытие алерта
         // alert.removeClass('visible');

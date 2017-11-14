@@ -32,7 +32,7 @@ class Alert
      * @param string $type
      * @param $lifetime
      * @param bool $ajax
-     * @return $this
+//     * @return $this
      */
     public function flash($message, $type = 'info', $lifetime, $ajax)
     {
@@ -74,7 +74,7 @@ class Alert
 //        }
 
 
-        return $response;
+//        return $response;
     }
 
     /**

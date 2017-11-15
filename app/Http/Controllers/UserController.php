@@ -152,6 +152,7 @@ class UserController extends Controller
             array_set($favorite, $type, $arrayOfType);
             $user->favorite = $favorite;
             $user->save();
+            session()->put('success','Item created successfully.');
             return alert()->success(($type == 'book') ? 'Книга добавлена' : 'Автор  добавлен' . ' в избранное', '5000', true);
         }
     }

@@ -5,6 +5,7 @@ namespace MyLibrary\Alerts;
 use \Illuminate\Session\Store;
 use Illuminate\Support\HtmlString;
 use Illuminate\Support\Str;
+use View;
 
 class Alert
 {
@@ -54,7 +55,11 @@ class Alert
             \Debugbar::info(2);
             $session[] = $alert;
         }
-        session(['alert' => $session]);
+
+//        \Auth::user()->notify()
+
+//        $this->session->flash('alert', $session);
+//        session(['alert' => $session]);
 
 //            $this->session->push('alert', $alert);
 //            array_push($session, $alert);

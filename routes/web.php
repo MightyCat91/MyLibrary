@@ -185,3 +185,8 @@ Route::post('register', 'Auth\RegisterController@register')->name('register');
 Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');
 Route::get('password/reset/{token}', 'Auth\ResetPasswordController@showResetForm');
 Route::post('password/reset', 'Auth\ResetPasswordController@reset')->name('password.reset');
+
+Route::get('test', function (){
+    session()->put('test',"Item created successfully.");
+    return redirect()->back();
+})->name('test');

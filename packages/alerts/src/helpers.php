@@ -8,12 +8,19 @@ if (!function_exists('alert')) {
      * @param bool $ajax
      * @return \Illuminate\Foundation\Application|mixed
      */
-    function alert($message = null, $type = 'info', $lifetime = null, $ajax = false)
+//    function alert($message = null, $type = 'info', $lifetime = null, $ajax = false)
+//    {
+//        $alert = app('alert');
+//        if (is_null($message)) {
+//            return $alert;
+//        }
+//        return $alert->flash($message, $type, $lifetime, $ajax);
+//    }
+
+    function alert($type = 'success', $text = null)
     {
-        $alert = app('alert');
-        if (is_null($message)) {
-            return $alert;
-        }
-        return $alert->flash($message, $type, $lifetime, $ajax);
+        \Debugbar::info(123);
+        session()->put('alert', ['type' => $type, 'message' => $text]);
+//        View::share('alert', ['type' => $type, 'message' => $text]);
     }
 }

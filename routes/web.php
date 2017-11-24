@@ -188,7 +188,7 @@ Route::post('password/reset', 'Auth\ResetPasswordController@reset')->name('passw
 
 Route::post('test', function (){
 //    session()->put('test',"Item created successfully.");
-\Debugbar::info('route');
-    alert('success', 'text success');
+//\Debugbar::info('route');
+//    alert('success', 'text success');
 //    return view('home');
 })->name('test');

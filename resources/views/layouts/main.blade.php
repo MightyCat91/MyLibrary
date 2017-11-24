@@ -9,7 +9,6 @@
     <script>
         (function($){
             $('#test').click(function(){
-                console.log(1);
                 $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -17,12 +16,13 @@
                 });
                 $.ajax({
                     url: $(this).attr('data-href'),
-                    data: '1',
                     type: 'POST'
                 })
                     .done(function () {
-
-                        console.log('good')
+                        $.getScript( "/js/Custom/Alert.js", function () {
+                            Alert('success', 'test message', 0);
+                        });
+                        {{--console.log({{ asset('/js/Custom/Alert.js') }})--}}
                     });
             })
         })(jQuery);
@@ -40,6 +40,6 @@
     @include("layouts.footer")
             <!-- Footer -->
     <script src="{{ asset('/js/Library/BootstrapNotify/bootstrap-notify.min.js') }}"></script>
-    <link rel="stylesheet" type="text/css" href="{{ asset('/css/Library/BootstrapNotify/bootstrap-notify.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('/css/Custom/alert.css') }}">
     @include('alert')
 </main>

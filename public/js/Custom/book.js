@@ -62,8 +62,8 @@
                     changeProgress(0);
                     progressInput.val('0/' + bookPages);
                 }
-                //добавление ответа сервера(алерт)
-                body.append(data);
+                //вывод алерта
+                Alert('success', 'Статус книги изменен.');
             });
 
         $('.user-item-rating').removeClass('hidden');
@@ -116,8 +116,8 @@
                 progressContainer.removeClass('error');
                 errorMessage.addClass('hidden');
                 progressInput.val(newProgress + '/' + bookPages);
-                //добавление ответа сервера(алерт)
-                body.append(data.alert);
+                //вывод алерта
+                Alert(data.type, data.message);
             });
     }
 })(jQuery);

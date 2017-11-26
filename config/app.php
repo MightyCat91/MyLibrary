@@ -183,7 +183,6 @@ return [
         /*
          * Custom Service Providers...
          */
-        MyLibrary\Alerts\AlertServiceProvider::class,
         MyLibrary\Breadcrumbs\BreadcrumbsServiceProvider::class,
         MyLibrary\customServiceProviders\ValidatorServiceProvider::class,
         MyLibrary\customServiceProviders\AdminServiceProvider::class
@@ -237,7 +236,6 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Active' => Watson\Active\Facades\Active::class,
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
-        'Alert' => MyLibrary\Alerts\Facades\Alert::class,
         'Breadcrumbs' => MyLibrary\Breadcrumbs\Facades\Breadcrumbs::class,
     ],
 

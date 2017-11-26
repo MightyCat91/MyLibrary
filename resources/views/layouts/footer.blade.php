@@ -30,7 +30,9 @@
 <script type="text/javascript" src="{{ asset('/js/Library/Tether/tether.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('/js/Library/Popper/popper.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('/js/Library/Bootstrap/bootstrap.min.js') }}"></script>
+<script type="text/javascript" src="{{ asset('/js/Library/BootstrapNotify/bootstrap-notify.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('/js/Custom/general.js') }}"></script>
+<script type="text/javascript" src="{{ asset('/js/Custom/alert.js') }}"></script>
 @if (Auth::guest())
     <script type="text/javascript" src="{{ asset('/js/Custom/authentication.js') }}"></script>
 @endif

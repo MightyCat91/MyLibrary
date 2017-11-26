@@ -96,7 +96,7 @@ class UserController extends Controller
         $user->gender = $request->input(['man']) ? 'мужской' : 'женский';
         $user->save();
 
-        alert()->success('Изменения сохранены.');
+        alert('success', 'Изменения сохранены.');
         return redirect()->back();
     }
 
@@ -112,8 +112,6 @@ class UserController extends Controller
                 $user->$key = ($key == 'password') ? \Hash::make($value) : $value;
             }
             $user->save();
-
-            return alert()->success('Изменения сохранены.', '5000', true);
         }
     }
 
@@ -152,8 +150,6 @@ class UserController extends Controller
             array_set($favorite, $type, $arrayOfType);
             $user->favorite = $favorite;
             $user->save();
-            session()->put('success','Item created successfully.');
-            return alert()->success(($type == 'book') ? 'Книга добавлена' : 'Автор  добавлен' . ' в избранное', '5000', true);
         }
     }
 
@@ -174,7 +170,6 @@ class UserController extends Controller
             array_set($statistic, $newStatus, $arrayOfStatus);
             $user->statistic = $statistic;
             $user->save();
-            return alert()->success('Статус книги изменен', '5000', true);
         }
     }
 
@@ -193,15 +188,9 @@ class UserController extends Controller
             $oldRating = Book::where('id', $bookId)->first(['rating'])->rating[$id];
 
             if ($newRating > 10 and !empty($oldRating)) {
-                return response()->json(array(
-                    'alert' => alert()->error('Введенное значение больше максимально возможного рейтинга', '5000', true),
-                    'error' => true
-                ));
+                return response()->json('Введенное значение больше максимально возможного рейтинга');
             }
             parent::changeRating($bookId, $request, Book::class);
-            return response()->json([
-                'error' => false
-            ]);
         }
     }
 
@@ -211,8 +200,8 @@ class UserController extends Controller
             $newProgress = $request->get('progress');
             if ($newProgress > Book::where('id', $id)->first(['page_counts'])->page_counts) {
                 return response()->json([
-                    'alert' => alert()->error('Введенное значение больше количества страниц данной книги', '5000', true),
-                    'error' => true
+                    'message' => 'Введенное значение больше количества страниц данной книги',
+                    'type' => 'danger'
                 ]);
             }
             $user = auth()->user();
@@ -222,8 +211,8 @@ class UserController extends Controller
             $user->save();
 
             return response()->json([
-                'alert' => alert()->success('Прогресс для данной книги изменен', '5000', true),
-                'error' => false
+                'message' => 'Прогресс для данной книги изменен',
+                'type' => 'success'
             ]);
         }
     }

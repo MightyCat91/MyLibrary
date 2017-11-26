@@ -19,7 +19,6 @@
         e.preventDefault();
         //удаление с формы результатов предыдущей неуспешной валидации
         clearValidateErrors();
-
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -30,7 +29,6 @@
             data: new FormData(emailPassForm[0]),
             processData: false,
             contentType: false,
-            async: true,
             type: 'POST',
             //анимация кнопки в момент отправки аякс-запроса
             beforeSend: function () {
@@ -44,19 +42,20 @@
                     .addClass('hidden');
                 //скрытие модального окна
                 modalDialog.modal('hide');
-                //добавление ответа сервера(алерт)
-                body.append(data);
+                //вывод алерта
+                Alert('success', 'Изменения сохранены.');
             })
             .fail(function (response) {
                 var errors, input, key;
                 //вывод ошибок валидации для каждого невалидного поля
-                for (key in response.responseJSON) {
+                for (key in response.responseJSON.errors) {
                     //селектор невалидного поля
                     input = $('#' + key);
                     //установка стилей невалидного значения
                     input.parent().addClass('has-danger');
                     //получение текста ошибок
-                    errors = response.responseJSON[key];
+                    errors = response.responseJSON.errors[key];
+
                     //вывод всех ошибок
                     $.each(errors, function (index, error) {
                         input.nextAll('.form-control-feedback').text(error);
@@ -110,10 +109,6 @@
                 var src = response + "?" + (new Date()).getTime();
                 $('#user-profile-img-change-wrapper img').prop('src', src);
                 $('#user-profile-img-wrapper img').prop('src', src);
-            })
-            .fail(function (response) {
-                //добавление ответа сервера(алерт)
-                body.append(response);
             });
     }
 

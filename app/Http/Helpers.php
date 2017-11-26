@@ -21,3 +21,15 @@ function getStorageFile($imgFolder, $id) {
     $files = getAllStorageFiles($imgFolder, $id);
     return $files ? $files[0] : null;
 }
+
+/**
+ * Формирование алерта на серверной стороне
+ *
+ * @param string $type тип алерта(success, info, warning, danger)
+ * @param null $text текст сообщения
+ * @param int $delay время отображения(если алерт не должен скрываться автоматически необходимо указать 0)
+ */
+function alert($type = 'success', $text = null, $delay = 3000)
+{
+    session()->push('alert', ['type' => $type, 'message' => $text, 'delay' => $delay]);
+}

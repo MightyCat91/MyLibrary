@@ -36,8 +36,9 @@
     });
 
     $('#add-to-favorite').on('click', function (e) {
-        var favoriteBtn = $(this);
-        var action = favoriteBtn.hasClass('active');
+        var favoriteBtn = $(this),
+            action = favoriteBtn.hasClass('active'),
+            type = $(this).data('type');
         e.preventDefault();
         $.ajaxSetup({
             headers: {
@@ -46,14 +47,18 @@
         });
         $.ajax({
             url: window.location.pathname,
-            data: 'type=' + $(this).data('type') + '&delete=' + action,
+            data: 'type=' + type + '&delete=' + action,
             type: 'POST'
         })
             .done(function (data) {
+                //вывод алерта
+                if (favoriteBtn.hasClass('active')) {
+                    Alert('success', ((type === 'book') ? 'Книга удалена' : 'Автор  удален') + ' из избранного');
+                } else {
+                    Alert('success', ((type === 'book') ? 'Книга добавлена' : 'Автор  добавлен') + ' в избранное');
+                }
                 favoriteBtn.toggleClass('active')
                     .attr('title', action ? 'Добавить в избранное' : 'Удалить из избранного');
-                //добавление ответа сервера(алерт)
-                body.append(data);
             })
     })
 })

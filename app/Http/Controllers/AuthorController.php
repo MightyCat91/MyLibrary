@@ -60,7 +60,7 @@ class AuthorController extends Controller
             Storage::disk('authorsTemporary')->delete($filename);
 
             $response = redirect()->back();
-            alert()->success('Спасибо. Автор будет добавлен после модерации.');
+            alert('success', 'Спасибо. Автор будет добавлен после модерации.');
         }
         return $response;
     }
@@ -154,10 +154,7 @@ class AuthorController extends Controller
     {
         if ($request->ajax()) {
             $data = parent::changeRating($id, $request, Author::class);
-            return response()->json(array(
-                'alert' => alert()->success('Ваша оценка обновлена', '5000', true),
-                'data'   => $data
-            ));
+            return response()->json($data);
         }
     }
 

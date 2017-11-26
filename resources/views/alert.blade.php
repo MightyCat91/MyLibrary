@@ -1,55 +1,51 @@
-<script src="{{ asset('/js/Library/BootstrapNotify/bootstrap-notify.js') }}"></script>
-<link rel="stylesheet" type="text/css" href="{{ asset('/css/Library/BootstrapNotify/bootstrap-notify.css') }}">
-
 <script type="text/javascript" charset="utf-8">
     $(function () {
         @if(Session::has('alert'))
-            @switch(Session::get('type'))
-                @case('success')
-                    $.notify({
-                        icon: '<i class="fa fa-check" aria-hidden="true"></i>',
-                        message: '{{ Session::get('message') }}'
-                    },{
-                        type: '{{ Session::get('type') }}'
-                    });
-                    @php
-                    Session::forget('alert')
-                    @endphp
-                @break
-                @case('info')
-                    $.notify({
-                        icon: '<i class="fa fa-info" aria-hidden="true"></i>',
-                        message: '{{ Session::get('message') }}'
-                    },{
-                        type: '{{ Session::get('type') }}'
-                    });
-                    @php
-                        Session::forget('alert')
-                    @endphp
-                @break
-                @case('warning')
-                    $.notify({
-                        icon: '<i class="fa fa-exclamation-circle" aria-hidden="true"></i>',
-                        message: '{{ Session::get('message') }}'
-                    },{
-                        type: '{{ Session::get('type') }}'
-                    });
-                    @php
-                        Session::forget('alert')
-                    @endphp
-                @break
-                @case('error')
-                    $.notify({
-                        icon: '<i class="fa fa-times" aria-hidden="true"></i>',
-                        message: '{{ Session::get('message') }}'
-                    },{
-                        type: '{{ Session::get('type') }}'
-                    });
-                    @php
-                        Session::forget('alert')
-                    @endphp
-                @break
-            @endswitch
+            @foreach(Session::get('alert') as $alert)
+                @switch($alert['type'])
+                    @case('success')
+                        $.notify({
+                            icon: 'fa fa-check',
+                            message: '{{ $alert['message'] }}'
+                        },{
+                            type: '{{ $alert['type'] }}',
+                            delay: '{{ $alert['delay'] }}',
+                            spacing: 5
+                        });
+                    @break
+                    @case('info')
+                        $.notify({
+                            icon: 'fa fa-info-circle',
+                            message: '{{ $alert['message'] }}'
+                        },{
+                            type: '{{ $alert['type'] }}',
+                            delay: '{{ $alert['delay'] }}',
+                            spacing: 5
+                        });
+                    @break
+                    @case('warning')
+                        $.notify({
+                            icon: 'fa fa-exclamation-circle',
+                            message: '{{ $alert['message'] }}'
+                        },{
+                            type: '{{ $alert['type'] }}',
+                            delay: '{{ $alert['delay'] }}',
+                            spacing: 5
+                        });
+                    @break
+                    @case('danger')
+                        $.notify({
+                            icon: 'fa fa-lock',
+                            message: '{{ $alert['message'] }}'
+                        },{
+                            type: '{{ $alert['type'] }}',
+                            delay: '{{ $alert['delay'] }}',
+                            spacing: 5
+                        });
+                    @break
+                @endswitch
+            @endforeach
+            {{ Session::forget('alert') }}
         @endif
     });
 </script>

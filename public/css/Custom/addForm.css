@@ -206,12 +206,6 @@
 .gender .active:last-child {
     background-position:left bottom;
 }
-#openDialog {
-    color: #9e9e9e;
-}
-#openDialog:hover {
-    color: #009926;
-}
 #changeInfo {
     line-height: 1.3;
     font-size: 15px;

@@ -190,7 +190,7 @@ class BookController extends Controller
             }
 
             $response = redirect()->back();
-            alert()->success('Спасибо. Книга будет добавлена после модерации.');
+            alert('success', 'Спасибо. Книга будет добавлена после модерации.');
         }
         return $response;
     }
@@ -219,10 +219,7 @@ class BookController extends Controller
     {
         if ($request->ajax()) {
             $data = parent::changeRating($id, $request, Book::class);
-            return response()->json(array(
-                'alert' => alert()->success('Ваша оценка обновлена', '5000', true),
-                'data'   => $data
-            ));
+            return response()->json($data);
         }
     }
 

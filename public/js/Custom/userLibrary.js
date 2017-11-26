@@ -213,11 +213,11 @@
                         //при окончании запроса
                             .done(function (data) {
                                 //при ошибке
-                                if (data.error) {
+                                if (data.length) {
                                     //в поле рейтинга устанавливаем старое значение
                                     ratingField.val(oldRating);
-                                    //добавление ответа сервера(алерт)
-                                    $('body').append(data.alert);
+                                    //вывод алерта
+                                    Alert('danger', data);
                                 }
                                 $('.mobile-table-row[data-bookid="' + ratingField.closest('.table-row').attr('data-bookid') + '"]').find('.rating-short').text(newRating);
                             });
@@ -713,11 +713,11 @@
                 //после выполнения аякс-запроса
                     .done(function (data) {
                         //если вернулась ошибка
-                        if (data.error) {
+                        if (data.type === 'danger') {
                             //в поле прогресса устанавливаем старое значение
                             input.val(temporaryPercent);
-                            //добавление ответа сервера(алерт)
-                            $('body').append(data.alert);
+                            //вывод алерта
+                            Alert(data.type, data.message);
                         } else {
                             //строка таблицы в которой меняем статус книги
                             var tableRow = input.closest('.table-row'),

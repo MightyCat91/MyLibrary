@@ -98,12 +98,12 @@
             type: 'POST'
         })
             .done(function (data) {
-                //добавление ответа сервера(алерт)
-                body.append(data.alert);
+                //вывод алерта
+                Alert('success', 'Ваша оценка обновлена');
                 //обновление значения среднего рейтинга
-                $('#avg-rating > span').text(data.data.avgRating);
+                $('#avg-rating > span').text(data.avgRating);
                 //обновление значения количества оценок
-                $('#rating-quantity > span').text(data.data.quantityRating);
+                $('#rating-quantity > span').text(data.quantityRating);
             });
     });
 })(jQuery);

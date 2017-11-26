@@ -40,13 +40,13 @@ class EditUserProfile extends FormRequest
             } else {
                 $rules = [
                     'oldPassword' => [
-                        'required_without:imageInput',
+                        'required',
                         'string',
                         'max:255',
                         'check_password'
                     ],
                     'email' => [
-                        'required_without:imageInput',
+                        'required',
                         'email',
                         'max:255',
                         'required_with:password',
@@ -72,7 +72,7 @@ class EditUserProfile extends FormRequest
     public function messages()
     {
         return [
-            '*.required_without' => 'Поле обязательно к заполнению',
+            '*.required' => 'Поле обязательно к заполнению',
             '*.string' => 'Вводимое значение должно быть строкой',
             'oldPassword.max' => 'Пароль не должен содержать больше :max символов',
             'oldPassword.check_password' => 'Пароль не совпадает с ранее сохраненным',

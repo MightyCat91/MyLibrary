@@ -1,7 +1,7 @@
 @push('styles')
     <link href="{{ asset('/css/Library/Owl.Carousel/owl.carousel.min.css') }}" rel='stylesheet' type='text/css'
           media="all"/>
-    <link href="{{ asset('/css/Library/MorrisCharts/morris.css') }}" rel='stylesheet' type='text/css' media="all"/>
+    <link href="{{ asset('/css/Library/MorisCharts/morris.css') }}" rel='stylesheet' type='text/css' media="all"/>
     <link href="{{ asset('/css/custom/userProfile.css') }}" rel='stylesheet' type='text/css' media="all"/>
 @endpush
 @push('scripts')

@@ -169,7 +169,7 @@
                             <a href="{{ route('privacyPolicy') }}" id="privacyPolicy"> Прочитать</a>
                         </label>
                     </div>
-                    <button type="submit" id="register-btn" class="btn btn-primary auth-btn">
+                    <button type="submit" id="register-btn" class="btn submit-btn auth-btn">
                         Зарегистрироваться
                     </button>
                 </div>

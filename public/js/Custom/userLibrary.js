@@ -300,8 +300,9 @@
             //переменной сортировки устанавливаем соответсвующий порядок
             order = $(this).children('.sort-controls:last').attr('data-order')
         }
+
         //перерисовываем таблицу в соответсвии с новой сортировкой
-        $('.table-body .table-body').html(sort(field, order));
+        $('.table-body').append(sorting(field, order));
     });
 
     //отображение поля ввода поиска при клике по соответствующей иконке
@@ -847,7 +848,7 @@
     * @string field имя столбца, по которому осуществляется сортировка
     * @string order направление сортировки
      */
-    function sort(field, order) {
+    function sorting(field, order) {
         //строки таблицы
         var sortingTable = $('.table-body .table-row');
 
@@ -938,7 +939,6 @@
         sortingTable.each(function (key, value) {
             $(value).find('.number-wrapper > span:last').text(++key);
         });
-
         //возвращаем отсортированную страницу
         return sortingTable;
     }

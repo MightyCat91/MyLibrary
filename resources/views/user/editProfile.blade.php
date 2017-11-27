@@ -48,7 +48,7 @@
             <a href='#' id="openDialog" data-toggle="modal" data-target="#changeEmailPass">Сменить email или пароль</a>
 
             <div class="form-group submit-btn">
-                <button type="submit" id="submit-edit-form" class="btn btn-primary">Сохранить</button>
+                <button type="submit" id="submit-edit-form" class="btn submit-btn">Сохранить</button>
             </div>
         </section>
         <section id="edit-img-wrapper">
@@ -113,7 +113,7 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-primary saveEmailPass">
+                        <button type="submit" class="btn submit-btn saveEmailPass">
                             <span class="dflt-text">Изменить</span>
                                 <span class="load-text hidden">
                                     <i class="fa fa-spinner fa-pulse fa-fw"></i>

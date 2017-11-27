@@ -265,10 +265,10 @@
 
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-primary btn-filter-clear">
+                    <button class="btn submit-btn btn-filter-clear">
                         <span class="dflt-text">Сбросить</span>
                     </button>
-                    <button class="btn btn-primary btn-filter">
+                    <button class="btn submit-btn btn-filter">
                         <span class="dflt-text">Применить</span>
                     </button>
                 </div>

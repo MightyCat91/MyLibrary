@@ -172,11 +172,10 @@
 .btn-switch-label {
     padding: 0 1rem;
     margin: 0;
-    font-size: 20px;
+    font-size: 24px;
     border: 1px solid #009926;
     color: #3B4142;
     cursor: pointer;
-    flex-grow: 1;
 }
 .btn-switch-label.active {
     color: #fff;

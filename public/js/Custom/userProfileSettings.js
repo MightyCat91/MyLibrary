@@ -15,7 +15,7 @@
     });
 
     //сабмит формы смены email и пароля
-    changeBtn.on('click', function (e) {
+    emailPassForm.on('submit', function (e) {
         e.preventDefault();
         //удаление с формы результатов предыдущей неуспешной валидации
         clearValidateErrors();

@@ -42,7 +42,7 @@
             </div>
 
             <div class="form-group submit-btn">
-                <button type="submit" class="btn btn-primary">Добавить</button>
+                <button type="submit" class="btn submit-btn">Добавить</button>
             </div>
         </form>
     </div>

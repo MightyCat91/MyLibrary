@@ -189,7 +189,7 @@
                         </label>
 
                         <div class="form-group submit-btn">
-                            <button type="submit" id="submit-book-add" class="btn btn-primary">Добавить</button>
+                            <button type="submit" id="submit-book-add" class="btn submit-btn">Добавить</button>
                         </div>
                     </div>
                     <div id='img-name'>

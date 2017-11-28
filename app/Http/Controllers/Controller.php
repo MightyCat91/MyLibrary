@@ -35,7 +35,7 @@ class Controller extends BaseController
      * @param $ModelClass - класс модели сущности, рейтинг которой изменяют(Book::class или Author::class)
      * @return array
      */
-    public function changeRating($id, $request, $ModelClass)
+    public function changeRating($id, Request $request, $ModelClass)
     {
         $rating = $request->rating;
         $type = $request->type;
@@ -70,5 +70,51 @@ class Controller extends BaseController
         $user->save();
 
         return ['avgRating' => array_sum($elRating) / count($elRating), 'quantityRating' => count($elRating)];
+    }
+
+
+    public function alphabetFilter(Request $request)
+    {
+        $filterLetter = $request->get('filterLetter');
+        $type = $request->get('type');
+        $isCurrent = $request->get('isCurrent');
+        $data = $view = null;
+
+        switch ($type) {
+            case 'book':
+                $data = [
+                    'array' => $isCurrent ? Book::get(['id', 'name']) : Book::where('name', 'like', $filterLetter . '%')->get(['id', 'name']),
+                    'routeName' => $type,
+                    'imgFolder' => 'books'
+                ];
+                $view = 'layouts.commonGrid';
+                break;
+            case 'author':
+                $data = [
+                    'array' => $isCurrent ? Author::get(['id', 'name']) : Author::where('name', 'like', $filterLetter . '%')->get(['id', 'name']),
+                    'routeName' => $type,
+                    'imgFolder' => 'authors'
+                ];
+                $view = 'layouts.commonGrid';
+                break;
+            case 'category':
+                $data = [
+                    'array' => $isCurrent ? Categories::get(['id', 'name']) : Categories::where('name', 'like', $filterLetter . '%')->get(['id', 'name']),
+                    'routeName' => 'category-books',
+                    'imgFolder' => 'categories'
+                ];
+                $view = 'layouts.commonGrid';
+                break;
+            case 'publisher':
+                $data = [
+                    'array' => $isCurrent ? Publisher::get(['id', 'name']) : Publisher::where('name', 'like', $filterLetter . '%')->get(['id', 'name']),
+                    'routeName' => 'publisher-books'
+                ];
+                $view = 'layouts.commonList';
+                break;
+        }
+        dd(view($view, $data)->render());
+
+        return response()->json(view($view, $data)->render());
     }
 }

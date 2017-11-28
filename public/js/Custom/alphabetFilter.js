@@ -46,8 +46,7 @@
     /*
     * функция получения параметров из адресной строки
      */
-    function GetURLParameter(name)
-    {
+    function GetURLParameter(name) {
         name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
         var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
         var results = regex.exec(location.search);
@@ -62,36 +61,57 @@
     //если при загрузке страницы в адресе присутствует параметр, то букве соответствующей его значению вешаем класс
     // active
     if (urlParameter) {
-        $('.letter-filter:contains("'+urlParameter+'")').addClass('active');
+        $('.letter-filter:contains("' + urlParameter + '")').addClass('active');
     }
 
     filterLetter.on('click', function (e) {
         e.preventDefault();
-        var letter = $(this).html();
-        var filterHeader = $('#filter-header');
+        var letter = $(this).html(),
+            filterHeader = $('#filter-header'),
+            data = {
+                'filterLetter': letter,
+                'type': $('#alphabet-sticky-block').attr('class'),
+                'isCurrent': $(this).hasClass('active')
+            };
+
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+        $.ajax({
+            url: '/alphabetFilter',
+            data: data,
+            type: 'GET'
+        })
+            .done(function (data) {
+                console.log(data);
+                var json = $.parseJSON(data);
+                $('#main-container').append(json);
+            })
 
         //если выбранная буква не является текущей, по которой происходит фильтрация
-        if (!$(this).hasClass('active')) {
-            //снимаем с других букв класс активной
-            $('.letter-filter').removeClass('active');
-            //текущей букве устанавливаем класс активной
-            $(this).addClass('active');
-
-            var filteredItems = $('.container-title').filter(function () {
-                if(!$(this).text().startsWith(letter)) {
-                    $(this).closest('.item-container-link').addClass('hidden');
-                }
-                else {
-                    return this;
-                }
-            });
-
-            (filteredItems.length > 0) ?  filterHeader.text('Отфильтровано по букве ' + letter).removeClass('hidden') : filterHeader.text('К сожалению ничего не найдено').removeClass('hidden');
-        } else {
-            //иначе убираем с текущей буквы класс активной
-            $(this).removeClass('active');
-            $('.item-container-link').removeClass('hidden');
-            filterHeader.text('').addClass('hidden');
-        }
+        // if (!$(this).hasClass('active')) {
+        //     //снимаем с других букв класс активной
+        //     $('.letter-filter').removeClass('active');
+        //     //текущей букве устанавливаем класс активной
+        //     $(this).addClass('active');
+        //
+        //     var filteredItems = $('.container-title').filter(function () {
+        //         if(!$(this).text().startsWith(letter)) {
+        //             $(this).closest('.item-container-link').addClass('hidden');
+        //         }
+        //         else {
+        //             return this;
+        //         }
+        //     });
+        //
+        //     (filteredItems.length > 0) ?  filterHeader.text('Отфильтровано по букве ' + letter).removeClass('hidden') : filterHeader.text('К сожалению ничего не найдено').removeClass('hidden');
+        // } else {
+        //     //иначе убираем с текущей буквы класс активной
+        //     $(this).removeClass('active');
+        //     $('.item-container-link').removeClass('hidden');
+        //     filterHeader.text('').addClass('hidden');
+        // }
     });
 })(jQuery);

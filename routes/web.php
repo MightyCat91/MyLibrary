@@ -15,6 +15,10 @@ Route::get('/', [
     'as' => 'home', 'uses' => 'Controller@index'
 ]);
 
+Route::get('alphabetFilter', [
+    'uses' => 'Controller@alphabetFilter'
+]);
+
 Route::get('year/{year}/books', [
     'as' => 'year-books', 'uses' => 'BookController@showBooksForYear'
 ]);

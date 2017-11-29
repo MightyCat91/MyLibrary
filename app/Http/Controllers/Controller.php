@@ -77,7 +77,7 @@ class Controller extends BaseController
     {
         $filterLetter = $request->get('filterLetter');
         $type = $request->get('type');
-        $isCurrent = $request->get('isCurrent');
+        $isCurrent = $request->get('isCurrent') === 'true';
         $data = $view = null;
 
         switch ($type) {
@@ -107,14 +107,14 @@ class Controller extends BaseController
                 break;
             case 'publisher':
                 $data = [
-                    'array' => $isCurrent ? Publisher::get(['id', 'name']) : Publisher::where('name', 'like', $filterLetter . '%')->get(['id', 'name']),
+                    'array' => $isCurrent ? Publisher::get(['id', 'name']) : Publisher::where('name', 'LIKE', $filterLetter . '%')->get(['id', 'name']),
                     'routeName' => 'publisher-books'
                 ];
                 $view = 'layouts.commonList';
                 break;
         }
-        dd(view($view, $data)->render());
 
-        return response()->json(view($view, $data)->render());
+
+        return view($view, $data);
     }
 }

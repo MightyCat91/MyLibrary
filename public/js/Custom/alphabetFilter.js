@@ -74,6 +74,7 @@
                 'isCurrent': $(this).hasClass('active')
             };
 
+        console.log(data);
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -83,35 +84,30 @@
             url: '/alphabetFilter',
             data: data,
             type: 'GET'
+            // beforeSend: function () {
+            //     changeBtn.addClass('saving').children('.dflt-text').addClass('hidden').nextAll('.load-text')
+            //         .removeClass('hidden');
+            // }
         })
             .done(function (data) {
-                console.log(data);
-                var json = $.parseJSON(data);
-                $('#main-container').append(json);
-            })
+                if($(data).find('item-container-link') > 0) {
+                    console.log('1')
+                }
+                // ($('.item-container-link').length > 0) ?  $(data).find(filterHeader).text('Отфильтровано по букве ' + letter).removeClass('hidden') : filterHeader.text('К сожалению ничего не найдено').removeClass('hidden');
+                $('#main-container').html(data);
+            });
 
         //если выбранная буква не является текущей, по которой происходит фильтрация
-        // if (!$(this).hasClass('active')) {
-        //     //снимаем с других букв класс активной
-        //     $('.letter-filter').removeClass('active');
-        //     //текущей букве устанавливаем класс активной
-        //     $(this).addClass('active');
-        //
-        //     var filteredItems = $('.container-title').filter(function () {
-        //         if(!$(this).text().startsWith(letter)) {
-        //             $(this).closest('.item-container-link').addClass('hidden');
-        //         }
-        //         else {
-        //             return this;
-        //         }
-        //     });
-        //
-        //     (filteredItems.length > 0) ?  filterHeader.text('Отфильтровано по букве ' + letter).removeClass('hidden') : filterHeader.text('К сожалению ничего не найдено').removeClass('hidden');
-        // } else {
-        //     //иначе убираем с текущей буквы класс активной
-        //     $(this).removeClass('active');
-        //     $('.item-container-link').removeClass('hidden');
-        //     filterHeader.text('').addClass('hidden');
-        // }
+        if (!$(this).hasClass('active')) {
+            //снимаем с других букв класс активной
+            $('.letter-filter').removeClass('active');
+            //текущей букве устанавливаем класс активной
+            $(this).addClass('active');
+        } else {
+            //иначе убираем с текущей буквы класс активной
+            $(this).removeClass('active');
+            $('.item-container-link').removeClass('hidden');
+            // filterHeader.text('').addClass('hidden');
+        }
     });
 })(jQuery);

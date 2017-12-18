@@ -16,6 +16,7 @@
 
 .letter-filter {
     text-align: center;
+    width: 24px;
 }
 
 .letter-filter.hover {

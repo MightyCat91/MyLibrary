@@ -67,14 +67,12 @@
     filterLetter.on('click', function (e) {
         e.preventDefault();
         var letter = $(this).html(),
-            filterHeader = $('#filter-header'),
-            data = {
+            ajaxData = {
                 'filterLetter': letter,
                 'type': $('#alphabet-sticky-block').attr('class'),
                 'isCurrent': $(this).hasClass('active')
             };
 
-        console.log(data);
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -82,7 +80,7 @@
         });
         $.ajax({
             url: '/alphabetFilter',
-            data: data,
+            data: ajaxData,
             type: 'GET'
             // beforeSend: function () {
             //     changeBtn.addClass('saving').children('.dflt-text').addClass('hidden').nextAll('.load-text')
@@ -90,11 +88,19 @@
             // }
         })
             .done(function (data) {
-                if($(data).find('item-container-link') > 0) {
-                    console.log('1')
-                }
-                // ($('.item-container-link').length > 0) ?  $(data).find(filterHeader).text('Отфильтровано по букве ' + letter).removeClass('hidden') : filterHeader.text('К сожалению ничего не найдено').removeClass('hidden');
                 $('#main-container').html(data);
+                var filterHeader = $('#filter-header');
+                console.log($(data).find('.item-container-link').length);
+                if($(data).find('.item-container-link').length) {
+                    if(ajaxData.isCurrent) {
+                        console.log('1');
+                        filterHeader.text('').addClass('hidden')
+                    } else {
+                        filterHeader.text('Отфильтровано по букве "' + letter + '"').removeClass('hidden');
+                    }
+                } else {
+                    filterHeader.text('К сожалению ничего не найдено').removeClass('hidden');
+                }
             });
 
         //если выбранная буква не является текущей, по которой происходит фильтрация
@@ -107,7 +113,6 @@
             //иначе убираем с текущей буквы класс активной
             $(this).removeClass('active');
             $('.item-container-link').removeClass('hidden');
-            // filterHeader.text('').addClass('hidden');
         }
     });
 })(jQuery);

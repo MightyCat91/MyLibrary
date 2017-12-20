@@ -1,9 +1,8 @@
 @include("layouts.header",['title'=>$title])
-        <!-- Menu Sidebar -->
-@include("layouts.menu_sidebar")
-        <!-- Menu Sidebar -->
-
 <main class="main">
+    <!-- Menu Sidebar -->
+    @include("layouts.menu_sidebar")
+    <!-- Menu Sidebar -->
     <section class="container-content row">
         <!-- Content -->
         <div class="page-content">

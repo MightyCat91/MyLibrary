@@ -101,6 +101,38 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 /*
+* Base page style
+ */
+.main {
+    display: grid;
+    grid-template-areas: "menu content"
+                         "menu footer";
+    grid-template-columns: 190px auto;
+}
+
+.sidebar {
+    grid-area: menu;
+    position: fixed;
+    left: 0;
+    height: 100vh;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    padding: 0 0 15px 0;
+    overflow: hidden;
+    background-color: #272c2e;
+    font-size: 16px;
+}
+
+.container-content {
+    grid-area: content;
+}
+
+.footer {
+    grid-area: footer;
+}
+
+/*
 * Owl slider
 */
 .owl-nav {
@@ -193,14 +225,8 @@ div.page-content.spinner:after {
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: .5rem 1rem;
+    margin: .5rem 0;
     border-bottom: 1px solid #009926;
-}
-
-#user-profile-img-wrapper {
-    border-radius: 50%;
-    overflow: hidden;
-    margin-bottom: 0;
 }
 
 #user-profile-img-wrapper {
@@ -664,7 +690,7 @@ section#menu-content {
 /*
  * Main content
  */
-div.page-content {
+.page-content {
     position: relative;
     padding: 0 4em 1em;
     font-size: 16px;
@@ -690,23 +716,21 @@ div.page-content {
 
 @media screen and (max-width: 859px) {
     .main {
-        overflow: hidden;
-        min-height: 100vh;
-        margin-left: 50px;
+        grid-template-columns: 50px auto;
     }
 
-    .sidebar {
-        position: fixed;
-        height: 100%;
-        width: 50px;
-        left: 0;
-        z-index: 1000;
-        display: block;
-        padding: 0 0 20px 0;
-        overflow: hidden;
-        background-color: #272c2e;
-        font-size: 16px;
-    }
+    /*.sidebar {*/
+        /*position: fixed;*/
+        /*height: 100%;*/
+        /*width: 50px;*/
+        /*left: 0;*/
+        /*z-index: 1000;*/
+        /*display: block;*/
+        /*padding: 0 0 20px 0;*/
+        /*overflow: hidden;*/
+        /*background-color: #272c2e;*/
+        /*font-size: 16px;*/
+    /*}*/
 
     #user-profile-container {
         height: auto;
@@ -762,7 +786,7 @@ div.page-content {
     }
 
     .nav-item {
-        padding: 10px 0 10px 15px;
+        padding: 10px 0 10px 10px;
     }
 
     .nav-item-icon {
@@ -811,26 +835,6 @@ div.page-content {
 }
 
 @media screen and (min-width: 768px) {
-    .main {
-        overflow: hidden;
-        min-height: 100vh;
-        margin-left: 190px;
-    }
-
-    .sidebar {
-        position: fixed;
-        height: 100%;
-        width: 190px;
-        left: 0;
-        z-index: 1000;
-        display: flex;
-        flex-direction: column;
-        padding: 0 0 15px 0;
-        overflow: hidden;
-        background-color: #272c2e;
-        font-size: 16px;
-    }
-
     #user-profile-container {
          height: 316px;
      }

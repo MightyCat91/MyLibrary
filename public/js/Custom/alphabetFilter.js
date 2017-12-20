@@ -64,13 +64,14 @@
         $('.letter-filter:contains("' + urlParameter + '")').addClass('active');
     }
 
+    //фильтрация по выбранной букве
     filterLetter.on('click', function (e) {
         e.preventDefault();
         var letter = $(this).html(),
             ajaxData = {
-                'filterLetter': letter,
-                'type': $('#alphabet-sticky-block').attr('class'),
-                'isCurrent': $(this).hasClass('active')
+                'filterLetter': letter, //буква, по которой фильтруем
+                'type': $('#alphabet-sticky-block').attr('class'), //тип фильтруемого контента
+                'isCurrent': $(this).hasClass('active') //флаг ранее проведенной фильтрации по выбранной букве
             };
 
         $.ajaxSetup({
@@ -81,26 +82,35 @@
         $.ajax({
             url: '/alphabetFilter',
             data: ajaxData,
-            type: 'GET'
-            // beforeSend: function () {
-            //     changeBtn.addClass('saving').children('.dflt-text').addClass('hidden').nextAll('.load-text')
-            //         .removeClass('hidden');
-            // }
+            type: 'GET',
+            //вешаем спинер
+            beforeSend: function () {
+                $(".page-content").addClass('spinner');
+            }
         })
             .done(function (data) {
+                //вставляем отфильтрованный контент
                 $('#main-container').html(data);
+
+                //заголовок
                 var filterHeader = $('#filter-header');
-                console.log($(data).find('.item-container-link').length);
+
+                //если результат запроса не пустой
                 if($(data).find('.item-container-link').length) {
+                    //выбранная буква - текущая
                     if(ajaxData.isCurrent) {
-                        console.log('1');
+                        //снимаем фильтрацию
                         filterHeader.text('').addClass('hidden')
                     } else {
+                        //иначе формируем заголовок
                         filterHeader.text('Отфильтровано по букве "' + letter + '"').removeClass('hidden');
                     }
                 } else {
+                    //иначе формируем заголовок
                     filterHeader.text('К сожалению ничего не найдено').removeClass('hidden');
                 }
+                //убираем спинер
+                $(".page-content").removeClass('spinner');
             });
 
         //если выбранная буква не является текущей, по которой происходит фильтрация

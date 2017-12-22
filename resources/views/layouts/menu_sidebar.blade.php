@@ -46,79 +46,81 @@
                 </a>
             @endif
         </section>
-        <section id="bottom-container">
-            @if (Auth::guest())
-                <div id="login-form-wrapper" class="{{ !empty($errors) and $errors->hasAny(['email', 'password']) ? 'active' : '' }}">
-                    <form id="login-form" role="form" method="POST" action="{{  route('login') }}">
-                        {{ csrf_field() }}
-                        <div id="authLinks">
-                            <a href="#" id="registerLink">Регистрация</a>
-                            <a href="#" id="resetPassLink">Забыли пароль?</a>
-                        </div>
-                        <div id="login-form-container">
-                            <div class="form-group {{ !empty($errors) and $errors->has('email') ? 'error' : '' }}">
-
-                                <input id="email" type="email" name="email" placeholder="Email"
-                                       value="{{ \Session::hasOldInput() ?? old('email') }}"
-                                       required>
-                            </div>
-                            <div class="form-group {{ !empty($errors) and $errors->has('password') ? 'error' : '' }}">
-                                <input id="password" type="password" name="password" placeholder="Пароль" required>
-                                @if (!empty($errors) and $errors->has('email'))
-                                    <div class="help-block">
-                                        <strong>{{ $errors->first('email') }}</strong>
-                                    </div>
-                                @endif
-                                @if (!empty($errors) and $errors->has('password'))
-                                    <div class="help-block">
-                                        <strong>{{ $errors->first('password') }}</strong>
-                                    </div>
-                                @endif
-                            </div>
-
-                            <div id="login-button">
-                                <button type="submit">
-                                    <i class="fa fa-arrow-right" aria-hidden="true"></i>
-                                </button>
-                            </div>
-                        </div>
-                        <div id="remember-checkbox" class="auth-checkbox">
-                            <label>
-                                <input type="checkbox" name="remember" {{ \Session::hasOldInput() ?? (old('remember') ? 'checked' : '') }}>
-                                Запомнить меня
-                            </label>
-                        </div>
-                    </form>
-                    <button type="button" class="close close-btn" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <a href="#" id="login" class="nav-item hidden">
-                    <i class="fa fa-sign-in fa-lg fa-fw nav-item-icon" aria-hidden="true"></i>
-
-                    <div class="nav-item-name">Войти</div>
-                </a>
-            @else
-                <a href="{{ route('logout') }}" class="nav-item"
-                   onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                    <i class="fa fa-sign-out fa-lg fa-fw nav-item-icon" aria-hidden="true"></i>
-
-                    <div class="nav-item-name">Выйти</div>
-                </a>
-                <form id="logout-form" action="{{ route('logout') }}" method="POST">
+    </div>
+    <div id="bottom-container">
+        @if (Auth::guest())
+            <div id="login-form-wrapper"
+                 class="{{ !empty($errors) and $errors->hasAny(['email', 'password']) ? 'active' : '' }}">
+                <form id="login-form" role="form" method="POST" action="{{  route('login') }}">
                     {{ csrf_field() }}
-                </form>
-            @endif
-            <hr>
-            <div id="side-bottom">
-                <div class="copyright">
-                    <p>Copyright © 2017 MyLibrary</p>
+                    <div id="authLinks">
+                        <a href="#" id="registerLink">Регистрация</a>
+                        <a href="#" id="resetPassLink">Забыли пароль?</a>
+                    </div>
+                    <div id="login-form-container">
+                        <div class="form-group {{ !empty($errors) and $errors->has('email') ? 'error' : '' }}">
 
-                    <p>All Rights Reserved | Design by</p>
-                    <a href="{{ route('developers') }}">M.A.&Co</a>
-                </div>
+                            <input id="email" type="email" name="email" placeholder="Email"
+                                   value="{{ \Session::hasOldInput() ?? old('email') }}"
+                                   required>
+                        </div>
+                        <div class="form-group {{ !empty($errors) and $errors->has('password') ? 'error' : '' }}">
+                            <input id="password" type="password" name="password" placeholder="Пароль" required>
+                            @if (!empty($errors) and $errors->has('email'))
+                                <div class="help-block">
+                                    <strong>{{ $errors->first('email') }}</strong>
+                                </div>
+                            @endif
+                            @if (!empty($errors) and $errors->has('password'))
+                                <div class="help-block">
+                                    <strong>{{ $errors->first('password') }}</strong>
+                                </div>
+                            @endif
+                        </div>
+
+                        <div id="login-button">
+                            <button type="submit">
+                                <i class="fa fa-arrow-right" aria-hidden="true"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div id="remember-checkbox" class="auth-checkbox">
+                        <label>
+                            <input type="checkbox"
+                                   name="remember" {{ \Session::hasOldInput() ?? (old('remember') ? 'checked' : '') }}>
+                            Запомнить меня
+                        </label>
+                    </div>
+                </form>
+                <button type="button" class="close close-btn" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
-        </section>
+            <a href="#" id="login" class="nav-item hidden">
+                <i class="fa fa-sign-in fa-lg fa-fw nav-item-icon" aria-hidden="true"></i>
+
+                <div class="nav-item-name">Войти</div>
+            </a>
+        @else
+            <a href="{{ route('logout') }}" class="nav-item"
+               onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                <i class="fa fa-sign-out fa-lg fa-fw nav-item-icon" aria-hidden="true"></i>
+
+                <div class="nav-item-name">Выйти</div>
+            </a>
+            <form id="logout-form" action="{{ route('logout') }}" method="POST">
+                {{ csrf_field() }}
+            </form>
+        @endif
+        <hr>
+        <div id="side-bottom">
+            <div class="copyright">
+                <p>Copyright © 2017 MyLibrary</p>
+
+                <p>All Rights Reserved | Design by</p>
+                <a href="{{ route('developers') }}">M.A.&Co</a>
+            </div>
+        </div>
     </div>
 </aside>
 <a href="#" id="back-to-top"><i class="fa fa-angle-double-up fa-2x" aria-hidden="true"></i></a>
@@ -131,7 +133,8 @@
             <section id="auth-signup">
                 <div>
                     <div class="form-group {{ !empty($errors) and $errors->has('name') ? 'error' : '' }}">
-                        <input id="name" type="text" name="name" placeholder="Имя" value="{{ \Session::hasOldInput() ?? old('name') }}" required>
+                        <input id="name" type="text" name="name" placeholder="Имя"
+                               value="{{ \Session::hasOldInput() ?? old('name') }}" required>
                         @if (!empty($errors) and $errors->has('name'))
                             <div class="help-block">
                                 <strong>{{ $errors->first('name') }}</strong>
@@ -158,14 +161,16 @@
                     </div>
                     <div class="form-group auth-checkbox">
                         <label>
-                            <input type="checkbox" name="subscribe[]" {{ \Session::hasOldInput() ?? (old('subscribe') ? 'checked' : '') }}>
+                            <input type="checkbox"
+                                   name="subscribe[]" {{ \Session::hasOldInput() ?? (old('subscribe') ? 'checked' : '') }}>
                             Присылайте мне на почту важные уведомления
                         </label>
                     </div>
                     <div class="form-group auth-checkbox {{ !empty($errors) and $errors->has('privacyPolicy') ? 'error' : '' }}">
                         <label>
-                            <input type="checkbox" name="privacyPolicy" {{ \Session::hasOldInput() ?? (old('privacyPolicy') ? 'checked' : '') }}
-                            required>Я принимаю пользовательское соглашение
+                            <input type="checkbox" name="privacyPolicy"
+                                   {{ \Session::hasOldInput() ?? (old('privacyPolicy') ? 'checked' : '') }}
+                                   required>Я принимаю пользовательское соглашение
                             <a href="{{ route('privacyPolicy') }}" id="privacyPolicy"> Прочитать</a>
                         </label>
                     </div>
@@ -207,7 +212,8 @@
                 </div>
             </section>
         </form>
-        <form id="pass-reset-form" class="signup-form {{ !empty($errors) and $errors->has('emailReset') ? '' : 'hidden' }}" role="form"
+        <form id="pass-reset-form"
+              class="signup-form {{ !empty($errors) and $errors->has('emailReset') ? '' : 'hidden' }}" role="form"
               method="POST" action="{{  route('password.email') }}">
             {{ csrf_field() }}
             <section id="pass-reset">

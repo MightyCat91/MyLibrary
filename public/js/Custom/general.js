@@ -30,7 +30,7 @@
 
     //отображение списка контролов профиля на малом разрешении
     body.on('click', '#user-profile-img-wrapper', function () {
-        if ($(window).width() < 768) {
+        if ($(window).width() < 859) {
             $('.user-profile-btn-control').toggleClass('visible');
         }
     });

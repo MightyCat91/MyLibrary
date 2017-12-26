@@ -6,7 +6,7 @@
     var registerForm = $('#register-form');
     var resetForm = $('#pass-reset-form');
     var loginForm = $('#login-form-wrapper');
-    var windowWidth = 768;
+    var windowWidth = 859;
 
     $('#open-social-btn').on('click', function() {
         $('#auth-signup').addClass('hide');
@@ -29,7 +29,7 @@
             resetForm.addClass('hidden');
             registerForm.removeClass('hidden');
             registerContainer.addClass('active').removeClass('hidden');
-            if ($(window).width() < windowWidth) {
+            if (window.innerWidth < windowWidth) {
                 loginForm.addClass('hidden').removeClass('active');
             }
         }
@@ -47,7 +47,7 @@
             registerForm.addClass('hidden');
             resetForm.removeClass('hidden');
             registerContainer.addClass('active').removeClass('hidden');
-            if ($(window).width() < windowWidth) {
+            if (window.innerWidth < windowWidth) {
                 loginForm.addClass('hidden').removeClass('active');
             }
         }
@@ -55,7 +55,7 @@
 
     $(window).on('load resize', function() {
         var loginBtn = $('#login');
-        if ($(window).width() < windowWidth) {
+        if (window.innerWidth < windowWidth) {
             if (loginForm.find('.error').length) {
                 loginForm.addClass('active').find('.form-close').removeClass('hidden');
             } else {
@@ -78,10 +78,11 @@
         }
     });
 
-    $('.form-close').on('click', function() {
+    $(document).on('click', '.close-btn', function() {
+        console.log(1);
         $(this).parent().removeClass('active');
-        if ($(window).width() < windowWidth) {
-            loginForm.addClass('hidden');
+        if (window.innerWidth < windowWidth) {
+            $(this).parent().addClass('hidden');
         }
     });
 })(jQuery);

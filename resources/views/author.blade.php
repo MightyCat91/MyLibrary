@@ -9,7 +9,7 @@
 @extends('layouts.main',['title'=>$author->name])
 @section('content')
     <div id="wrapper" class="">
-        <div id="container-info" class="">
+        <div id="container-info" class="main-container">
             <header>
                 <h2 class="page-title">{{ $author->name }}</h2>
             </header>

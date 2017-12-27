@@ -3,7 +3,7 @@
     <!-- Menu Sidebar -->
     @include("layouts.menu_sidebar")
     <!-- Menu Sidebar -->
-    <section class="container-content row">
+    <section class="container-content">
         <!-- Content -->
         <div class="page-content">
             @yield('content')

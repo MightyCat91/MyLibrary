@@ -1,4 +1,4 @@
-<div class="container-link row">
+<div class="container-link">
     <h3 id="filter-header" class="hidden"></h3>
     @foreach($array as $item)
         <a href="{{ route($routeName, $item->id) }}" class="item-container-link">

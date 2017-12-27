@@ -1,18 +1,21 @@
 .page-content {
-    max-width: 89%;
-    padding-right: 2em;
+    /*max-width: 89%;*/
+    /*padding-right: 2em;*/
 }
 
 .container-link {
-    margin: 0;
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
+    /*margin: 0;*/
+    /*display: flex;*/
+    /*justify-content: space-between;*/
+    /*width: 100%;*/
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    grid-gap: 1em;
 }
 
 .item-container-link {
     color: #bbb !important;
-    margin-left: 0;
+    /*margin-left: 0;*/
 }
 
 .item-container-link:hover img {
@@ -26,8 +29,8 @@
 
 .item-container {
     height: 22em;
-    margin: 1em 1em;
-    width: 15em;
+    /*margin: 1em 1em;*/
+    /*width: 15em;*/
     border: 1px solid #bbb;
     max-width: 100%;
     padding: 0;

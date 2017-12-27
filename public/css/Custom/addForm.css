@@ -1,3 +1,10 @@
+.page-content {
+    grid-template: "breadcrumbs"
+                   "mainContainer";
+    grid-template-rows: max-content auto;
+    grid-gap: 2em;
+}
+
 .form-group {
     margin-bottom: 1.5rem;
 }
@@ -150,17 +157,23 @@
 
 #add-form {
     width: initial;
-    max-width: 40rem;
+    max-width: 65%;
+    margin: 0 auto;
 }
 
 .multiple {
     margin-bottom: 0;
 }
 
+#biographyInput, #descriptionInput {
+    min-height: 10rem;
+}
+
 .wrapper {
     display: flex;
     justify-content: center;
 }
+
 #edit-form {
     width: 70%;
     margin: 2em;

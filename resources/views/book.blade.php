@@ -16,7 +16,7 @@
 @endpush
 @extends('layouts.main',['title'=>$book->name])
 @section('content')
-    <div id="wrapper">
+    <div id="wrapper" class="main-container">
         <div id="container-info">
             <header>
                 <h2 class="page-title">{{ $book->name }}</h2>

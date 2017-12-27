@@ -8,7 +8,7 @@
 @endpush
 @section('content')
     {{Breadcrumbs::render()}}
-    <div id="main-container" class="container">
+    <div class="container main-container">
         @include('layouts.commonList',
         [
             'array' => $publishers,

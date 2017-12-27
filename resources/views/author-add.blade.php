@@ -6,7 +6,7 @@
 @extends('layouts.main',['title'=>'Добавить автора'])
 @section('content')
     {{Breadcrumbs::render()}}
-    <div class="container">
+    <div class="container main-container">
         <form id="add-form" method="post" enctype="multipart/form-data">
             {{ csrf_field() }}
             <div class="form-group {{ ($errors->has('nameInput')) ? 'has-danger' : '' }}">

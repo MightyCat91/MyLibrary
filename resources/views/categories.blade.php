@@ -9,7 +9,7 @@
 {{--{{ Session::flash('title', 'Жанры') }}--}}
 @section('content')
     {{Breadcrumbs::render()}}
-    <div id="main-container" class="container">
+    <div class="container main-container">
         @include('layouts.commonGrid',
         [
             'array' => $categories,

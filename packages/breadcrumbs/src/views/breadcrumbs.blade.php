@@ -1,6 +1,6 @@
 @unless(empty($breadcrumbs))
     <link href="{{ asset('/css/Custom/breadcrumbs.css') }}" rel='stylesheet' type='text/css' media="all"/>
-    <div id="breadcrumbs">
+    <div id="breadcrumbs" class="container">
         @foreach ($breadcrumbs as $breadcrumb)
             @if ($breadcrumb && $loop->remaining)
                 <a class="breadcrumbs-item" href="{{ $breadcrumb['url'] }}">

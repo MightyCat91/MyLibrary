@@ -234,6 +234,7 @@ div.page-content.spinner:after {
 
 #user-profile-img-wrapper {
     border-radius: 50%;
+    border:1px solid #fff;
     max-width: 135px;
     max-height: 135px;
     overflow: hidden;

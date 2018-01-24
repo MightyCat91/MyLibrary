@@ -1,13 +1,32 @@
 <div class="container-link">
     <h3 id="filter-header" class="hidden"></h3>
+    {{dd($array)}}
     @foreach($array as $item)
-        <a href="{{ route($routeName, $item->id) }}" class="item-container-link">
-            <figure class="col-md-4 col-sm-5 col-xs-6 item-container">
-                <div class="container-cover">
+        <div class="item-container-link">
+            {{dd($item)}}
+            <a href="{{ route($routeName, $item->id) }}">
+                <div class="item-container">
+                    <div class="btn-container">
+                        <div class="user-actions-item">
+                            <a id="change-to-favorite" class="{{ ($item->inFavorite) ? 'active' : '' }}"
+                               data-type="author"
+                               href="#" title="{{ ($item->inFavorite) ? 'Удалить из избранного' : 'Добавить в избранное'
+                                   }}">
+                                <i class="fa fa-heart fa-fw" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                        <div class="user-actions-item">
+                            <a id="add-to-favorite" class="{{ ($item->inFavorite) ? 'active' : '' }}" data-type="author"
+                               href="#" title="{{ ($item->inFavorite) ? 'Удалить из избранного' : 'Добавить в избранное'
+                                   }}">
+                                <i class="fa fa-heart fa-fw" aria-hidden="true"></i>
+                            </a>
+                        </div>
+                    </div>
                     <img src="{{ asset(getStorageFile($imgFolder, $item->id)) }}" alt="{{ $item->name }}"/>
+                    <div class="container-title">{{ $item->name }}</div>
                 </div>
-                <figcaption class="container-title">{{ $item->name }}</figcaption>
-            </figure>
-        </a>
+            </a>
+        </div>
     @endforeach
 </div>

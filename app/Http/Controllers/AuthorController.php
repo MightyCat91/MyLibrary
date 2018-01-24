@@ -108,10 +108,29 @@ class AuthorController extends Controller
     public function show(Request $request, $id = null)
     {
         if (!$id) {
+            $authors = Author::get(['id', 'name', 'rating']);
+            $authorsId = $authors->pluck('id');
+            $favoriteAuthorsId = User::where('id', auth()->id())->pluck('favorite')->pluck('author')->flatten();
+
             $view = view('authors', [
                 'type' => 'author',
-                'authors' => Author::get(['id', 'name'])
+                'authors' => [
+                    'id' => $authors->pluck('id'),
+                    'name' => $authors->pluck('name'),
+                    'inFavorite' => $authorsId->map(function ($id) use ($favoriteAuthorsId) {
+                        if ($favoriteAuthorsId) {
+                            $inFavorite = $favoriteAuthorsId->search($id) === false ? false : true;
+                        } else {
+                            $inFavorite = false;
+                        }
+                        return $inFavorite;
+                    }),
+                    'rating' => $authors->pluck('rating')->map(function ($item) {
+                        return empty($item) ? 0 : array_sum($item) / count($item);
+                    })
+                ]
             ]);
+            
         } else {
             $author = Author::FindOrFail($id);
             if (auth()->check()) {
@@ -127,68 +146,72 @@ class AuthorController extends Controller
                         if (array_search($id, $value) !== false) {
                             $userRating['score'] = $key;
                         }
-                    }
-                }
-            } else {
-                $inFavorite = null;
-                $userRating = null;
-            }
-            $authorRating = $author->rating;
-            $avgRating = empty($authorRating) ? 0 : array_sum($authorRating) / count($authorRating);
-            $view = view('author', [
-                'author' => $author,
-                'authorSeries' => $author->series(),
-                'books' => $author->books,
-                'categories' => $author->categories(),
-                'inFavorite' => $inFavorite,
-                'avgRating' => $avgRating,
-                'quantityRating' => count($authorRating),
-                'rating' => $userRating
-            ]);
-        }
+}
+}
+} else {
+    $inFavorite = null;
+    $userRating = null;
+}
+$authorRating = $author->rating;
+$avgRating = empty($authorRating) ? 0 : array_sum($authorRating) / count($authorRating);
+$view = view('author', [
+    'author' => $author,
+    'authorSeries' => $author->series(),
+    'books' => $author->books,
+    'categories' => $author->categories(),
+    'inFavorite' => $inFavorite,
+    'avgRating' => $avgRating,
+    'quantityRating' => count($authorRating),
+    'rating' => $userRating
+]);
+}
 
-        return $view;
-    }
+return $view;
+}
 
-    public function changeAuthorRating($id, Request $request)
-    {
-        if ($request->ajax()) {
-            $data = parent::changeRating($id, $request, Author::class);
-            return response()->json($data);
-        }
+public
+function changeAuthorRating($id, Request $request)
+{
+    if ($request->ajax()) {
+        $data = parent::changeRating($id, $request, Author::class);
+        return response()->json($data);
     }
+}
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
+/**
+ * Show the form for editing the specified resource.
+ *
+ * @param  int $id
+ * @return \Illuminate\Http\Response
+ */
+public
+function edit($id)
+{
+    //
+}
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
+/**
+ * Update the specified resource in storage.
+ *
+ * @param  \Illuminate\Http\Request $request
+ * @param  int $id
+ * @return \Illuminate\Http\Response
+ */
+public
+function update(Request $request, $id)
+{
+    //
+}
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
-    }
+/**
+ * Remove the specified resource from storage.
+ *
+ * @param  int $id
+ * @return \Illuminate\Http\Response
+ */
+public
+function destroy($id)
+{
+    //
+}
 }

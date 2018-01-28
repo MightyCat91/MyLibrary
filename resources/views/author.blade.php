@@ -42,7 +42,7 @@
                                 </a>
                             </div>
                             <div class="user-actions-item">
-                                <a id="add-to-favorite" class="{{ ($inFavorite) ? 'active' : '' }}" data-type="author"
+                                <a class="add-to-favorite {{ ($inFavorite) ? 'active' : '' }}" data-type="author"
                                    href="#" title="{{ ($inFavorite) ? 'Удалить из избранного' : 'Добавить в избранное'
                                    }}">
                                     <i class="fa fa-heart fa-fw" aria-hidden="true"></i>
@@ -149,7 +149,7 @@
         [
             'array' => $books,
             'routeName' => 'book',
-            'imgFolder' => 'books'
+            'imgFolder' => 'books',
         ])
     </aside>
 @endsection

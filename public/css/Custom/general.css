@@ -164,6 +164,7 @@ h1, h2, h3, h4, h5, h6 {
 */
 #back-to-top {
     position: fixed;
+    z-index: 10;
     left: 0;
     bottom: 80px;
     padding: 0 10px;
@@ -172,8 +173,8 @@ h1, h2, h3, h4, h5, h6 {
     border-bottom: 1px solid;
     border-color: #009926;
     border-radius: 0 5px 5px 0;
-    color: #009926;
-    background: rgba(255, 255, 255, 0.4) url(../../images/alert.png);
+    color: #fff;
+    background: rgba(39, 44, 46, 0.8) url(../../images/alert.png);
     transition: .5s;
 }
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\AuthorAddRequest;
 use App\Series;
 use App\User;
+use function foo\func;
 use Illuminate\Http\Request;
 use App\Author;
 use Storage;
@@ -110,27 +111,35 @@ class AuthorController extends Controller
         if (!$id) {
             $authors = Author::get(['id', 'name', 'rating']);
             $authorsId = $authors->pluck('id');
+            $authorsName = $authors->pluck('name');
             $favoriteAuthorsId = User::where('id', auth()->id())->pluck('favorite')->pluck('author')->flatten();
+            $authorsInFavorite = $authorsId->map(function ($id) use ($favoriteAuthorsId) {
+                if ($favoriteAuthorsId) {
+                    $inFavorite = $favoriteAuthorsId->search($id) === false ? false : true;
+                } else {
+                    $inFavorite = false;
+                }
+                return $inFavorite;
+            });
+            $authorsRating = $authors->pluck('rating')->map(function ($item) {
+                return empty($item) ? 0 : array_sum($item) / count($item);
+            });
+
+            $newCol = $authorsId->map(function ($id, $key) use ($authorsName, $authorsInFavorite, $authorsRating) {
+                return [
+                    'id' => $id,
+                    'name' => $authorsName[$key],
+                    'inFavorite' => $authorsInFavorite[$key],
+                    'rating' => $authorsRating[$key]
+                ];
+            })->toArray();
 
             $view = view('authors', [
                 'type' => 'author',
-                'authors' => [
-                    'id' => $authors->pluck('id'),
-                    'name' => $authors->pluck('name'),
-                    'inFavorite' => $authorsId->map(function ($id) use ($favoriteAuthorsId) {
-                        if ($favoriteAuthorsId) {
-                            $inFavorite = $favoriteAuthorsId->search($id) === false ? false : true;
-                        } else {
-                            $inFavorite = false;
-                        }
-                        return $inFavorite;
-                    }),
-                    'rating' => $authors->pluck('rating')->map(function ($item) {
-                        return empty($item) ? 0 : array_sum($item) / count($item);
-                    })
-                ]
+                'authors' => $newCol,
+                'title' => 'Все авторы'
             ]);
-            
+
         } else {
             $author = Author::FindOrFail($id);
             if (auth()->check()) {
@@ -146,72 +155,72 @@ class AuthorController extends Controller
                         if (array_search($id, $value) !== false) {
                             $userRating['score'] = $key;
                         }
-}
-}
-} else {
-    $inFavorite = null;
-    $userRating = null;
-}
-$authorRating = $author->rating;
-$avgRating = empty($authorRating) ? 0 : array_sum($authorRating) / count($authorRating);
-$view = view('author', [
-    'author' => $author,
-    'authorSeries' => $author->series(),
-    'books' => $author->books,
-    'categories' => $author->categories(),
-    'inFavorite' => $inFavorite,
-    'avgRating' => $avgRating,
-    'quantityRating' => count($authorRating),
-    'rating' => $userRating
-]);
-}
+                    }
+                }
+            } else {
+                $inFavorite = null;
+                $userRating = null;
+            }
+            $authorRating = $author->rating;
+            $avgRating = empty($authorRating) ? 0 : array_sum($authorRating) / count($authorRating);
+            $view = view('author', [
+                'author' => $author,
+                'authorSeries' => $author->series(),
+                'books' => $author->books,
+                'categories' => $author->categories(),
+                'inFavorite' => $inFavorite,
+                'avgRating' => $avgRating,
+                'quantityRating' => count($authorRating),
+                'rating' => $userRating
+            ]);
+        }
 
-return $view;
-}
-
-public
-function changeAuthorRating($id, Request $request)
-{
-    if ($request->ajax()) {
-        $data = parent::changeRating($id, $request, Author::class);
-        return response()->json($data);
+        return $view;
     }
-}
 
-/**
- * Show the form for editing the specified resource.
- *
- * @param  int $id
- * @return \Illuminate\Http\Response
- */
-public
-function edit($id)
-{
-    //
-}
+    public
+    function changeAuthorRating($id, Request $request)
+    {
+        if ($request->ajax()) {
+            $data = parent::changeRating($id, $request, Author::class);
+            return response()->json($data);
+        }
+    }
 
-/**
- * Update the specified resource in storage.
- *
- * @param  \Illuminate\Http\Request $request
- * @param  int $id
- * @return \Illuminate\Http\Response
- */
-public
-function update(Request $request, $id)
-{
-    //
-}
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int $id
+     * @return \Illuminate\Http\Response
+     */
+    public
+    function edit($id)
+    {
+        //
+    }
 
-/**
- * Remove the specified resource from storage.
- *
- * @param  int $id
- * @return \Illuminate\Http\Response
- */
-public
-function destroy($id)
-{
-    //
-}
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
+     * @return \Illuminate\Http\Response
+     */
+    public
+    function update(Request $request, $id)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int $id
+     * @return \Illuminate\Http\Response
+     */
+    public
+    function destroy($id)
+    {
+        //
+    }
 }

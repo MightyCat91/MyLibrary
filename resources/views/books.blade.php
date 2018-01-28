@@ -21,7 +21,8 @@
         [
             'array' => $books,
             'routeName' => 'book',
-            'imgFolder' => 'books'
+            'imgFolder' => 'books',
+            'type' => $type
         ])
     </div>
     @include('layouts.alphabetFilter', ['type' => $type])

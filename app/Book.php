@@ -58,17 +58,19 @@ class Book extends Model
      */
     public function scopeAuthorSeriesBooks()
     {
-        return DB::table('series')->where('isPublisher', '=', false)
-            ->join(DB::raw("(SELECT series_id FROM book_series WHERE book_id = $this->id) as t1"),
-                'series.id', '=', 't1.series_id')
-            ->join('book_series', 'book_series.series_id', '=', 't1.series_id')
-            ->join('books', function ($join) {
-                $join->on('book_series.book_id', '=', 'books.id')
-                    ->where('books.id', '<>', $this->id);
-            })
-            ->select('books.id', 'books.name')
-            ->distinct()
-            ->get();
+        return queryToArray(
+            DB::table('series')->where('isPublisher', '=', false)
+                ->join(DB::raw("(SELECT series_id FROM book_series WHERE book_id = $this->id) as t1"),
+                    'series.id', '=', 't1.series_id')
+                ->join('book_series', 'book_series.series_id', '=', 't1.series_id')
+                ->join('books', function ($join) {
+                    $join->on('book_series.book_id', '=', 'books.id')
+                        ->where('books.id', '<>', $this->id);
+                })
+                ->select('books.id', 'books.name')
+                ->distinct()
+                ->get()
+        );
     }
 
     /**
@@ -76,15 +78,17 @@ class Book extends Model
      */
     public function scopePublisherSeriesBooks()
     {
-        return DB::table(DB::raw("(SELECT series_id FROM book_series WHERE book_id = $this->id) as t1"))
-            ->join('book_series', 'book_series.series_id', '=', 't1.series_id')
-            ->join('books', function ($join) {
-                $join->on('book_series.book_id', '=', 'books.id')
-                    ->where('books.id', '<>', $this->id);
-            })
-            ->select('books.id', 'books.name')
-            ->distinct()
-            ->get();
+        return queryToArray(
+            DB::table(DB::raw("(SELECT series_id FROM book_series WHERE book_id = $this->id) as t1"))
+                ->join('book_series', 'book_series.series_id', '=', 't1.series_id')
+                ->join('books', function ($join) {
+                    $join->on('book_series.book_id', '=', 'books.id')
+                        ->where('books.id', '<>', $this->id);
+                })
+                ->select('books.id', 'books.name')
+                ->distinct()
+                ->get()
+        );
     }
 
     /**
@@ -92,14 +96,16 @@ class Book extends Model
      */
     public function scopeAuthorBooks()
     {
-        return DB::table(DB::raw("(SELECT author_id FROM author_book WHERE book_id = $this->id) as t1"))
-            ->join('author_book', 'author_book.author_id', '=', 't1.author_id')
-            ->join('books', function ($join) {
-                $join->on('author_book.book_id', '=', 'books.id')
-                    ->where('books.id', '<>', $this->id);
-            })
-            ->select('books.id', 'books.name')
-            ->distinct()
-            ->get();
+        return queryToArray(
+            DB::table(DB::raw("(SELECT author_id FROM author_book WHERE book_id = $this->id) as t1"))
+                ->join('author_book', 'author_book.author_id', '=', 't1.author_id')
+                ->join('books', function ($join) {
+                    $join->on('author_book.book_id', '=', 'books.id')
+                        ->where('books.id', '<>', $this->id);
+                })
+                ->select('books.id', 'books.name')
+                ->distinct()
+                ->get()
+        );
     }
 }

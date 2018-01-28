@@ -90,9 +90,15 @@ Route::group(['prefix' => 'author'], function () {
             'uses' => 'AuthorController@addImgAJAX'
         ])->middleware('auth');
     });
-    Route::get('all', [
-        'as' => 'authors', 'uses' => 'AuthorController@show'
-    ]);
+    Route::group(['prefix' => 'all'], function () {
+        Route::get('', [
+            'as' => 'authors', 'uses' => 'AuthorController@show'
+        ])->middleware('auth');
+        Route::post('', [
+            'as' => 'addToFavorite', 'uses' => 'UserController@addToFavorite'
+        ])->middleware('auth');
+    });
+
 });
 
 Route::group(['prefix' => 'category'], function () {

@@ -56,7 +56,7 @@
                                     </a>
                                 </div>
                                 <div class="user-actions-item">
-                                    <a id="add-to-favorite" class="{{ ($inFavorite) ? 'active' : '' }}" data-type="book"
+                                    <a class="add-to-favorite {{ ($inFavorite) ? 'active' : '' }}" data-type="book"
                                        href="#" title="{{ ($inFavorite) ? 'Удалить из избранного' : 'Добавить в избранное'
                                    }}">
                                         <i class="fa fa-heart fa-fw" aria-hidden="true"></i>

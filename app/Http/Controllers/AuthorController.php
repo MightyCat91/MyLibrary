@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\AuthorAddRequest;
 use App\Series;
 use App\User;
+use function foo\func;
 use Illuminate\Http\Request;
 use App\Author;
 use Storage;
@@ -108,10 +109,37 @@ class AuthorController extends Controller
     public function show(Request $request, $id = null)
     {
         if (!$id) {
+            $authors = Author::get(['id', 'name', 'rating']);
+            $authorsId = $authors->pluck('id');
+            $authorsName = $authors->pluck('name');
+            $favoriteAuthorsId = User::where('id', auth()->id())->pluck('favorite')->pluck('author')->flatten();
+            $authorsInFavorite = $authorsId->map(function ($id) use ($favoriteAuthorsId) {
+                if ($favoriteAuthorsId) {
+                    $inFavorite = $favoriteAuthorsId->search($id) === false ? false : true;
+                } else {
+                    $inFavorite = false;
+                }
+                return $inFavorite;
+            });
+            $authorsRating = $authors->pluck('rating')->map(function ($item) {
+                return empty($item) ? 0 : array_sum($item) / count($item);
+            });
+
+            $newCol = $authorsId->map(function ($id, $key) use ($authorsName, $authorsInFavorite, $authorsRating) {
+                return [
+                    'id' => $id,
+                    'name' => $authorsName[$key],
+                    'inFavorite' => $authorsInFavorite[$key],
+                    'rating' => $authorsRating[$key]
+                ];
+            })->toArray();
+
             $view = view('authors', [
                 'type' => 'author',
-                'authors' => Author::get(['id', 'name'])
+                'authors' => $newCol,
+                'title' => 'Все авторы'
             ]);
+
         } else {
             $author = Author::FindOrFail($id);
             if (auth()->check()) {
@@ -150,7 +178,8 @@ class AuthorController extends Controller
         return $view;
     }
 
-    public function changeAuthorRating($id, Request $request)
+    public
+    function changeAuthorRating($id, Request $request)
     {
         if ($request->ajax()) {
             $data = parent::changeRating($id, $request, Author::class);
@@ -164,7 +193,8 @@ class AuthorController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public
+    function edit($id)
     {
         //
     }
@@ -176,7 +206,8 @@ class AuthorController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public
+    function update(Request $request, $id)
     {
         //
     }
@@ -187,7 +218,8 @@ class AuthorController extends Controller
      * @param  int $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public
+    function destroy($id)
     {
         //
     }

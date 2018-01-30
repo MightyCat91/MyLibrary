@@ -33,3 +33,10 @@ function alert($type = 'success', $text = null, $delay = 3000)
 {
     session()->push('alert', ['type' => $type, 'message' => $text, 'delay' => $delay]);
 }
+
+function queryToArray($query)
+{
+    return array_map(function ($value) {
+        return (array) $value;
+    }, $query->toArray());
+}

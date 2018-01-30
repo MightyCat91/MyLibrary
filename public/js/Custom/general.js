@@ -35,19 +35,24 @@
         }
     });
 
-    $('#add-to-favorite').on('click', function (e) {
+    $('.add-to-favorite').on('click', function (e) {
         var favoriteBtn = $(this),
             action = favoriteBtn.hasClass('active'),
-            type = $(this).data('type');
+            type = favoriteBtn.data('type'),
+            id = favoriteBtn.closest('.item-container-link').data('id');
         e.preventDefault();
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
+        var data = 'type=' + type + '&delete=' + action;
+        if (typeof id !== "undefined") {
+            data += '&id=' + id;
+        }
         $.ajax({
             url: window.location.pathname,
-            data: 'type=' + type + '&delete=' + action,
+            data: data,
             type: 'POST'
         })
             .done(function (data) {

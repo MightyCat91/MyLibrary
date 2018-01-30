@@ -135,7 +135,7 @@ class UserController extends Controller
         }
     }
 
-    public function addToFavorite($id, Request $request)
+    public function addToFavorite($id = null, Request $request)
     {
         if ($request->ajax()) {
             $type = $request->get('type');
@@ -143,9 +143,9 @@ class UserController extends Controller
             $favorite = $user->favorite;
             $arrayOfType = array_get($favorite, $type, []);
             if ($request->get('delete') == 'true') {
-                array_forget($arrayOfType, array_search($id, $arrayOfType));
+                array_forget($arrayOfType, array_search($id ?? $request->get('id'), $arrayOfType));
             } else {
-                array_push($arrayOfType, $id);
+                array_push($arrayOfType, $id ?? $request->get('id'));
             }
             array_set($favorite, $type, $arrayOfType);
             $user->favorite = $favorite;

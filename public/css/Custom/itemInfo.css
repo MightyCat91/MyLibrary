@@ -1,14 +1,23 @@
-div.page-content {
-    max-width: calc(100vw - 190px - 4em);
-    padding-right: 0;
+.container-content {
+    padding-bottom: 0;
+}
+
+.page-content {
+    /*max-width: calc(100vw - 190px - 4em);*/
+    /*padding-right: 0;*/
+    display: grid;
+    grid-template: ". content slider";
+    grid-template-columns: 30px auto 200px;
+    grid-gap: 1rem;
 }
 
 #wrapper {
-    padding: 0 3rem 0 1rem;
-    text-align: justify;
-    max-height: 100vh;
-    max-width: calc(79% + 40px);
-    overflow-y: auto;
+    grid-area: content;
+    /*padding: 0 3rem 0 1rem;*/
+    /*text-align: justify;*/
+    /*max-height: 100vh;*/
+    /*max-width: calc(79% + 40px);*/
+    /*overflow-y: auto;*/
 }
 
 /*
@@ -257,14 +266,21 @@ Short Info
 * Right sidebar
 */
 #books-sidebar {
+    grid-area: slider;
     position: absolute;
     right: -18px;
     box-shadow: -6px 0 3px -3px #2ca02c;
-    top: 0;
-    bottom: 0;
+    /* top: 0; */
+    height: 100%;
+    /* bottom: 0; */
     overflow-y: auto;
-    max-width: 21%;
+    /*max-width: 21%;*/
     background-color: #fff;
+}
+
+#books-sidebar .container-link {
+    grid-auto-rows: min-content;
+    grid-gap: 0;
 }
 
 #books-sidebar .item-container {
@@ -275,11 +291,11 @@ Short Info
 }
 
 #books-sidebar .container-cover {
-    height: 80%;
+    /*height: 80%;*/
 }
 
 #books-sidebar .container-title {
-    height: 20%;
+    /*height: 20%;*/
 }
 
 .item-container-link {
@@ -288,7 +304,7 @@ Short Info
 }
 
 #books-sidebar .item-container-link:hover .container-title {
-    box-shadow: inset 0 -3px 2px -1px #009926;
+    /*box-shadow: inset 0 -3px 2px -1px #009926;*/
 }
 
 @media only screen and (max-width: 1224px) {

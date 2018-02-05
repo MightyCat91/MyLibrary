@@ -8,7 +8,7 @@
 @endpush
 @section('content')
     {{Breadcrumbs::render()}}
-    <div class="container main-container">
+    <div class="main-container">
         @include('layouts.commonGrid',
         [
             'array' => $categories,

@@ -1,5 +1,5 @@
+<h3 id="filter-header" class="hidden"></h3>
 <div class="container-link">
-    <h3 id="filter-header" class="hidden"></h3>
     @foreach($array as $item)
         <div class="item-container-link" data-id="{{ $item['id'] }}">
             <a href="{{ route($routeName, $item['id']) }}">

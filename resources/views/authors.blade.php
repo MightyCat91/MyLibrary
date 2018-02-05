@@ -11,7 +11,7 @@
     @if (!trim($__env->yieldContent('category')))
         {{ Breadcrumbs::render($breadcrumbParams ?? null)}}
     @endif
-    <div class="container main-container">
+    <div class="main-container">
         @include('layouts.commonGrid',
         [
             'array' => $authors,

@@ -16,7 +16,7 @@
     @if (!trim($__env->yieldContent('category')))
         {{ Breadcrumbs::render($breadcrumbParams ?? null)}}
     @endif
-    <div class="main-container">
+    <div class="container main-container">
         @include('layouts.commonGrid',
         [
             'array' => $books,

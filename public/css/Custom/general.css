@@ -705,6 +705,7 @@ div.page-content.spinner:after {
     /*width: 100%;*/
     display: grid;
     grid-template: ". header alphabetFilter"
+                   ". category_type_switch alphabetFilter"
                    ". breadcrumbs alphabetFilter"
                    ". mainContainer alphabetFilter";
     grid-template-rows: minmax(0, max-content) max-content;
@@ -718,6 +719,7 @@ div.page-content.spinner:after {
 
 .page-content h2.page-title {
     padding: 1em;
+    margin: 0;
     text-align: right;
     font-size: 32px;
     background: #000 url(../../images/header.jpg) no-repeat;

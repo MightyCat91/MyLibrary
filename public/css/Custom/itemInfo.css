@@ -1,3 +1,7 @@
+body {
+    overflow-x: hidden;
+}
+
 .container-content {
     padding-bottom: 0;
 }
@@ -7,7 +11,7 @@
     /*padding-right: 0;*/
     display: grid;
     grid-template: ". content slider";
-    grid-template-columns: 30px auto 200px;
+    grid-template-columns: 30px auto 220px;
     grid-gap: 1rem;
 }
 
@@ -18,6 +22,19 @@
     /*max-height: 100vh;*/
     /*max-width: calc(79% + 40px);*/
     /*overflow-y: auto;*/
+}
+
+#container-info {
+    display: grid;
+    grid-template: "header"
+                   "breadcrumbs"
+                   "short-info"
+                   "description";
+    grid-gap: 1rem;
+}
+
+#page-header {
+    grid-area: header;
 }
 
 /*
@@ -39,18 +56,24 @@ Image & Actions
 */
 
 #short-info {
+    grid-area: short-info;
     overflow: hidden;
     display: flex;
 }
 
 .short-img {
-    flex: 1 20em;
-    overflow: hidden;
+    /*flex: 1 20em;*/
+    /*overflow: hidden;*/
     margin: 0 1rem 1rem 0;
+    display: grid;
+    grid-gap: .5rem;
+    grid-template-columns: 280px;
+    grid-template-rows: min-content auto min-content min-content;
 }
 
 #short-info img {
     border-radius: 5px;
+    max-width: 100%;
 }
 
 #user-actions-wrapper {
@@ -244,6 +267,7 @@ Short Info
 }
 
 #description {
+    grid-area: description;
     padding-top: 15px;
 }
 
@@ -267,15 +291,36 @@ Short Info
 */
 #books-sidebar {
     grid-area: slider;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background-color: #eaeaea;
+}
+
+#sidebar-header {
+    text-align: center;
+    width: 85%;
+    margin: .5rem auto 0;
+    border-bottom: 1px solid #009926;
+}
+
+#sidebar-container {
+    position: relative;
+    height: 100%;
+}
+
+#sidebar-absolute-wrapper {
     position: absolute;
     right: -18px;
-    box-shadow: -6px 0 3px -3px #2ca02c;
+    padding-right: 10px;
+    padding-left: 10px;
     /* top: 0; */
     height: 100%;
     /* bottom: 0; */
-    overflow-y: auto;
-    /*max-width: 21%;*/
-    background-color: #fff;
+    /* width: 100%; */
+    overflow-y: scroll;
+    /* max-width: 21%; */
+
 }
 
 #books-sidebar .container-link {

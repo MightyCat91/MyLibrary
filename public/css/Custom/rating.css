@@ -4,13 +4,14 @@ Rating
 
 .user-item-rating {
     display: flex;
-    margin-top: .5rem;
+    /*margin-top: .5rem;*/
     font-size: 25px;
 }
 
 .rating-star-container {
     flex-grow: 1;
     position: relative;
+    text-align: center;
 }
 
 .ui-menu .ui-menu-item-wrapper {
@@ -20,7 +21,10 @@ Rating
 .hover-rating-container {
     display: flex;
     height: 100%;
-    width: 100%;
+    width: 25px;
+    left: 50%;
+    margin-left: -25%;
+    justify-content: center;
     position: absolute;
 }
 

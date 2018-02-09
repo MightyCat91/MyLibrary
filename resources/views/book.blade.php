@@ -150,11 +150,18 @@
         </div>
     </div>
     <aside id="books-sidebar" class="">
-        @include('layouts.commonGrid',
-        [
-            'array' => $sidebarBooks,
-            'routeName' => 'book',
-            'imgFolder' => 'books'
-        ])
+        <div id="sidebar-header">
+            <h4>Книги этих же серий:</h4>
+        </div>
+        <div id="sidebar-container">
+            <div id="sidebar-absolute-wrapper">
+                @include('layouts.commonGrid',
+                [
+                    'array' => $sidebarBooks,
+                    'routeName' => 'book',
+                    'imgFolder' => 'books'
+                ])
+            </div>
+        </div>
     </aside>
 @endsection

@@ -1,21 +1,21 @@
 @push('styles')
-<link href="{{ asset('/css/Custom/commonGrid.css') }}" rel='stylesheet' type='text/css' media="all"/>
-<link href="{{ asset('/css/Custom/itemInfo.css') }}" rel='stylesheet' type='text/css' media="all"/>
+    <link href="{{ asset('/css/Custom/commonGrid.css') }}" rel='stylesheet' type='text/css' media="all"/>
+    <link href="{{ asset('/css/Custom/itemInfo.css') }}" rel='stylesheet' type='text/css' media="all"/>
+    <link href="{{ asset('/css/Custom/rating.css') }}" rel='stylesheet' type='text/css' media="all"/>
 @endpush
 @push('scripts')
-    <script type="text/javascript" src="{{ asset('/js/Custom/rating.js') }}"></script>
     <script type="text/javascript" src="{{ asset('/js/Custom/rating.js') }}"></script>
 @endpush
 @extends('layouts.main',['title'=>$author->name])
 @section('content')
     <div id="wrapper" class="">
-        <div id="container-info" class="main-container">
-            <header>
+        <div id="container-info">
+            <header id="page-header">
                 <h2 class="page-title">{{ $author->name }}</h2>
             </header>
             {{Breadcrumbs::render()}}
             <section id="short-info">
-                <figure class="short-img">
+                <div class="short-img">
                     {{--@auth--}}
                     @if(Auth::check())
                         <div id="avg-rating-container">
@@ -30,7 +30,9 @@
                         </div>
                         {{--@endauth--}}
                     @endif
-                    <img src="{{ asset(getStorageFile('authors', $author->id))}}" alt="{{ $author->name }}">
+                    <div class="image-wrapper">
+                        <img src="{{ asset(getStorageFile('authors', $author->id))}}" alt="{{ $author->name }}">
+                    </div>
                     @if(Auth::check())
                         <div id="user-actions-wrapper">
                             <div class="user-actions-item" title="Написать комментарий">
@@ -108,7 +110,7 @@
                             </div>
                         </div>
                     @endif
-                </figure>
+                </div>
                 <aside class="short-info-items">
                     <ul>
                         <li>
@@ -145,11 +147,18 @@
         </div>
     </div>
     <aside id="books-sidebar" class="">
-        @include('layouts.commonGrid',
-        [
-            'array' => $books,
-            'routeName' => 'book',
-            'imgFolder' => 'books',
-        ])
+        <div id="sidebar-header">
+            <h4>Книги автора:</h4>
+        </div>
+        <div id="sidebar-container">
+            <div id="sidebar-absolute-wrapper">
+                @include('layouts.commonGrid',
+                [
+                    'array' => $books,
+                    'routeName' => 'book',
+                    'imgFolder' => 'books',
+                ])
+            </div>
+        </div>
     </aside>
 @endsection

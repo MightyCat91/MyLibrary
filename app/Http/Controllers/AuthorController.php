@@ -103,40 +103,14 @@ class AuthorController extends Controller
      * Возврат шаблона со всеми авторами или конкретного автора, если указан id
      *
      * @param int $id
-     * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request, $id = null)
+    public function show($id = null)
     {
         if (!$id) {
-            $authors = Author::get(['id', 'name', 'rating']);
-            $authorsId = $authors->pluck('id');
-            $authorsName = $authors->pluck('name');
-            $favoriteAuthorsId = User::where('id', auth()->id())->pluck('favorite')->pluck('author')->flatten();
-            $authorsInFavorite = $authorsId->map(function ($id) use ($favoriteAuthorsId) {
-                if ($favoriteAuthorsId) {
-                    $inFavorite = $favoriteAuthorsId->search($id) === false ? false : true;
-                } else {
-                    $inFavorite = false;
-                }
-                return $inFavorite;
-            });
-            $authorsRating = $authors->pluck('rating')->map(function ($item) {
-                return empty($item) ? 0 : array_sum($item) / count($item);
-            });
-
-            $newCol = $authorsId->map(function ($id, $key) use ($authorsName, $authorsInFavorite, $authorsRating) {
-                return [
-                    'id' => $id,
-                    'name' => $authorsName[$key],
-                    'inFavorite' => $authorsInFavorite[$key],
-                    'rating' => $authorsRating[$key]
-                ];
-            })->toArray();
-
             $view = view('authors', [
                 'type' => 'author',
-                'authors' => $newCol,
+                'authors' => getGridItemsWithFavorite(Author::get(['id', 'name', 'rating']), 'author'),
                 'title' => 'Все авторы'
             ]);
 

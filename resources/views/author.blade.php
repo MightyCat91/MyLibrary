@@ -35,15 +35,15 @@
                     </div>
                     @if(Auth::check())
                         <div id="user-actions-wrapper">
-                            <div class="user-actions-item" title="Написать комментарий">
+                            <div class="user-actions-container" title="Написать комментарий">
                                 <a id="add-comment" href="#"><i class="fa fa-comments fa-fw" aria-hidden="true"></i></a>
                             </div>
-                            <div class="user-actions-item">
+                            <div class="user-actions-container">
                                 <a id="add-review" href="#" title="Написать рецензию">
                                     <i class="fa fa-pencil fa-fw" aria-hidden="true"></i>
                                 </a>
                             </div>
-                            <div class="user-actions-item">
+                            <div class="user-actions-container">
                                 <a class="add-to-favorite {{ ($inFavorite) ? 'active' : '' }}" data-type="author"
                                    href="#" title="{{ ($inFavorite) ? 'Удалить из избранного' : 'Добавить в избранное'
                                    }}">

@@ -22,22 +22,18 @@
      */
     function ajaxGetData(object, e) {
         e.preventDefault();
-        var url = object.attr('href');
+        var url = object.attr('data-href');
         $.ajaxSetup({
             headers: { 'X-CSRF-TOKEN': $('meta[name="_token"]').attr('content') }
         });
         $.ajax({
             type: "GET",
             url: url,
-            beforeSend: function() {
-                $('.page-content').addClass('spinner');
-            },
             success: function(data) {
-                $('#main-container').html(data);
-                $('.page-content').removeClass('spinner');
+                $('.main-container').html(data);
                 history.pushState(null, null, url);
                 $('.tab-item.active').removeClass('active');
-                object.parent().addClass('active').blur();
+                object.addClass('active').blur();
                 $('.letter-filter').removeClass('active');
             },
             error: function() {

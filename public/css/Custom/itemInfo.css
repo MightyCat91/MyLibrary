@@ -84,11 +84,11 @@ Image & Actions
     font-size: 22px;
 }
 
-.user-actions-item a {
+.user-actions-container a {
     color: #35447b;
 }
 
-.user-actions-item a:hover {
+.user-actions-container a:hover {
     color: #009926;
 }
 

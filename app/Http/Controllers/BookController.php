@@ -55,39 +55,13 @@ class BookController extends Controller
      *
      * @param int $id
      * @return \Illuminate\Http\Response
-     * @internal param Request $request
      */
     public function show($id = null)
     {
         if (!$id) {
-            $books = Book::get(['id', 'name', 'rating']);
-            $booksId = $books->pluck('id');
-            $booksName = $books->pluck('name');
-            $favoriteBooksId = User::where('id', auth()->id())->pluck('favorite')->pluck('book')->flatten();
-            $booksInFavorite = $booksId->map(function ($id) use ($favoriteBooksId) {
-                if ($favoriteBooksId) {
-                    $inFavorite = $favoriteBooksId->search($id) === false ? false : true;
-                } else {
-                    $inFavorite = false;
-                }
-                return $inFavorite;
-            });
-            $booksRating = $books->pluck('rating')->map(function ($item) {
-                return empty($item) ? 0 : array_sum($item) / count($item);
-            });
-
-            $newCol = $booksId->map(function ($id, $key) use ($booksName, $booksInFavorite, $booksRating) {
-                return [
-                    'id' => $id,
-                    'name' => $booksName[$key],
-                    'inFavorite' => $booksInFavorite[$key],
-                    'rating' => $booksRating[$key]
-                ];
-            })->toArray();
-
             $view = view('books', [
                 'type' => 'book',
-                'books' => $newCol,
+                'books' => getGridItemsWithFavorite(Book::get(['id', 'name', 'rating']), 'book'),
                 'title' => 'Все книги'
             ]);
         } else {

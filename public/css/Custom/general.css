@@ -705,10 +705,10 @@ div.page-content.spinner:after {
     /*width: 100%;*/
     display: grid;
     grid-template: ". header alphabetFilter"
-                   ". category_type_switch alphabetFilter"
                    ". breadcrumbs alphabetFilter"
+                   ". category_type_switch alphabetFilter"
                    ". mainContainer alphabetFilter";
-    grid-template-rows: minmax(0, max-content) max-content;
+    grid-template-rows: minmax(0, max-content) minmax(0, max-content) minmax(0, max-content) max-content;
     grid-template-columns: 30px auto 40px;
     grid-gap: 1rem;
 }

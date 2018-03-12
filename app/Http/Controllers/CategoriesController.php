@@ -20,48 +20,22 @@ class CategoriesController extends Controller
     public function showBooks($id, Request $request)
     {
         $category = Categories::FindOrFail($id);
-        $books = $category->books;
-        $booksId = $books->pluck('id');
-        $booksName = $books->pluck('name');
-        $favoriteBooksId = User::where('id', auth()->id())->pluck('favorite')->pluck('book')->flatten();
-        $booksInFavorite = $booksId->map(function ($id) use ($favoriteBooksId) {
-            if ($favoriteBooksId) {
-                $inFavorite = $favoriteBooksId->search($id) === false ? false : true;
-            } else {
-                $inFavorite = false;
-            }
-            return $inFavorite;
-        });
-        $booksRating = $books->pluck('rating')->map(function ($item) {
-            return empty($item) ? 0 : array_sum($item) / count($item);
-        });
-
-        $newCol = $booksId->map(function ($id, $key) use ($booksName, $booksInFavorite, $booksRating) {
-            return [
-                'id' => $id,
-                'name' => $booksName[$key],
-                'inFavorite' => $booksInFavorite[$key],
-                'rating' => $booksRating[$key]
-            ];
-        })->toArray();
         if ($request->ajax()) {
             return view(
                 'layouts.commonGrid',
                 [
-                    'array' => $newCol,
+                    'array' => getGridItemsWithFavorite($category->books, 'book'),
                     'routeName' => 'book',
                     'imgFolder' => 'books'
                 ])->render();
         }
 
-        $view = view('category', [
+        return view('category', [
             'type' => 'book',
             'category' => $category,
-            'books' => $newCol,
+            'books' => getGridItemsWithFavorite($category->books, 'book'),
             'parent_template_name' => 'books'
         ]);
-
-        return $view;
     }
 
     /**
@@ -74,24 +48,21 @@ class CategoriesController extends Controller
     public function showAuthors($id, Request $request)
     {
         $category = Categories::FindOrFail($id);
-        $authors = $category->authors();
         if ($request->ajax()) {
             return view('layouts.commonGrid', [
-                'array' => $authors,
+                'array' => getGridItemsWithFavorite($category->authors(), 'author'),
                 'routeName' => 'author',
                 'imgFolder' => 'authors',
                 'type' => 'author',
             ])->render();
         }
 
-        $view = view('category', [
+        return view('category', [
             'type' => 'author',
             'category' => $category,
-            'authors' => $authors,
+            'authors' => getGridItemsWithFavorite($category->authors(), 'author'),
             'parent_template_name' => 'authors'
         ]);
-
-        return $view;
     }
 
     /**

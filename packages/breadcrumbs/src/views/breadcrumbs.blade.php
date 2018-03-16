@@ -5,7 +5,7 @@
             @if ($breadcrumb && $loop->remaining)
                 <a class="breadcrumbs-item" href="{{ $breadcrumb['url'] }}">
                     @if($breadcrumb['url'] == route('home'))
-                        <i class="fa fa-home fa-lg fa-fw" aria-hidden="true"></i>
+                        <i class="fa fa-home" aria-hidden="true"></i>
                     @else
                         {{ $breadcrumb['title'] }}
                     @endif

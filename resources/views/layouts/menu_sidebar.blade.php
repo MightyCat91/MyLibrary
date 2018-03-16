@@ -104,7 +104,7 @@
         @else
             <a href="{{ route('logout') }}" class="nav-item"
                onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                <i class="fa fa-sign-out fa-lg fa-fw nav-item-icon" aria-hidden="true"></i>
+                <i class="fas fa-sign-out-alt fa-lg nav-item-icon" aria-hidden="true"></i>
 
                 <div class="nav-item-name">Выйти</div>
             </a>

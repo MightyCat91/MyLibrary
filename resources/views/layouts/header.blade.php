@@ -22,7 +22,8 @@
     <!-- general -->
     <link href="{{ asset('/css/Custom/general.css') }}" rel="stylesheet" type='text/css' media="all">
     <!-- Font Awesome -->
-    <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.css">
+    {{--<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">--}}
+    <script defer src="{{ asset('/js/Library/FontAwesome/fontawesome-all.min.js') }}"></script>
     <!-- fonts -->
     <link href="https://fonts.googleapis.com/css?family=Lobster|Philosopher:400,400i,700,700i&amp;subset=cyrillic" rel="stylesheet">
     <!-- alert -->

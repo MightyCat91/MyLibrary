@@ -14,7 +14,7 @@
         </header>
     @endif
     {{ Breadcrumbs::render($breadcrumbParams)}}
-    <div id="main-container" class="container">
+    <div class="main-container container">
         @include('layouts.commonGrid',
         [
             'array' => $authors,

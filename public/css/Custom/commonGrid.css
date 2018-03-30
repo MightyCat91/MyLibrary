@@ -115,15 +115,6 @@
     border-radius: 5px;
 }
 
-.item-container-link:after {
-    content: '';
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    opacity: 0.1;
-    transition: opacity 0.3s ease-in-out;
-}
-
 .item-container-link:hover {
     transform: scale(1.05);
 }

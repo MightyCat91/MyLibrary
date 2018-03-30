@@ -52,7 +52,14 @@ function queryToArray($query)
     }, $query->toArray());
 }
 
-function getGridItemsWithFavorite($items, $favoriteItemType)
+/**
+ * Получение списка элементов грида(книг, авторов) с рейтингом и статусом избранного
+ *
+ * @param $items \Illuminate\Database\Eloquent\Collection коллекция элементов
+ * @param $favoriteItemType string тип элемента
+ * @return mixed массив элементов
+ */
+function getGridItemsWithRatingAndFavoriteStatus($items, $favoriteItemType)
 {
     $itemsId = $items->pluck('id');
     $itemsName = $items->pluck('name');

@@ -50,7 +50,7 @@ Route::group(['prefix' => 'book'], function () {
             'as' => 'book', 'uses' => 'BookController@show'
         ]);
         Route::post('', [
-            'as' => 'addToFavorite', 'uses' => 'UserController@addToFavorite'
+            'as' => 'changeFavoriteStatus', 'uses' => 'UserController@changeFavoriteStatus'
         ])->middleware('auth');
         Route::post('changeStatus', [
             'as' => 'changeStatus', 'uses' => 'UserController@changeStatus'
@@ -73,7 +73,7 @@ Route::group(['prefix' => 'author'], function () {
             'as' => 'author', 'uses' => 'AuthorController@show'
         ]);
         Route::post('', [
-            'as' => 'addToFavorite', 'uses' => 'UserController@addToFavorite'
+            'as' => 'changeFavoriteStatus', 'uses' => 'UserController@changeFavoriteStatus'
         ]);
         Route::post('changeRating', [
             'as' => 'changeRating', 'uses' => 'AuthorController@changeAuthorRating'
@@ -95,7 +95,7 @@ Route::group(['prefix' => 'author'], function () {
             'as' => 'authors', 'uses' => 'AuthorController@show'
         ])->middleware('auth');
         Route::post('', [
-            'as' => 'addToFavorite', 'uses' => 'UserController@addToFavorite'
+            'as' => 'changeFavoriteStatus', 'uses' => 'UserController@changeFavoriteStatus'
         ])->middleware('auth');
     });
 

@@ -1,5 +1,19 @@
+.main-container {
+    display: grid;
+    grid-template: "information statistic"
+                   "fav_books fav_books"
+                   "fav_authors fav_authors"
+                   "fav_categories fav_categories" auto / 1fr 1fr;
+    grid-gap: 1rem;
+}
+
+#user-information {
+    grid-area: information;
+}
+
 #user-information ul {
     list-style: none;
+    padding: 0;
 }
 
 .information-item-title {
@@ -7,12 +21,16 @@
     padding-right: 1em;
 }
 
-.user-favorite {
-    margin: 2em 0;
-}
+/*.user-favorite {*/
+    /*margin: 2em 0;*/
+/*}*/
 
 .owl-carousel {
     max-width: 1600px;
+}
+
+#user-statistic {
+    grid-area: statistic;
 }
 
 #statistic-wrapper, #statistic-chart {
@@ -65,51 +83,71 @@
     width: 250px;
 }
 
+#user-favorite-books {
+    grid-area: fav_books;
+}
+
+#user-favorite-authors {
+    grid-area: fav_authors;
+}
+
+#user-favorite-categories {
+    grid-area: fav_categories;
+}
+
 .user-favorite-img.item {
     padding: 5px;
     border: 1px solid #009926;
     border-radius: 5px;
-    height: 220px;
-    background: rgba(255, 255, 255, 0.4) url(../../images/alert.png);
+    height: 280px;
+    margin: 0;
+    /*background: rgba(255, 255, 255, 0.4) url(../../images/alert.png);*/
     display: flex;
     align-items: center;
 }
 
 .user-favorite-img img {
     max-height: 100%;
+    object-fit: scale-down;
 }
 
-@media screen and (min-width: 300px) {
-    .owl-stage-outer {
-        z-index: 1;
-    }
-
-    .owl-nav {
-        width: calc(100% + 48px);
-        margin-left: -24px;
+@media screen and (max-width: 1200px) {
+    .main-container {
+        display: block;
     }
 }
 
-@media screen and (min-width: 450px) {
-    .user-favorite-img.item {
-        height: 140px;
-    }
-}
+/*@media screen and (min-width: 300px) {*/
+    /*.owl-stage-outer {*/
+        /*z-index: 1;*/
+    /*}*/
 
-@media screen and (min-width: 678px) {
-    .user-favorite-img.item {
-        height: 170px;
-    }
-}
+    /*.owl-nav {*/
+        /*width: calc(100% + 48px);*/
+        /*margin-left: -24px;*/
+    /*}*/
+/*}*/
 
-@media screen and (min-width: 1000px) {
-    .user-favorite-img.item {
-        height: 210px;
-    }
-}
+/*@media screen and (min-width: 450px) {*/
+    /*.user-favorite-img.item {*/
+        /*height: 140px;*/
+    /*}*/
+/*}*/
 
-@media screen and (min-width: 1100px) {
-    .user-favorite-img.item {
-        height: 260px;
-    }
-}
+/*@media screen and (min-width: 678px) {*/
+    /*.user-favorite-img.item {*/
+        /*height: 170px;*/
+    /*}*/
+/*}*/
+
+/*@media screen and (min-width: 1000px) {*/
+    /*.user-favorite-img.item {*/
+        /*height: 210px;*/
+    /*}*/
+/*}*/
+
+/*@media screen and (min-width: 1100px) {*/
+    /*.user-favorite-img.item {*/
+        /*height: 260px;*/
+    /*}*/
+/*}*/

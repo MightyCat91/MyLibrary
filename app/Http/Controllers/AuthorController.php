@@ -110,7 +110,7 @@ class AuthorController extends Controller
         if (!$id) {
             $view = view('authors', [
                 'type' => 'author',
-                'authors' => getGridItemsWithFavorite(Author::get(['id', 'name', 'rating']), 'author'),
+                'authors' => getGridItemsWithRatingAndFavoriteStatus(Author::get(['id', 'name', 'rating']), 'author'),
                 'title' => 'Все авторы'
             ]);
 

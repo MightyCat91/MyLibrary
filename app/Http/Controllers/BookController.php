@@ -61,7 +61,7 @@ class BookController extends Controller
         if (!$id) {
             $view = view('books', [
                 'type' => 'book',
-                'books' => getGridItemsWithFavorite(Book::get(['id', 'name', 'rating']), 'book'),
+                'books' => getGridItemsWithRatingAndFavoriteStatus(Book::get(['id', 'name', 'rating']), 'book'),
                 'title' => 'Все книги'
             ]);
         } else {

@@ -24,7 +24,7 @@ class CategoriesController extends Controller
             return view(
                 'layouts.commonGrid',
                 [
-                    'array' => getGridItemsWithFavorite($category->books, 'book'),
+                    'array' => getGridItemsWithRatingAndFavoriteStatus($category->books, 'book'),
                     'routeName' => 'book',
                     'imgFolder' => 'books'
                 ])->render();
@@ -33,7 +33,7 @@ class CategoriesController extends Controller
         return view('category', [
             'type' => 'book',
             'category' => $category,
-            'books' => getGridItemsWithFavorite($category->books, 'book'),
+            'books' => getGridItemsWithRatingAndFavoriteStatus($category->books, 'book'),
             'parent_template_name' => 'books'
         ]);
     }
@@ -50,7 +50,7 @@ class CategoriesController extends Controller
         $category = Categories::FindOrFail($id);
         if ($request->ajax()) {
             return view('layouts.commonGrid', [
-                'array' => getGridItemsWithFavorite($category->authors(), 'author'),
+                'array' => getGridItemsWithRatingAndFavoriteStatus($category->authors(), 'author'),
                 'routeName' => 'author',
                 'imgFolder' => 'authors',
                 'type' => 'author',
@@ -60,7 +60,7 @@ class CategoriesController extends Controller
         return view('category', [
             'type' => 'author',
             'category' => $category,
-            'authors' => getGridItemsWithFavorite($category->authors(), 'author'),
+            'authors' => getGridItemsWithRatingAndFavoriteStatus($category->authors(), 'author'),
             'parent_template_name' => 'authors'
         ]);
     }

@@ -13,7 +13,7 @@
                 </label>
                 @if($type != 'author')
                     <div class="add-review action-btn" href="#" title="Написать рецензию">
-                        <i class="fa fa-pencil fa-fw" aria-hidden="true"></i>
+                        <i class="fas fa-pencil-alt" aria-hidden="true"></i>
                     </div>
                 @endif
                 <div class="add-comment action-btn {{ ($type == 'author') ? $type : '' }}" title="Написать комментарий">

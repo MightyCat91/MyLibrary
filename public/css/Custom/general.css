@@ -136,13 +136,18 @@ h1, h2, h3, h4, h5, h6 {
 /*
 * Owl slider
 */
+.owl-stage-outer {
+    z-index: 1;
+}
+
 .owl-nav {
     position: absolute;
     display: flex;
     align-items: center;
-    width: 100%;
+    width: calc(100% + 50px);
     height: 100%;
     top: 0;
+    left: -25px;
     justify-content: space-between;
 }
 
@@ -715,6 +720,10 @@ div.page-content.spinner:after {
 
 .main-container {
     grid-area: mainContainer;
+}
+
+.main-container > section {
+    margin: 1.5rem 0;
 }
 
 .page-content h2.page-title {

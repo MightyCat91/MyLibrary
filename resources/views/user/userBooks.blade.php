@@ -11,7 +11,7 @@
         </header>
     @endif
     {{ Breadcrumbs::render($breadcrumbParams)}}
-    <div id="main-container" class="container">
+    <div class="main-container container">
         @foreach($statistic as $status => $books)
             <section>
                 <h2>{{ $status }}</h2>
@@ -23,7 +23,8 @@
                         [
                             'array' => $books,
                             'routeName' => 'book',
-                            'imgFolder' => 'books'
+                            'imgFolder' => 'books',
+                            'type' => 'book'
                         ])
                     @endif
                 </div>

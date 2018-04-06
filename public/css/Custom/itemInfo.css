@@ -37,6 +37,11 @@ body {
     grid-area: header;
 }
 
+.user-action-container {
+    display: grid;
+    grid-gap: .5em;
+}
+
 /*
 Average rating
 */
@@ -71,6 +76,10 @@ Image & Actions
     grid-template-rows: min-content auto min-content min-content;
 }
 
+.image-wrapper {
+    margin: 0 auto;
+}
+
 #short-info img {
     border-radius: 5px;
     max-width: 100%;
@@ -80,16 +89,29 @@ Image & Actions
     display: flex;
     justify-content: space-around;
     text-align: center;
-    line-height: 2;
     font-size: 22px;
 }
 
-.user-actions-container a {
-    color: #35447b;
+.owl-nav > div {
+    color: #35447b !important;
 }
 
-.user-actions-container a:hover {
-    color: #009926;
+.owl-nav {
+    width: 100%;
+    left: 0;
+    z-index: 1;
+}
+
+#add-comment {
+    color: #f39c12;
+}
+
+#add-review {
+    color: #89d641;
+}
+
+.user-actions-container > .add-to-favorite {
+    color: #ff0500;
 }
 
 /*
@@ -156,7 +178,6 @@ Progress
 .user-book-progress {
     display: grid;
     grid-template-columns: 65% 35%;
-    margin-top: .5rem;
     text-align: center;
 }
 
@@ -312,8 +333,7 @@ Short Info
 #sidebar-absolute-wrapper {
     position: absolute;
     right: -18px;
-    padding-right: 10px;
-    padding-left: 10px;
+    padding: 10px;
     /* top: 0; */
     height: 100%;
     /* bottom: 0; */
@@ -323,15 +343,15 @@ Short Info
 
 }
 
-#books-sidebar .container-link {
-    grid-auto-rows: min-content;
-    grid-gap: 0;
-}
+/*#books-sidebar .container-link {*/
+    /*grid-auto-rows: min-content;*/
+    /*grid-gap: 0;*/
+/*}*/
 
 #books-sidebar .item-container {
     height: 18vw;
     line-height: 1;
-    margin: 1vw 0;
+    margin: .5em 0;
     max-height: 45vh;
 }
 
@@ -343,10 +363,10 @@ Short Info
     /*height: 20%;*/
 }
 
-.item-container-link {
-    padding: 0 10px;
-    max-width: 100%;
-}
+/*.item-container-link {*/
+    /*padding: 0 10px;*/
+    /*max-width: 100%;*/
+/*}*/
 
 #books-sidebar .item-container-link:hover .container-title {
     /*box-shadow: inset 0 -3px 2px -1px #009926;*/

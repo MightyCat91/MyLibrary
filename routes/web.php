@@ -15,6 +15,10 @@ Route::get('/', [
     'as' => 'home', 'uses' => 'Controller@index'
 ]);
 
+Route::post('/changeFavoriteStatus', [
+    'as' => 'changeFavoriteStatus', 'uses' => 'UserController@changeFavoriteStatus'
+])->middleware('auth');
+
 Route::get('year/{year}/books', [
     'as' => 'year-books', 'uses' => 'BookController@showBooksForYear'
 ]);
@@ -49,9 +53,9 @@ Route::group(['prefix' => 'book'], function () {
         Route::get('', [
             'as' => 'book', 'uses' => 'BookController@show'
         ]);
-        Route::post('', [
-            'as' => 'changeFavoriteStatus', 'uses' => 'UserController@changeFavoriteStatus'
-        ])->middleware('auth');
+//        Route::post('', [
+//            'as' => 'changeFavoriteStatus', 'uses' => 'UserController@changeFavoriteStatus'
+//        ])->middleware('auth');
         Route::post('changeStatus', [
             'as' => 'changeStatus', 'uses' => 'UserController@changeStatus'
         ])->middleware('auth');
@@ -72,9 +76,9 @@ Route::group(['prefix' => 'author'], function () {
         Route::get('', [
             'as' => 'author', 'uses' => 'AuthorController@show'
         ]);
-        Route::post('', [
-            'as' => 'changeFavoriteStatus', 'uses' => 'UserController@changeFavoriteStatus'
-        ]);
+//        Route::post('', [
+//            'as' => 'changeFavoriteStatus', 'uses' => 'UserController@changeFavoriteStatus'
+//        ]);
         Route::post('changeRating', [
             'as' => 'changeRating', 'uses' => 'AuthorController@changeAuthorRating'
         ]);
@@ -94,9 +98,9 @@ Route::group(['prefix' => 'author'], function () {
         Route::get('', [
             'as' => 'authors', 'uses' => 'AuthorController@show'
         ])->middleware('auth');
-        Route::post('', [
-            'as' => 'changeFavoriteStatus', 'uses' => 'UserController@changeFavoriteStatus'
-        ])->middleware('auth');
+//        Route::post('', [
+//            'as' => 'changeFavoriteStatus', 'uses' => 'UserController@changeFavoriteStatus'
+//        ])->middleware('auth');
     });
 
 });

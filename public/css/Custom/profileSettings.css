@@ -2,6 +2,7 @@
     display: grid;
     grid-template-columns: 1fr;
     width: auto;
+    grid-area: mainContainer;
 }
 
 #user-profile-img-change-wrapper {

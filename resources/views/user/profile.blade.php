@@ -46,37 +46,29 @@
                 <div id="statistic-count">
                     <div>
                         <span>Всего книг:</span>
-                        <a href="{{ action('UserController@showBooksForUser',
-                        ['books' => Crypt::encrypt($statisticBooks), 'id' => auth()->id()]) }}">
-                            {{ count(array_flatten($statisticBooks)) }}
+                        <a href="{{ action('UserController@showBooksForUser', ['id' => auth()->id()]) }}">
+                            {{ $statistic['booksCount'] }}
                         </a>
                     </div>
                     <div>
                         <span>Всего авторов:</span>
-                        <a href="{{ action('UserController@showAuthorsForUser',
-                        ['authors' => Crypt::encrypt($statisticAuthors), 'id' => auth()->id()]) }}">
-                            {{ count($statisticAuthors) }}
+                        <a href="{{ action('UserController@showAuthorsForUser', ['id' => auth()->id()]) }}">
+                            {{ $statistic['authorsCount'] }}
                         </a>
                     </div>
                     <div>
                         <span>Всего жанров:</span>
-                        <a href="{{ action('UserController@showCategoriesForUser',
-                        ['categories' => Crypt::encrypt($statisticCategories), 'id' => auth()->id()]) }}">
-                            {{ count($statisticCategories) }}
+                        <a href="{{ action('UserController@showCategoriesForUser', ['id' => auth()->id()]) }}">
+                            {{ $statistic['categoriesCount'] }}
                         </a>
                     </div>
                 </div>
                 <div id="statistic-chart">
                     <div id="diagram-legend">
-                        @foreach($status as $st)
-                            <a href="{{ action('UserController@showStatusBooksForUser',
-                        ['books' => Crypt::encrypt(array_has($statisticBooks, $st->name) ? $statisticBooks[$st->name]: []),
-                        'id' => auth()->id(),
-                        'status' => $st->name,
-                        'title' => $st->uname]) }}"
-                               class="{{$st->name}}"
-                               data-books="{{ array_has($statisticBooks, $st->name) ? count($statisticBooks[$st->name]) : 0 }}">
-                                <span>{{ $st->uname }}</span>
+                        @foreach($statistic['statuses'] as $status => $statusValue)
+                            <a href="{{ action('UserController@showStatusBooksForUser', ['status'=>$status, 'id' => auth()->id()]) }}"
+                               class="{{ $status }}" data-books="{{ $statusValue['count'] }}">
+                                <span>{{ $statusValue['name'] }}</span>
                             </a>
                         @endforeach
                     </div>
@@ -88,8 +80,7 @@
         <section id="user-favorite-books" class="user-section user-favorite">
             @if(!empty($favoriteBooks))
                 <h2>
-                    <a href="{{ route('userFavorite', ['type' => 'book', 'id' => auth()->id(),
-                    'favoriteId' => Crypt::encrypt(array_keys($favoriteBooks)), 'title' => 'Любимые книги']) }}">
+                    <a href="{{ route('userFavorite', ['type' => 'book', 'id' => auth()->id(), 'title' => 'Любимые книги']) }}">
                         Любимые книги
                     </a>
                 </h2>
@@ -107,8 +98,7 @@
         <section id="user-favorite-authors" class="user-section user-favorite">
             @if(!empty($favoriteAuthors))
                 <h2>
-                    <a href="{{ route('userFavorite', ['type'=> 'author', 'id' => auth()->id(),
-                    'favoriteId' => Crypt::encrypt(array_keys($favoriteAuthors)), 'title' => 'Любимые авторы']) }}">
+                    <a href="{{ route('userFavorite', ['type'=> 'author', 'id' => auth()->id(), 'title' => 'Любимые авторы']) }}">
                         Любимые авторы
                     </a>
                 </h2>
@@ -126,8 +116,7 @@
         <section id="user-favorite-categories" class="user-section user-favorite">
             @if(!empty($favoriteCategories))
                 <h2>
-                    <a href="{{ route('userFavorite', ['type'=> 'category', 'id' => auth()->id(),
-                    'favoriteId' => Crypt::encrypt(array_keys($favoriteCategories)), 'title' => 'Любимые жанры']) }}">
+                    <a href="{{ route('userFavorite', ['type'=> 'category', 'id' => auth()->id(), 'title' => 'Любимые жанры']) }}">
                         Любимые жанры
                     </a>
                 </h2>

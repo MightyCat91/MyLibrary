@@ -196,14 +196,14 @@ tbody .table-row {
     position: absolute;
     left: 0;
     right: 0;
-    text-align: center;
+    margin: 0 auto;
 }
 
-.fa-sort-asc {
+.fa-sort-up {
     top: 5px;
 }
 
-.fa-sort-desc {
+.fa-sort-down {
     bottom: 5px;
 }
 
@@ -364,6 +364,7 @@ Authors
     display: grid;
     width: 100%;
     grid-template-areas: "authors control";
+    grid-template-columns: auto max-content;
 }
 
 .table-column.authors.value.vertical-middle {
@@ -497,11 +498,18 @@ Modal dialog with Filters
     outline: none;
 }
 
+#rating-slider-range .fa-star {
+    position: absolute;
+    left: 0;
+}
+
 .ui-slider-handle.rating-range-slider-handler {
     color: #ccbf09;
 }
 
 .rating-range-slider-handler:before {
+    display: none;
+    font-family: "Font Awesome 5 Solid";
     content: '\f005';
 }
 
@@ -548,6 +556,8 @@ Modal dialog with Filters
 
 .progress-range-slider-handler:before {
     content: '\f295';
+    display: none;
+    font-family: "Font Awesome 5 Solid";
 }
 
 

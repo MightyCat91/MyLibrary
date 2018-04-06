@@ -5,7 +5,8 @@
 @endpush
 @extends('layouts.main',['title'=>'Моя библиотека'])
 @section('content')
-    <div class="user-wrapper">
+    {{Breadcrumbs::render()}}
+    <div class="user-wrapper main-container">
         <div class="user-book-library">
             <div class="book-status-container">
                 <div class="book-status element active" data-tab="all">
@@ -28,11 +29,11 @@
                                     <input type="text" class="search-field" placeholder="Название или автор">
                                 </div>
                             </div>
-                            <i class="fa fa-search" aria-hidden="true"></i>
+                            <i class="fas fa-search" aria-hidden="true"></i>
                         </div>
                         <div class="filter-wrapper">
                             <div id="filterDialog" data-toggle="modal" data-target="#filterForm">
-                                <i class="fa fa-filter" aria-hidden="true"></i>
+                                <i class="fas fa-filter" aria-hidden="true"></i>
                             </div>
                         </div>
                     </div>
@@ -45,28 +46,28 @@
                         </th>
                         <th class="table-column name can-sort">
                             <div class="title">Название</div>
-                            <i class="fa sort-controls fa-sort-asc hidden" aria-hidden="true" data-order="asc"></i>
-                            <i class="fa sort-controls fa-sort-desc hidden" aria-hidden="true" data-order="desc"></i>
+                            <i class="fas sort-controls fa-sort-up hidden" aria-hidden="true" data-order="asc"></i>
+                            <i class="fas sort-controls fa-sort-down hidden" aria-hidden="true" data-order="desc"></i>
                         </th>
                         <th class="table-column status can-sort">
                             <div class="title">Статус</div>
-                            <i class="fa sort-controls fa-sort-asc hidden" aria-hidden="true" data-order="asc"></i>
-                            <i class="fa sort-controls fa-sort-desc hidden" aria-hidden="true" data-order="desc"></i>
+                            <i class="fas sort-controls fa-sort-up hidden" aria-hidden="true" data-order="asc"></i>
+                            <i class="fas sort-controls fa-sort-down hidden" aria-hidden="true" data-order="desc"></i>
                         </th>
                         <th class="table-column rating can-sort">
                             <div class="title">Рейтинг</div>
-                            <i class="fa sort-controls fa-sort-asc hidden test" aria-hidden="true" data-order="asc"></i>
-                            <i class="fa sort-controls fa-sort-desc" aria-hidden="true" data-order="desc"></i>
+                            <i class="fas sort-controls fa-sort-up hidden" aria-hidden="true" data-order="asc"></i>
+                            <i class="fas sort-controls fa-sort-down" aria-hidden="true" data-order="desc"></i>
                         </th>
                         <th class="table-column authors can-sort">
                             <div class="title">Авторы</div>
-                            <i class="fa sort-controls fa-sort-asc hidden" aria-hidden="true" data-order="asc"></i>
-                            <i class="fa sort-controls fa-sort-desc hidden" aria-hidden="true" data-order="desc"></i>
+                            <i class="fas sort-controls fa-sort-up hidden" aria-hidden="true" data-order="asc"></i>
+                            <i class="fas sort-controls fa-sort-down hidden" aria-hidden="true" data-order="desc"></i>
                         </th>
                         <th class="table-column pages can-sort">
                             <div class="title">Прогресс</div>
-                            <i class="fa sort-controls fa-sort-asc hidden" aria-hidden="true" data-order="asc"></i>
-                            <i class="fa sort-controls fa-sort-desc hidden" aria-hidden="true" data-order="desc"></i>
+                            <i class="fas sort-controls fa-sort-up hidden" aria-hidden="true" data-order="asc"></i>
+                            <i class="fas sort-controls fa-sort-down hidden" aria-hidden="true" data-order="desc"></i>
                         </th>
                     </tr>
                     </thead>
@@ -104,10 +105,8 @@
                                 </div>
                                 @if(count($book['authors']) >= 2)
                                     <div class="other-authors-controller">
-                                        <i class="fa fa-arrow-circle-o-down" aria-hidden="true"
-                                           title="Показать остальных авторов"></i>
-                                        <i class="fa fa-arrow-circle-o-up hidden" aria-hidden="true"
-                                           title="Скрыть остальных авторов"></i>
+                                        <i class="far fa-arrow-alt-circle-down" title="Показать остальных авторов"></i>
+                                        <i class="far fa-arrow-alt-circle-up" title="Скрыть остальных авторов"></i>
                                     </div>
                                     <div class="other-author-wrapper line-height-1-5 hidden">
                                         @foreach(array_slice($book['authors'],1) as $id => $author)
@@ -158,10 +157,8 @@
                                     </div>
                                 </div>
                                 <div class="show-full-controller" data-parent=".mobile-table">
-                                    <i class="fa show fa-arrow-circle-o-down" aria-hidden="true"
-                                       title="Показать полную информацию"></i>
-                                    <i class="fa hide fa-arrow-circle-o-up hidden" aria-hidden="true"
-                                       title="Скрыть полную информацию"></i>
+                                    <i class="far fa-arrow-alt-circle-down" title="Показать полную информацию"></i>
+                                    <i class="far fa-arrow-alt-circle-up" title="Скрыть полную информацию"></i>
                                 </div>
                             </div>
                             <div class="mobile-full-info-wrapper collapse">

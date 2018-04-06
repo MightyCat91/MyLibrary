@@ -60,6 +60,19 @@ class UserController extends Controller
 
         $status = Status::all('name', 'uname');
 
+        foreach ($status as $st) {
+            $booksWithStatus[$st->name] = [
+                'name' => $st->uname,
+                'count' => count($statisticBooks[$st->name])
+            ];
+        }
+        $statistic = [
+            'statuses' => $booksWithStatus,
+            'booksCount' => count(array_collapse($statisticBooks)),
+            'authorsCount' => count(array_unique($statisticAuthors)),
+            'categoriesCount' => count(array_unique($statisticCategories)),
+        ];
+
         return view('user.profile', [
             'name' => $user->name,
             'login' => $user->login,
@@ -70,9 +83,7 @@ class UserController extends Controller
             'favoriteBooks' => $books,
             'favoriteAuthors' => $authors,
             'favoriteCategories' => $collections,
-            'statisticBooks' => $statisticBooks,
-            'statisticAuthors' => $statisticAuthors,
-            'statisticCategories' => $statisticCategories,
+            'statistic' => $statistic,
             'status' => $status,
         ]);
     }
@@ -115,6 +126,13 @@ class UserController extends Controller
         }
     }
 
+    /**
+     * Изменение пользовательского аватара
+     *
+     * @param $id
+     * @param EditUserProfile $request
+     * @return string
+     */
     public function updateProfileImg($id, EditUserProfile $request)
     {
         if ($request->ajax() and $request->hasFile('imageInput')) {
@@ -122,7 +140,9 @@ class UserController extends Controller
             $file = $request->file('imageInput');
             $filepath = sprintf('/%s/%s.%s', $id, $id, $file->getClientOriginalExtension());
             Storage::disk('users')->put($filepath, file_get_contents($file));
+            \Debugbar::info(Storage::disk('users'));
             $url = Storage::disk('users')->url($filepath);
+            \Debugbar::info($url);
             return $url;
         }
     }
@@ -135,18 +155,17 @@ class UserController extends Controller
         }
     }
 
-    public function changeFavoriteStatus($id = null, Request $request)
+    public function changeFavoriteStatus(Request $request)
     {
         if ($request->ajax()) {
             $type = $request->get('type');
             $user = auth()->user();
             $favorite = $user->favorite;
             $arrayOfType = array_get($favorite, $type, []);
-            \Debugbar::info($request->get('id'));
             if ($request->get('delete') == 'true') {
-                array_forget($arrayOfType, array_search(($id and is_int($id)) ? $id : $request->get('id'), $arrayOfType));
+                array_forget($arrayOfType, array_search($request->get('id'), $arrayOfType));
             } else {
-                array_push($arrayOfType, ($id and is_int($id)) ? $id : $request->get('id'));
+                array_push($arrayOfType, $request->get('id'));
             }
             array_set($favorite, $type, $arrayOfType);
             $user->favorite = $favorite;
@@ -225,19 +244,21 @@ class UserController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function showBooksForUser($id, Request $request)
+    public function showBooksForUser($id)
     {
-        $statistic = array_wrap(Crypt::decrypt($request->books));
-        foreach ($statistic as $key => $value) {
-            $newKey = Status::where('name', $key)->first(['uname'])->uname;
-            $statistic[$newKey] = $value ? getGridItemsWithRatingAndFavoriteStatus(Book::whereIn('id', $value)->get(['id', 'name', 'rating']), 'book') : [];
-            array_forget($statistic, $key);
+        //массив статусов с масиивами id книг в качестве значений
+        $books = array_where(auth()->user()->statistic, function ($value) {
+            return !empty($value);
+        });
+        //формирование массива книг для вьюхи
+        foreach ($books as $status => $arrayId) {
+            $newKey = Status::where('name', $status)->first(['uname'])->uname;
+            $statistic[$newKey] = getGridItemsWithRatingAndFavoriteStatus(Book::whereIn('id', $arrayId)->get(['id', 'name', 'rating']), 'book');
         }
-
         return view('user.userBooks', [
             'statistic' => $statistic,
             'title' => 'Статистика. Книги',
-            'breadcrumbParams' => ['id' => $request->id]
+            'breadcrumbParams' => ['id' => $id]
         ]);
     }
 
@@ -248,9 +269,9 @@ class UserController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function showStatusBooksForUser($id, Request $request)
+    public function showStatusBooksForUser(Request $request)
     {
-        $books = array_wrap(Crypt::decrypt($request->books));
+        $books = auth()->user()->statistic[$request->status];
         return view('books', [
             'type' => 'book',
             'books' => getGridItemsWithRatingAndFavoriteStatus(Book::whereIn('id', $books)->get(['id', 'name', 'rating']), 'book'),
@@ -268,11 +289,16 @@ class UserController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function showAuthorsForUser($id, Request $request)
+    public function showAuthorsForUser(Request $request)
     {
-        $authors = array_keys(array_wrap(Crypt::decrypt($request->authors)));
+        //коллекция id авторов, книги которых имеют какой либо статус
+        $authors = Book::whereIn('id', array_flatten(auth()->user()->statistic))->get()->map(function ($book) {
+            return $book->authors->map(function ($author) {
+                return $author->id;
+            });
+        })->flatten()->unique();
         return view('user.userAuthors', [
-            'authors' => Author::whereIn('id', $authors)->get(['id', 'name']),
+            'authors' => getGridItemsWithRatingAndFavoriteStatus(Author::whereIn('id', $authors)->get(['id', 'name', 'rating']), 'author'),
             'title' => 'Статистика. Авторы',
             'breadcrumbParams' => ['id' => $request->id]
         ]);
@@ -285,9 +311,14 @@ class UserController extends Controller
      * @param Request $request
      * @return \Illuminate\Http\Response
      */
-    public function showCategoriesForUser($id, Request $request)
+    public function showCategoriesForUser(Request $request)
     {
-        $categories = array_keys(array_wrap(Crypt::decrypt($request->categories)));
+        //коллекция id авторов, книги которых имеют какой либо статус
+        $categories = Book::whereIn('id', array_flatten(auth()->user()->statistic))->get()->map(function ($book) {
+            return $book->categories->map(function ($category) {
+                return $category->id;
+            });
+        })->flatten()->unique();
         return view('user.userCategories', [
             'categories' => Categories::whereIn('id', $categories)->get(['id', 'name']),
             'title' => 'Статистика. Жанры',
@@ -305,21 +336,22 @@ class UserController extends Controller
      */
     public function showUserFavorite($id, $type, Request $request)
     {
+        $favoriteBooks = array_get(auth()->user()->favorite, 'book');
         switch ($type) {
             case 'book':
                 $viewName = 'Books';
                 $itemsType = 'books';
-                $item = getGridItemsWithRatingAndFavoriteStatus(Book::whereIn('id', Crypt::decrypt($request->favoriteId))->get(['id', 'name', 'rating']), 'book');
+                $item = getGridItemsWithRatingAndFavoriteStatus(Book::whereIn('id', $favoriteBooks)->get(['id', 'name', 'rating']), 'book');
                 break;
             case 'author' :
                 $viewName = 'Authors';
                 $itemsType = 'authors';
-                $item = getGridItemsWithRatingAndFavoriteStatus(Author::whereIn('id', Crypt::decrypt($request->favoriteId))->get(['id', 'name', 'rating']), 'book');
+                $item = getGridItemsWithRatingAndFavoriteStatus(Author::whereIn('id', $favoriteBooks)->get(['id', 'name', 'rating']), 'book');
                 break;
             case 'category' :
                 $viewName = 'Categories';
                 $itemsType = 'categories';
-                $item = getGridItemsWithRatingAndFavoriteStatus(Categories::whereIn('id', Crypt::decrypt($request->favoriteId))->get(['id', 'name', 'rating']), 'book');
+                $item = getGridItemsWithRatingAndFavoriteStatus(Categories::whereIn('id', $favoriteBooks)->get(['id', 'name', 'rating']), 'book');
                 break;
             default :
                 $viewName = $item = $itemsType = null;

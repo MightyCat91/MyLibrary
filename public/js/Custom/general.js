@@ -47,12 +47,15 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
+        //формирование передаваемых параметров
         var data = 'type=' + type + '&delete=' + action;
         if (typeof id !== "undefined") {
             data += '&id=' + id;
+        } else {
+            data += '&id=' + window.location.pathname.split('/').pop();
         }
         $.ajax({
-            url: window.location.pathname,
+            url: window.location.origin + '/changeFavoriteStatus',
             data: data,
             type: 'POST'
         })
@@ -66,8 +69,15 @@
                 //изменение тайтла тултипа
                 favoriteBtn.toggleClass('active')
                     .attr('title', action ? 'Добавить в избранное' : 'Удалить из избранного');
-                //если меняется на странице с гридом, то меняем иконку
+                //если меняется на странице с гридом
                 if($('.container-link')) {
+                    //если текущая страница - список любимых книг/авторов
+                    console.log($.inArray('favorite', window.location.pathname.split('/')) > 0);
+                    if ($.inArray('favorite', window.location.pathname.split('/')) > 0) {
+                        //удаляем со страницы данную книгу/автора
+                        favoriteBtn.closest('.item-container-link').remove();
+                    }
+                    //иначе меняем иконку
                     favoriteBtn.children().toggleClass('hidden');
                 }
             })

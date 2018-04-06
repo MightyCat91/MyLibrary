@@ -147,7 +147,7 @@
         //отображение всех авторов
         .on('click', '.other-authors-controller', function () {
             $(this).prev('.author-link-wrapper').toggleClass('line-height-1-5');
-            $(this).find('.fa-arrow-circle-o-down').toggleClass('hidden').siblings('.fa-arrow-circle-o-up').toggleClass('hidden');
+            $(this).find('.fa-arrow-alt-circle-down').toggleClass('hidden').siblings('.fa-arrow-alt-circle-up').toggleClass('hidden');
             $(this).next('.other-author-wrapper').toggleClass('hidden');
         });
 
@@ -517,7 +517,7 @@
             progress = [];
 
         //если граничные значения рейтинга и пргоресса не соответсвуют дефолтным и не выбран ни один статус
-        if ((ratingMin == 1 && ratingMax == 10) && (progressMin == 0 && progressMax == 100) && statusElem.length == 0) {
+        if ((ratingMin === 1 && ratingMax === 10) && (progressMin === 0 && progressMax === 100) && statusElem.length === 0) {
             //удаляем из адресной строки атрибуты
             history.pushState(null, null, location.href.split('?')[0]);
             //устанавливаем таб "все книги" как активный

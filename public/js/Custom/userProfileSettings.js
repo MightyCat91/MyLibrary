@@ -74,15 +74,16 @@
 
     });
 
+    //смена аватара пользователя
     $('#imageInput').on('change', function () {
         var url = $('.update-btn').data('url');
         updateProfileImg(false, url, $('.update-btn').val());
         $('.delete-btn').removeClass('forbidden');
     });
 
+    //удаление ранее загруженного аватара пользователя
     $('.delete-btn').on('click', function () {
         if (!$(this).hasClass('forbidden')) {
-            console.log('del');
             updateProfileImg(true, $(this).data('url'));
             $(this).addClass('forbidden');
         }

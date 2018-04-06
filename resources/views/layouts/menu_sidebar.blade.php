@@ -168,7 +168,7 @@
                             </button>
                         </div>
                         <div id="open-social-btn" class="chg-auth-type">
-                            <i class="fa fa-lg fa-arrow-circle-right" aria-hidden="true"></i>
+                            <i class="fas fa-arrow-circle-right fa-lg"></i>
                         </div>
                     </section>
                     <section id="auth-signup-social">
@@ -178,24 +178,25 @@
                         <div>
                             <div class="social-column">
                                 <a class="btn btn-social-icon btn-twitter">
-                                    <span class="fa fa-twitter"></span>
+                                    <span><i class="fab fa-twitter"></i></span>
+
                                 </a>
                                 <a class="btn btn-social-icon btn-vk">
-                                    <span class="fa fa-vk"></span>
+                                    <span><i class="fab fa-vk"></i></span>
                                 </a>
                                 <a class="btn btn-social-icon btn-odnoklassniki">
-                                    <span class="fa fa-odnoklassniki"></span>
+                                    <span><i class="fab fa-odnoklassniki"></i></span>
                                 </a>
                             </div>
                             <div class="social-column">
                                 <a class="btn btn-social-icon btn-facebook">
-                                    <span class="fa fa-facebook"></span>
+                                    <span><i class="fab fa-facebook-f"></i></span>
                                 </a>
                                 <a class="btn btn-social-icon btn-google">
-                                    <span class="fa fa-google"></span>
+                                    <span><i class="fab fa-google-plus-g"></i></span>
                                 </a>
                                 <a class="btn btn-social-icon btn-instagram">
-                                    <span class="fa fa-instagram"></span>
+                                    <span><i class="fab fa-instagram"></i></span>
                                 </a>
                             </div>
                         </div>

@@ -28,11 +28,11 @@
                     @if(Auth::check())
                         <div id="avg-rating-container">
                             <div id="avg-rating" title="Средний рейтинг">
-                                <i class="fa fa-star"></i>
+                                <i class="fas fa-star"></i>
                                 <span>{{ $avgRating }}</span>
                             </div>
                             <div id="rating-quantity" title="Количество оценок">
-                                <i class="fa fa-user-o" aria-hidden="true"></i>
+                                <i class="fas fa-users fa-lg"></i>
                                 <span>{{ $quantityRating }}</span>
                             </div>
                         </div>
@@ -48,18 +48,24 @@
                         <div class="user-action-container">
                             <div id="user-actions-wrapper">
                                 <div class="user-actions-container" title="Написать комментарий">
-                                    <a id="add-comment" href="#"><i class="fa fa-comments fa-fw" aria-hidden="true"></i></a>
+                                    <a id="add-comment" href="#"><i class="far fa-comments"></i></a>
                                 </div>
                                 <div class="user-actions-container">
                                     <a id="add-review" href="#" title="Написать рецензию">
-                                        <i class="fa fa-pencil fa-fw" aria-hidden="true"></i>
+                                        <i class="fas fa-pencil-alt"></i>
                                     </a>
                                 </div>
                                 <div class="user-actions-container">
                                     <a class="add-to-favorite {{ ($inFavorite) ? 'active' : '' }}" data-type="book"
                                        href="#" title="{{ ($inFavorite) ? 'Удалить из избранного' : 'Добавить в избранное'
                                    }}">
-                                        <i class="fa fa-heart fa-fw" aria-hidden="true"></i>
+                                        @if($inFavorite)
+                                            <i class="fas fa-heart fa-fw"></i>
+                                            <i class="far fa-heart fa-fw hidden"></i>
+                                        @else
+                                            <i class="fas fa-heart fa-fw hidden"></i>
+                                            <i class="far fa-heart fa-fw"></i>
+                                        @endif
                                     </a>
                                 </div>
                             </div>
@@ -83,7 +89,7 @@
                                     <span>Введенное значение первышает количество страниц книги</span>
                                 </div>
                             </div>
-                            @include('layouts.rating', ['type'=>'book', 'score'=>$rating['score'], 'status'=>$status])
+                            @include('layouts.rating', ['type'=>'book', 'score'=>$rating['score']])
                         </div>
                     @endif
                     {{--@endauth--}}
@@ -91,7 +97,7 @@
                 <aside class="short-info-items">
                     <ul>
                         <li>
-                            <span><i class="fa fa-users fa-lg item-icon" aria-hidden="true"></i>Автор:</span>
+                            <span><i class="fas fa-users fa-lg item-icon" aria-hidden="true"></i>Автор:</span>
                             @foreach($authors as $author)
                                 <a href="{{ route('author', [$author->id]) }}"
                                    class="item-link authors-item">{{ $author->name . ' ' }}</a>
@@ -100,7 +106,7 @@
                         @if(!$bookSeries->isEmpty())
                             <li>
                                 <div id="series">
-                                    <span><i class="fa fa-slack fa-lg item-icon" aria-hidden="true"></i>Серия:</span>
+                                    <span><i class="fas fa-hashtag fa-lg item-icon" aria-hidden="true"></i>Серия:</span>
                                     @foreach($bookSeries as $series)
                                         <a href="{{ route('series-books', [$series->id]) }}"
                                            class="item-link series-item">{{ $series->name }}</a>
@@ -110,7 +116,7 @@
                         @endif
                         <li>
                             <div id="categories">
-                                <span><i class="fa fa-list fa-lg item-icon" aria-hidden="true"></i>Жанр:</span>
+                                <span><i class="fas fa-list-ul fa-lg item-icon" aria-hidden="true"></i>Жанр:</span>
                                 @foreach($categories as $category)
                                     <a href="{{ route('category-books', [$category->id]) }}"
                                        class="category">{{ $category->name . ' ' }}</a>
@@ -119,13 +125,13 @@
                         </li>
                         @if (isset($book->year))
                             <li>
-                                <span><i class="fa fa-calendar fa-lg item-icon" aria-hidden="true"></i>Год:</span>
+                                <span><i class="far fa-calendar-alt fa-lg item-icon" aria-hidden="true"></i>Год:</span>
                                 <a href="{{ route('year-books', [$book->year]) }}"
                                    class="item-link">{{ $book->year }}</a>
                             </li>
                         @endif
                         <li>
-                            <span><i class="fa fa-address-book fa-lg item-icon" aria-hidden="true"></i>Издатель:</span>
+                            <span><i class="fas fa-print fa-lg item-icon" aria-hidden="true"></i>Издатель:</span>
                             @foreach($publishers as $publisher)
                                 <a href="{{ route('publisher-books', [$publisher->id]) }}"
                                    class="item-link publisher-item">{{ $publisher->name . ' ' }}</a>
@@ -133,12 +139,12 @@
                         </li>
                         @if (isset($book->isbn))
                             <li>
-                                <span><i class="fa fa-ticket fa-lg item-icon" aria-hidden="true"></i>ISBN:</span>
+                                <span><i class="fab fa-slack-hash fa-lg item-icon" aria-hidden="true"></i>ISBN:</span>
                                 <span>{{ $book->isbn }}</span>
                             </li>
                         @endif
                         <li>
-                            <span><i class="fa fa-hourglass-half fa-lg item-icon" aria-hidden="true"></i>Количество страниц:</span>
+                            <span><i class="fas fa-hourglass-half fa-lg item-icon" aria-hidden="true"></i>Количество страниц:</span>
                             <span id="book-pages">{{ $book->page_counts }}</span>
                         </li>
                     </ul>

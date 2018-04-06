@@ -19,7 +19,8 @@
         [
             'array' => $authors,
             'routeName' => 'author',
-            'imgFolder' => 'authors'
+            'imgFolder' => 'authors',
+            'type' => 'author'
         ])
     </div>
     @include('layouts.alphabetFilter', ['type' => 'author'])

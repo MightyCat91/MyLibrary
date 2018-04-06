@@ -238,14 +238,16 @@ div.page-content.spinner:after {
 #user-profile-img-wrapper {
     border-radius: 50%;
     border: 1px solid #fff;
-    max-width: 135px;
-    max-height: 135px;
+    width: 135px;
+    height: 135px;
     overflow: hidden;
     margin: 0 5px;
 }
 
 #user-profile-img-wrapper img {
     width: 100%;
+    height: 100%;
+    object-fit: scale-down;
 }
 
 .user-profile-btn-control {
@@ -525,7 +527,8 @@ div.page-content.spinner:after {
     position: absolute;
     text-shadow: none;
     outline: none;
-    right: 6px;
+    right: 4px;
+    top: 0;
     color: #9e9e9e;
 }
 
@@ -941,6 +944,7 @@ div.page-content.spinner:after {
 *   404 page
 */
 #wrapperErrorPage {
+    grid-area: mainContainer;
     text-align: center;
     padding-right: 4em;
     padding-top: 1em;

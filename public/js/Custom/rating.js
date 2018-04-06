@@ -12,46 +12,40 @@
             currContainer = selected.closest('.rating-star-container');
 
         selected.addClass('selected active').siblings().removeClass('active');
-        currContainer.prevAll('.rating-star-container').find('.fa-star').addClass('active').siblings().removeClass('active');
+        currContainer.prevAll('.rating-star-container').find('.full-star').addClass('active').siblings().removeClass('active');
     }
 
     //наведение на левую половину звезды
-    $('.left-half').hover(
-        function () {
-            //убираем подсветку со всех звезд
-            iconStarOut();
-            //устанавливаем подсветку текущей
-            iconStarIn(this, '.fa-star-half-o');
-        },
-        function () {
-            //убираем подсветку со всех звезд
-            iconStarOut();
-        }
-    );
+    $('.left-half').mouseenter(function () {
+        //убираем подсветку со всех звезд
+        iconStarOut();
+        //устанавливаем подсветку текущей
+        iconStarIn(this, '.half-star');
+    });
 
     //наведение на правую половину звезды
-    $('.right-half').hover(
-        function () {
-            //убираем подсветку со всех звезд
-            iconStarOut();
-            //устанавливаем подсветку текущей
-            iconStarIn(this, '.fa-star');
-        },
-        function () {
-            //убираем подсветку со всех звезд
-            iconStarOut();
-        }
-    );
+    $('.right-half').mouseenter(function () {
+        //убираем подсветку со всех звезд
+        iconStarOut();
+        //устанавливаем подсветку текущей
+        iconStarIn(this, '.full-star');
+    });
 
     //возвращаем блоку рейтинга состояние, которое было до наведения на него курсора
     ratingContainer.mouseleave(function () {
         //звезда, соответствующая оценке книги/автора
         var selected = $('.star-icon.selected');
+
         //если такая звезда есть(книга/автор были оценены ранее)
         if (selected.length) {
+            //убираем подсветку со всех звезд
+            iconStarOut();
             //подсвечиваем текущую звезду и всех, которые расположены перед ней
             selected.addClass('active').siblings().removeClass('active').closest('.rating-star-container')
-                .prevAll('.rating-star-container').find('.fa-star').addClass('active').siblings().removeClass('active');
+                .prevAll('.rating-star-container').find('.full-star').addClass('active').siblings().removeClass('active');
+        } else {
+            //иначе убираем подсветку со всех звезд
+            iconStarOut();
         }
     });
 
@@ -65,12 +59,12 @@
         //подсвечиваем текущую звезду, с других снимаем этот соответствующий класс
         currRatingIcon.addClass('active').siblings().removeClass('active');
         //подсвечиваем все предыдущие звезды
-        currContainer.prevAll('.rating-star-container').find('.fa-star').addClass('active').siblings().removeClass('active');
+        currContainer.prevAll('.rating-star-container').find('.full-star').addClass('active').siblings().removeClass('active');
     }
 
     //возврат звезд в дефолтное состояние
     function iconStarOut() {
-        ratingContainer.find('.fa-star-o').addClass('active').siblings().removeClass('active');
+        ratingContainer.find('.empty-star').addClass('active').siblings().removeClass('active');
     }
 
     //обновление рейтинга книги/автора по клику на звезду

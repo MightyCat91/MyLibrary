@@ -1,6 +1,7 @@
 <h3 id="filter-header" class="hidden"></h3>
 <div class="container-link">
     @foreach($array as $item)
+        {{--{{dd($item)}}--}}
         <div class="item-container-link" data-id="{{ $item['id'] }}">
             @if(Auth::check() and isset($type) ? in_array($type,['book','author']) : false)
                 <div class="avg-rating" title="Средний рейтинг">

@@ -76,9 +76,8 @@
 
     //смена аватара пользователя
     $('#imageInput').on('change', function () {
-        var url = $('.update-btn').data('url');
-        updateProfileImg(false, url, $('.update-btn').val());
-        $('.delete-btn').removeClass('forbidden');
+        var updateBtn = $('.update-btn');
+        updateProfileImg(false, updateBtn.data('url'), updateBtn.val());
     });
 
     //удаление ранее загруженного аватара пользователя
@@ -108,8 +107,20 @@
         })
             .done(function (response) {
                 var src = response + "?" + (new Date()).getTime();
-                $('#user-profile-img-change-wrapper img').prop('src', src);
-                $('#user-profile-img-wrapper img').prop('src', src);
+                $('#user-profile-img-change-wrapper').find('img').prop('src', src);
+                $('#user-profile-img-wrapper').find('img').prop('src', src);
+                $('.delete-btn').removeClass('forbidden');
+            })
+            .fail(function (response) {
+                //получаем все ошибки для первого невалидного файла
+                for (var key in response.responseJSON);
+                var errors = response.responseJSON[key];
+                $.each(errors, function (index, fileWithError) {
+                    $.each(fileWithError, function (index, error) {
+                        //вывод алерта
+                        Alert('danger', error, 0);
+                    });
+                });
             });
     }
 

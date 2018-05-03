@@ -45,8 +45,11 @@ Route::group(['prefix' => 'book'], function () {
         Route::post('', [
             'as' => 'book-add-post', 'uses' => 'BookController@store'
         ])->middleware('auth');
-        Route::post('ajaxImg', [
+        Route::post('addImg', [
             'uses' => 'BookController@addImgAJAX'
+        ])->middleware('auth');
+        Route::post('deleteImg', [
+            'uses' => 'BookController@deleteImgAJAX'
         ])->middleware('auth');
     });
     Route::group(['prefix' => '{id}'], function () {
@@ -90,8 +93,11 @@ Route::group(['prefix' => 'author'], function () {
         Route::post('', [
             'as' => 'author-add-post', 'uses' => 'AuthorController@store'
         ])->middleware('auth');
-        Route::post('ajaxImg', [
+        Route::post('addImg', [
             'uses' => 'AuthorController@addImgAJAX'
+        ])->middleware('auth');
+        Route::post('deleteImg', [
+            'uses' => 'AuthorController@deleteImgAJAX'
         ])->middleware('auth');
     });
     Route::group(['prefix' => 'all'], function () {

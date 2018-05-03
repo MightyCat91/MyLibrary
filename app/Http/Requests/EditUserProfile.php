@@ -9,6 +9,7 @@
 namespace App\Http\Requests;
 
 
+use App\Rules\CorrectFilename;
 use App\User;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -35,7 +36,7 @@ class EditUserProfile extends FormRequest
         if ($this->ajax()) {
             if($this->route()->getName() === 'updateProfileImg') {
                 $rules = [
-                    'imageInput' => 'image|mimes:jpg,jpeg,png,gif|max:6080',
+                    'imageInput' => ['image','mimes:jpg,jpeg,png,gif','max:6080','dimensions:min_width=100,min_height=200', new CorrectFilename()],
                 ];
             } else {
                 $rules = [
@@ -89,8 +90,8 @@ class EditUserProfile extends FormRequest
             'imageInput.required' => 'Необходимо загрузить файл',
             'imageInput.image' => 'Загружаемый файл должен быть изображением',
             'imageInput.mimes' => 'Загружаемый файл должен иметь расширения: :values',
-            'imageInput.max' => 'Максимальный размер загружаемого файла не должен превышать :max',
-            'imageInput.dimension' => 'Загруженное изображение имеет некорректное разрешение',
+            'imageInput.max' => 'Максимальный размер файла не должен превышать 6 Мб',
+            'imageInput.dimensions' => 'Загруженное изображение имеет некорректное разрешение',
         ];
     }
 }

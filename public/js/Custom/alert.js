@@ -7,17 +7,17 @@ function Alert(type, message, customDelay) {
     }
 
     switch (type) {
-        case 'success':
+        case 'success fa-lg':
             icon = 'fa fa-check';
             break;
         case 'info':
-            icon = 'fa fa-info-circle';
+            icon = 'fa fa-info-circle fa-lg';
             break;
         case 'warning':
-            icon = 'fa fa-exclamation-circle';
+            icon = 'fa fa-exclamation-circle fa-lg';
             break;
         case 'danger':
-            icon = 'fa fa-lock';
+            icon = 'fa fa-lock fa-lg';
             break;
         default:
             jQuery.error = "Alert type [" + type + "] incorrect";
@@ -40,7 +40,7 @@ function Alert(type, message, customDelay) {
         '</div>' +
         '<a href="{3}" target="{4}" data-notify="url"></a>' +
         '</div>' +
-        '<button type="button" aria-hidden="true" class="close" data-notify="dismiss">×</button>' +
+        '<div class="close-wrapper"><button type="button" aria-hidden="true" class="close" data-notify="dismiss">×</button></div>' +
         '</div>'
     });
 }

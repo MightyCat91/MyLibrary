@@ -209,6 +209,17 @@ class BookController extends Controller
     }
 
     /**
+     * Удаление ранее добавленного файла-изображени книги.
+     *
+     * @param Request $request
+     * @return string|void
+     */
+    public function deleteImgAJAX(Request $request)
+    {
+        parent::deleteImgAddedItem($request, 'booksTemporary');
+    }
+
+    /**
      * Изменение рейтинга книги
      *
      * @param $id

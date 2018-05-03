@@ -70,13 +70,24 @@ class AuthorController extends Controller
      * Обработка ajax-загрузки файла и возврат урл для отображения превью пользователю.
      *
      * @param AuthorAddRequest|Request $request
-     * @return \Illuminate\Http\Response
+     * @return string
      */
     public function addImgAJAX(AuthorAddRequest $request)
     {
         if ($request->ajax()) {
             return $this->putFileToTemporaryStorage($request);
         }
+    }
+
+    /**
+     * Удаление ранее добавленного файла-изображени автора.
+     *
+     * @param Request $request
+     * @return string|void
+     */
+    public function deleteImgAJAX(Request $request)
+    {
+        parent::deleteImgAddedItem($request, 'authorsTemporary');
     }
 
     /**

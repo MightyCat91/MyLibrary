@@ -129,6 +129,10 @@ Status
     color: #35447b;
 }
 
+#status-list {
+    min-width: 200px;
+}
+
 #status-btn[data-status]:not([data-status='']) {
     border-color: #fff;
     color: #fff;

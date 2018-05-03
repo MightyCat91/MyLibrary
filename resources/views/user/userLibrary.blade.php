@@ -29,11 +29,13 @@
                                     <input type="text" class="search-field" placeholder="Название или автор">
                                 </div>
                             </div>
-                            <i class="fas fa-search" aria-hidden="true"></i>
+                            <div id="search-btn">
+                                <i class="fas fa-search"></i>
+                            </div>
                         </div>
                         <div class="filter-wrapper">
                             <div id="filterDialog" data-toggle="modal" data-target="#filterForm">
-                                <i class="fas fa-filter" aria-hidden="true"></i>
+                                <i class="fas fa-filter"></i>
                             </div>
                         </div>
                     </div>
@@ -106,7 +108,8 @@
                                 @if(count($book['authors']) >= 2)
                                     <div class="other-authors-controller">
                                         <i class="far fa-arrow-alt-circle-down" title="Показать остальных авторов"></i>
-                                        <i class="far fa-arrow-alt-circle-up" title="Скрыть остальных авторов"></i>
+                                        <i class="far fa-arrow-alt-circle-up hidden"
+                                           title="Скрыть остальных авторов"></i>
                                     </div>
                                     <div class="other-author-wrapper line-height-1-5 hidden">
                                         @foreach(array_slice($book['authors'],1) as $id => $author)
@@ -140,7 +143,7 @@
                                     <div class="mobile-other-short-field-wrapper">
                                         <div class="authors-short">
                                             @if(count($book['authors']) > 1)
-                                                {{ current($book['authors']) }}...
+                                                {{ current($book['authors']) }}... +{{ count($book['authors']) }}
                                             @else
                                                 {{ current($book['authors']) }}
                                             @endif
@@ -156,10 +159,6 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="show-full-controller" data-parent=".mobile-table">
-                                    <i class="far fa-arrow-alt-circle-down" title="Показать полную информацию"></i>
-                                    <i class="far fa-arrow-alt-circle-up" title="Скрыть полную информацию"></i>
-                                </div>
                             </div>
                             <div class="mobile-full-info-wrapper collapse">
                                 <div class="authors">
@@ -169,7 +168,8 @@
                                 </div>
                                 <div class="mobile-controls">
                                     <div class="rating">
-                                        <input type="text" class="rating-btn no-focused" value="{{ $book['rating'] ?: '---' }}">
+                                        <input type="text" class="rating-btn no-focused"
+                                               value="{{ $book['rating'] ?: '---' }}">
                                         <div class="rating-wrapper hidden">
                                             <datalist class="rating-list">
                                                 @foreach(range(1, 10) as $rating)
@@ -180,7 +180,8 @@
                                     </div>
                                     <div class="status">
                                         <input type="button" class="status-btn" data-toggle="popover"
-                                               data-status="{{ $book['status_name'] }}" value="{{ $book['status_uname'] }}">
+                                               data-status="{{ $book['status_name'] }}"
+                                               value="{{ $book['status_uname'] }}">
                                     </div>
                                     <div class="pages">
                                         <input type="text" class="book-progress no-focused"
@@ -244,8 +245,8 @@
                         </div>
                         <div class="modal-progress-slider-wrapper">
                             <div class="form-group">
-                                <input type="text" id="min-progress" name="min-progress" class="form-control"
-                                       maxlength="3">
+                                <input type="text" id="min-progress" name="min-progress" class="form-control
+                                progress-input" maxlength="3">
                                 <label for="min-progress" class="input-label">От</label>
                             </div>
                             <div class="progress-slider-range-wrapper">
@@ -253,8 +254,8 @@
                                 <div class="error-message"></div>
                             </div>
                             <div class="form-group">
-                                <input type="text" id="max-progress" name="max-progress" class="form-control"
-                                       maxlength="3">
+                                <input type="text" id="max-progress" name="max-progress"
+                                       class="form-control progress-input" maxlength="3">
                                 <label for="max-progress" class="input-label">До</label>
                             </div>
                         </div>
@@ -265,7 +266,7 @@
                     <button class="btn submit-btn btn-filter-clear">
                         <span class="dflt-text">Сбросить</span>
                     </button>
-                    <button class="btn submit-btn btn-filter">
+                    <button class="btn submit-btn btn-filter" data-dismiss="modal">
                         <span class="dflt-text">Применить</span>
                     </button>
                 </div>

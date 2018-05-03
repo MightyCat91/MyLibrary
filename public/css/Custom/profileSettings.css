@@ -1,8 +1,5 @@
-#edit-form {
-    display: grid;
-    grid-template-columns: 1fr;
-    width: auto;
-    grid-area: mainContainer;
+#edit-form-wrapper {
+    grid-area: fields;
 }
 
 #user-profile-img-change-wrapper {
@@ -22,17 +19,10 @@
 }
 
 #edit-img-wrapper {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
+    grid-area: image;
+    position: relative;
 }
 
-#img-change-btn-wrapper {
-    font-size: 25px;
-    display: grid;
-    align-items: center;
-    grid-gap: 2.5rem;
-}
 .img-change-btn:hover label {
     display: block;
 }
@@ -48,55 +38,104 @@
     cursor: not-allowed;
 }
 
-@media screen and (min-width: 545px) {
-    #edit-form {
-        grid-template-columns: 5% 3fr 1fr 5%;
-        grid-gap: 2%;
-    }
-
-    #edit-form-wrapper {
-        grid-column: 2 / span 1
-    }
-
-    #edit-img-wrapper {
-        display: block;
-        position: relative;
-        justify-self: center;
-        grid-column: 3 / span 1
-    }
-
-    #img-change-btn-wrapper {
-        position: absolute;
-        background-color: rgba(0, 0, 0, .8);
-        color: #fff;
-        top: 0;
-        left: 0;
-        height: 200px;
-        width: 200px;
-        border-radius: 50%;
-        opacity: 0;
-        text-align: center;
-        transform: scale(0);
-        transition: all 0.4s ease-in-out;
-    }
-
-    #edit-img-wrapper:hover #img-change-btn-wrapper {
-        opacity: 1;
-        transform: scale(1);
-    }
-
-    #img-change-btn-wrapper div {
-        margin: 0 auto;
-    }
+.submit-btn {
+    grid-area: submit;
 }
 
-/*#edit-form-wrapper > div:first-child {*/
-/*flex-grow: 3;*/
-/*margin-right: 1em;*/
-/*}*/
+.gender {
+    display: flex;
+    width: 6rem;
+}
 
-/*#edit-form-wrapper > div:last-child {*/
-/*flex-shrink: 1;*/
-/*margin-left: 1em;*/
-/*}*/
+.btn-switch-label {
+    padding: 0 1rem;
+    margin: 0;
+    font-size: 24px;
+    border: 1px solid #009926;
+    color: #3B4142;
+    cursor: pointer;
+}
+
+.btn-switch-label.active {
+    color: #fff;
+}
+
+.btn-switch-label input {
+    display: none;
+}
+
+.gender label:first-child {
+    border-radius: 50px 0 0 50px;
+    border-right-width: 0;
+    background: linear-gradient(to right, #fff 50%, #009926 50%);
+    background-size: 200% 100%;
+    background-position: left bottom;
+    transition: all .7s ease;
+}
+
+.gender label:last-child {
+    border-radius: 0 50px 50px 0;
+    background: linear-gradient(to left, #fff 50%, #009926 50%);
+    background-size: 200% 100%;
+    background-position: right bottom;
+    transition: all .7s ease;
+    border-left-width: 0;
+}
+
+.gender .active:first-child {
+    background-position: right bottom;
+}
+
+.gender .active:last-child {
+    background-position: left bottom;
+}
+
+#changeInfo {
+    line-height: 1.3;
+    font-size: 15px;
+    padding-bottom: 1rem;
+}
+
+#changeInfo i {
+    padding-right: 10px;
+    font-size: 1.3rem;
+    color: #ff0500;
+}
+
+.modal-body .close-btn {
+    margin-right: 0;
+}
+
+.form-control-feedback {
+    height: 1rem;
+}
+
+#img-change-btn-wrapper {
+    position: absolute;
+    background-color: rgba(0, 0, 0, .8);
+    color: #fff;
+    top: 0;
+    left: 0;
+    height: 200px;
+    width: 200px;
+    border-radius: 50%;
+    opacity: 0;
+    text-align: center;
+    z-index: 0;
+    transform: scale(0);
+    transition: all 0.4s ease-in-out;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+#edit-img-wrapper:hover #img-change-btn-wrapper {
+    opacity: 1;
+    transform: scale(1);
+}
+
+#img-change-btn-wrapper div {
+    margin: 0 auto;
+}
+
 

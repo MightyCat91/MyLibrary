@@ -1,18 +1,33 @@
 .alert {
-    font-size: 20px;
+    font-size: 18px;
     min-width: 400px;
     background-image: url(/../../images/alert.png);
-    display: flex !important;
     align-items: center;
+    border-radius: 15px;
+    display: grid !important;
+    grid-template: "icon message close";
+    grid-template-columns: 1fr auto 1fr;
+    max-width: 500px;
+    grid-gap: 1rem;
 }
 
 .alert span[data-notify="icon"] {
     font-size: 35px;
     margin-right: 10px;
+    grid-area: icon;
 }
 
 .alert-wrapper {
     padding: 0 10px;
+    grid-area: message;
+}
+
+.alert-wrapper ul {
+    margin: 0;
+}
+
+.alert .close-wrapper {
+    grid-area: close;
 }
 
 .alert.alert-success {

@@ -6,6 +6,10 @@
     padding-top: 1rem;
 }
 
+#fields-wrapper {
+    grid-area: fields;
+}
+
 .form-group {
     margin-bottom: 1.5rem;
 }
@@ -63,7 +67,8 @@
 }
 
 .form-group.submit-btn {
-    margin-top: 1rem;
+    grid-area: submit;
+    margin: 0 auto;
 }
 
 .btn-container {
@@ -94,6 +99,7 @@
     opacity: 0.7;
     transition: 0.5s;
     cursor: pointer;
+    font-size: 12px;
 }
 
 .append-form-add-input:hover {
@@ -127,7 +133,7 @@
 .input-container {
     display: inline-flex;
     position: relative;
-    align-items: center;
+    align-items: flex-end;
     width: 100%;
     margin-bottom: 1rem;
 }
@@ -156,10 +162,12 @@
     margin: 0;
 }
 
-#add-form {
-    width: initial;
-    max-width: 65%;
-    /*margin: 0 auto;*/
+#add-form, #edit-form {
+    display: grid;
+    grid-row-gap: 2em;
+    grid-column-gap: 5em;
+    grid-template-columns: auto max-content 1px;
+    grid-template-areas: "fields image" "submit submit";
 }
 
 .multiple {
@@ -175,64 +183,89 @@
     justify-content: center;
 }
 
-#edit-form {
-    width: 70%;
-    margin: 2em;
-}
-.gender {
+.form-group.file-upload-group {
+    position: relative;
+    margin: 0 auto;
+    background: #fff;
+    border-radius: 50%;
+    width: 200px;
+    height: 200px;
     display: flex;
-    width: 6rem;
-}
-.btn-switch-label {
-    padding: 0 1rem;
-    margin: 0;
-    font-size: 24px;
-    border: 1px solid #009926;
-    color: #3B4142;
-    cursor: pointer;
-}
-.btn-switch-label.active {
-    color: #fff;
-}
-.btn-switch-label input {
-    display: none;
-}
-.gender label:first-child {
-    border-radius: 50px 0 0 50px;
-    border-right-width: 0;
-    background: linear-gradient(to right, #fff 50%, #009926 50%);
-    background-size: 200% 100%;
-    background-position:left bottom;
-    transition:all .7s ease;
-}
-.gender label:last-child {
-    border-radius: 0 50px 50px 0;
-    background: linear-gradient(to left, #fff 50%, #009926 50%);
-    background-size: 200% 100%;
-    background-position:right bottom;
-    transition:all .7s ease;
-    border-left-width: 0;
-}
-.gender .active:first-child {
-    background-position:right bottom;
-}
-.gender .active:last-child {
-    background-position:left bottom;
-}
-#changeInfo {
-    line-height: 1.3;
-    font-size: 15px;
-    padding-bottom: 1rem;
-}
-#changeInfo i {
-    padding-right: 10px;
-    font-size: 1.3rem;
-    color: #ff0500;
-}
-.modal-body .close-btn {
-    margin-right: 0;
+    justify-content: center;
+    align-items: center;
+    grid-area: image;
 }
 
-.form-control-feedback {
-    height: 1rem;
+#add-img-wrapper {
+    border-radius: 50%;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    border: 1px solid #009926;
+    position: relative;
+    margin: 0;
+    transition: all 0.4s ease-in-out;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.book-img {
+    position: absolute;
+    width: 70%;
+    z-index: 1;
+}
+
+#add-img-wrapper .new-book-imgs {
+    object-fit: scale-down;
+    width: 200px;
+}
+
+#img-add-btn-wrapper {
+    position: absolute;
+    width: 200px;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 30px;
+    background-color: rgba(0, 0, 0, .8);
+    color: #fff;
+    top: 0;
+    left: 0;
+    border-radius: 50%;
+    opacity: 0;
+    transform: scale(0);
+    transition: all 0.4s ease-in-out;
+    z-index: 1;
+}
+
+#add-img-wrapper:hover ~ #img-add-btn-wrapper, .book-img:hover ~ #img-add-btn-wrapper, #img-add-btn-wrapper:hover {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.update-btn .image-btn:hover{
+    color: #009926;
+    cursor: pointer;
+}
+
+.owl-stage {
+    display: flex;
+    align-items: center;
+}
+
+@media screen and (max-width: 859px) {
+    #add-form, #edit-form {
+        grid-column-gap: 2em;
+    }
+}
+
+@media (max-width: 768px) {
+    #add-form, #edit-form {
+        grid-template-areas: "fields"
+                             "image"
+                             "submit";
+    }
 }

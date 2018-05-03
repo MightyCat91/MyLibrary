@@ -2,7 +2,7 @@
  * Base structure
  */
 body {
-    background: #fff;
+    background: #f5f5f5;
     font-size: 100%;
     font-family: 'Philosopher', Roboto, sans-serif;
 }
@@ -81,6 +81,7 @@ h1, h2, h3, h4, h5, h6 {
     border-bottom: 1px solid #009926;
     box-shadow: 0 1px 0 0 #009926;
     transition: 0.5s;
+    background: #f5f5f5;
 }
 
 .input-label {

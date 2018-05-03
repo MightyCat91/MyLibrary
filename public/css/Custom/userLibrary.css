@@ -697,7 +697,7 @@ Modal dialog with Filters
     }
 }
 
-@media screen and (max-width: 767px) {
+@media screen and (max-width: 859px) {
     .book-status-container.fixed {
         width: calc(100% - 50px);
         left: 50px;

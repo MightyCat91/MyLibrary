@@ -140,9 +140,7 @@ class UserController extends Controller
             $file = $request->file('imageInput');
             $filepath = sprintf('/%s/%s.%s', $id, $id, $file->getClientOriginalExtension());
             Storage::disk('users')->put($filepath, file_get_contents($file));
-            \Debugbar::info(Storage::disk('users'));
             $url = Storage::disk('users')->url($filepath);
-            \Debugbar::info($url);
             return $url;
         }
     }
@@ -265,7 +263,6 @@ class UserController extends Controller
     /**
      * Возврат шаблона с книгами, соответствующим выбранному статусу
      *
-     * @param int $id
      * @param Request $request
      * @return \Illuminate\Http\Response
      */
@@ -285,7 +282,6 @@ class UserController extends Controller
     /**
      * Возврат шаблона с авторами, соответствующим выбранному статусу
      *
-     * @param int $id
      * @param Request $request
      * @return \Illuminate\Http\Response
      */

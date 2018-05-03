@@ -5,7 +5,7 @@
                 @switch($alert['type'])
                     @case('success')
                         $.notify({
-                            icon: 'fa fa-check',
+                            icon: 'fa fa-check fa-lg',
                             message: '{{ $alert['message'] }}'
                         },{
                             type: '{{ $alert['type'] }}',
@@ -15,7 +15,7 @@
                     @break
                     @case('info')
                         $.notify({
-                            icon: 'fa fa-info-circle',
+                            icon: 'fa fa-info-circle fa-lg',
                             message: '{{ $alert['message'] }}'
                         },{
                             type: '{{ $alert['type'] }}',
@@ -25,7 +25,7 @@
                     @break
                     @case('warning')
                         $.notify({
-                            icon: 'fa fa-exclamation-circle',
+                            icon: 'fa fa-exclamation-circle fa-lg',
                             message: '{{ $alert['message'] }}'
                         },{
                             type: '{{ $alert['type'] }}',
@@ -35,7 +35,7 @@
                     @break
                     @case('danger')
                         $.notify({
-                            icon: 'fa fa-lock',
+                            icon: 'fa fa-lock fa-lg',
                             message: '{{ $alert['message'] }}'
                         },{
                             type: '{{ $alert['type'] }}',

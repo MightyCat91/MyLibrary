@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\CorrectFilename;
 use Illuminate\Foundation\Http\FormRequest;
 
 class AuthorAddRequest extends FormRequest
@@ -25,14 +26,13 @@ class AuthorAddRequest extends FormRequest
     {
         if ($this->ajax()) {
             $rules = [
-                'imageInput' => 'image|mimes:jpg,jpeg,png,gif|max:6080'
+                'imageInput' => ['image','mimes:jpg,jpeg,png,gif','max:6080','dimensions:min_width=100,min_height=200', new CorrectFilename()]
             ];
         } else {
             $rules = [
                 'nameInput' => 'required|string|max:128|unique:authors,name',
                 'biographyInput' => 'required|string|max:2048',
-                'imageInput' => 'required|image|mimes:jpg,jpeg,png,gif|max:6080|dimensions:min_width=100,
-                min_height=200',
+                'imageInput' => ['required','image','mimes:jpg,jpeg,png,gif','max:6080','dimensions:min_width=100,min_height=200', new CorrectFilename()],
                 'seriesInput.*' => 'string|max:128|unique:author_series,name',
                 'categoryInput.*' => 'exists:categories,name',
             ];
@@ -51,10 +51,10 @@ class AuthorAddRequest extends FormRequest
             'biographyInput.string' => 'Вводимое значение должно быть строкой',
             'biographyInput.max' => 'Биография не должна содержать больше :max символов',
             'imageInput.required' => 'Необходимо загрузить файл',
-            'imageInput.image' => 'Загружаемый файл должен быть изображением',
-            'imageInput.mimes' => 'Загружаемый файл должен иметь расширения: :values',
-            'imageInput.max' => 'Максимальный размер загружаемого файла не должен превышать :max',
-            'imageInput.dimension' => 'Загруженное изображение имеет некорректное разрешение',
+            'imageInput.image' => 'Файл ":fileName" должен быть изображением',
+            'imageInput.mimes' => 'Файл ":fileName" должен иметь расширения: :values',
+            'imageInput.max' => 'Максимальный размер файла ":fileName" не должен превышать 6 Мб',
+            'imageInput.dimensions' => 'Файл ":fileName" имеет слишком маленькое разрешение',
             'seriesInput.string' => 'Вводимое значение должно быть строкой',
             'seriesInput.max' => 'Имя не должно содержать больше :max символов',
             'seriesInput.unique' => 'Серия книг этого автора с таким именем уже существует',

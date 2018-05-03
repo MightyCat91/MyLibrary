@@ -2,9 +2,9 @@
     var progressIsChanged = false,
         temporaryPercent = null,
         statusTab = $('.book-status-container'),
-        statusTabsWidth =  0;
+        statusTabsWidth = 0;
 
-    $('.book-status').each(function(){
+    $('.book-status').each(function () {
         statusTabsWidth += $(this).width();
     });
 
@@ -143,6 +143,8 @@
                 //отображаем книги соответсвующие статусу нового активного таба
                 $('.status_color[data-status="' + status + '"]').closest('.table-row').removeClass('hidden');
             }
+            //смена заголовка таблицы
+            $('.table-header span').text($(this).find("span").text());
         })
         //отображение всех авторов
         .on('click', '.other-authors-controller', function () {
@@ -239,15 +241,10 @@
         //поле прогресса, которое меняем
         var input = $(this),
             //старое значение прогресса в процентах
-            currPercent = input.val(),
+            temporaryPercent = input.val(),
             //старое значение прогресса в формате прочитанные страницы/количество страниц
-            currValue = input.attr('title'),
-            //старое значение прогресса в страницах
-            currProgress = parseInt(currValue.split("/")[0]),
-            bookPages = currValue.split("/")[1];
+            currValue = input.attr('title');
 
-        //временной переменной устанавливаем значение - старый процент
-        temporaryPercent = currPercent;
         //устанавливаем стили выбранности, значения-количество прочитанных страниц, и выделяем текст в поле
         input.val(currValue).removeClass('no-focused').select()
             .keydown(function (event) {
@@ -306,7 +303,7 @@
     });
 
     //отображение поля ввода поиска при клике по соответствующей иконке
-    $('.fa-search').on('click', function () {
+    $("#search-btn").on('click', function () {
         $(this).prev().children().toggleClass('show');
     });
 
@@ -495,6 +492,11 @@
         $(this).blur();
     });
 
+    //открытие диалога фильтров
+    $('#filterDialog').on('click', function () {
+        $("#filterForm").modal();
+    });
+
     //применение фильтрации
     $('.btn-filter').on('click', function () {
         //слайдер рейтинга
@@ -524,6 +526,8 @@
             $('.book-status[data-tab="all"]').addClass('active');
             //отображаем все строки таблицы
             $('.table-body .table-row').removeClass('hidden');
+            //смена заголовка таблицы
+            $('.table-header span').text("Все книги");
         } else {
             //формируем массив всех значений рейтинга между выбранными граничными
             for (var i = ratingMin; i <= ratingMax; i++) {
@@ -542,10 +546,9 @@
 
             //убираем со всех табов статус активного
             $('.book-status').removeClass('active');
+            //смена заголовка таблицы
+            $('.table-header span').text("Результат фильтрации");
         }
-
-        //скрываем диалог фильтров
-        $('#filterForm').modal('hide');
     });
 
     //сброс фильтров в диалоге в дефолтное состояние
@@ -553,6 +556,7 @@
         $('.modal-status-btn').removeClass('selected');
         $("#rating-slider-range").slider("values", [1, 10]).attr('data-min', 1).attr('data-max', 10);
         $("#progress-slider-range").slider("values", [0, 100]).attr('data-min', 0).attr('data-max', 100);
+        $(".progress-input").val("");
     });
 
     //формирование диалога фильтров при наличии их в адресной строке
@@ -617,9 +621,6 @@
     });
 
 
-
-
-
     /*
     * отображение таблицы в соответсвии с фильтрами
     * @array rating рейтинг
@@ -628,58 +629,63 @@
      */
     function setFilter(rating, progress, statusElem) {
         //массив статусов
-        var status = [];
+        var status = [],
+            tableRows = $('.table-body .table-row');
 
-        //скрываем все строки таблицы
-        $('.table-body .table-row').addClass('hidden');
+        //отображаем все строки таблицы
+        tableRows.removeClass('hidden');
 
         //отображаем строки таблицы рейтинг которых входит в диапазон фильтра рейтинга
-        $.each(rating, function (index, value) {
-            $('.rating-btn[value="' + value + '"]').closest('.table-row').removeClass('hidden');
-        });
-        //отмечаем среди уже видимых строк таблицы те строки, прогресс которых входит в диапазон фильтра прогресса
-        $.each(progress, function (index, value) {
-            $('.table-body .table-row:not(.hidden)').find('.book-progress[value="' + value + '%"]')
-                .closest('.table-row').addClass('filtered');
-        });
+        if (parseInt(rating[0]) !== 1 || parseInt(rating[rating.length - 1]) !== 10) {
+            $.each(tableRows, function (index, row) {
+                if (rating.includes(parseInt($(row).find('input.rating-btn').val()))) {
+                    $(row).addClass('filtered');
+                }
+            });
+            //скрываем неотфильтрованные строки
+            tableRows.filter(':not(.filtered)').addClass('hidden');
+            //убираем признак фильтрации
+            tableRows.removeClass('filtered');
+        }
 
-        //скрываем те строки, которые не помечены как отфильтрованные
-        $('.table-body .table-row:not(.filtered)').addClass('hidden');
-        //отображаем отфильтрованные строки и удаляем флаг фильтрации
-        $('.table-body .filtered').removeClass('hidden').removeClass('filtered');
+        //отмечаем среди видимых строк таблицы те строки, прогресс которых входит в диапазон фильтра прогресса
+        if (parseInt(progress[0]) !== 0 || parseInt(progress[progress.length - 1]) !== 100) {
+            $.each(tableRows.filter(':not(.hidden)'), function (index, row) {
+                if (progress.includes(parseInt($(row).find('input.book-progress').val()))) {
+                    $(row).addClass('filtered');
+                }
+            });
+            tableRows.filter(':not(.filtered)').addClass('hidden');
+            tableRows.removeClass('filtered');
+        }
 
         //если список статусов это массив значений
         if ($.isArray(statusElem)) {
-            //отмечаем среди уже видимых строк таблицы те строки, статус которых входит в диапазон фильтра статусов
+            //отмечаем среди видимых строк таблицы те строки, статус которых входит в диапазон фильтра статусов
             $.each(statusElem, function (index, value) {
-                $('.table-body .table-row:not(.hidden)').find('.status_color[data-status="' + value + '"]')
+                console.log(value);
+                tableRows.filter(':not(.hidden)').find('.status-btn[data-status="' + value + '"]')
                     .closest('.table-row').addClass('filtered');
             });
-            //скрываем те строки, которые не помечены как отфильтрованные
-            $('.table-body .table-row:not(.filtered)').addClass('hidden');
-            //отображаем отфильтрованные строки и удаляем флаг фильтрации
-            $('.table-body .filtered').removeClass('hidden').removeClass('filtered');
+            tableRows.filter(':not(.filtered)').addClass('hidden');
+            tableRows.removeClass('filtered');
             //если список статусов это список элементов
         } else {
             //если был выбран хоть один статус для фильтрации
             if (statusElem.length) {
-                //отмечаем среди уже видимых строк таблицы те строки, статус которых входит в диапазон фильтра статусов
+                //отмечаем среди видимых строк таблицы те строки, статус которых входит в диапазон фильтра статусов
                 statusElem.each(function (index, value) {
-                    $('.table-body .table-row:not(.hidden)')
-                        .find('.status-btn[data-status="' + $(value).attr('data-status') + '"]')
+                    tableRows.filter(':not(.hidden)').find('.status-btn[data-status="' + $(value).attr('data-status') + '"]')
                         .closest('.table-row').addClass('filtered');
                     //помещаем текущий статус в массив статусов
                     status.push($(value).attr('data-status'))
                 });
-                //скрываем те строки, которые не помечены как отфильтрованные
-                $('.table-body .table-row:not(.filtered)').addClass('hidden');
-                //отображаем отфильтрованные строки и удаляем флаг фильтрации
-                $('.table-body .filtered').removeClass('hidden').removeClass('filtered');
-                //возвращаем массив статусов
+
+                tableRows.filter(':not(.filtered)').addClass('hidden');
+                tableRows.removeClass('filtered');
                 return status;
             }
         }
-
     }
 
     /*
@@ -693,13 +699,15 @@
             currProgress = parseInt(currValue.split("/")[0]),
             //количество страниц в книге
             bookPages = parseInt(currValue.split("/")[1]),
+            //значение введенное в поле прогресса
+            inputValue = input.val(),
             //новое значение прогресса
-            newProgress = input.val();
+            newProgress = inputValue.includes("/") ? inputValue.split("/")[0] : inputValue;
 
         //если новое значение прогресса - число
         if ($.isNumeric(newProgress)) {
             // и не совпадает со старым прогрессом
-            if (parseInt(newProgress) != currProgress) {
+            if (parseInt(newProgress) !== currProgress) {
                 //отправляем соответствующий аякс-запрос с новым значением прогресса
                 $.ajaxSetup({
                     headers: {
@@ -761,7 +769,6 @@
             //устанавливаем в поле прогресса старое значение
             input.val(temporaryPercent);
         }
-
         //снимаем фокус с поля ввода прогресса
         input.addClass('no-focused');
     }
@@ -974,7 +981,7 @@
             //для каждого параметра в объекте
             $.each(param, function (name, value) {
                 //если строка еще пустая
-                if (paramStr.length == 0) {
+                if (paramStr.length === 0) {
                     //записываем новый параметр и его значение
                     paramStr += (name + '=' + value)
                     //если не пустая

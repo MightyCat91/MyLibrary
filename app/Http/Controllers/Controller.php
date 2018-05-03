@@ -12,6 +12,7 @@ use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\Request;
+use Storage;
 
 class Controller extends BaseController
 {
@@ -70,5 +71,22 @@ class Controller extends BaseController
         $user->save();
 
         return ['avgRating' => array_sum($elRating) / count($elRating), 'quantityRating' => count($elRating)];
+    }
+
+    /**
+     * Удаление ранее добавленного файла-изображени книги.
+     *
+     * @param Request $request реквест-данные запроса
+     * @param String $disk имя временного хранилища
+     * @return string
+     */
+    public function deleteImgAddedItem($request, $disk)
+    {
+        if ($request->ajax()) {
+            $filename = $request->get('imageName');
+            if (Storage::disk($disk)->exists($filename)) {
+                Storage::disk($disk)->delete($filename);
+            }
+        }
     }
 }

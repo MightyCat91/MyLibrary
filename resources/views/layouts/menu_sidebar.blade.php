@@ -50,7 +50,7 @@
     <div id="bottom-container">
         @if (Auth::guest())
             <div id="login-form-wrapper"
-                 class="{{ !empty($errors) and $errors->hasAny(['email', 'password']) ? 'active' : '' }}">
+                 class="{{ $errors->hasAny(['email', 'password']) ? 'active' : '' }}">
                 <form id="login-form" role="form" method="POST" action="{{  route('login') }}">
                     {{ csrf_field() }}
                     <div id="authLinks">
@@ -58,24 +58,14 @@
                         <a href="#" id="resetPassLink">Забыли пароль?</a>
                     </div>
                     <div id="login-form-container">
-                        <div class="form-group {{ !empty($errors) and $errors->has('email') ? 'error' : '' }}">
+                        <div class="form-group {{ $errors->has('email') ? 'has-danger' : '' }}">
 
                             <input id="email" type="email" name="email" placeholder="Email"
-                                   value="{{ \Session::hasOldInput() ?? old('email') }}"
+                                   value="{{ old('email') }}"
                                    required>
                         </div>
-                        <div class="form-group {{ !empty($errors) and $errors->has('password') ? 'error' : '' }}">
+                        <div class="form-group {{ $errors->has('password') ? 'has-danger' : '' }}">
                             <input id="password" type="password" name="password" placeholder="Пароль" required>
-                            @if (!empty($errors) and $errors->has('email'))
-                                <div class="help-block">
-                                    <strong>{{ $errors->first('email') }}</strong>
-                                </div>
-                            @endif
-                            @if (!empty($errors) and $errors->has('password'))
-                                <div class="help-block">
-                                    <strong>{{ $errors->first('password') }}</strong>
-                                </div>
-                            @endif
                         </div>
 
                         <div id="login-button">
@@ -87,7 +77,7 @@
                     <div id="remember-checkbox" class="auth-checkbox">
                         <label>
                             <input type="checkbox"
-                                   name="remember" {{ \Session::hasOldInput() ?? (old('remember') ? 'checked' : '') }}>
+                                   name="remember" {{ (old('remember') ? 'checked' : '') }}>
                             Запомнить меня
                         </label>
                     </div>
@@ -113,52 +103,37 @@
             </form>
         @endif
         @if (Auth::guest())
-            <div id="register-form-container" class="{{ !empty($errors) and $errors->hasAny(['name', 'registerEmail', 'registerPassword',
+            <div id="register-form-container" class="{{ $errors->hasAny(['name', 'registerEmail', 'registerPassword',
     'privacyPolicy', 'emailReset']) ? 'active' : '' }}">
                 <form id="register-form" role="form" method="POST" action="{{ route('register') }}" class="signup-form
-              {{ !empty($errors) and $errors->hasAny(['name', 'registerEmail', 'registerPassword', 'privacyPolicy']) ? '' : 'hidden' }}">
+              {{ $errors->hasAny(['name', 'registerEmail', 'registerPassword', 'privacyPolicy']) ? '' : 'hidden' }}">
                     {{ csrf_field() }}
                     <section id="auth-signup">
                         <div>
-                            <div class="form-group {{ !empty($errors) and $errors->has('name') ? 'error' : '' }}">
+                            <div class="form-group {{ $errors->has('name') ? 'has-danger' : '' }}">
                                 <input id="name" type="text" name="name" placeholder="Имя"
-                                       value="{{ \Session::hasOldInput() ?? old('name') }}" required>
-                                @if (!empty($errors) and $errors->has('name'))
-                                    <div class="help-block">
-                                        <strong>{{ $errors->first('name') }}</strong>
-                                    </div>
-                                @endif
+                                       value="{{ old('name') ?? '' }}" required>
                             </div>
-                            <div class="form-group {{ !empty($errors) and $errors->has('registerEmail') ? 'error' : '' }}">
+                            <div class="form-group {{ $errors->has('registerEmail') ? 'has-danger' : '' }}">
                                 <input id="registerEmail" type="email" name="registerEmail" placeholder="Email"
-                                       value="{{ \Session::hasOldInput() ?? old('registerEmail')}}" required>
-                                @if (!empty($errors) and $errors->has('registerEmail'))
-                                    <div class="help-block">
-                                        <strong>{{ $errors->first('registerEmail') }}</strong>
-                                    </div>
-                                @endif
+                                       value="{{ old('registerEmail') ?? ''}}" required>
                             </div>
-                            <div class="form-group {{ !empty($errors) and $errors->has('registerPassword') ? 'error' : '' }}">
+                            <div class="form-group {{ $errors->has('registerPassword') ? 'has-danger' : '' }}">
                                 <input id="registerPassword" type="password" name="registerPassword"
                                        placeholder="Пароль"
                                        required>
-                                @if (!empty($errors) and $errors->has('registerPassword'))
-                                    <div class="help-block">
-                                        <strong>{{ $errors->first('registerPassword') }}</strong>
-                                    </div>
-                                @endif
                             </div>
                             <div class="form-group auth-checkbox">
                                 <label>
                                     <input type="checkbox"
-                                           name="subscribe[]" {{ \Session::hasOldInput() ?? (old('subscribe') ? 'checked' : '') }}>
+                                           name="subscribe[]" {{ old('subscribe') ? 'checked' : '' }}>
                                     Присылайте мне на почту важные уведомления
                                 </label>
                             </div>
-                            <div class="form-group auth-checkbox {{ !empty($errors) and $errors->has('privacyPolicy') ? 'error' : '' }}">
+                            <div class="form-group auth-checkbox {{ $errors->has('privacyPolicy') ? 'has-danger' : '' }}">
                                 <label>
                                     <input type="checkbox" name="privacyPolicy"
-                                           {{ \Session::hasOldInput() ?? (old('privacyPolicy') ? 'checked' : '') }}
+                                           {{ old('privacyPolicy') ? 'checked' : '' }}
                                            required>Я принимаю пользовательское соглашение
                                     <a href="{{ route('privacyPolicy') }}" id="privacyPolicy"> Прочитать</a>
                                 </label>
@@ -203,25 +178,19 @@
                     </section>
                 </form>
                 <form id="pass-reset-form"
-                      class="signup-form {{ !empty($errors) and $errors->has('emailReset') ? '' : 'hidden' }}"
+                      class="signup-form {{ $errors->has('emailReset') ? '' : 'hidden' }}"
                       role="form"
                       method="POST" action="{{  route('password.email') }}">
                     {{ csrf_field() }}
                     <section id="pass-reset">
                         <label for="emailReset">Восстановление пароля</label>
-
-                        <div class="form-group {{ !empty($errors) and $errors->has('emailReset') ? 'error' : '' }}">
+                        <div class="form-group {{ $errors->has('emailReset') ? 'has-danger' : '' }}">
                             <input id="emailReset" type="email" name="emailReset" placeholder="Email"
-                                   value="{{ \Session::hasOldInput() ?? old('emailReset') }}" required>
-                            @if (!empty($errors) and $errors->has('emailReset'))
-                                <div class="help-block">
-                                    <strong>{{ $errors->first('emailReset') }}</strong>
-                                </div>
-                            @endif
+                                   value="{{ old('emailReset') }}" required>
                         </div>
-                        <span><i class="fa fa-info-circle" aria-hidden="true"></i>На указанную почту будет отправлено письмо с
-                    инструкциями для восстановления пароля</span>
-                        <button type="submit" id="reset-psw-btn" class="btn btn-primary auth-btn">
+                        <span><i class="fa fa-lg fa-info-circle" ></i>На указанную почту будет
+                            отправлено письмо с инструкциями для восстановления пароля</span>
+                        <button type="submit" id="reset-psw-btn" class="btn auth-btn">
                             Восстановить пароль
                         </button>
                     </section>
@@ -230,6 +199,11 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
+            @if ($errors->any())
+                @foreach ($errors->all() as $error)
+                    {{ alert('danger', $error, 0) }}
+                @endforeach
+            @endif
         @endif
         <div id="side-bottom">
             <span>Copyright © 2017 MyLibrary</span>
@@ -238,4 +212,4 @@
         </div>
     </div>
 </aside>
-<a href="#" id="back-to-top"><i class="fa fa-angle-double-up fa-2x" aria-hidden="true"></i></a>
+<a href="#" id="back-to-top"><i class="fa fa-angle-double-up fa-2x"></i></a>

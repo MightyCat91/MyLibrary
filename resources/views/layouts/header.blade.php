@@ -15,6 +15,7 @@
         function hideURLbar() {
             window.scrollTo(0, 1);
         } </script>
+    <link rel="shortcut icon" type="image/png" href="{{ asset('/images/icon.png') }}"/>
     <!-- bootstrap-social -->
     <link href="{{ asset('/css/Library/Bootstrap/bootstrap-social.css') }}" rel="stylesheet" type='text/css' media="all">
     <!-- bootstrap -->

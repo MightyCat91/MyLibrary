@@ -195,7 +195,7 @@ Route::post('/', 'Auth\LoginController@login')->name('login');
 Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 
 // Registration Routes...
-Route::post('register', 'Auth\RegisterController@register')->name('register');
+Route::post('register', 'Auth\RegisterController@register')->name('register')->middleware('guest');
 
 // Password Reset Routes...
 Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');

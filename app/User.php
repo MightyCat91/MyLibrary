@@ -56,7 +56,7 @@ class User extends Authenticatable
         if (is_array($roles)) {
             return $this->hasAnyRole($roles);
         }
-        return $this->hasRole($roles) || alert('Недостаточно прав для данного действия', 'danger');
+        return $this->hasRole($roles) || alert('danger', 'Недостаточно прав для данного действия');
     }
 
     /**

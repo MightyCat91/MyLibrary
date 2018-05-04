@@ -3,12 +3,10 @@
 namespace MyLibrary\Breadcrumbs;
 
 
-use Illuminate\Routing\Exceptions\UrlGenerationException;
 use Illuminate\Support\Collection;
 use Illuminate\Support\HtmlString;
 use MyLibrary\Breadcrumbs\Exceptions\AlreadyExistsException;
 use MyLibrary\Breadcrumbs\Exceptions\NotArrayException;
-use MyLibrary\Breadcrumbs\Exceptions\NotFoundException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class Breadcrumbs

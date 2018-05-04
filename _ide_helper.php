@@ -12010,7 +12010,10 @@ namespace Barryvdh\Debugbar {
  
 }
 
-namespace MyLibrary\Breadcrumbs\Facades { 
+namespace MyLibrary\Breadcrumbs\Facades {
+
+    use MyLibrary\Breadcrumbs\Exceptions\AlreadyExistsException;
+    use MyLibrary\Breadcrumbs\Exceptions\NotArrayException;
 
     class Breadcrumbs {
         

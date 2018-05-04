@@ -59,11 +59,11 @@ class UserController extends Controller
         }
 
         $status = Status::all('name', 'uname');
-
+        \Debugbar::info($statisticBooks);
         foreach ($status as $st) {
             $booksWithStatus[$st->name] = [
                 'name' => $st->uname,
-                'count' => count($statisticBooks[$st->name])
+                'count' => $statisticBooks ? count($statisticBooks[$st->name]) : 0
             ];
         }
         $statistic = [
@@ -365,28 +365,34 @@ class UserController extends Controller
     {
         $books = $statuses = [];
         $user = \Auth::user();
-        foreach ($user->statistic as $bookStatus => $booksId) {
-            $authors = [];
-            foreach ($booksId as $bookId) {
+        if (!empty($user->statistic)) {
+            foreach ($user->statistic as $bookStatus => $booksId) {
+                $authors = [];
+                foreach ($booksId as $bookId) {
 
-                $book = Book::findOrFail($bookId);
-                foreach ($book->authors as $author) {
-                    $authors[$author->id] = $author->name;
+                    $book = Book::findOrFail($bookId);
+                    foreach ($book->authors as $author) {
+                        $authors[$author->id] = $author->name;
+                    }
+                    $status = Status::where('name', $bookStatus)->first(['uname'])->uname;
+                    $statuses[$bookStatus] = $status;
+                    $books[] = [
+                        'id' => $bookId,
+                        'status_uname' => $status,
+                        'status_name' => $bookStatus,
+                        'authors' => $authors,
+                        'page_counts' => $book->page_counts,
+                        'name' => $book->name,
+                        'rating' => array_get($book->rating, $id),
+                        'progress' => $user->progress[$bookId]
+                    ];
                 }
-                $status = Status::where('name', $bookStatus)->first(['uname'])->uname;
-                $statuses[$bookStatus] = $status;
-                $books[] = [
-                    'id' => $bookId,
-                    'status_uname' => $status,
-                    'status_name' => $bookStatus,
-                    'authors' => $authors,
-                    'page_counts' => $book->page_counts,
-                    'name' => $book->name,
-                    'rating' => array_get($book->rating, $id),
-                    'progress' => $user->progress[$bookId]
-                ];
             }
+        } else {
+            alert('info', 'В Вашей личной библиотеке еще нет книг');
+            return redirect()->back();
         }
+
 
         return view('user.userLibrary', [
             'books' => $this->userLibrarySort($books, 'rating'),

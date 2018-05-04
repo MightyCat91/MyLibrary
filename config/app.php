@@ -185,7 +185,8 @@ return [
          */
         MyLibrary\Breadcrumbs\BreadcrumbsServiceProvider::class,
         MyLibrary\customServiceProviders\ValidatorServiceProvider::class,
-        MyLibrary\customServiceProviders\AdminServiceProvider::class
+        MyLibrary\customServiceProviders\AdminServiceProvider::class,
+        MyLibrary\Search\SearchServiceProvider::class
         // Laracasts\Generators\GeneratorsServiceProvider::class,
     ],
 
@@ -237,6 +238,7 @@ return [
         'Active' => Watson\Active\Facades\Active::class,
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
         'Breadcrumbs' => MyLibrary\Breadcrumbs\Facades\Breadcrumbs::class,
+        'Search' => MyLibrary\Search\SearchServiceProvider::class
     ],
 
 ];

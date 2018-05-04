@@ -3,6 +3,7 @@
     <!-- Menu Sidebar -->
     @include("layouts.menu_sidebar")
     <!-- Menu Sidebar -->
+    @include("layouts.search")
     <section class="container-content">
         <!-- Content -->
         <div class="page-content">

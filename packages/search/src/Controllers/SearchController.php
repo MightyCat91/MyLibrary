@@ -9,10 +9,11 @@
 namespace MyLibrary\Search;
 
 
+use App\Http\Controllers\Controller;
 use DB;
 use Schema;
 
-class Search
+class SearchController extends Controller
 {
     protected $table;
     protected $app;
@@ -23,11 +24,12 @@ class Search
     public function __construct()
     {
         $this->app = app();
-        $this->table = $this->app['config']->get('search.options.database', 'searched');
+        $this->table = $this->app['config']->get('search.database', 'searched');
     }
 
     public function search($searchedText)
     {
+        dd($searchedText);
         if ($this->tableIsExist()) {
             $collectionSerchedElem = DB::raw('SELECT * FROM ' . $this->table . ' WHERE to_tsvector(name) @@ plainto_tsquery(\'' . $searchedText . '\') LIMIT 10');
 

@@ -33,6 +33,7 @@
 <script type="text/javascript" src="{{ asset('/js/Library/BootstrapNotify/bootstrap-notify.min.js') }}"></script>
 <script type="text/javascript" src="{{ asset('/js/Custom/general.js') }}"></script>
 <script type="text/javascript" src="{{ asset('/js/Custom/alert.js') }}"></script>
+<script type="text/javascript" src="{{ asset('/js/Custom/search.js') }}"></script>
 @if (Auth::guest())
     <script type="text/javascript" src="{{ asset('/js/Custom/authentication.js') }}"></script>
 @endif

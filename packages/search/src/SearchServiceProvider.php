@@ -29,8 +29,6 @@ class SearchServiceProvider extends ServiceProvider
             $publishPath = base_path('config/search.php');
         }
 
-        $this->loadRoutesFrom(__DIR__.'/routes/search.php');
-
         // Регистрация(загрузка) шаблона
         $this->loadViewsFrom(__DIR__.'/view', 'search');
 
@@ -43,6 +41,11 @@ class SearchServiceProvider extends ServiceProvider
             $configPath => $publishPath,
             __DIR__ . '/view' => base_path('resources/views/layouts')
         ]);
+
+        $route = $this->app['config']->get('search.route');
+        $this->app['router']->post($route, [
+            'uses' => 'SearchController@search'
+        ]);
     }
 
     /**
@@ -52,8 +55,8 @@ class SearchServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton('search', function ($app) {
-            return $app->make(Search::class);
-        });
+//        $this->app->singleton('search', function ($app) {
+//            return $app->make(Search::class);
+//        });
     }
 }

@@ -12,7 +12,7 @@ class SearchServiceProvider extends ServiceProvider
      *
      * @var bool
      */
-    protected $defer = false;
+    protected $defer = true;
 
     /**
      * Bootstrap the application services.
@@ -43,9 +43,17 @@ class SearchServiceProvider extends ServiceProvider
         ]);
 
         $route = $this->app['config']->get('search.route');
-        $this->app['router']->post($route, [
-            'uses' => 'SearchController@search'
-        ]);
+
+        $routeConfig = [
+            'namespace' => 'MyLibrary\Search\Controllers',
+            'prefix' => $this->app['config']->get('debugbar.route_prefix'),
+            'domain' => $this->app['config']->get('debugbar.route_domain'),
+        ];
+        $this->app['router']->group($routeConfig, function($router) use$route {
+            $router->post($route, [
+                'uses' =>  __DIR__ .'/Controllers/SearchController@search'
+            ]);
+        });
     }
 
     /**
@@ -55,8 +63,19 @@ class SearchServiceProvider extends ServiceProvider
      */
     public function register()
     {
-//        $this->app->singleton('search', function ($app) {
-//            return $app->make(Search::class);
-//        });
+        $this->app->singleton('search', function ($app) {
+            return $app->make(Search::class);
+        });
     }
+
+    /**
+     * Get the services provided by the provider.
+     *
+     * @return array
+     */
+    public function provides()
+    {
+        return [Search::class];
+    }
+
 }

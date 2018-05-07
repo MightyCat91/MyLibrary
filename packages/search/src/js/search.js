@@ -24,6 +24,7 @@
             type: 'POST'
         })
             .done(function (data) {
+                console.log(1);
                 if (data) {
                     $('#empty-search-result').removeClass('hidden');
                 } else {

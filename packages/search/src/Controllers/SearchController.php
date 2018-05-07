@@ -13,7 +13,7 @@ use App\Http\Controllers\Controller;
 use DB;
 use Schema;
 
-class SearchController extends Controller
+class SearchController
 {
     protected $table;
     protected $app;
@@ -29,7 +29,7 @@ class SearchController extends Controller
 
     public function search($searchedText)
     {
-        dd($searchedText);
+        \Debugbar::info($searchedText);
         if ($this->tableIsExist()) {
             $collectionSerchedElem = DB::raw('SELECT * FROM ' . $this->table . ' WHERE to_tsvector(name) @@ plainto_tsquery(\'' . $searchedText . '\') LIMIT 10');
 

@@ -1,37 +1,38 @@
 (function ($) {
     var searchContainer = $('#search-container'),
-        searchResultWrapper = $('#search-result-wrapper');
+        searchResultContainer = $('#search-result-container');
 
     $('#search-icon-wrapper').on('click', function () {
         searchContainer.toggleClass('active');
-        searchResultWrapper.addClass('hidden');
+        searchResultContainer.addClass('hidden');
     });
 
     $('#search-input-wrapper').find('input').keyup(function () {
         var searchedText = $(this).val();
-        console.log(searchedText);
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
-        $.ajax({
-            url: window.location.origin + '/search',
-            data: {
-                //искомый текст
-                'text': searchedText
-            },
-            type: 'POST'
-        })
-            .done(function (data) {
-                console.log(1);
-                if (data) {
-                    $('#empty-search-result').removeClass('hidden');
-                } else {
-                    $.forEach(data, function (resultString) {
-                        searchResultWrapper.appendChild('<li><a href="' + resultString.href + '">' + resultString.name + '</a></li>').removeClass('hidden');
-                    });
+        if (searchedText.length > 2) {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
+            $.ajax({
+                url: window.location.origin + '/search',
+                data: {
+                    //искомый текст
+                    'text': searchedText
+                },
+                type: 'POST'
+            })
+                .done(function (data) {
+                    var response = $.parseJSON(data);
+                    if (!response.length) {
+                        searchResultContainer.removeClass('hidden').find('#empty-search-result').removeClass('hidden');
+                    } else {
+                        $.each(response, function (resultString) {
+                            searchResultContainer.append('<li><a href="' + resultString.href + '">' + resultString.name + '</a></li>').removeClass('hidden');
+                        });
+                    }
+                });
+        }
     })
 })(jQuery);

@@ -3,10 +3,16 @@
  * Created by PhpStorm.
  * User: muzhilkin
  * Date: 08.05.2018
- * Time: 12:35
+ * Time: 12:24
  */
 
-class SearchController
+namespace MyLibrary\Search;
+
+
+use DB;
+use Schema;
+
+class Search
 {
     protected $table;
     protected $app;
@@ -22,13 +28,10 @@ class SearchController
 
     public function search($searchedText)
     {
-        \Debugbar::info($searchedText);
-        \Debugbar::info($this->table);
         if ($this->tableIsExist()) {
-
-            $collectionSerchedElem = DB::raw('SELECT * FROM ' . $this->table . ' WHERE to_tsvector(name) @@ plainto_tsquery(\'' . $searchedText . '\') LIMIT 10');
-
+            return json_encode(DB::select('SELECT * FROM ' . $this->table . ' WHERE LOWER(name) LIKE LOWER(\'%' . $searchedText . '%\') LIMIT 10'));
         }
+        return response()->json([]);
     }
 
 

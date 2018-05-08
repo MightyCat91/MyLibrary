@@ -5,9 +5,9 @@
     <div id="search-icon-wrapper">
         <i class="fas fa-lg fa-search"></i>
     </div>
-</section>
-<section id="search-result-container">
-    <ul id="search-result-wrapper">
-        <li id="empty-search-result" class="hidden">К сожалению ничего не найдено</li>
-    </ul>
+    <div id="search-result-container" class="hidden">
+        <ul id="search-result-wrapper">
+            <li id="empty-search-result" class="hidden">К сожалению ничего не найдено</li>
+        </ul>
+    </div>
 </section>

@@ -2,7 +2,9 @@
 
 namespace MyLibrary\Search;
 
+use Illuminate\Http\Request;
 use Illuminate\Support\ServiceProvider;
+use Route;
 
 
 class SearchServiceProvider extends ServiceProvider
@@ -30,7 +32,7 @@ class SearchServiceProvider extends ServiceProvider
         }
 
         // Регистрация(загрузка) шаблона
-        $this->loadViewsFrom(__DIR__.'/view', 'search');
+        $this->loadViewsFrom(__DIR__ . '/view', 'search');
 
         $this->publishes([
             // Публикация файла стилей
@@ -44,15 +46,10 @@ class SearchServiceProvider extends ServiceProvider
 
         $route = $this->app['config']->get('search.route');
 
-        $routeConfig = [
-            'namespace' => 'MyLibrary\Search\Controllers',
-            'prefix' => $this->app['config']->get('debugbar.route_prefix'),
-            'domain' => $this->app['config']->get('debugbar.route_domain'),
-        ];
-        $this->app['router']->group($routeConfig, function($router) use$route {
-            $router->post($route, [
-                'uses' =>  __DIR__ .'/Controllers/SearchController@search'
-            ]);
+        Route::post($route, function (Request $request){
+            $searchedText = $request->get('text');
+            $a = new Search();
+            return $a->search($searchedText);
         });
     }
 
@@ -63,9 +60,9 @@ class SearchServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton('search', function ($app) {
-            return $app->make(Search::class);
-        });
+//        $this->app->singleton('search', function ($app) {
+//            return $app->make(Search::class);
+//        });
     }
 
     /**
@@ -75,7 +72,7 @@ class SearchServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return [Search::class];
+//        return [Search::class];
     }
 
 }

@@ -103,7 +103,7 @@ Route::group(['prefix' => 'author'], function () {
     Route::group(['prefix' => 'all'], function () {
         Route::get('', [
             'as' => 'authors', 'uses' => 'AuthorController@show'
-        ])->middleware('auth');
+        ]);
 //        Route::post('', [
 //            'as' => 'changeFavoriteStatus', 'uses' => 'UserController@changeFavoriteStatus'
 //        ])->middleware('auth');

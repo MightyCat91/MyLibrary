@@ -10,6 +10,7 @@
     $('#search-input-wrapper').find('input').keyup(function () {
         var searchedText = $(this).val();
         if (searchedText.length > 2) {
+            $('#search-result-wrapper').children(':not(#empty-search-result)').remove();
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -28,8 +29,9 @@
                     if (!response.length) {
                         searchResultContainer.removeClass('hidden').find('#empty-search-result').removeClass('hidden');
                     } else {
-                        $.each(response, function (resultString) {
-                            searchResultContainer.append('<li><a href="' + resultString.href + '">' + resultString.name + '</a></li>').removeClass('hidden');
+                        $.each(response, function (index, resultString) {
+                            var href = window.location.origin + '/' + resultString.type + '/' + resultString.id;
+                            searchResultContainer.removeClass('hidden').find("#search-result-wrapper").append('<li><a href="' + href + '">' + resultString.name + '</a></li>');
                         });
                     }
                 });

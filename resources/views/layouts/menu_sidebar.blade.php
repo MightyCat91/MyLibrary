@@ -50,7 +50,7 @@
     <div id="bottom-container">
         @if (Auth::guest())
             <div id="login-form-wrapper"
-                 class="{{ $errors->hasAny(['email', 'password']) ? 'active' : '' }}">
+                 class="{{ isset($errors) and $errors->hasAny(['email', 'password']) ? 'active' : '' }}">
                 <form id="login-form" role="form" method="POST" action="{{  route('login') }}">
                     {{ csrf_field() }}
                     <div id="authLinks">
@@ -58,13 +58,13 @@
                         <a href="#" id="resetPassLink">Забыли пароль?</a>
                     </div>
                     <div id="login-form-container">
-                        <div class="form-group {{ $errors->has('email') ? 'has-danger' : '' }}">
+                        <div class="form-group {{ isset($errors) and $errors->has('email') ? 'has-danger' : '' }}">
 
                             <input id="email" type="email" name="email" placeholder="Email"
                                    value="{{ old('email') }}"
                                    required>
                         </div>
-                        <div class="form-group {{ $errors->has('password') ? 'has-danger' : '' }}">
+                        <div class="form-group {{ isset($errors) and $errors->has('password') ? 'has-danger' : '' }}">
                             <input id="password" type="password" name="password" placeholder="Пароль" required>
                         </div>
 
@@ -103,22 +103,23 @@
             </form>
         @endif
         @if (Auth::guest())
-            <div id="register-form-container" class="{{ $errors->hasAny(['name', 'registerEmail', 'registerPassword',
+            <div id="register-form-container" class="{{ isset($errors) and $errors->hasAny(['name', 'registerEmail', 'registerPassword',
     'privacyPolicy', 'emailReset']) ? 'active' : '' }}">
                 <form id="register-form" role="form" method="POST" action="{{ route('register') }}" class="signup-form
-              {{ $errors->hasAny(['name', 'registerEmail', 'registerPassword', 'privacyPolicy']) ? '' : 'hidden' }}">
+              {{ isset($errors) and $errors->hasAny(['name', 'registerEmail', 'registerPassword', 'privacyPolicy']) ?
+               '' : 'hidden' }}">
                     {{ csrf_field() }}
                     <section id="auth-signup">
                         <div>
-                            <div class="form-group {{ $errors->has('name') ? 'has-danger' : '' }}">
+                            <div class="form-group {{ isset($errors) and $errors->has('name') ? 'has-danger' : '' }}">
                                 <input id="name" type="text" name="name" placeholder="Имя"
                                        value="{{ old('name') ?? '' }}" required>
                             </div>
-                            <div class="form-group {{ $errors->has('registerEmail') ? 'has-danger' : '' }}">
+                            <div class="form-group {{ isset($errors) and $errors->has('registerEmail') ? 'has-danger' : '' }}">
                                 <input id="registerEmail" type="email" name="registerEmail" placeholder="Email"
                                        value="{{ old('registerEmail') ?? ''}}" required>
                             </div>
-                            <div class="form-group {{ $errors->has('registerPassword') ? 'has-danger' : '' }}">
+                            <div class="form-group {{ isset($errors) and $errors->has('registerPassword') ? 'has-danger' : '' }}">
                                 <input id="registerPassword" type="password" name="registerPassword"
                                        placeholder="Пароль"
                                        required>
@@ -130,7 +131,7 @@
                                     Присылайте мне на почту важные уведомления
                                 </label>
                             </div>
-                            <div class="form-group auth-checkbox {{ $errors->has('privacyPolicy') ? 'has-danger' : '' }}">
+                            <div class="form-group auth-checkbox {{ isset($errors) and $errors->has('privacyPolicy') ? 'has-danger' : '' }}">
                                 <label>
                                     <input type="checkbox" name="privacyPolicy"
                                            {{ old('privacyPolicy') ? 'checked' : '' }}
@@ -178,13 +179,13 @@
                     </section>
                 </form>
                 <form id="pass-reset-form"
-                      class="signup-form {{ $errors->has('emailReset') ? '' : 'hidden' }}"
+                      class="signup-form {{ isset($errors) and $errors->has('emailReset') ? '' : 'hidden' }}"
                       role="form"
                       method="POST" action="{{  route('password.email') }}">
                     {{ csrf_field() }}
                     <section id="pass-reset">
                         <label for="emailReset">Восстановление пароля</label>
-                        <div class="form-group {{ $errors->has('emailReset') ? 'has-danger' : '' }}">
+                        <div class="form-group {{ isset($errors) and $errors->has('emailReset') ? 'has-danger' : '' }}">
                             <input id="emailReset" type="email" name="emailReset" placeholder="Email"
                                    value="{{ old('emailReset') }}" required>
                         </div>
@@ -199,7 +200,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            @if ($errors->any())
+            @if (isset($errors) and $errors->any())
                 @foreach ($errors->all() as $error)
                     {{ alert('danger', $error, 0) }}
                 @endforeach

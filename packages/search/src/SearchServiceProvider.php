@@ -14,7 +14,7 @@ class SearchServiceProvider extends ServiceProvider
      *
      * @var bool
      */
-    protected $defer = true;
+    protected $defer = false;
 
     /**
      * Bootstrap the application services.
@@ -48,8 +48,8 @@ class SearchServiceProvider extends ServiceProvider
 
         Route::post($route, function (Request $request){
             $searchedText = $request->get('text');
-            $a = new Search();
-            return $a->search($searchedText);
+            $search = new Search();
+            return $search->search($searchedText);
         });
     }
 
@@ -60,19 +60,6 @@ class SearchServiceProvider extends ServiceProvider
      */
     public function register()
     {
-//        $this->app->singleton('search', function ($app) {
-//            return $app->make(Search::class);
-//        });
-    }
 
-    /**
-     * Get the services provided by the provider.
-     *
-     * @return array
-     */
-    public function provides()
-    {
-//        return [Search::class];
     }
-
 }

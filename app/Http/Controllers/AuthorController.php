@@ -147,15 +147,14 @@ class AuthorController extends Controller
                 $userRating = null;
             }
             $authorRating = $author->rating;
-            $avgRating = empty($authorRating) ? 0 : array_sum($authorRating) / count($authorRating);
             $view = view('author', [
                 'author' => $author,
                 'authorSeries' => $author->series(),
                 'books' => $author->books,
                 'categories' => $author->categories(),
                 'inFavorite' => $inFavorite,
-                'avgRating' => $avgRating,
-                'quantityRating' => count($authorRating),
+                'avgRating' => empty($authorRating) ? 0 : array_sum($authorRating) / count($authorRating),
+                'quantityRating' => empty($authorRating) ? 0 : count($authorRating),
                 'rating' => $userRating
             ]);
         }

@@ -16,8 +16,7 @@
             {{Breadcrumbs::render()}}
             <section id="short-info">
                 <div class="short-img">
-                    {{--@auth--}}
-                    @if(Auth::check())
+                    @auth
                         <div id="avg-rating-container">
                             <div id="avg-rating" title="Средний рейтинг">
                                 <i class="fas fa-star"></i>
@@ -28,8 +27,7 @@
                                 <span>{{ $quantityRating }}</span>
                             </div>
                         </div>
-                        {{--@endauth--}}
-                    @endif
+                    @endauth
                     <div class="image-wrapper">
                         <img src="{{ asset(getStorageFile('authors', $author->id))}}" alt="{{ $author->name }}">
                     </div>
@@ -58,19 +56,20 @@
                     <ul>
                         <li>
                             <span><i class="fa fa-book fa-lg item-icon" aria-hidden="true"></i>Количество книг:</span>
-                            <a href="{{ route('author-books', [$author->id]) }}" class="item-link">{{ count($books)
-                            }}</a>
+                            <a href="{{ route('author-books', [$author->id]) }}" class="item-link">{{ count($books) }}</a>
                         </li>
-                        <li>
-                            <div id="categories">
-                                <span><i class="fa fa-bars fa-lg item-icon" aria-hidden="true"></i>Жанр:</span>
-                                @foreach($categories as $category)
-                                    <a href="{{ route('category-books', [$category->id]) }}"
-                                       class="category">{{ $category->name }}</a>
-                                @endforeach
-                            </div>
-                        </li>
-                        @if(!$authorSeries->isEmpty())
+                        @if($categories->count() and !empty($categories->first()->id))
+                            <li>
+                                <div id="categories">
+                                    <span><i class="fa fa-bars fa-lg item-icon" aria-hidden="true"></i>Жанр:</span>
+                                    @foreach($categories as $category)
+                                        <a href="{{ route('category-books', [$category->id]) }}"
+                                           class="category">{{ $category->name }}</a>
+                                    @endforeach
+                                </div>
+                            </li>
+                        @endif
+                        @if($authorSeries->isNotEmpty())
                             <li>
                                 <div id="series">
                                     <span><i class="fa fa-slack fa-lg item-icon" aria-hidden="true"></i>Серия:</span>

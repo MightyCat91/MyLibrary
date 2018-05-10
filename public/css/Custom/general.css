@@ -252,7 +252,9 @@ div.page-content.spinner:after {
 }
 
 .user-profile-btn-control {
-    display: flex;
+    display: grid;
+    grid: max-content / repeat(5,1fr);
+    text-align: center;
     margin-top: 1rem;
     background-color: #009926;
     border: 1px solid #fff;
@@ -796,6 +798,7 @@ div.page-content.spinner:after {
         max-height: 0;
         border: 0;
         margin: 0;
+        grid: repeat(5,1fr)/ max-content;
     }
 
     .user-profile-btn-control.visible {

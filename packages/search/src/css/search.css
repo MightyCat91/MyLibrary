@@ -76,3 +76,14 @@
 #search-result-wrapper a:hover {
     color: #009926;
 }
+
+@media screen and (max-width: 859px) {
+    #search-container {
+        left: -210px;
+    }
+
+    #search-container.active {
+        left: 50px;
+        transition: .5s cubic-bezier(.31,.25,.19,.96) all;
+    }
+}

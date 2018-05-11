@@ -162,8 +162,7 @@ class AuthorController extends Controller
         return $view;
     }
 
-    public
-    function changeAuthorRating($id, Request $request)
+    public function changeAuthorRating($id, Request $request)
     {
         if ($request->ajax()) {
             $data = parent::changeRating($id, $request, Author::class);
@@ -171,40 +170,79 @@ class AuthorController extends Controller
         }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public
-    function edit($id)
+    public function changeViewType(Request $request)
     {
-        //
+        if ($request->ajax()) {
+            $authors = getGridItemsWithRatingAndFavoriteStatus(Author::get(['id', 'name', 'rating']), 'author');
+            if ($request->viewType === 'list') {
+                foreach ($authors as $author) {
+                    $authorObj = new Author();
+                    $id = array_get($author, 'id');
+                    \Debugbar::info($authorObj->categories($id));
+                    $data[] = [
+                        'id' => $author['id'],
+                        'name' => $author['name'],
+//                        'series' => Author::where('id', $author['id'])->series(),
+//                        'categories' => Author::where('id', $author['id'])->categories(),
+                        'inFavorite' => $author['inFavorite'],
+                        'rating' => $author['rating'],
+//                        'quantityRating' => Author::where('id', $author['id'])->get('rating'),
+                        'routeName' => 'author',
+                        'imgFolder' => 'authors',
+                        'title' => 'Все авторы',
+                        'type' => 'author'
+                    ];
+                    $view = 'layouts.commonList';
+                }
+            } else {
+                $data = [
+                    'array' => $authors,
+                    'routeName' => 'author',
+                    'imgFolder' => 'authors',
+                    'type' => 'author',
+                    'title' => 'Все авторы'
+                ];
+                $view = 'layouts.commonGrid';
+            }
+//            \Debugbar::info($data);
+            return view($view, $data)->render();
+        }
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request $request
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public
-    function update(Request $request, $id)
-    {
-        //
-    }
+/**
+ * Show the form for editing the specified resource.
+ *
+ * @param  int $id
+ * @return \Illuminate\Http\Response
+ */
+public
+function edit($id)
+{
+    //
+}
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int $id
-     * @return \Illuminate\Http\Response
-     */
-    public
-    function destroy($id)
-    {
-        //
-    }
+/**
+ * Update the specified resource in storage.
+ *
+ * @param  \Illuminate\Http\Request $request
+ * @param  int $id
+ * @return \Illuminate\Http\Response
+ */
+public
+function update(Request $request, $id)
+{
+    //
+}
+
+/**
+ * Remove the specified resource from storage.
+ *
+ * @param  int $id
+ * @return \Illuminate\Http\Response
+ */
+public
+function destroy($id)
+{
+    //
+}
 }

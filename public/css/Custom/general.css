@@ -713,11 +713,7 @@ div.page-content.spinner:after {
  * Main content
  */
 .page-content {
-    /*position: relative;*/
-    /*padding: 0 4em 1em;*/
-    /*font-size: 16px;*/
     min-height: 100vh;
-    /*width: 100%;*/
     display: grid;
     grid-template: ". header alphabetFilter"
                    ". breadcrumbs alphabetFilter"
@@ -730,6 +726,9 @@ div.page-content.spinner:after {
 
 .main-container {
     grid-area: mainContainer;
+    display: grid;
+    grid-template-areas: "header filterView" "content content";
+    grid-template-columns: auto max-content;
 }
 
 .main-container > section {
@@ -753,6 +752,48 @@ div.page-content.spinner:after {
     margin-left: 0;
 }
 
+#filter-header {
+    grid-area: header;
+}
+
+#list-view-filter-container {
+    grid-area: filterView;
+    float: right;
+    display: grid;
+    grid: auto / repeat(2, 1fr);
+    box-shadow: inset 0 0 4px 0 rgba(68, 68, 68, 0.7);
+    border-radius: 10px;
+    color: #212529;
+    text-align: center;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+#list-view-filter-container .active {
+    color: #fff;
+    background-color: #009926;
+}
+
+#list-view-filter-container > div:first-child {
+    border-right: 1px solid rgba(33, 37, 41, .5);
+}
+
+#list-view-filter-container > div {
+    padding: 5px 0;
+}
+
+#list-view-filter-container > div:not(.active) {
+    opacity: .5;
+}
+
+#list-view-filter-container > div:hover{
+    opacity: 1;
+}
+
+.container-link {
+    grid-area: content;
+}
+
 @media screen and (max-width: 859px) {
     .main {
         grid-template-columns: 50px auto;
@@ -762,9 +803,6 @@ div.page-content.spinner:after {
         width: 50px;
     }
 
-    /*#user-profile-container {*/
-    /*height: auto;*/
-    /*}*/
     #user-profile-img-wrapper {
         max-width: 40px;
         max-height: 40px;
@@ -784,14 +822,6 @@ div.page-content.spinner:after {
         transform: scaleY(-1);
     }
 
-    /*.user-profile-btn-control {*/
-    /*transition: 1s;*/
-    /*max-height: 0;*/
-    /**/
-    /*max-width: 35px;*/
-    /*margin: 0 auto;*/
-    /*border: 0;*/
-    /*}*/
     .user-profile-btn-control {
         transition: 1s;
         flex-direction: column;

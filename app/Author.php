@@ -40,10 +40,11 @@ class Author extends Model
     /**
      * Категории, принадлежащие автору
      */
-    public function scopeCategories()
+    public function scopeCategories($id)
     {
+        \Debugbar::info($id);
         return DB::table('author_categories')
-            ->where('author_id', '=', $this->id)
+            ->where('author_id', '=', $id)
             ->select('category_id as id', 'category_name as name')
             ->get();
     }

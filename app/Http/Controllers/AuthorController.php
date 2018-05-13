@@ -173,27 +173,28 @@ class AuthorController extends Controller
     public function changeViewType(Request $request)
     {
         if ($request->ajax()) {
-            $authors = getGridItemsWithRatingAndFavoriteStatus(Author::get(['id', 'name', 'rating']), 'author');
+            $authors = getGridItemsWithRatingAndFavoriteStatus(Author::all(['id', 'name', 'rating']), 'author');
             if ($request->viewType === 'list') {
                 foreach ($authors as $author) {
-                    $authorObj = new Author();
                     $id = array_get($author, 'id');
-                    \Debugbar::info($authorObj->categories($id));
-                    $data[] = [
+                    $array[] = [
                         'id' => $author['id'],
                         'name' => $author['name'],
-//                        'series' => Author::where('id', $author['id'])->series(),
-//                        'categories' => Author::where('id', $author['id'])->categories(),
+                        'description' => Author::whereKey($id)->value('biography'),
+                        'series' => Author::series($id),
+                        'categories' => Author::categories($id),
                         'inFavorite' => $author['inFavorite'],
-                        'rating' => $author['rating'],
-//                        'quantityRating' => Author::where('id', $author['id'])->get('rating'),
-                        'routeName' => 'author',
-                        'imgFolder' => 'authors',
-                        'title' => 'Все авторы',
-                        'type' => 'author'
+                        'rating' => $author['rating']
                     ];
-                    $view = 'layouts.commonList';
                 }
+                $data = [
+                    'array' => $array,
+                    'routeName' => 'author',
+                    'imgFolder' => 'authors',
+                    'title' => 'Все авторы',
+                    'type' => 'author'
+                ];
+                $view = 'layouts.commonList';
             } else {
                 $data = [
                     'array' => $authors,
@@ -204,45 +205,44 @@ class AuthorController extends Controller
                 ];
                 $view = 'layouts.commonGrid';
             }
-//            \Debugbar::info($data);
             return view($view, $data)->render();
         }
     }
 
-/**
- * Show the form for editing the specified resource.
- *
- * @param  int $id
- * @return \Illuminate\Http\Response
- */
-public
-function edit($id)
-{
-    //
-}
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int $id
+     * @return \Illuminate\Http\Response
+     */
+    public
+    function edit($id)
+    {
+        //
+    }
 
-/**
- * Update the specified resource in storage.
- *
- * @param  \Illuminate\Http\Request $request
- * @param  int $id
- * @return \Illuminate\Http\Response
- */
-public
-function update(Request $request, $id)
-{
-    //
-}
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
+     * @return \Illuminate\Http\Response
+     */
+    public
+    function update(Request $request, $id)
+    {
+        //
+    }
 
-/**
- * Remove the specified resource from storage.
- *
- * @param  int $id
- * @return \Illuminate\Http\Response
- */
-public
-function destroy($id)
-{
-    //
-}
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int $id
+     * @return \Illuminate\Http\Response
+     */
+    public
+    function destroy($id)
+    {
+        //
+    }
 }

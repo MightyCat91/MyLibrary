@@ -72,7 +72,6 @@
                 //если меняется на странице с гридом
                 if($('.container-link')) {
                     //если текущая страница - список любимых книг/авторов
-                    console.log($.inArray('favorite', window.location.pathname.split('/')) > 0);
                     if ($.inArray('favorite', window.location.pathname.split('/')) > 0) {
                         //удаляем со страницы данную книгу/автора
                         favoriteBtn.closest('.item-container-link').remove();

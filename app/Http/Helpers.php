@@ -63,19 +63,22 @@ function getGridItemsWithRatingAndFavoriteStatus($items, $favoriteItemType)
 {
     $itemsId = $items->pluck('id');
     $itemsName = $items->pluck('name');
-    $favoriteItemsId = User::where('id', auth()->id())->pluck('favorite')->pluck($favoriteItemType)->flatten();
-    $itemsInFavorite = $itemsId->map(function ($id) use ($favoriteItemsId) {
-        if ($favoriteItemsId) {
-            $inFavorite = $favoriteItemsId->search($id) === false ? false : true;
-        } else {
-            $inFavorite = false;
-        }
-        return $inFavorite;
-    });
+    if (Auth::check()) {
+        $favoriteItemsId = User::where('id', auth()->id())->pluck('favorite')->pluck($favoriteItemType)->flatten();
+        $itemsInFavorite = $itemsId->map(function ($id) use ($favoriteItemsId) {
+            if ($favoriteItemsId) {
+                $inFavorite = $favoriteItemsId->search($id) === false ? false : true;
+            } else {
+                $inFavorite = false;
+            }
+            return $inFavorite;
+        });
+    } else {
+        $itemsInFavorite = null;
+    }
     $authorsRating = $items->pluck('rating')->map(function ($item) {
         return empty($item) ? 0 : array_sum($item) / count($item);
     });
-
     return $itemsId->map(function ($id, $key) use ($itemsName, $itemsInFavorite, $authorsRating) {
         return [
             'id' => $id,

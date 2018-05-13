@@ -92,9 +92,9 @@ Image & Actions
     font-size: 22px;
 }
 
-.owl-nav > div {
-    color: #35447b !important;
-}
+/*.owl-nav > div {*/
+    /*color: #35447b !important;*/
+/*}*/
 
 .owl-nav {
     width: 100%;
@@ -262,8 +262,13 @@ Short Info
     color: #35447b;
 }
 
+#authors, #series, #publishers {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
 .authors-item, .series-item, .publisher-item {
-    display: block;
     padding-left: 2rem;
     line-height: 1.5rem;
 }
@@ -352,10 +357,10 @@ Short Info
 /*}*/
 
 #books-sidebar .item-container {
-    height: 18vw;
+    /*height: 18vw;*/
     line-height: 1;
     margin: .5em 0;
-    max-height: 45vh;
+    /*max-height: 45vh;*/
 }
 
 #books-sidebar .container-cover {

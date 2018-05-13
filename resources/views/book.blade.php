@@ -97,11 +97,13 @@
                 <aside class="short-info-items">
                     <ul>
                         <li>
-                            <span><i class="fas fa-users fa-lg item-icon" aria-hidden="true"></i>Автор:</span>
-                            @foreach($authors as $author)
-                                <a href="{{ route('author', [$author->id]) }}"
-                                   class="item-link authors-item">{{ $author->name . ' ' }}</a>
-                            @endforeach
+                            <div id="authors">
+                                <span><i class="fas fa-users fa-lg item-icon" aria-hidden="true"></i>Автор:</span>
+                                @foreach($authors as $author)
+                                    <a href="{{ route('author', [$author->id]) }}"
+                                       class="item-link authors-item">{{ $author->name . ' ' }}</a>
+                                @endforeach
+                            </div>
                         </li>
                         @if(!$bookSeries->isEmpty())
                             <li>
@@ -109,7 +111,7 @@
                                     <span><i class="fas fa-hashtag fa-lg item-icon" aria-hidden="true"></i>Серия:</span>
                                     @foreach($bookSeries as $series)
                                         <a href="{{ route('series-books', [$series->id]) }}"
-                                           class="item-link series-item">{{ $series->name }}</a>
+                                           class="item-link series-item"><span>{{ $series->name }}</span></a>
                                     @endforeach
                                 </div>
                             </li>
@@ -131,11 +133,13 @@
                             </li>
                         @endif
                         <li>
-                            <span><i class="fas fa-print fa-lg item-icon" aria-hidden="true"></i>Издатель:</span>
-                            @foreach($publishers as $publisher)
-                                <a href="{{ route('publisher-books', [$publisher->id]) }}"
-                                   class="item-link publisher-item">{{ $publisher->name . ' ' }}</a>
-                            @endforeach
+                            <div id="publishers">
+                                <span><i class="fas fa-print fa-lg item-icon" aria-hidden="true"></i>Издатель:</span>
+                                @foreach($publishers as $publisher)
+                                    <a href="{{ route('publisher-books', [$publisher->id]) }}"
+                                       class="item-link publisher-item">{{ $publisher->name . ' ' }}</a>
+                                @endforeach
+                            </div>
                         </li>
                         @if (isset($book->isbn))
                             <li>

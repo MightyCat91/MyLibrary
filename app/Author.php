@@ -28,23 +28,30 @@ class Author extends Model
 
     /**
      * Серии, принадлежащие автору
+     * @param $id String|integer идентификатор автора
+     * @return \Illuminate\Support\Collection
      */
-    public function scopeSeries()
+    public static function series($id = null)
     {
         return DB::table('author_series')
-            ->where('author_id', '=', $this->id)
+            ->where('author_id', '=', $id)
             ->select('series_id as id', 'name')
             ->get();
     }
 
     /**
      * Категории, принадлежащие автору
+     * @param $id String|integer идентификатор автора
+     * @return \Illuminate\Support\Collection
      */
-    public function scopeCategories($id)
+    public static function categories($id = null)
     {
-        \Debugbar::info($id);
         return DB::table('author_categories')
-            ->where('author_id', '=', $id)
+            ->where([
+                ['author_id', '=', $id],
+                ['category_id', '<>', null],
+                ['category_name', '<>', null]
+            ])
             ->select('category_id as id', 'category_name as name')
             ->get();
     }

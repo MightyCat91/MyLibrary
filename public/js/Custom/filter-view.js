@@ -5,8 +5,6 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
-        console.log(window.location.href + '/changeViewType');
-        console.log($(this).attr('data-type'));
         $.ajax({
             url: window.location.href + '/changeViewType',
             data: {
@@ -15,9 +13,9 @@
             type: 'GET'
         })
             .done(function (data) {
-                console.log(data);
+
                 var mainContainer = $('.main-container');
-                mainContainer.find('#filter-header').remove().next().remove();
+                mainContainer.find('#list-view-filter-container').siblings().remove();
                 mainContainer.append(data);
                 $('#list-view-filter-container').children().toggleClass('active');
             });

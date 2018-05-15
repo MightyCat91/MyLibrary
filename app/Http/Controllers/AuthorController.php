@@ -170,6 +170,12 @@ class AuthorController extends Controller
         }
     }
 
+    /**
+     * Смена типа отображения контента на список или плитку
+     *
+     * @param Request $request
+     * @return string html
+     */
     public function changeViewType(Request $request)
     {
         if ($request->ajax()) {
@@ -186,6 +192,7 @@ class AuthorController extends Controller
                         'inFavorite' => $author['inFavorite'],
                         'rating' => $author['rating']
                     ];
+                    \Debugbar::info(Author::series($id));
                 }
                 $data = [
                     'array' => $array,

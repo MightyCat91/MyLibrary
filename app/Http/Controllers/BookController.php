@@ -234,6 +234,66 @@ class BookController extends Controller
     }
 
     /**
+     * Смена типа отображения контента на список или плитку
+     *
+     * @param Request $request
+     * @return string html
+     */
+    public function changeViewType(Request $request)
+    {
+        if ($request->ajax()) {
+            $books = getGridItemsWithRatingAndFavoriteStatus(Book::all(['id', 'name', 'rating']), 'book');
+            if ($request->viewType === 'list') {
+                foreach ($books as $book) {
+                    $b = Book::FindOrFail(array_get($book, 'id'));
+//                    \Debugbar::info($b->series->map(function ($user) {
+//                        return collect($user)
+//                            ->only(['id', 'name'])
+//                            ->all();
+//                    }));
+//                    $id = array_get($book, 'id');
+                    $array[] = [
+                        'id' => $book['id'],
+                        'name' => $book['name'],
+                        'description' => $b->description,
+                        'series' => $b->series->map(function ($series) {
+                            return collect($series)
+                                ->only(['id', 'name'])
+                                ->all();
+                        }),
+                        'categories' => $b->categories->map(function ($category) {
+                            return collect($category)
+                                ->only(['id', 'name'])
+                                ->all();
+                        }),
+                        'inFavorite' => $book['inFavorite'],
+                        'rating' => $book['rating']
+                    ];
+                }
+                $data = [
+                    'array' => $array,
+                    'routeName' => 'book',
+                    'imgFolder' => 'books',
+                    'title' => 'Все книги',
+                    'type' => 'book'
+                ];
+                $view = 'layouts.commonList';
+            } else {
+                $data = [
+                    'array' => $books,
+                    'routeName' => 'book',
+                    'imgFolder' => 'books',
+                    'title' => 'Все книги',
+                    'type' => 'book'
+                ];
+                $view = 'layouts.commonGrid';
+            }
+            return view($view, $data)->render();
+        }
+    }
+
+
+    /**
      * Загрузка изображений во временное хранилище и возврат урл
      *
      * @param $request

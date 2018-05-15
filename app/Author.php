@@ -29,20 +29,22 @@ class Author extends Model
     /**
      * Серии, принадлежащие автору
      * @param $id String|integer идентификатор автора
-     * @return \Illuminate\Support\Collection
+     * @return array
      */
     public static function series($id = null)
     {
         return DB::table('author_series')
             ->where('author_id', '=', $id)
             ->select('series_id as id', 'name')
-            ->get();
+            ->get()->transform(function ($item, $key) {
+                return ['id' => $item->id, 'name' => $item->name];
+            })->all();
     }
 
     /**
      * Категории, принадлежащие автору
      * @param $id String|integer идентификатор автора
-     * @return \Illuminate\Support\Collection
+     * @return array
      */
     public static function categories($id = null)
     {
@@ -53,6 +55,8 @@ class Author extends Model
                 ['category_name', '<>', null]
             ])
             ->select('category_id as id', 'category_name as name')
-            ->get();
+            ->get()->transform(function ($item, $key) {
+                return ['id' => $item->id, 'name' => $item->name];
+            })->all();
     }
 }

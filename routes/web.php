@@ -35,9 +35,17 @@ Route::group(['prefix' => 'publisher'], function () {
 });
 
 Route::group(['prefix' => 'book'], function () {
-    Route::get('all', [
-        'as' => 'books', 'uses' => 'BookController@show'
-    ]);
+    Route::group(['prefix' => 'all'], function () {
+        Route::get('', [
+            'as' => 'books', 'uses' => 'BookController@show'
+        ]);
+        Route::get('changeViewType', [
+            'as' => 'changeViewType', 'uses' => 'BookController@changeViewType'
+        ]);
+//        Route::post('', [
+//            'as' => 'changeFavoriteStatus', 'uses' => 'UserController@changeFavoriteStatus'
+//        ])->middleware('auth');
+    });
     Route::group(['prefix' => 'add'], function () {
         Route::get('', [
             'as' => 'book-add-get', 'uses' => 'BookController@create'
@@ -110,12 +118,25 @@ Route::group(['prefix' => 'author'], function () {
 
 Route::group(['prefix' => 'category'], function () {
     Route::group(['prefix' => '{id}', 'where' => ['id' => '[0-9]+']], function () {
-        Route::get('books', [
-            'as' => 'category-books', 'uses' => 'CategoriesController@showBooks'
-        ]);
+        Route::group(['prefix' => 'books'], function () {
+            Route::get('', [
+                'as' => 'category-books', 'uses' => 'CategoriesController@showBooks'
+            ]);
+            Route::get('changeViewType', [
+                'as' => 'changeViewType', 'uses' => 'BookController@changeViewType'
+            ]);
+        });
         Route::get('authors', [
             'as' => 'category-authors', 'uses' => 'CategoriesController@showAuthors'
         ]);
+        Route::group(['prefix' => 'authors'], function () {
+            Route::get('', [
+                'as' => 'category-authors', 'uses' => 'CategoriesController@showAuthors'
+            ]);
+            Route::get('changeViewType', [
+                'as' => 'changeViewType', 'uses' => 'AuthorController@changeViewType'
+            ]);
+        });
     });
     Route::get('all', [
         'as' => 'categories', 'uses' => 'CategoriesController@show'

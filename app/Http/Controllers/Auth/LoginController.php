@@ -20,6 +20,9 @@ class LoginController extends Controller
 
     use AuthenticatesUsers;
 
+
+//    protected $redirectTo =  '/';
+
     /**
      * Create a new controller instance.
      *
@@ -36,6 +39,6 @@ class LoginController extends Controller
      */
     protected function redirectTo()
     {
-        return back();
+        return redirect()->back()->getTargetUrl();
     }
 }

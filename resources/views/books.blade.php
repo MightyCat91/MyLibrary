@@ -17,6 +17,7 @@
         {{ Breadcrumbs::render($breadcrumbParams ?? null)}}
     @endif
     <div class="container main-container">
+        @include('layouts.filter-view')
         @include('layouts.commonGrid',
         [
             'array' => $books,

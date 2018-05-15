@@ -78,7 +78,7 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        $user = new User();
+        $user = new User;
         $user->name = $data['name'];
         $user->email = $data['registerEmail'];
         $user->password = bcrypt($data['registerPassword']);

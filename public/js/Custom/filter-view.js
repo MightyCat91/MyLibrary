@@ -5,8 +5,9 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
+        console.log(window.location.href.replace(/[#]/, '') + '/changeViewType');
         $.ajax({
-            url: window.location.href + '/changeViewType',
+            url: window.location.href.replace(/[#]/, '') + '/changeViewType',
             data: {
                 'viewType': $(this).attr('data-type')
             },

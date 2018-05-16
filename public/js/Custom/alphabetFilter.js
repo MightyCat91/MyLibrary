@@ -77,14 +77,27 @@
             //текущей букве устанавливаем класс активной
             $(this).addClass('active');
 
-            var filteredItems = $('.container-title').filter(function () {
-                if(!$(this).text().startsWith(letter)) {
-                    $(this).closest('.item-container-link').addClass('hidden');
-                }
-                else {
-                    return this;
-                }
-            });
+            var filteredItems = null;
+            if ($('.list-item-container-link').length > 0) {
+                filteredItems = $('.item-name').filter(function () {
+                    if(!$(this).text().startsWith(letter)) {
+                        $(this).closest('.list-item-container-link').addClass('hidden');
+                    }
+                    else {
+                        return this;
+                    }
+                });
+            } else {
+                filteredItems = $('.container-title').filter(function () {
+                    if(!$(this).text().startsWith(letter)) {
+                        $(this).closest('.item-container-link').addClass('hidden');
+                    }
+                    else {
+                        return this;
+                    }
+                });
+            }
+
 
             (filteredItems.length > 0) ?  filterHeader.text('Отфильтровано по букве ' + letter).removeClass('hidden') : filterHeader.text('К сожалению ничего не найдено').removeClass('hidden');
         } else {

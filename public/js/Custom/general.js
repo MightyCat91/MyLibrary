@@ -79,15 +79,13 @@
                         favoriteBtn.children().toggleClass('hidden');
                     }
                 })
-        });
-
-    //скрытие иконок пользовательских действий при уходе курсора мыши с блока ссылки
-    $('.item-container-link').on('mouseleave', function () {
-        var checkbox = $(this).find('.check-with-label');
-        if (checkbox.is(":checked")) {
-            checkbox.prop("checked", false);
-        }
-    })
+        })
+        .on('mouseleave', '.item-container-link', function () {
+            var checkbox = $(this).find('.check-with-label');
+            if (checkbox.is(":checked")) {
+                checkbox.prop("checked", false);
+            }
+        })
 })
 (jQuery);
 

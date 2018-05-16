@@ -34,6 +34,19 @@ class BookController extends Controller
     }
 
     /**
+     * Смена типа отображения контента(книг определенного автора) на список или плитку
+     *
+     * @param Request $request
+     * @param $id
+     * @return string
+     */
+    public function changeBooksViewTypeForAuthor(Request $request, $id)
+    {
+        $author = Author::find($id);
+        return $this->changeViewType($request, $author->books);
+    }
+
+    /**
      * Возврат шаблона с книгами определенного года
      *
      * @param string $year
@@ -48,6 +61,49 @@ class BookController extends Controller
             'header' => 'Книги изданные в ' . $year . ' году',
             'title' => $year
         ]);
+    }
+
+    /**
+     * Смена типа отображения контента(книг определенного года издания) на список или плитку
+     *
+     * @param Request $request
+     * @param $year
+     * @return string
+     */
+    public function changeBooksViewTypeForYear(Request $request, $year)
+    {
+        return $this->changeViewType($request, Book::where('year', $year)->get(['id', 'name', 'rating']));
+    }
+
+    /**
+     * Вывод шаблона с книгами по id серии
+     *
+     * @param int $id
+     * @return \Illuminate\Http\Response
+     * @internal param Request $request
+     */
+    public function showBooksForSeries($id)
+    {
+        $series = Series::FindOrFail($id);
+        $view = view('books', [
+            'type' => 'book',
+            'header' => $series->name,
+            'books' => getGridItemsWithRatingAndFavoriteStatus($series->books, 'book'),
+            'title' => $series->name
+        ]);
+        return $view;
+    }
+
+    /**
+     * Смена типа отображения контента(книг определенной серии) на список или плитку
+     *
+     * @param Request $request
+     * @param $id
+     * @return string
+     */
+    public function changeBooksViewTypeForSeries(Request $request, $id)
+    {
+        return $this->changeViewType($request, Series::FindOrFail($id)->books);
     }
 
     /**
@@ -237,21 +293,16 @@ class BookController extends Controller
      * Смена типа отображения контента на список или плитку
      *
      * @param Request $request
+     * @param \Illuminate\Database\Eloquent\Collection|null $items коллекция отображаемых книг
      * @return string html
      */
-    public function changeViewType(Request $request)
+    public function changeViewType(Request $request, $items = null)
     {
         if ($request->ajax()) {
-            $books = getGridItemsWithRatingAndFavoriteStatus(Book::all(['id', 'name', 'rating']), 'book');
+            $books = getGridItemsWithRatingAndFavoriteStatus($items ?? Book::all(['id', 'name', 'rating']), 'book');
             if ($request->viewType === 'list') {
                 foreach ($books as $book) {
                     $b = Book::FindOrFail(array_get($book, 'id'));
-//                    \Debugbar::info($b->series->map(function ($user) {
-//                        return collect($user)
-//                            ->only(['id', 'name'])
-//                            ->all();
-//                    }));
-//                    $id = array_get($book, 'id');
                     $array[] = [
                         'id' => $book['id'],
                         'name' => $book['name'],

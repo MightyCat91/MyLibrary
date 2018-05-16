@@ -22,9 +22,6 @@
                     @if(!empty($item['series']))
                         <div class="item-series-wrapper">
                             @foreach($item['series'] as $key => $series)
-                                {{--{{\Debugbar::info('c-'.count($item['series'])-1)}}--}}
-                                {{\Debugbar::info('k-'.$key)}}
-                                {{\Debugbar::info('----')}}
                                 <a href="{{ route('series-books', [$series['id']]) }}"
                                    class="series">{{ (count($item['series'])-1!=$key)?$series['name'].',':$series['name'] }}</a>
                             @endforeach
@@ -106,21 +103,3 @@
         </div>
     @endforeach
 </div>
-
-{{--<ol class="list">--}}
-{{--<h3 id="filter-header" class="hidden"></h3>--}}
-{{--@foreach($array as $item)--}}
-{{--<li class="item">--}}
-{{--<a href="{{ route($routeName, $item->id) }}" class="item-container-link">--}}
-{{--<div class="cover-container">--}}
-{{--@if(empty($imgFolder))--}}
-{{--<i class="far fa-newspaper item-icon" aria-hidden="true"></i>--}}
-{{--@else--}}
-{{--<img src="{{ asset(getStorageFile($imgFolder, $item->id)) }}" class="cover">--}}
-{{--@endif--}}
-{{--</div>--}}
-{{--<div class="title container-title">{{ $item->name }}</div>--}}
-{{--</a>--}}
-{{--</li>--}}
-{{--@endforeach--}}
-{{--</ol>--}}

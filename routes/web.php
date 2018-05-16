@@ -19,9 +19,16 @@ Route::post('/changeFavoriteStatus', [
     'as' => 'changeFavoriteStatus', 'uses' => 'UserController@changeFavoriteStatus'
 ])->middleware('auth');
 
-Route::get('year/{year}/books', [
-    'as' => 'year-books', 'uses' => 'BookController@showBooksForYear'
-]);
+
+
+Route::group(['prefix' => 'year/{year}/books'], function () {
+    Route::get('', [
+        'as' => 'year-books', 'uses' => 'BookController@showBooksForYear'
+    ]);
+    Route::get('changeViewType', [
+        'as' => 'changeViewType', 'uses' => 'BookController@changeBooksViewTypeForYear'
+    ]);
+});
 
 Route::group(['prefix' => 'publisher'], function () {
     Route::group(['prefix' => '{id}', 'where' => ['id' => '[0-9]+']], function () {
@@ -29,9 +36,6 @@ Route::group(['prefix' => 'publisher'], function () {
             'as' => 'publisher-books', 'uses' => 'PublisherController@show'
         ]);
     });
-    Route::get('all', [
-        'as' => 'publishers', 'uses' => 'PublisherController@show'
-    ]);
 });
 
 Route::group(['prefix' => 'book'], function () {
@@ -78,9 +82,14 @@ Route::group(['prefix' => 'book'], function () {
 
 Route::group(['prefix' => 'author'], function () {
     Route::group(['prefix' => '{id}', 'where' => ['id' => '[0-9]+']], function () {
-        Route::get('books', [
-            'as' => 'author-books', 'uses' => 'BookController@showBooksForAuthor'
-        ]);
+        Route::group(['prefix' => 'books'], function () {
+            Route::get('', [
+                'as' => 'author-books', 'uses' => 'BookController@showBooksForAuthor'
+            ]);
+            Route::get('changeViewType', [
+                'as' => 'changeViewType', 'uses' => 'BookController@changeBooksViewTypeForAuthor'
+            ]);
+        });
         Route::get('', [
             'as' => 'author', 'uses' => 'AuthorController@show'
         ]);
@@ -146,7 +155,10 @@ Route::group(['prefix' => 'category'], function () {
 Route::group(['prefix' => 'series'], function () {
     Route::group(['prefix' => '{id}', 'where' => ['id' => '[0-9]+']], function () {
         Route::get('', [
-            'as' => 'series-books', 'uses' => 'SeriesController@showBooks'
+            'as' => 'series-books', 'uses' => 'BookController@showBooksForSeries'
+        ]);
+        Route::get('changeViewType', [
+            'as' => 'changeViewType', 'uses' => 'BookController@changeBooksViewTypeForSeries'
         ]);
     });
 });

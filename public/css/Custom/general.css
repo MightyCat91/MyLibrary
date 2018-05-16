@@ -730,6 +730,7 @@ div.page-content.spinner:after {
     grid-gap: 1rem;
     grid-template-areas: "header filterView" "content content";
     grid-template-columns: max-content max-content;
+    grid-template-rows: max-content;
     justify-content: space-between;
 }
 
@@ -761,6 +762,7 @@ div.page-content.spinner:after {
 #list-view-filter-container {
     grid-area: filterView;
     width: 80px;
+    max-height: 33px;
     float: right;
     display: grid;
     grid: auto / repeat(2, 1fr);

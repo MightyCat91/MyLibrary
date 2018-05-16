@@ -26,12 +26,26 @@ class Author extends Model
         return $this->belongsToMany('App\Book');
     }
 
+
+    /**
+     * Серии, принадлежащие автору
+     * @return \Illuminate\Support\Collection
+     * @internal param int|String $id идентификатор автора
+     */
+    public function seriesWithInstance()
+    {
+        return DB::table('author_series')
+            ->where('author_id', '=', $this->id)
+            ->select('series_id as id', 'name')
+            ->get();
+    }
+
     /**
      * Серии, принадлежащие автору
      * @param $id String|integer идентификатор автора
      * @return array
      */
-    public static function series($id = null)
+    public static function series($id)
     {
         return DB::table('author_series')
             ->where('author_id', '=', $id)
@@ -43,10 +57,27 @@ class Author extends Model
 
     /**
      * Категории, принадлежащие автору
+     * @return \Illuminate\Support\Collection
+     * @internal param int|String $id идентификатор автора
+     */
+    public function categoriesWithInstance()
+    {
+        return DB::table('author_categories')
+            ->where([
+                ['author_id', '=', $this->id],
+                ['category_id', '<>', null],
+                ['category_name', '<>', null]
+            ])
+            ->select('category_id as id', 'category_name as name')
+            ->get();
+    }
+
+    /**
+     * Категории, принадлежащие автору
      * @param $id String|integer идентификатор автора
      * @return array
      */
-    public static function categories($id = null)
+    public static function categories($id)
     {
         return DB::table('author_categories')
             ->where([

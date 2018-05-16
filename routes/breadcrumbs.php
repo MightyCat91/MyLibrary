@@ -29,8 +29,7 @@ Breadcrumbs::add('book', 'book', ['id' => $book->pluck('name')->toArray()],
     'books', ['id' => $book->pluck('id')]);
 
 //author-books
-Breadcrumbs::add('author-books', 'author-books', 'Книги', 'books',
-    ['id' => $author->pluck('id')]);
+Breadcrumbs::add('author-books', 'author-books', 'Книги','author', ['id' => $author->pluck('id')]);
 
 //year-books
 Breadcrumbs::add('year-books', 'year-books', ['year' => $bookYear->toArray()],
@@ -52,14 +51,11 @@ Breadcrumbs::add('category-authors', 'category-authors', ['id' => $category->plu
 
 //series-books
 Breadcrumbs::add('series-books', 'series-books', ['id' => $series->pluck('name')->toArray()],
-    'books', ['id' => $series->pluck('id')]);
-
-//publishers
-Breadcrumbs::add('publishers', 'publishers', 'Издательства','home');
+    'home', ['id' => $series->pluck('id')]);
 
 //publisher-books
 Breadcrumbs::add('publisher-books', 'publisher-books', ['id' => $publisher->pluck('name')->toArray()],
-    'publishers', ['id' => $publisher->pluck('id')]);
+    'home', ['id' => $publisher->pluck('id')]);
 
 //userProfile
 Breadcrumbs::add('userProfile', 'userProfile','Профиль','home', ['id' => $userId]);

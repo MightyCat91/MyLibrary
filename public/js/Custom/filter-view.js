@@ -19,6 +19,7 @@
                 mainContainer.find('#list-view-filter-container').siblings().remove();
                 mainContainer.append(data);
                 $('#list-view-filter-container').children().toggleClass('active');
+                $('#alphabet-sticky-block').find('.letter-filter').removeClass('active');
             });
     })
 })(jQuery);

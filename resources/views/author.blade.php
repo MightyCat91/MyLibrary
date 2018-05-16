@@ -37,11 +37,6 @@
                                 <a id="add-comment" href="#"><i class="far fa-comments"></i></a>
                             </div>
                             <div class="user-actions-container">
-                                <a id="add-review" href="#" title="Написать рецензию">
-                                    <i class="fas fa-pencil-alt"></i>
-                                </a>
-                            </div>
-                            <div class="user-actions-container">
                                 <a class="add-to-favorite {{ ($inFavorite) ? 'active' : '' }}" data-type="author"
                                    href="#" title="{{ ($inFavorite) ? 'Удалить из избранного' : 'Добавить в избранное'
                                    }}">
@@ -72,7 +67,7 @@
                         @if($authorSeries->isNotEmpty())
                             <li>
                                 <div id="series">
-                                    <span><i class="fa fa-slack fa-lg item-icon" aria-hidden="true"></i>Серия:</span>
+                                    <span><i class="fas fa-hashtag fa-lg item-icon" aria-hidden="true"></i>Серия:</span>
                                     @foreach($authorSeries as $series)
                                         <a href="{{ route('series-books', [$series->id]) }}"
                                            class="item-link series-item">{{ $series->name }}</a>

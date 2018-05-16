@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\SendsPasswordResetEmails;
+use Illuminate\Http\Request;
 use Validator;
 
 class ForgotPasswordController extends Controller
@@ -34,20 +35,20 @@ class ForgotPasswordController extends Controller
     /**
      * Get a validator for an incoming reset password request.
      *
-     * @param  array $data
+     * @param array|Request $data
      * @return \Illuminate\Contracts\Validation\Validator
      */
-    protected function validator(array $data)
+    protected function validator(Request $data)
     {
         $rules = [
-            'emailReset' => 'required|email|exists:users,email'
+            'email' => 'required|email|exists:users,email'
         ];
         $messages = [
-            'emailReset.exists' => 'Введенный email не зарегистрирован',
-            'emailReset.required' => 'Email обязателен к заполнению',
-            'emailReset.email' => 'Введенный email некорректен'
+            'email.exists' => 'Введенный email не зарегистрирован',
+            'email.required' => 'Email обязателен к заполнению',
+            'email.email' => 'Введенный email некорректен'
         ];
 
-        return Validator::make($data, $rules, $messages);
+        $this->validate($data, $rules, $messages);
     }
 }

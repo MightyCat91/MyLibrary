@@ -24,11 +24,6 @@
 
                 <div class="nav-item-name">Жанры</div>
             </a>
-            <a href="{{ route('publishers') }}" class="nav-item {{ active('publishers') }}">
-                <i class="fa fa-address-book fa-lg fa-fw nav-item-icon" aria-hidden="true"></i>
-
-                <div class="nav-item-name">Издатели</div>
-            </a>
             @if (Auth::check())
                 <a href="{{ route('author-add-get') }}" class="nav-item {{ active('author-add-get') }}">
                     <div class="icon-stack fa-fw nav-item-icon">
@@ -105,7 +100,7 @@
         @if (Auth::guest())
             <div id="register-form-container" class="{{ isset($errors) and $errors->hasAny(['name', 'registerEmail', 'registerPassword',
     'privacyPolicy', 'emailReset']) ? 'active' : '' }}">
-                <form id="register-form" role="form" method="POST" action="{{ route('register') }}" class="signup-form
+                <form id="register-form" method="POST" action="{{ route('register') }}" class="signup-form
               {{ isset($errors) and $errors->hasAny(['name', 'registerEmail', 'registerPassword', 'privacyPolicy']) ?
                '' : 'hidden' }}">
                     {{ csrf_field() }}
@@ -180,13 +175,12 @@
                 </form>
                 <form id="pass-reset-form"
                       class="signup-form {{ isset($errors) and $errors->has('emailReset') ? '' : 'hidden' }}"
-                      role="form"
                       method="POST" action="{{  route('password.email') }}">
                     {{ csrf_field() }}
                     <section id="pass-reset">
                         <label for="emailReset">Восстановление пароля</label>
                         <div class="form-group {{ isset($errors) and $errors->has('emailReset') ? 'has-danger' : '' }}">
-                            <input id="emailReset" type="email" name="emailReset" placeholder="Email"
+                            <input id="emailReset" type="email" name="email" placeholder="Email"
                                    value="{{ old('emailReset') }}" required>
                         </div>
                         <span><i class="fa fa-lg fa-info-circle" ></i>На указанную почту будет
@@ -197,7 +191,7 @@
                     </section>
                 </form>
                 <button type="button" class="close close-btn" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
+                    <span>&times;</span>
                 </button>
             </div>
             @if (isset($errors) and $errors->any())

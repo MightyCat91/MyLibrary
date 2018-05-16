@@ -14,7 +14,6 @@
         var tab = $(this);
         ajaxGetData(tab, e);
         $('#alphabet-sticky-block').attr('class', 'author');
-        $('#list-view-filter-container').children().toggleClass('active');
     });
 
 

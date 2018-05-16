@@ -90,4 +90,9 @@ class Author extends Model
                 return ['id' => $item->id, 'name' => $item->name];
             })->all();
     }
+
+    public static function inFavoriteCount($id)
+    {
+        DB::table('users')->select('favorites')->where('favorites', '%LIKE%', 'author')
+    }
 }

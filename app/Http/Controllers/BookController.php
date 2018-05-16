@@ -54,7 +54,7 @@ class BookController extends Controller
      */
     public function showBooksForYear($year)
     {
-        $books = Book::where('year', $year)->get(['id', 'name']);
+        $books = getGridItemsWithRatingAndFavoriteStatus(Book::where('year', $year)->get(['id', 'name', 'rating']), 'book');
         return view('books', [
             'type' => 'book',
             'books' => $books,

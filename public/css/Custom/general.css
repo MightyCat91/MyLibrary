@@ -251,6 +251,10 @@ div.page-content.spinner:after {
     object-fit: scale-down;
 }
 
+#user-nickname {
+    color: #fff;
+}
+
 .user-profile-btn-control {
     display: grid;
     grid: max-content / repeat(5,1fr);

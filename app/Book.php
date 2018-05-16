@@ -108,4 +108,28 @@ class Book extends Model
                 ->get()
         );
     }
+
+    /**
+     * Количество пользователей добавивших книгу в избранное
+     *
+     * @return mixed
+     */
+    public function inFavoriteCount()
+    {
+        return array_first(
+            DB::select('SELECT COUNT(favorite) FROM users WHERE favorite @> \'{"book": ["' . $this->id . '"]}\''))
+            ->count;
+    }
+
+    /**
+     * Количество пользователей добавивших книгу в избранное
+     *
+     * @return mixed
+     */
+    public function completedCount()
+    {
+        return array_first(
+            DB::select('SELECT COUNT(statistic) FROM users WHERE statistic @> \'{"completed": ["' . $this->id . '"]}\''))
+            ->count;
+    }
 }

@@ -146,6 +146,7 @@ class AuthorController extends Controller
                 $inFavorite = null;
                 $userRating = null;
             }
+            \Debugbar::info($author->inFavoriteCount());
             $authorRating = $author->rating;
             $view = view('author', [
                 'author' => $author,

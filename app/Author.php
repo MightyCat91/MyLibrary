@@ -91,8 +91,14 @@ class Author extends Model
             })->all();
     }
 
-    public static function inFavoriteCount($id)
+    /**
+     * Количество пользователей добавивших автора в избранное
+     *
+     * @return mixed
+     */
+    public function inFavoriteCount()
     {
-        DB::table('users')->select('favorites')->where('favorites', '%LIKE%', 'author')
+        return array_first(
+                DB::select('SELECT COUNT(favorite) FROM users WHERE favorite @> \'{"author": ["' . $this->id . '"]}\''))->count;
     }
 }

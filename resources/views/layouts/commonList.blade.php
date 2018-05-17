@@ -65,6 +65,22 @@
                             @endswitch
                         </div>
                     </div>
+                    <div class="statistic-wrapper">
+                        <div class="inFavorite-count-wrapper">
+                            <div class="inFavorite-count statistic-item"
+                                 title="Количество людей, которым нравится данный автор">
+                                <i class="fas fa-heart"></i>
+                                <span>{{ $item['statistic']['inFavorite'] }}</span>
+                            </div>
+                        </div>
+                        <div class="reading-count-wrapper">
+                            <div class="reading-count statistic-item"
+                                 title="Количество людей, которые читают книги автора в данный момент">
+                                <i class="fas fa-book"></i>
+                                <span>{{ $item['statistic']['reading'] }}</span>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 @if(Auth::check())
                     <div class="list-item-user-actions-wrapper">

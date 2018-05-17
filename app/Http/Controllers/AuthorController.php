@@ -146,7 +146,6 @@ class AuthorController extends Controller
                 $inFavorite = null;
                 $userRating = null;
             }
-            \Debugbar::info($author->inFavoriteCount());
             $authorRating = $author->rating;
             $view = view('author', [
                 'author' => $author,
@@ -156,7 +155,11 @@ class AuthorController extends Controller
                 'inFavorite' => $inFavorite,
                 'avgRating' => empty($authorRating) ? 0 : array_sum($authorRating) / count($authorRating),
                 'quantityRating' => empty($authorRating) ? 0 : count($authorRating),
-                'rating' => $userRating
+                'rating' => $userRating,
+                'statistic' => [
+                    'inFavorite' => $author->inFavoriteCountWithInstance(),
+                    'reading' => $author->nowReadingCountWithInstance()
+                ]
             ]);
         }
 
@@ -191,7 +194,11 @@ class AuthorController extends Controller
                         'series' => Author::series($id),
                         'categories' => Author::categories($id),
                         'inFavorite' => $author['inFavorite'],
-                        'rating' => $author['rating']
+                        'rating' => $author['rating'],
+                        'statistic' => [
+                            'inFavorite' => Author::inFavoriteCount($id),
+                            'reading' => Author::nowReadingCount($id)
+                        ]
                     ];
                 }
                 $data = [

@@ -96,9 +96,67 @@ class Author extends Model
      *
      * @return mixed
      */
-    public function inFavoriteCount()
+    public function inFavoriteCountWithInstance()
+    {
+        return $this->getInFavorite($this->id);
+    }
+
+    /**
+     * Количество пользователей добавивших автора в избранное
+     *
+     * @param $id int|string идентификатор автора
+     * @return mixed
+     */
+    public static function inFavoriteCount($id)
+    {
+        return (new self())->getInFavorite($id);
+
+    }
+
+    /**
+     * Количество пользователей добавивших автора в избранное
+     *
+     * @return mixed
+     */
+    public function nowReadingCountWithInstance()
+    {
+        return $this->getNowReading($this->id);
+    }
+
+    /**
+     * Количество пользователей добавивших автора в избранное
+     *
+     * @param $id int|string идентификатор автора
+     * @return mixed
+     */
+    public static function nowReadingCount($id)
+    {
+        return (new self())->getNowReading($id);
+    }
+
+
+
+    protected function getNowReading($id)
+    {
+        $book_id =  DB::table('author_book')->where('author_id','=', $id)->get(['book_id'])
+            ->transform(function($item, $key) {
+                return $item->book_id;
+            })
+            ->all();
+        $result = [];
+        foreach ($book_id as $id) {
+            $count = array_first(
+                DB::select('SELECT id FROM users WHERE statistic @> \'{"reading": ["' . $id . '"]}\''));
+            if (!empty($count)) {
+                $result[] = $count;
+            }
+        }
+        return count($result);
+    }
+
+    protected function getInFavorite($id)
     {
         return array_first(
-                DB::select('SELECT COUNT(favorite) FROM users WHERE favorite @> \'{"author": ["' . $this->id . '"]}\''))->count;
+            DB::select('SELECT COUNT(favorite) FROM users WHERE favorite @> \'{"author": ["' . $id . '"]}\''))->count;
     }
 }

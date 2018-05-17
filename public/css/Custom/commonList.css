@@ -1,6 +1,6 @@
 .container-link {
     display: grid;
-    grid: repeat(auto-fill, 320px) / auto;
+    grid: repeat(auto-fill, 345px) / auto;
     /*grid: repeat(auto-fill, minmax(300px, max-content)) / auto;*/
     grid-gap: 30px;
 }
@@ -71,6 +71,24 @@
 
 .rating-count {
     font-size: 20px;
+}
+
+.statistic-wrapper {
+    display: flex;
+    color: #636c75;
+}
+
+.statistic-wrapper > div {
+    margin-right: 2em;
+}
+
+.statistic-item {
+    display: flex;
+    align-items: center;
+}
+
+.statistic-item > span {
+    margin-left: .5em;
 }
 
 .list-item-user-actions-wrapper {

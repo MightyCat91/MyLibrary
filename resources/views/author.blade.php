@@ -75,6 +75,24 @@
                                 </div>
                             </li>
                         @endif
+                        <li>
+                            <div class="statistic-wrapper">
+                                <div class="inFavorite-count-wrapper">
+                                    <div class="inFavorite-count statistic-item"
+                                         title="Количество людей, которым нравится данный автор">
+                                        <i class="fas fa-heart"></i>
+                                        <span>{{ $statistic['inFavorite'] }}</span>
+                                    </div>
+                                </div>
+                                <div class="reading-count-wrapper">
+                                    <div class="reading-count statistic-item"
+                                         title="Количество людей, которые читают книги автора в данный момент">
+                                        <i class="fas fa-book"></i>
+                                        <span>{{ $statistic['reading'] }}</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
                     </ul>
                 </aside>
             </section>

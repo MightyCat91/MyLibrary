@@ -1,7 +1,7 @@
 @push('styles')
 <link href="{{ asset('/css/Custom/addForm.css') }}" rel='stylesheet' type='text/css' media="all"/>
 @endpush
-@extends('layouts.main')
+@extends('layouts.main',['title'=>'Сброс пароля'])
 @section('content')
     <div class="container reset">
         @if (session('status'))

@@ -114,22 +114,110 @@ class Book extends Model
      *
      * @return mixed
      */
-    public function inFavoriteCount()
+    public function inFavoriteCountWithInstance()
     {
-        return array_first(
-            DB::select('SELECT COUNT(favorite) FROM users WHERE favorite @> \'{"book": ["' . $this->id . '"]}\''))
-            ->count;
+        return $this->getInFavorite($this->id);
     }
 
     /**
      * Количество пользователей добавивших книгу в избранное
      *
+     * @param $id int|string идентификатор автора
      * @return mixed
      */
-    public function completedCount()
+    public static function inFavoriteCount($id)
+    {
+        return (new self())->getInFavorite($id);
+
+    }
+
+    /**
+     * Количество пользователей читающих книгу
+     *
+     * @return mixed
+     */
+    public function nowReadingCountWithInstance()
+    {
+        return $this->getNowReading($this->id);
+    }
+
+    /**
+     * Количество пользователей читающих книгу
+     *
+     * @param $id int|string идентификатор автора
+     * @return mixed
+     */
+    public static function nowReadingCount($id)
+    {
+        return (new self())->getNowReading($id);
+    }
+
+    /**
+     * Количество пользователей прочитавших книгу
+     *
+     * @return mixed
+     */
+    public function completedCountWithInstance()
+    {
+        return $this->getCompleted($this->id);
+    }
+
+    /**
+     * Количество пользователей прочитавших книгу
+     *
+     * @param $id int|string идентификатор автора
+     * @return mixed
+     */
+    public static function completedCount($id)
+    {
+        return (new self())->getCompleted($id);
+    }
+
+    /**
+     * Количество пользователей планирующих прочитать книгу
+     *
+     * @return mixed
+     */
+    public function inPlansCountWithInstance()
+    {
+        return $this->getInPlans($this->id);
+    }
+
+    /**
+     * Количество пользователей планирующих прочитать книгу
+     *
+     * @param $id int|string идентификатор автора
+     * @return mixed
+     */
+    public static function inPlansCount($id)
+    {
+        return (new self())->getInPlans($id);
+    }
+
+
+
+    protected function getNowReading($id)
     {
         return array_first(
-            DB::select('SELECT COUNT(statistic) FROM users WHERE statistic @> \'{"completed": ["' . $this->id . '"]}\''))
+            DB::select('SELECT COUNT(statistic) FROM users WHERE statistic @> \'{"reading": ["' . $id . '"]}\''))->count;
+    }
+
+    protected function getCompleted($id)
+    {
+        return array_first(
+            DB::select('SELECT COUNT(statistic) FROM users WHERE statistic @> \'{"completed": ["' . $id . '"]}\''))->count;
+    }
+
+    protected function getInPlans($id)
+    {
+        return array_first(
+            DB::select('SELECT COUNT(statistic) FROM users WHERE statistic @> \'{"inPlans": ["' . $id . '"]}\''))
             ->count;
+    }
+
+    protected function getInFavorite($id)
+    {
+        return array_first(
+            DB::select('SELECT COUNT(favorite) FROM users WHERE favorite @> \'{"book": ["' . $id . '"]}\''))->count;
     }
 }

@@ -6,6 +6,10 @@
     padding-top: 1rem;
 }
 
+.main-container {
+    display: block;
+}
+
 #fields-wrapper {
     grid-area: fields;
 }
@@ -267,5 +271,6 @@
         grid-template-areas: "fields"
                              "image"
                              "submit";
+        grid-column-gap: 0;
     }
 }

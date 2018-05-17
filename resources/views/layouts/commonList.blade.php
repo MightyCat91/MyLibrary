@@ -68,18 +68,34 @@
                     <div class="statistic-wrapper">
                         <div class="inFavorite-count-wrapper">
                             <div class="inFavorite-count statistic-item"
-                                 title="Количество людей, которым нравится данный автор">
+                                 title="{{ ($type == 'author') ? 'Нравится автор' : 'Нравится книга' }}">
                                 <i class="fas fa-heart"></i>
                                 <span>{{ $item['statistic']['inFavorite'] }}</span>
                             </div>
                         </div>
                         <div class="reading-count-wrapper">
                             <div class="reading-count statistic-item"
-                                 title="Количество людей, которые читают книги автора в данный момент">
-                                <i class="fas fa-book"></i>
+                                 title="{{ ($type == 'author') ? 'Читают книги автора' : 'Читают книгу' }}">
+                                <i class="fas fa-clock"></i>
                                 <span>{{ $item['statistic']['reading'] }}</span>
                             </div>
                         </div>
+                        @if($type != 'author')
+                            <div class="completed-count-wrapper">
+                                <div class="completed-count statistic-item"
+                                     title="Прочитали книгу">
+                                    <i class="fas fa-calendar-check"></i>
+                                    <span>{{ $item['statistic']['completed'] }}</span>
+                                </div>
+                            </div>
+                            <div class="inPlans-count-wrapper">
+                                <div class="inPlans-count statistic-item"
+                                     title="Планируют прочитать">
+                                    <i class="fas fa-calendar-plus"></i>
+                                    <span>{{ $item['statistic']['inPlans'] }}</span>
+                                </div>
+                            </div>
+                        @endif
                     </div>
                 </div>
                 @if(Auth::check())

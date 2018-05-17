@@ -176,7 +176,13 @@ class BookController extends Controller
                 'avgRating' => empty($bookRating) ? 0 : array_sum($bookRating) / count($bookRating),
                 'quantityRating' => empty($bookRating) ? 0 : count($bookRating),
                 'rating' => $userRating,
-                'progress' => $progress
+                'progress' => $progress,
+                'statistic' => [
+                    'inFavorite' => $book->inFavoriteCountWithInstance(),
+                    'reading' => $book->nowReadingCountWithInstance(),
+                    'completed' => $book->completedCountWithInstance(),
+                    'inPlans' => $book->inPlansCountWithInstance()
+                ]
             ]);
         }
         return $view;
@@ -318,7 +324,13 @@ class BookController extends Controller
                                 ->all();
                         }),
                         'inFavorite' => $book['inFavorite'],
-                        'rating' => $book['rating']
+                        'rating' => $book['rating'],
+                        'statistic' => [
+                            'inFavorite' => $b->inFavoriteCountWithInstance(),
+                            'reading' => $b->nowReadingCountWithInstance(),
+                            'completed' => $b->completedCountWithInstance(),
+                            'inPlans' => $b->inPlansCountWithInstance()
+                        ]
                     ];
                 }
                 $data = [

@@ -922,9 +922,6 @@ div.page-content.spinner:after {
         margin-left: 0;
     }
 
-    div#wrapper {
-        padding-right: 1rem;
-    }
 }
 
 @media screen and (max-width: 560px) {

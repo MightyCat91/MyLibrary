@@ -44,6 +44,36 @@
                                 <img class="item" src="{{ asset($bookCover)}}" alt="{{ $book->name }}">
                             @endforeach
                         </div>
+                        <div class="statistic-wrapper">
+                            <div class="inFavorite-count-wrapper">
+                                <div class="inFavorite-count statistic-item"
+                                     title="Нравится книга">
+                                    <i class="fas fa-heart"></i>
+                                    <span>{{ $statistic['inFavorite'] }}</span>
+                                </div>
+                            </div>
+                            <div class="reading-count-wrapper">
+                                <div class="reading-count statistic-item"
+                                     title="Читают книгу">
+                                    <i class="fas fa-clock"></i>
+                                    <span>{{ $statistic['reading'] }}</span>
+                                </div>
+                            </div>
+                            <div class="completed-count-wrapper">
+                                <div class="completed-count statistic-item"
+                                     title="Прочитали книгу">
+                                    <i class="fas fa-calendar-check"></i>
+                                    <span>{{ $statistic['completed'] }}</span>
+                                </div>
+                            </div>
+                            <div class="inPlans-count-wrapper">
+                                <div class="inPlans-count statistic-item"
+                                     title="Планируют прочитать">
+                                    <i class="fas fa-calendar-plus"></i>
+                                    <span>{{ $statistic['inPlans'] }}</span>
+                                </div>
+                            </div>
+                        </div>
                         {{--@auth--}}
                         @if(Auth::check())
                             <div class="user-action-container">

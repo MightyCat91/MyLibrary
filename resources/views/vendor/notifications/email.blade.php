@@ -29,7 +29,7 @@
             $color = 'blue';
     }
 ?>
-@component('mail::button', ['url' => $actionUrl, 'color' => $color])
+@component('mail::button', ['url' => $actionUrl])
 {{ $actionText }}
 @endcomponent
 @endisset
@@ -44,14 +44,14 @@
 @if (! empty($salutation))
 {{ $salutation }}
 @else
-С уважением,<br>{{ config('app.name') }}
+С уважением,<br>{{ config('mail.from.name') }}
 @endif
 
 <!-- Subcopy -->
 @isset($actionText)
 @component('mail::subcopy')
-Если у Вас есть проблемы с нажатием кнопки "{{ $actionText }}", скопируйте ссылку ниже и вставть ее в адресную строку
-Вашего браузера: [{{ $actionUrl }}]({{ $actionUrl }})
+Если у Вас есть проблемы с нажатием кнопки "{{ $actionText }}", скопируйте ссылку ниже и вставьте ее в адресную строку
+Вашего браузера: <a href="{{ $actionUrl }}">Нажмите на эту ссылку</a>
 @endcomponent
 @endisset
 @endcomponent

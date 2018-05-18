@@ -96,4 +96,4 @@ Breadcrumbs::add('userFavorite', 'userFavorite',
     'userProfile', ['id' => $userId, 'type' => collect(['book', 'author', 'category'])]);
 //todo: добавить проверку на то, что получаемое значение в качестве параметра это массив или коллекция
 
-//Breadcrumbs::add('password.reset', 'resetPassword', 'Сброс пароля', 'home');
+Breadcrumbs::add('password.reset', 'resetPassword', 'Сброс пароля', 'home');

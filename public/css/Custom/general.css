@@ -755,8 +755,12 @@ div.page-content.spinner:after {
 }
 
 .container.reset {
-    width: calc(100% - 50px);
-    margin-left: 0;
+    max-width: 70%;
+}
+
+.container.reset .submit-btn {
+    display: flex;
+    justify-content: center;
 }
 
 #filter-header {

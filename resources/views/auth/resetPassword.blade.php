@@ -3,7 +3,7 @@
 @endpush
 @extends('layouts.main',['title'=>'Сброс пароля'])
 @section('content')
-    {{--{{Breadcrumbs::render()}}--}}
+    {{Breadcrumbs::render()}}
     <div class="container reset main-container">
         <form id="reset-form" method="post" method="POST" action="{{ route('password.reset') }}">
             {{ csrf_field() }}

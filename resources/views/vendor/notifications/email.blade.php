@@ -15,7 +15,6 @@
 {{ $line }}
 
 @endforeach
-
 {{-- Action Button --}}
 @isset($actionText)
 <?php
@@ -45,14 +44,14 @@
 @if (! empty($salutation))
 {{ $salutation }}
 @else
-Regards,<br>{{ config('app.name') }}
+С уважением,<br>{{ config('app.name') }}
 @endif
 
 <!-- Subcopy -->
 @isset($actionText)
 @component('mail::subcopy')
-If you’re having trouble clicking the "{{ $actionText }}" button, copy and paste the URL below
-into your web browser: [{{ $actionUrl }}]({{ $actionUrl }})
+Если у Вас есть проблемы с нажатием кнопки "{{ $actionText }}", скопируйте ссылку ниже и вставть ее в адресную строку
+Вашего браузера: [{{ $actionUrl }}]({{ $actionUrl }})
 @endcomponent
 @endisset
 @endcomponent

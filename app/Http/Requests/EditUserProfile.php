@@ -44,6 +44,7 @@ class EditUserProfile extends FormRequest
                         'required',
                         'string',
                         'max:255',
+                        'min:6',
                         'check_password'
                     ],
                     'email' => [
@@ -53,7 +54,7 @@ class EditUserProfile extends FormRequest
                         'required_with:password',
                         Rule::unique('users')->ignore(\Auth::id()),
                     ],
-                    'password' => 'string|max:255|nullable|required_if:password,*|different:password',
+                    'password' => 'string|min:6|max:255|nullable|required_if:password,*|different:password',
                 ];
             }
         } else {
@@ -76,11 +77,13 @@ class EditUserProfile extends FormRequest
             '*.required' => 'Поле обязательно к заполнению',
             '*.string' => 'Вводимое значение должно быть строкой',
             'oldPassword.max' => 'Пароль не должен содержать больше :max символов',
+            'oldPassword.min' => 'Пароль не должен содержать меньше :min символов',
             'oldPassword.check_password' => 'Пароль не совпадает с ранее сохраненным',
             'email.unique' => 'Такой email уже существует',
             'email.email' => 'Неправильный формат email',
             'email.required_with' => 'Должен быть введен текущий пароль',
             'email.max' => 'Email не должен содержать больше :max символов',
+            'password.min' => 'Пароль не должен содержать меньше :min символов',
             'password.max' => 'Пароль не должен содержать больше :max символов',
             'password.required_with' => 'Должен быть введен старый пароль',
             'password.different' => 'Текущий пароль не должен совпадать со старым',

@@ -12012,6 +12012,7 @@ namespace Barryvdh\Debugbar {
 
 namespace MyLibrary\Breadcrumbs\Facades {
 
+    use MyLibrary\Breadcrumbs\BreadcrumbsServiceProvider;
     use MyLibrary\Breadcrumbs\Exceptions\AlreadyExistsException;
     use MyLibrary\Breadcrumbs\Exceptions\NotArrayException;
 
@@ -12031,7 +12032,7 @@ namespace MyLibrary\Breadcrumbs\Facades {
          */ 
         public static function add($name, $route, $titles, $parent = null, $parameters = array())
         {
-            return \MyLibrary\Breadcrumbs\Breadcrumbs::add($name, $route, $titles, $parent, $parameters);
+            (new \MyLibrary\Breadcrumbs\Breadcrumbs())->add($name, $route, $titles, $parent, $parameters);
         }
         
         /**
@@ -12043,7 +12044,7 @@ namespace MyLibrary\Breadcrumbs\Facades {
          */ 
         public static function render($parameters = null)
         {
-            return \MyLibrary\Breadcrumbs\Breadcrumbs::render($parameters);
+            (new \MyLibrary\Breadcrumbs\Breadcrumbs())->render($parameters);
         }
          
     }

@@ -226,6 +226,9 @@ Route::post('logout', 'Auth\LoginController@logout')->name('logout');
 
 // Registration Routes...
 Route::post('register', 'Auth\RegisterController@register')->name('register')->middleware('guest');
+Route::get('registerWithSocial/{provider}', [
+    'as' => 'registerWithSocial', 'uses' => 'Auth\LoginController@signUpWithSocial'
+])->middleware('guest');
 
 // Password Reset Routes...
 Route::post('password/email', 'Auth\ForgotPasswordController@sendResetLinkEmail')->name('password.email');

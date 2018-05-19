@@ -178,6 +178,8 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+        \SocialiteProviders\Manager\ServiceProvider::class,
+//        Laravel\Socialite\SocialiteServiceProvider::class,
 
 
         /*
@@ -238,7 +240,8 @@ return [
         'Active' => Watson\Active\Facades\Active::class,
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
         'Breadcrumbs' => MyLibrary\Breadcrumbs\Facades\Breadcrumbs::class,
-        'Search' => MyLibrary\Search\SearchServiceProvider::class
+        'Search' => MyLibrary\Search\SearchServiceProvider::class,
+        'Socialite' => Laravel\Socialite\Facades\Socialite::class,
     ],
 
 ];

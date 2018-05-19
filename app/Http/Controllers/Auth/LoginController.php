@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Laravel\Socialite\Facades\Socialite;
 
 class LoginController extends Controller
 {
@@ -31,6 +32,19 @@ class LoginController extends Controller
     {
         $this->middleware('guest', ['except' => 'logout']);
     }
+
+    /**
+     * Авторизация через социальные сервисы
+     *
+     * @param $provider string имя провайдера социального сервиса
+     * @return mixed
+     */
+    public function signUpWithSocial($provider)
+    {
+        return Socialite::with($provider)->redirect();
+    }
+
+
 
     /**
      * Where to redirect users after login.

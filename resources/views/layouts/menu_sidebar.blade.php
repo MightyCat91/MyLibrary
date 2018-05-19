@@ -148,25 +148,32 @@
                         </div>
                         <div>
                             <div class="social-column">
-                                <a class="btn btn-social-icon btn-twitter">
+                                <a href="{{ route('registerWithSocial', ['twitter']) }}" class="btn
+                                btn-social-icon
+                                btn-twitter">
                                     <span><i class="fab fa-twitter"></i></span>
 
                                 </a>
-                                <a class="btn btn-social-icon btn-vk">
+                                <a href="{{ route('registerWithSocial', ['vkontakte']) }}" class="btn btn-social-icon
+                                btn-vk">
                                     <span><i class="fab fa-vk"></i></span>
                                 </a>
-                                <a class="btn btn-social-icon btn-odnoklassniki">
+                                <a href="{{ route('registerWithSocial', ['odnoklassniki']) }}"
+                                   class="btn btn-social-icon btn-odnoklassniki">
                                     <span><i class="fab fa-odnoklassniki"></i></span>
                                 </a>
                             </div>
                             <div class="social-column">
-                                <a class="btn btn-social-icon btn-facebook">
+                                <a href="{{ route('registerWithSocial', ['facebook']) }}" class="btn btn-social-icon
+                                btn-facebook">
                                     <span><i class="fab fa-facebook-f"></i></span>
                                 </a>
-                                <a class="btn btn-social-icon btn-google">
+                                <a href="{{ route('registerWithSocial', ['google']) }}" class="btn btn-social-icon
+                                btn-google">
                                     <span><i class="fab fa-google-plus-g"></i></span>
                                 </a>
-                                <a class="btn btn-social-icon btn-instagram">
+                                <a href="{{ route('registerWithSocial', ['instagram']) }}"
+                                   class="btn btn-social-icon btn-instagram">
                                     <span><i class="fab fa-instagram"></i></span>
                                 </a>
                             </div>
@@ -183,7 +190,7 @@
                             <input id="emailReset" type="email" name="email" placeholder="Email"
                                    value="{{ old('emailReset') }}" required>
                         </div>
-                        <span><i class="fa fa-lg fa-info-circle" ></i>На указанную почту будет
+                        <span><i class="fa fa-lg fa-info-circle"></i>На указанную почту будет
                             отправлено письмо с инструкциями для восстановления пароля</span>
                         <button type="submit" id="reset-psw-btn" class="btn auth-btn">
                             Восстановить пароль

@@ -78,6 +78,9 @@ Route::group(['prefix' => 'book'], function () {
             'as' => 'changeProgress', 'uses' => 'UserController@changeProgress'
         ])->middleware('auth');
     });
+    Route::post('addReview', [
+        'as' => 'addReview', 'uses' => 'BookController@addReview'
+    ]);
 });
 
 Route::group(['prefix' => 'author'], function () {

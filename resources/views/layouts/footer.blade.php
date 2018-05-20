@@ -34,6 +34,9 @@
 <script type="text/javascript" src="{{ asset('/js/Custom/general.js') }}"></script>
 <script type="text/javascript" src="{{ asset('/js/Custom/alert.js') }}"></script>
 <script type="text/javascript" src="{{ asset('/js/Custom/search.js') }}"></script>
+<!-- include summernote js -->
+<script type="text/javascript" src="{{ asset('/js/Library/Summernote/summernote.js') }}"></script>
+<script type="text/javascript" src="{{ asset('/js/Library/Summernote/lang/summernote-ru-RU.js') }}"></script>
 @if (Auth::guest())
     <script type="text/javascript" src="{{ asset('/js/Custom/authentication.js') }}"></script>
 @endif

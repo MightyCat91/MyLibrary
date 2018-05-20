@@ -32,7 +32,10 @@
     <link href="https://fonts.googleapis.com/css?family=Lobster|Philosopher:400,400i,700,700i&amp;subset=cyrillic" rel="stylesheet">
     <!-- alert -->
     <link rel="stylesheet" type="text/css" href="{{ asset('/css/Custom/alert.css') }}">
+    {{-- search--}}
     <link rel="stylesheet" type="text/css" href="{{ asset('/css/Custom/search.css') }}">
+    <!-- include summernote css -->
+    <link href="{{ asset('/css/Library/Summernote/summernote.css') }}" rel="stylesheet">
     @stack('styles')
 </head>
 <body>

@@ -27,7 +27,6 @@ class CorrectFilename implements Rule
     public function passes($attribute, $value)
     {
         $this->fileName = preg_replace('/\\.[^.\\s]{3,4}$/', '', $value->getClientOriginalName());
-        \Debugbar::info($this->fileName,!str_contains($this->fileName, ["'", '"']));
         return !str_contains($this->fileName, ["'", '"']);
     }
 

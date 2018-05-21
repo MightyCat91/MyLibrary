@@ -54,6 +54,16 @@ class Book extends Model
     }
 
     /**
+     * Обзоры, принадлежащие данной книге
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function reviews()
+    {
+        return $this->hasMany('App\Review');
+    }
+
+    /**
      * Книги этой же серии, принадлежащей автору
      */
     public function scopeAuthorSeriesBooks()

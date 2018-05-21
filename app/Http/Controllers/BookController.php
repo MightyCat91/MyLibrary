@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Categories;
+use App\Http\Requests\AddReview;
 use App\Http\Requests\BookAddRequest;
 use App\Publisher;
 use App\Series;
@@ -354,6 +355,18 @@ class BookController extends Controller
             return view($view, $data)->render();
         }
     }
+
+    public function addReview(AddReview $request)
+    {
+        $bookId = $request->id;
+        $userId = auth()->id();
+        if ($request->ajax()) {
+            \Debugbar::info($request);
+        }
+
+
+    }
+
 
 
     /**

@@ -80,7 +80,7 @@ Route::group(['prefix' => 'book'], function () {
     });
     Route::post('addReview', [
         'as' => 'addReview', 'uses' => 'BookController@addReview'
-    ]);
+    ])->middleware('auth');
 });
 
 Route::group(['prefix' => 'author'], function () {

@@ -91,7 +91,7 @@
                     <div class="modal-body">
                         {{ csrf_field() }}
                         <button type="button" class="close close-btn" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
+                            <i class="fas fa-times fa-1x"></i>
                         </button>
                         <div id="changeInfo"><i class="fa fa-info-circle" aria-hidden="true"></i>Для изменения
                             текущих email или пароля необходимо ввести старый пароль

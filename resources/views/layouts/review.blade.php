@@ -16,9 +16,9 @@
                 <div class="modal-body">
                     {{ csrf_field() }}
                     <button type="button" class="close close-btn" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
+                        <i class="fas fa-times fa-1x"></i>
                     </button>
-                    <div id="text-editor-wrapper"></div>
+                    <textarea id="text-editor-wrapper" name="review-text-field"></textarea>
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn submit-btn addReview">

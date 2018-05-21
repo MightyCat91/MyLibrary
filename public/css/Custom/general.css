@@ -538,8 +538,11 @@ div.page-content.spinner:after {
     position: absolute;
     text-shadow: none;
     outline: none;
-    right: 4px;
-    top: 0;
+    right: 1px;
+    top: 1px;
+    height: 15px;
+    width: 15px;
+    font-size: 15px;
     color: #9e9e9e;
 }
 
@@ -1051,6 +1054,28 @@ blockquote p {
     flex-direction: column;
     justify-content: center;
     /*overflow: auto;*/
+}
+
+/**
+WISYWIG text redactor
+ */
+
+.note-editor.note-frame {
+    display: grid;
+    grid-template-areas: "toolbar" "textarea";
+    grid-template-rows: 40px auto;
+}
+
+.note-toolbar-wrapper {
+    grid-area: toolbar;
+}
+
+.note-editing-area {
+    grid-area: textarea;
+}
+
+.note-toolbar.card-header {
+    display: flex;
 }
 
 @media (max-width: 768px) {

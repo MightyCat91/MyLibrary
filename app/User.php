@@ -47,6 +47,16 @@ class User extends Authenticatable
     }
 
     /**
+     * Обзоры, принадлежащие данному пользователю
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function reviews()
+    {
+        return $this->hasMany('App\Review');
+    }
+
+    /**
      *
      * @param string|array $roles
      * @return bool

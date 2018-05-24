@@ -27,4 +27,5 @@
         ])
     </div>
     @include('layouts.alphabetFilter', ['type' => $type])
+    @include('layouts.review')
 @endsection

@@ -6,12 +6,14 @@ use App\Categories;
 use App\Http\Requests\AddReview;
 use App\Http\Requests\BookAddRequest;
 use App\Publisher;
+use App\Review;
 use App\Series;
 use App\Status;
 use App\Author;
 use App\Book;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 use Storage;
 use Validator;
 
@@ -356,17 +358,22 @@ class BookController extends Controller
         }
     }
 
-    public function addReview(AddReview $request)
+    public function addReview(Request $request)
     {
-        $bookId = $request->id;
-        $userId = auth()->id();
         if ($request->ajax()) {
-            \Debugbar::info($request);
+            $validator = Validator::make($request->all(), AddReview::rules(), AddReview::messages());
+            if ($validator->fails()) {
+                throw new ValidationException($validator);
+            }
+            $review = Review::firstOrNew(['book_id' => $request->id], ['book_id' => auth()->id()]);
+            if ($review->exists) {
+                $review->book_id = $request->id;
+                $review->user_id = auth()->id();
+                $review->text = $request->review;
+                $review->save();
+            }
         }
-
-
     }
-
 
 
     /**

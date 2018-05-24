@@ -25,24 +25,36 @@
     //сабмит формы смены email и пароля
     reviewForm.on('submit', function (e) {
         e.preventDefault();
-        console.log({'id': reviewForm.attr('data-id'), 'review': textEditorWrapper.summernote('code')});
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
+        console.log($('#item-container-link').length ? $('#item-container-link').attr('data-id') : reviewForm.attr('data-id'));
         $.ajax({
             url: reviewForm.attr("data-url"),
-            data: {'id': reviewForm.attr('data-id'), 'review': textEditorWrapper.summernote('code')},
-            processData: false,
-            contentType: false,
+            data: {
+                'id': $('#item-container-link').length ? $('#item-container-link').attr('data-id') : reviewForm.attr('data-id'),
+                'review': textEditorWrapper.summernote('code')
+            },
             type: 'POST'
         })
-            .done(function (data) {
+            .done(function (response) {
                 //скрытие модального окна
                 $('#review-dialog-container').modal('hide');
                 //вывод алерта
                 Alert('success', 'Изменения сохранены.');
             })
+            .fail(function (response) {
+                //получаем все ошибки для первого невалидного файла
+                for (var key in response.responseJSON) ;
+                var errors = response.responseJSON[key];
+                $.each(errors, function (index, fileWithError) {
+                    $.each(fileWithError, function (index, error) {
+                        //вывод алерта
+                        Alert('warning', error, 0);
+                    });
+                });
+            });
     });
 })(jQuery);

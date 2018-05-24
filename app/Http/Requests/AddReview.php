@@ -9,11 +9,9 @@
 namespace App\Http\Requests;
 
 
-use App\Rules\CorrectFilename;
 use App\Rules\reviewIsExist;
-use Illuminate\Foundation\Http\FormRequest;
 
-class AddReview extends FormRequest
+class AddReview
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -30,21 +28,22 @@ class AddReview extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public static function rules()
     {
         $rules = [
-            'review-text-field' => ['required', 'string', 'max:8192', new reviewIsExist()]
+            'review' => ['required', 'string', 'max:8192'],
+            'id' => ['required', 'exists:books,id', new reviewIsExist()]
         ];
         return $rules;
     }
 
-    public function messages()
+    public static function messages()
     {
         $message = [
-            'review-text-field.required' => 'Поле обязательно к заполнению',
-            'review-text-field.string' => 'Вводимое значение должно быть строкой',
-            'review-text-field.max' => 'Поле не должно содержать больше :max символов',
-            'nameInput.unique' => 'Автор с таким именем уже существует',
+            'review.required' => 'Поле текста рецензии не должно быть пустым',
+            'review.string' => 'Вводимое значение должно быть строкой',
+            'review.max' => 'Поле не должно содержать больше :max символов',
+            'id.exists' => 'Ошибка при добавлении рецензии. Идентификатор книги не найден либо некорректен'
         ];
         return $message;
     }

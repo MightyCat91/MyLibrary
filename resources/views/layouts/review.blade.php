@@ -11,7 +11,7 @@
      aria-hidden="true">
     <div class="modal-dialog modal-vertical-centered modal-lg">
         <div class="modal-content">
-            <form id="add-review-form" method="post" enctype="multipart/form-data" data-id="{{ $id }}"
+            <form id="add-review-form" method="post" enctype="multipart/form-data" data-id="{{ $id ?? '' }}"
                   data-url="{{ route('addReview') }}">
                 <div class="modal-body">
                     {{ csrf_field() }}

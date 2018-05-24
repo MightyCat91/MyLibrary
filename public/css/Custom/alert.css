@@ -9,6 +9,7 @@
     grid-template-columns: max-content auto max-content;
     max-width: 500px;
     grid-gap: 1rem;
+    z-index: 1050 !important;
 }
 
 .alert span[data-notify="icon"] {

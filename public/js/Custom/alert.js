@@ -7,7 +7,7 @@ function Alert(type, message, customDelay) {
     }
 
     switch (type) {
-        case 'success fa-lg':
+        case 'success':
             icon = 'fa fa-check';
             break;
         case 'info':

@@ -105,8 +105,9 @@
                             <i class="fa fa-comments fa-fw" aria-hidden="true"></i>
                         </div>
                         @if($type != 'author')
-                            <div class="add-review action-btn" href="#" title="Написать рецензию">
-                                <i class="fas fa-pencil-alt" aria-hidden="true"></i>
+                            <div href='#' id="add-review action-btn" data-toggle="modal" data-backdrop="static"
+                               data-target="#review-dialog-container" title="Написать рецензию">
+                                <i class="fas fa-pencil-alt"></i>
                             </div>
                         @endif
                         <div class="add-to-favorite action-btn {{ $item['inFavorite'] ? 'active' : '' }} {{ ($type == 'author') ? $type : '' }}"

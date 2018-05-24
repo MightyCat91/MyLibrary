@@ -2,6 +2,7 @@
 
 namespace App\Rules;
 
+use DB;
 use Illuminate\Contracts\Validation\Rule;
 
 class reviewIsExist implements Rule
@@ -25,16 +26,10 @@ class reviewIsExist implements Rule
      */
     public function passes($attribute, $value)
     {
-        \Debugbar::info($value);
-        \Debugbar::info(!Rule::exists('reviews')->where(function ($query) {
-            $query->where('book_id', 1)->where(function ($query) {
-                $query->where('user_id', auth()->id());
-            });
-        }));
-        return !Rule::exists('reviews')->where(function ($query) {
-            $query->where('book_id', 1);
-            $query->where('user_id', auth()->id());
-        });
+        return !DB::table('reviews')->where([
+            ['user_id', '=', auth()->id()],
+            ['book_id', '=', $value],
+        ])->exists();
     }
 
     /**
@@ -44,6 +39,6 @@ class reviewIsExist implements Rule
      */
     public function message()
     {
-        return 'The validation error message.';
+        return 'У Вас уже есть рецензия на эту книгу';
     }
 }

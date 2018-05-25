@@ -2,7 +2,7 @@
 <h3 id="filter-header" class="hidden"></h3>
 <div class="container-link">
     @foreach($array as $item)
-        <div class="list-item-container-link">
+        <div class="list-item-container-link item-container-link" data-id="{{ $item['id'] }}">
             <div class="image-item-wrapper">
                 <img src="{{ asset(getStorageFile($imgFolder, $item['id'])) }}" alt="{{ $item['name'] }}"/>
             </div>
@@ -105,8 +105,8 @@
                             <i class="fa fa-comments fa-fw" aria-hidden="true"></i>
                         </div>
                         @if($type != 'author')
-                            <div href='#' id="add-review action-btn" data-toggle="modal" data-backdrop="static"
-                               data-target="#review-dialog-container" title="Написать рецензию">
+                            <div class="add-review action-btn" data-toggle="modal" data-backdrop="static"
+                                 data-target="#review-dialog-container" title="Написать рецензию">
                                 <i class="fas fa-pencil-alt"></i>
                             </div>
                         @endif

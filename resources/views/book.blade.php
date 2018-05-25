@@ -193,7 +193,7 @@
             <section id="description">
                 <p>{{ $book->description }}</p>
             </section>
-            @include('layouts.review', ['id' => $book->id])
+            @include('layouts.addReview', ['id' => $book->id])
         </div>
     </div>
     <aside id="books-sidebar" class="">

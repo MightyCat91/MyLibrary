@@ -10,7 +10,6 @@ class reviewIsExist implements Rule
     /**
      * Create a new rule instance.
      *
-     * @return void
      */
     public function __construct()
     {
@@ -39,6 +38,6 @@ class reviewIsExist implements Rule
      */
     public function message()
     {
-        return 'У Вас уже есть рецензия на эту книгу';
+        return 'У Вас уже есть рецензия на эту книгу. Вы можете отредактировать ее на странице своего профиля';
     }
 }

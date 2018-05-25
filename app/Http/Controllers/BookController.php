@@ -358,6 +358,12 @@ class BookController extends Controller
         }
     }
 
+    /**
+     * Добавление рецензии на книгу
+     *
+     * @param Request $request
+     * @throws ValidationException
+     */
     public function addReview(Request $request)
     {
         if ($request->ajax()) {
@@ -365,8 +371,10 @@ class BookController extends Controller
             if ($validator->fails()) {
                 throw new ValidationException($validator);
             }
-            $review = Review::firstOrNew(['book_id' => $request->id], ['book_id' => auth()->id()]);
-            if ($review->exists) {
+            \Debugbar::info($request);
+            $review = Review::firstOrNew(['book_id' => $request->id], ['user_id' => auth()->id()]);
+            \Debugbar::info($review->exists);
+            if (!$review->exists) {
                 $review->book_id = $request->id;
                 $review->user_id = auth()->id();
                 $review->text = $request->review;

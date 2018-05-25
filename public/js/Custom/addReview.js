@@ -1,9 +1,14 @@
 (function ($) {
+    // форма текстового редактора
     var reviewForm = $('#add-review-form'),
-        textEditorWrapper = $('#text-editor-wrapper');
+        // textarea текстового редактора
+        textEditorWrapper = $('#text-editor-wrapper'),
+        // контейнер элемента(книги) в гриде или списке
+        gridOrListItemContainer = $('.item-container-link'),
+        // идентификатор книги
+        bookId = null;
 
-    // $('#editormd').find('textarea').ckeditor();
-
+    // инициализация текстового редактора
     textEditorWrapper.summernote({
         minHeight: 550,
         maxHeight: 750,
@@ -22,7 +27,11 @@
         disableDragAndDrop: true
     });
 
-    //сабмит формы смены email и пароля
+    $("body").on('click', '.add-review', function () {
+        bookId =  $(this).closest('.item-container-link').attr('data-id')
+    });
+
+    //сабмит формы добавления рецензии
     reviewForm.on('submit', function (e) {
         e.preventDefault();
         $.ajaxSetup({
@@ -30,20 +39,23 @@
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
             }
         });
-        console.log($('#item-container-link').length ? $('#item-container-link').attr('data-id') : reviewForm.attr('data-id'));
         $.ajax({
             url: reviewForm.attr("data-url"),
             data: {
-                'id': $('#item-container-link').length ? $('#item-container-link').attr('data-id') : reviewForm.attr('data-id'),
+                // идентификатор книги
+                'id': bookId ? bookId : reviewForm.attr('data-id'),
+                // текст рецензии
                 'review': textEditorWrapper.summernote('code')
             },
             type: 'POST'
         })
             .done(function (response) {
-                //скрытие модального окна
+                // скрытие модального окна
                 $('#review-dialog-container').modal('hide');
-                //вывод алерта
-                Alert('success', 'Изменения сохранены.');
+                // очистка textarea текстового редактора
+                textEditorWrapper.summernote('code', '');
+                // вывод алерта
+                Alert('success', 'Рецензия добавлена');
             })
             .fail(function (response) {
                 //получаем все ошибки для первого невалидного файла

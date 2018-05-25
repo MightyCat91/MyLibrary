@@ -18,7 +18,7 @@
                     <i class="fa fa-ellipsis-v" aria-hidden="true"></i>
                 </label>
                 @if($type != 'author')
-                    <div href='#' id="add-review action-btn" data-toggle="modal" data-backdrop="static"
+                    <div class="add-review action-btn" data-toggle="modal" data-backdrop="static"
                        data-target="#review-dialog-container" title="Написать рецензию">
                         <i class="fas fa-pencil-alt"></i>
                     </div>

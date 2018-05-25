@@ -63,7 +63,7 @@ class UserController extends Controller
         foreach ($status as $st) {
             $booksWithStatus[$st->name] = [
                 'name' => $st->uname,
-                'count' => $statisticBooks ? count($statisticBooks[$st->name]) : 0
+                'count' => $statisticBooks ? (array_has($statisticBooks, $st->name) ? count($statisticBooks[$st->name]) : 0) : 0
             ];
         }
         $statistic = [

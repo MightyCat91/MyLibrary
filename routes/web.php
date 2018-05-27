@@ -212,6 +212,9 @@ Route::group(['prefix' => 'user'], function () {
         Route::post('deleteProfileImg', [
             'as' => 'deleteProfileImg', 'uses' => 'UserController@deleteProfileImg'
         ])->middleware('auth');
+        Route::get('reviews', [
+            'as' => 'getAllReviewsForUser', 'uses' => 'UserController@getAllReviews'
+        ]);
     });
     Route::post('saveEmailPass', [
         'as' => 'saveEmailPass', 'uses' => 'UserController@storeEmailPass'

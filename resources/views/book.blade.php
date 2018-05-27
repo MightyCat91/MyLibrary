@@ -193,6 +193,7 @@
             <section id="description">
                 <p>{{ $book->description }}</p>
             </section>
+            @include('layouts.reviews', $reviews)
             @include('layouts.addReview', ['id' => $book->id])
         </div>
     </div>

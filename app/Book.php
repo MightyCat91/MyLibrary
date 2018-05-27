@@ -58,10 +58,10 @@ class Book extends Model
      *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function reviews()
-    {
-        return $this->hasMany('App\Review');
-    }
+//    public function reviews()
+//    {
+//        return $this->hasMany('App\Review');
+//    }
 
     /**
      * Книги этой же серии, принадлежащей автору
@@ -202,6 +202,14 @@ class Book extends Model
     public static function inPlansCount($id)
     {
         return (new self())->getInPlans($id);
+    }
+
+    /**
+     * Получить рецензии на эту книгу
+     */
+    public function reviews()
+    {
+        return DB::table('reviews_view')->where('book_id', '=', $this->id)->get();
     }
 
 

@@ -1,15 +1,25 @@
+@push('styles')
+    <link href="{{ asset('/css/Custom/reviews.css') }}" rel='stylesheet' type='text/css' media="all"/>
+@endpush
 <div id="reviews-container">
     <h2>Рецензии</h2>
+    <hr>
     <div id="reviews-wrapper">
         @foreach($reviews as $review)
             <div class="review-item-container">
                 <div class="review-item-header">
-                    <div class="review-user-img">
-                        <img src="" alt="">
-                    </div>
+                    <figure class="review-user-img">
+                        <img src="{{ empty(getStorageFile('users', Auth::id())) ? asset('images/no_avatar.jpg') : asset($review->author_id) }}"
+                             alt="{{ $review->author }}">
+                    </figure>
                     <div class="review-info-wrapper">
-                        <div class="review-user-name">{{ $review->author }}</div>
-                        <div class="review-user-all-reviews">{{ route('getAllReviewsForUser', $review->authorId) }}</div>
+                        <div class="review-user-name">
+                            <a href="{{ route('userProfile', $review->author_id) }}">{{ $review->author }}</a>
+                        </div>
+                        <div class="review-user-all-reviews">
+                            (<a href="{{ route('getAllReviewsForUser', $review->author_id) }}">Все рецензии
+                                пользователя</a>)
+                        </div>
                         <div class="review-rating-wrapper">
                             <div class="review-rating-icon">
                                 <i class="fas fa-star"></i>
@@ -18,7 +28,7 @@
                             <div class="review-negative-count">{{ -$review->negative }}</div>
                         </div>
                         <div class="review-date">{{ $review->date }}</div>
-                        <div class="review-user-book-status">{{ $review->bookStatus }}</div>
+                        <div class="review-user-book-status">{{ $review->status }}</div>
                     </div>
                 </div>
                 <div class="review-item-body">

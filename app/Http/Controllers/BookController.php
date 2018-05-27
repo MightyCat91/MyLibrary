@@ -185,7 +185,8 @@ class BookController extends Controller
                     'reading' => $book->nowReadingCountWithInstance(),
                     'completed' => $book->completedCountWithInstance(),
                     'inPlans' => $book->inPlansCountWithInstance()
-                ]
+                ],
+                'reviews' => $book->reviews()
             ]);
         }
         return $view;

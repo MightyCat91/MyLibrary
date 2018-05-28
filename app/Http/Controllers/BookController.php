@@ -372,9 +372,25 @@ class BookController extends Controller
             if ($validator->fails()) {
                 throw new ValidationException($validator);
             }
-            \Debugbar::info($request);
-            $review = Review::firstOrNew(['book_id' => $request->id], ['user_id' => auth()->id()]);
-            \Debugbar::info($review->exists);
+            $review = Review::firstOrNew(['book_id' => (int) $request->id, 'user_id' => auth()->id()]);
+            if (!$review->exists) {
+                $review->book_id = $request->id;
+                $review->user_id = auth()->id();
+                $review->text = $request->review;
+                $review->save();
+            }
+        }
+    }
+
+    /**
+     *
+     *
+     * @param Request $request
+     */
+    public function addVoteForReview(Request $request)
+    {
+        if ($request->ajax()) {
+            $review = Review::firstOrNew($request->id);
             if (!$review->exists) {
                 $review->book_id = $request->id;
                 $review->user_id = auth()->id();

@@ -15,6 +15,7 @@ body {
 
 #wrapper {
     grid-area: content;
+    margin-bottom: 2em;
 }
 
 #container-info {

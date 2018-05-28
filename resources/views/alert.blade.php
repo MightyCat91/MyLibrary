@@ -1,5 +1,5 @@
 <script type="text/javascript" charset="utf-8">
-    $(function () {
+    jQuery(function () {
         @if(Session::has('alert'))
             @foreach(Session::get('alert') as $alert)
                 @switch($alert['type'])

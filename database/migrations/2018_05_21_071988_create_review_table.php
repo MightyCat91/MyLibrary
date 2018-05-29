@@ -24,8 +24,7 @@ class CreateReviewTable extends Migration
                 ->references("id")->on('users')
                 ->onUpdate('cascade')->onDelete('cascade');
             $table->string('text', 8192);
-            $table->smallInteger('positive')->default(0);
-            $table->smallInteger('negative')->default(0);
+            $table->jsonb('rating')->nullable();
             $table->timestamps();
         });
     }

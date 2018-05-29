@@ -372,7 +372,7 @@ class BookController extends Controller
             if ($validator->fails()) {
                 throw new ValidationException($validator);
             }
-            $review = Review::firstOrNew(['book_id' => (int) $request->id, 'user_id' => auth()->id()]);
+            $review = Review::firstOrNew(['book_id' => (int)$request->id, 'user_id' => auth()->id()]);
             if (!$review->exists) {
                 $review->book_id = $request->id;
                 $review->user_id = auth()->id();
@@ -386,16 +386,61 @@ class BookController extends Controller
      *
      *
      * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
      */
     public function addVoteForReview(Request $request)
     {
         if ($request->ajax()) {
-            $review = Review::firstOrNew($request->id);
-            if (!$review->exists) {
-                $review->book_id = $request->id;
-                $review->user_id = auth()->id();
-                $review->text = $request->review;
+            if (auth()->check()) {
+                $review = Review::find($request->id);
+                $rating = $review->rating;
+                if (empty($rating)) {
+                    array_add($rating, $request->vote, auth()->id());
+//                    $rating[$request->vote] = [$request->vote => auth()->id()];
+                    \Debugbar::info($rating);
+                } else {
+                    switch (array_keys($rating)) {
+                        case 'positive':
+                            $posRating = $rating['positive'];
+                            if (in_array(auth()->id(), $posRating)) {
+                                if ($request->vote != 'positive') {
+                                    array_forget($rating['positive'],array_search(auth()->id(), $rating['positive']));
+                                    array_push($rating['negative'], auth()->id);
+                                } else {
+                                    return response()->json([
+                                        'type' => 'info',
+                                        'message' => 'Вы уже голосовали за данную рецензию'
+                                    ]);
+                                }
+                            }
+                            break;
+                        case 'negative':
+                            $negRating = $rating['negative'];
+                            if (in_array(auth()->id(), $negRating)) {
+                                if ($request->vote != 'negative') {
+                                    array_forget($rating['negative'],array_search(auth()->id(), $rating['negative']));
+                                    array_push($rating['positive'], auth()->id);
+                                } else {
+                                    return response()->json([
+                                        'type' => 'info',
+                                        'message' => 'Вы уже голосовали за данную рецензию'
+                                    ]);
+                                }
+                            }
+                            break;
+                    }
+                }
+                $review->rating = $rating;
                 $review->save();
+
+                return response()->json([
+                    'scoreType' => $request->vote,
+                    'score' => count($rating[$request->vote])
+                ]);
+            } else {
+                return response()->json([
+                    'message' => 'Только авторизованные пользователи могут ставить оценки рецензиям'
+                ], 403);
             }
         }
     }

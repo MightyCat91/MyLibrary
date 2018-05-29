@@ -1,4 +1,3 @@
-{{ \Debugbar::info($reviews->isNotEmpty(), $reviews) }}
 @if($reviews->isNotEmpty())
     @push('styles')
         <link href="{{ asset('/css/Custom/reviews.css') }}" rel='stylesheet' type='text/css' media="all"/>
@@ -30,9 +29,15 @@
                                     <i class="fas fa-star"></i>
                                 </div>
                                 <div class="review-rating-count">
-                                    <div class="review-positive-count">+{{ $review->positive }}</div>
+                                    <div class="review-positive-count">
+                                        {{ \Debugbar::info($review->rating['positive']) }}
+                                        {{--+{{ !empty($review->positive) ? sizeof($review->positive) : 0 }}--}}
+                                    </div>
                                     <span>/</span>
-                                    <div class="review-negative-count">-{{ $review->negative }}</div>
+                                    <div class="review-negative-count">
+                                        {{ \Debugbar::info($review->rating['negative']) }}
+                                        {{---{{ !empty($review->negative) ? sizeof($review->negative) : 0 }}--}}
+                                    </div>
                                 </div>
                             </div>
                             <div class="review-date">{{ explode(' ', $review->date)[0] }}</div>

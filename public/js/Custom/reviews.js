@@ -19,7 +19,8 @@
     });
 
     $('.access-wrapper').on('click', function () {
-        var id = $('.review-item-container').attr('data-id');
+        var reviewContainer = $(this),
+            id = reviewContainer.parents('.review-item-container').attr('data-id');
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -27,24 +28,26 @@
         });
         $.ajax({
             url: $('#reviews-container').attr("data-url"),
-            data: $(this).hasClass('positive') ? {'vote': true, 'id': id} : {'vote': false, 'id': id},
+            data: reviewContainer.hasClass('positive') ? {'vote': 'positive', 'id': id} : {'vote': 'negative', 'id': id},
             type: 'POST'
         })
             .done(function (response) {
-
-                // вывод алерта
-                Alert('success', 'Спасиюо за оценку');
+                console.log(reviewContainer.attr('class'));
+                if (response.scoreType === 'positive') {
+                    reviewContainer.parents('.review-item-container').find('.review-positive-count').text('+' + response.score)
+                } else {
+                    reviewContainer.parents('.review-item-container').find('.review-negative-count').text('-' + response.score)
+                }
+                if (response.type) {
+                    Alert(response.type, response.message);
+                } else {
+                    // вывод алерта
+                    Alert('success', 'Спасибо за оценку');
+                }
             })
             .fail(function (response) {
-                //получаем все ошибки для первого невалидного файла
-                for (var key in response.responseJSON) ;
-                var errors = response.responseJSON[key];
-                $.each(errors, function (index, fileWithError) {
-                    $.each(fileWithError, function (index, error) {
-                        //вывод алерта
-                        Alert('warning', error, 0);
-                    });
-                });
+                //вывод алерта
+                Alert('danger', response.responseJSON.message, 0);
             });
     });
 

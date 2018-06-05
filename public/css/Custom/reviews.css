@@ -1,3 +1,7 @@
+.review-container {
+    grid-area: mainContainer;
+}
+
 #reviews-wrapper {
     display: grid;
     grid-gap: 1em;
@@ -30,7 +34,7 @@
     height: 100%;
     width: 100%;
     border-radius: 50%;
-    border: 1px solid #fff;
+    border: 1px solid #009926;
     overflow: hidden;
 }
 
@@ -47,14 +51,17 @@
     grid-template-columns: max-content max-content auto;
     grid-template-rows: repeat(2, min-content);
     grid-gap: 5px;
+    align-items: baseline;
 }
 
 .review-user-name {
     grid-area: name;
+    font-size: 20px;
 }
 
 .review-user-all-reviews {
     grid-area: allReviews;
+    font-size: 13px;
 }
 
 .review-rating-wrapper {
@@ -102,6 +109,11 @@
     justify-content: flex-end;
 }
 
+.access-wrapper {
+    min-width: 50px;
+    text-align: center;
+}
+
 .review-action-wrapper > * {
     margin-right: 5px;
 }
@@ -109,4 +121,15 @@
 .access-wrapper:hover {
     cursor: pointer;
     color: #009926;
+}
+
+@media (max-width: 1050px) {
+    .review-info-wrapper {
+        grid-template-areas: "name allReviews"
+        "rating rating"
+        "status date";
+        grid-template-columns: max-content max-content;
+        grid-template-rows: repeat(3, min-content);
+        grid-gap: 5px;
+    }
 }

@@ -16,6 +16,7 @@
     <div class="container main-container">
         <section id="user-information" class="user-section">
             <h2>Информация</h2>
+            <hr>
             <ul>
                 <li>
                     <span class="information-item-title">Имя:</span>
@@ -42,6 +43,7 @@
         </section>
         <section id="user-statistic" class="user-selection">
             <h2>Статистика</h2>
+            <hr>
             <div id="statistic-wrapper">
                 <div id="statistic-count">
                     <div>
@@ -84,6 +86,7 @@
                         Любимые книги
                     </a>
                 </h2>
+                <hr>
                 <div class="books-slider owl-carousel owl-theme">
                     @foreach($favoriteBooks as $id => $name)
                         <a href="{{ route('book', [$id]) }}" target="_blank" title="{{ $name }}">
@@ -102,6 +105,7 @@
                         Любимые авторы
                     </a>
                 </h2>
+                <hr>
                 <div class="author-slider owl-carousel owl-theme">
                     @foreach($favoriteAuthors as $id => $name)
                         <a href="{{ route('author', [$id]) }}" target="_blank" title="{{ $name }}">
@@ -120,6 +124,7 @@
                         Любимые жанры
                     </a>
                 </h2>
+                <hr>
                 <div class="owl-carousel owl-theme">
                     @foreach($favoriteCategories as $id => $name)
                         <a href="{{ route('category', [$id]) }}" target="_blank" title="{{ $name }}">
@@ -130,6 +135,13 @@
                     @endforeach
                 </div>
             @endif
+        </section>
+        <section id="user-reviews" class="user-section">
+            <h2>
+                <a href="{{ route('getAllReviewsForUser', $reviews->first()->author_id) }}">Рецензии</a>
+            </h2>
+            <hr>
+            @include('layouts.reviews', $reviews)
         </section>
     </div>
 @endsection

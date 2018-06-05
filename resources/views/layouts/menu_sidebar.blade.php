@@ -24,6 +24,11 @@
 
                 <div class="nav-item-name">Жанры</div>
             </a>
+            <a href="{{ route('reviews') }}" class="nav-item {{ active('reviews') }}">
+                <i class="fa fa-list fa-lg fa-fw nav-item-icon" aria-hidden="true"></i>
+
+                <div class="nav-item-name">Рецензии</div>
+            </a>
             @if (Auth::check())
                 <a href="{{ route('author-add-get') }}" class="nav-item {{ active('author-add-get') }}">
                     <div class="icon-stack fa-fw nav-item-icon">

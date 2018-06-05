@@ -3,8 +3,14 @@
     grid-template: "information statistic"
                    "fav_books fav_books"
                    "fav_authors fav_authors"
-                   "fav_categories fav_categories" auto / 1fr 1fr;
+                   "fav_categories fav_categories"
+                   "reviews reviews" auto / 1fr 1fr;
     grid-gap: 1rem;
+}
+
+hr {
+    margin-top: 0;
+    border-color: rgba(00, 99, 26, 0.5);
 }
 
 #user-information {
@@ -109,6 +115,10 @@
 .user-favorite-img img {
     max-height: 100%;
     object-fit: scale-down;
+}
+
+#user-reviews {
+    grid-area: reviews;
 }
 
 @media screen and (max-width: 1200px) {

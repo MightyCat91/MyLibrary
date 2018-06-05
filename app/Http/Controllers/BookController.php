@@ -383,7 +383,7 @@ class BookController extends Controller
     }
 
     /**
-     *
+     * Добавление голоаса к рецензиии(положительного/отрицательного)
      *
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
@@ -394,48 +394,58 @@ class BookController extends Controller
             if (auth()->check()) {
                 $review = Review::find($request->id);
                 $rating = $review->rating;
-                if (empty($rating)) {
-                    array_add($rating, $request->vote, auth()->id());
-//                    $rating[$request->vote] = [$request->vote => auth()->id()];
-                    \Debugbar::info($rating);
-                } else {
-                    switch (array_keys($rating)) {
-                        case 'positive':
-                            $posRating = $rating['positive'];
-                            if (in_array(auth()->id(), $posRating)) {
-                                if ($request->vote != 'positive') {
-                                    array_forget($rating['positive'],array_search(auth()->id(), $rating['positive']));
-                                    array_push($rating['negative'], auth()->id);
-                                } else {
-                                    return response()->json([
-                                        'type' => 'info',
-                                        'message' => 'Вы уже голосовали за данную рецензию'
-                                    ]);
+                $userId = auth()->id();
+                switch ($request->vote) {
+                    case 'positive':
+                        if (array_has($rating, 'positive')) {
+                            if (in_array($userId, $rating['positive'])) {
+                                return response()->json([
+                                    'type' => 'info',
+                                    'message' => 'Вы уже голосовали за данную рецензию'
+                                ]);
+                            } else {
+                                if (in_array($userId, $rating['negative'])) {
+                                    array_forget($rating['negative'], array_search($userId, $rating['negative']));
+                                }
+                                array_push($rating['positive'], $userId);
+                            }
+                        } else {
+                            $rating[$request->vote][] = $userId;
+                            if (array_has($rating, 'negative')) {
+                                if (in_array($userId, $rating['negative'])) {
+                                    array_forget($rating['negative'], array_search($userId, $rating['negative']));
                                 }
                             }
-                            break;
-                        case 'negative':
-                            $negRating = $rating['negative'];
-                            if (in_array(auth()->id(), $negRating)) {
-                                if ($request->vote != 'negative') {
-                                    array_forget($rating['negative'],array_search(auth()->id(), $rating['negative']));
-                                    array_push($rating['positive'], auth()->id);
-                                } else {
-                                    return response()->json([
-                                        'type' => 'info',
-                                        'message' => 'Вы уже голосовали за данную рецензию'
-                                    ]);
+                        }
+                        break;
+                    case 'negative':
+                        if (array_has($rating, 'negative')) {
+                            if (in_array($userId, $rating['negative'])) {
+                                return response()->json([
+                                    'type' => 'info',
+                                    'message' => 'Вы уже голосовали за данную рецензию'
+                                ]);
+                            } else {
+                                if (in_array($userId, $rating['positive'])) {
+                                    array_forget($rating['positive'], array_search($userId, $rating['positive']));
+                                }
+                                array_push($rating['negative'], $userId);
+                            }
+                        } else {
+                            $rating[$request->vote][] = $userId;
+                            if (array_has($rating, 'positive')) {
+                                if (in_array($userId, $rating['positive'])) {
+                                    array_forget($rating['positive'], array_search($userId, $rating['positive']));
                                 }
                             }
-                            break;
-                    }
+                        }
+                        break;
                 }
                 $review->rating = $rating;
                 $review->save();
-
                 return response()->json([
-                    'scoreType' => $request->vote,
-                    'score' => count($rating[$request->vote])
+                    'scorePositive' => array_has($rating, 'positive') ? count($rating['positive']) : 0,
+                    'scoreNegative' => array_has($rating, 'negative') ? count($rating['negative']) : 0
                 ]);
             } else {
                 return response()->json([

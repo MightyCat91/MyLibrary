@@ -20,7 +20,7 @@ class UserController extends Controller
     public function showUserProfilePage($id)
     {
         $books = $authors = $collections = [];
-        $user = auth()->user();
+        $user = User::find($id);
         $favorite = $user->favorite;
         $favoriteBooks = array_get($favorite, 'book');
         if (!empty($favoriteBooks)) {
@@ -59,7 +59,6 @@ class UserController extends Controller
         }
 
         $status = Status::all('name', 'uname');
-        \Debugbar::info($statisticBooks);
         foreach ($status as $st) {
             $booksWithStatus[$st->name] = [
                 'name' => $st->uname,
@@ -85,6 +84,8 @@ class UserController extends Controller
             'favoriteCategories' => $collections,
             'statistic' => $statistic,
             'status' => $status,
+            'isForUser' => true,
+            'reviews' => User::getAllReviews($id)->take(3)
         ]);
     }
 
@@ -400,6 +401,16 @@ class UserController extends Controller
             'allStatuses' => Status::get(['name', 'uname'])
         ]);
     }
+
+    public function getAllReviewsForUser($id)
+    {
+        return view('user.userReviews', [
+            'isForUser' => true,
+            'reviews' => User::getAllReviews($id)
+        ]);
+    }
+
+
 
     private function userLibrarySort($array, $field, $order = 'desc')
     {

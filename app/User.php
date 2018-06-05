@@ -2,6 +2,7 @@
 
 namespace App;
 
+use DB;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -150,5 +151,13 @@ class User extends Authenticatable
         return $this->roles()->get();
     }
 
-
+    /**
+     * Получение всех рецензий пользователя
+     *
+     * @return mixed
+     */
+    public static function getAllReviews($id)
+    {
+        return DB::table('reviews_view')->where('author_id', '=', $id)->orderBy('date', 'desc')->get();
+    }
 }

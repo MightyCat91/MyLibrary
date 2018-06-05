@@ -2,16 +2,26 @@
 
 namespace App;
 
+use DB;
 use Illuminate\Database\Eloquent\Model;
 
 class Review extends Model
 {
-    protected $fillable = ['text', 'positive', 'negative'];
+    protected $fillable = ['text', 'rating'];
 
     protected $guarded = ['id'];
 
     protected $casts = [
-        'positive' =>'array',
-        'negative' =>'array'
+        'rating' => 'array'
     ];
+
+    /**
+     * Получение всех рецензий
+     *
+     * @return mixed
+     */
+    public static function getAllReviews()
+    {
+        return DB::table('reviews_view')->orderBy('date', 'desc')->get();
+    }
 }

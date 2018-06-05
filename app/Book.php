@@ -209,7 +209,7 @@ class Book extends Model
      */
     public function reviews()
     {
-        return DB::table('reviews_view')->where('book_id', '=', $this->id)->get();
+        return DB::table('reviews_view')->where('book_id', '=', $this->id)->orderBy('date', 'desc')->get();
     }
 
 

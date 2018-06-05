@@ -28,20 +28,20 @@
         });
         $.ajax({
             url: $('#reviews-container').attr("data-url"),
-            data: reviewContainer.hasClass('positive') ? {'vote': 'positive', 'id': id} : {'vote': 'negative', 'id': id},
+            data: reviewContainer.hasClass('positive') ? {'vote': 'positive', 'id': id} : {
+                'vote': 'negative',
+                'id': id
+            },
             type: 'POST'
         })
             .done(function (response) {
-                console.log(reviewContainer.attr('class'));
-                if (response.scoreType === 'positive') {
-                    reviewContainer.parents('.review-item-container').find('.review-positive-count').text('+' + response.score)
-                } else {
-                    reviewContainer.parents('.review-item-container').find('.review-negative-count').text('-' + response.score)
-                }
+                // вывод алерта
                 if (response.type) {
                     Alert(response.type, response.message);
                 } else {
-                    // вывод алерта
+                    console.log(response.scorePositive);
+                    reviewContainer.parents('.review-item-container').find('.review-positive-count').text(response.scorePositive);
+                    reviewContainer.parents('.review-item-container').find('.review-negative-count').text(response.scoreNegative);
                     Alert('success', 'Спасибо за оценку');
                 }
             })

@@ -19,7 +19,9 @@ Route::post('/changeFavoriteStatus', [
     'as' => 'changeFavoriteStatus', 'uses' => 'UserController@changeFavoriteStatus'
 ])->middleware('auth');
 
-
+Route::get('reviews', [
+    'as' => 'reviews', 'uses' => 'Controller@getAllReviews'
+]);
 
 Route::group(['prefix' => 'year/{year}/books'], function () {
     Route::get('', [
@@ -185,6 +187,9 @@ Route::group(['prefix' => 'user'], function () {
                 'as' => 'changeRating', 'uses' => 'UserController@changeBookRating'
             ])->middleware('auth');
         });
+        Route::get('reviews', [
+            'as' => 'getAllReviewsForUser', 'uses' => 'UserController@getAllReviewsForUser'
+        ]);
         Route::get('history', [
             'as' => 'userHistory', 'uses' => 'UserController@showUserHistoryPage'
         ])->middleware('auth');
@@ -215,9 +220,6 @@ Route::group(['prefix' => 'user'], function () {
         Route::post('deleteProfileImg', [
             'as' => 'deleteProfileImg', 'uses' => 'UserController@deleteProfileImg'
         ])->middleware('auth');
-        Route::get('reviews', [
-            'as' => 'getAllReviewsForUser', 'uses' => 'UserController@getAllReviews'
-        ]);
     });
     Route::post('saveEmailPass', [
         'as' => 'saveEmailPass', 'uses' => 'UserController@storeEmailPass'

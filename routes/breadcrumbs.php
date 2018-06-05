@@ -96,4 +96,13 @@ Breadcrumbs::add('userFavorite', 'userFavorite',
     'userProfile', ['id' => $userId, 'type' => collect(['book', 'author', 'category'])]);
 //todo: добавить проверку на то, что получаемое значение в качестве параметра это массив или коллекция
 
+//userReviews
+Breadcrumbs::add('getAllReviewsForUser', 'getAllReviewsForUser',
+    ['id' => \App\User::whereIn('id',$userId)->pluck('name')->map(function ($item, $key) {
+        return 'Все рецензии пользователя: '. $item;
+    })->toArray()],
+    'home', ['id' => $userId]);
+
+Breadcrumbs::add('reviews', 'reviews', 'Рецензии', 'home');
+
 Breadcrumbs::add('password.reset', 'resetPassword', 'Сброс пароля', 'home');

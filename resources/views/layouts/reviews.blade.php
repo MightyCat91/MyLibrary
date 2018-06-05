@@ -6,37 +6,53 @@
         <script type="text/javascript" src="{{ asset('/js/Custom/reviews.js') }}"></script>
     @endpush
     <div id="reviews-container" data-url="{{ route('voteForReview') }}">
-        <h2>Рецензии</h2>
-        <hr>
+        @if(!isset($isForUser))
+            <h2>Рецензии</h2>
+            <hr>
+        @endif
         <div id="reviews-wrapper">
             @foreach($reviews as $review)
                 <div class="review-item-container" data-id="{{ $review->id }}">
                     <div class="review-item-header">
                         <figure class="review-user-img">
-                            <img src="{{ empty(getStorageFile('users', Auth::id())) ? asset('images/no_avatar.jpg') : asset($review->author_id) }}"
-                                 alt="{{ $review->author }}">
+                            @if(isset($isForUser))
+                                <a href="{{ route('book', $review->book_id) }}">
+                                    <img src="{{ asset(getStorageFile('books', $review->book_id)) }}"
+                                         alt="{{ $review->book }}">
+                                </a>
+                            @else
+                                <a href="{{ route('userProfile', $review->author_id) }}">
+                                    <img src="{{ empty(getStorageFile('users', $review->author_id)) ? asset('images/no_avatar.jpg') : asset(getStorageFile('users', $review->author_id)) }}"
+                                         alt="{{ $review->author }}">
+                                </a>
+                            @endif
                         </figure>
                         <div class="review-info-wrapper">
-                            <div class="review-user-name">
-                                <a href="{{ route('userProfile', $review->author_id) }}">{{ $review->author }}</a>
-                            </div>
-                            <div class="review-user-all-reviews">
-                                (<a href="{{ route('getAllReviewsForUser', $review->author_id) }}">Все рецензии
-                                    пользователя</a>)
-                            </div>
+                            @if(isset($isForUser))
+                                <div class="review-user-name">
+                                    <a href="{{ route('book', $review->book_id) }}">{{ $review->book }}</a>
+                                </div>
+                                <div class="review-user-all-reviews"></div>
+                            @else
+                                <div class="review-user-name">
+                                    <a href="{{ route('userProfile', $review->author_id) }}">{{ $review->author }}</a>
+                                </div>
+                                <div class="review-user-all-reviews">
+                                    (<a href="{{ route('getAllReviewsForUser', $review->author_id) }}">Все рецензии
+                                        пользователя</a>)
+                                </div>
+                            @endif
                             <div class="review-rating-wrapper">
                                 <div class="review-rating-icon">
-                                    <i class="fas fa-star"></i>
+                                    Полезность рецензии:
                                 </div>
                                 <div class="review-rating-count">
-                                    <div class="review-positive-count">
-                                        {{ \Debugbar::info($review->rating['positive']) }}
-                                        {{--+{{ !empty($review->positive) ? sizeof($review->positive) : 0 }}--}}
+                                    <div class="review-positive-count" title="Количество положительных оценок">
+                                        {{ array_has(json_decode($review->rating), 'positive') ? count(json_decode($review->rating, true)['positive']) : 0 }}
                                     </div>
                                     <span>/</span>
-                                    <div class="review-negative-count">
-                                        {{ \Debugbar::info($review->rating['negative']) }}
-                                        {{---{{ !empty($review->negative) ? sizeof($review->negative) : 0 }}--}}
+                                    <div class="review-negative-count" title="Количество отрицательных оценок">
+                                        {{ array_has(json_decode($review->rating), 'negative') ? count(json_decode($review->rating, true)['negative']) : 0 }}
                                     </div>
                                 </div>
                             </div>

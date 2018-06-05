@@ -6,6 +6,7 @@ use App\Author;
 use App\Book;
 use App\Categories;
 use App\Publisher;
+use App\Review;
 use App\Series;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Routing\Controller as BaseController;
@@ -88,5 +89,14 @@ class Controller extends BaseController
                 Storage::disk($disk)->delete($filename);
             }
         }
+    }
+
+    public function getAllReviews()
+    {
+        return view('user.userReviews', [
+            'isForUser' => true,
+            'title' => 'Рецензии',
+            'reviews' => Review::getAllReviews()
+        ]);
     }
 }

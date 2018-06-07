@@ -402,6 +402,12 @@ class UserController extends Controller
         ]);
     }
 
+    /**
+     * Возврат шаблона с рецензиями выбранного пользователя
+     *
+     * @param int $id идентификатор пользователя
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function getAllReviewsForUser($id)
     {
         return view('user.userReviews', [

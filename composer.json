@@ -33,7 +33,8 @@
             "App\\": "app/",
             "MyLibrary\\Breadcrumbs\\": "packages/breadcrumbs/src",
             "MyLibrary\\customServiceProviders\\": "app/Providers/Custom",
-            "MyLibrary\\Search\\": "packages/search/src"
+            "MyLibrary\\Search\\": "packages/search/src",
+            "MyLibrary\\Comments\\": "packages/comments/src"
         },
         "files": [
             "app/Http/helpers.php"

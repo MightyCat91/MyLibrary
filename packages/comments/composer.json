@@ -1,0 +1,21 @@
+{
+  "name": "mylibrary/comments",
+  "description": "comments module",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Alexander Muzhilkin",
+      "email": "amuzhilkin@gmail.com"
+    }
+  ],
+  "minimum-stability": "dev",
+  "require": {
+    "php": "^7.1"
+  },
+  "version": "1.0.0",
+  "autoload": {
+    "psr-4": {
+      "MyLibrary\\Comments\\": "src/"
+    }
+  }
+}

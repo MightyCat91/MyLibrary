@@ -70,13 +70,13 @@
                         </a>
                     </div>
                     <div class="review-action-wrapper">
-                        <span>Вам была полезна данная рецензия:</span>
+                        <span>Оценить:</span>
                         <div class="access-wrapper positive">
-                            <i class="fas fa-thumbs-up"></i> Да
+                            <i class="far fa-plus-square"></i>
                         </div>
                         <span>/</span>
                         <div class="access-wrapper negative">
-                            <i class="fas fa-thumbs-down"></i> Нет
+                            <i class="far fa-minus-square"></i>
                         </div>
                     </div>
                 </div>

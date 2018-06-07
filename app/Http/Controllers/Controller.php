@@ -91,6 +91,11 @@ class Controller extends BaseController
         }
     }
 
+    /**
+     * Отображение всех рецензий
+     *
+     * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
+     */
     public function getAllReviews()
     {
         return view('user.userReviews', [

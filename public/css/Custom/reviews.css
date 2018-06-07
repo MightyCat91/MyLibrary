@@ -34,7 +34,7 @@
     height: 100%;
     width: 100%;
     border-radius: 50%;
-    border: 1px solid #009926;
+    border: 1px solid #2A9430;
     overflow: hidden;
 }
 
@@ -76,12 +76,12 @@
 }
 
 .review-positive-count {
-    color: #89d641;
+    color: #4FBC55;
     margin-right: 5px;
 }
 
 .review-negative-count {
-    color: #FF3933;
+    color: #DE4E5F;
     margin-left: 5px;
 }
 
@@ -110,7 +110,6 @@
 }
 
 .access-wrapper {
-    min-width: 50px;
     text-align: center;
 }
 
@@ -118,9 +117,14 @@
     margin-right: 5px;
 }
 
-.access-wrapper:hover {
+.access-wrapper.positive:hover {
     cursor: pointer;
-    color: #009926;
+    color: #4FBC55;
+}
+
+.access-wrapper.negative:hover {
+    cursor: pointer;
+    color: #DE4E5F;
 }
 
 @media (max-width: 1050px) {

@@ -37,7 +37,7 @@ class CommentsServiceProvider extends ServiceProvider
 
         // Регистрация(загрузка) шаблона
         $this->loadViewsFrom(__DIR__ . '/view', 'comments');
-        $this->loadRoutesFrom(__DIR__.'/routes.php');
+        $this->loadRoutesFrom(__DIR__.'/routes/comments.php');
         $this->loadMigrationsFrom(__DIR__.'/migrations');
 
         $this->publishes([
@@ -58,6 +58,15 @@ class CommentsServiceProvider extends ServiceProvider
      */
     public function register()
     {
-
+        $this->app->singleton(
+            'comments',
+            function () {
+                return new Comments();
+            }
+        );
+//        $this->app->bind('comments', function()
+//        {
+//            return new Comments;
+//        } );
     }
 }

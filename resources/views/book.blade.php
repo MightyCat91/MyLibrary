@@ -195,6 +195,7 @@
             </section>
             @include('layouts.reviews', $reviews)
             @include('layouts.addReview', ['id' => $book->id])
+            {{Comments::showCommentsView($book->id,'book')}}
         </div>
     </div>
     <aside id="books-sidebar" class="">

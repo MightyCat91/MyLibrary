@@ -7,6 +7,7 @@
  */
 
 namespace MyLibrary\Comments\Facades;
+
 use Illuminate\Support\Facades\Facade;
 
 class Comments extends Facade

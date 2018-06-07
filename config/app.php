@@ -239,8 +239,7 @@ return [
         'Active' => Watson\Active\Facades\Active::class,
         'Debugbar' => Barryvdh\Debugbar\Facade::class,
         'Breadcrumbs' => MyLibrary\Breadcrumbs\Facades\Breadcrumbs::class,
-        'Search' => MyLibrary\Search\SearchServiceProvider::class,
-        'Comments' => MyLibrary\Comments\CommentsServiceProvider::class
+        'Comments' => MyLibrary\Comments\Facades\Comments::class
     ],
 
 ];

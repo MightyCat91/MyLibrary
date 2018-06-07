@@ -10,11 +10,11 @@ namespace MyLibrary\Comments;
 
 use App\User;
 use Carbon\Carbon;
+use Illuminate\Http\Request;
 use Illuminate\Support\HtmlString;
-use Schema;
-use MyLibrary\Comments\Models\Comments;
+use MyLibrary\Comments\Models\Comments as CommentsModel;
 
-class CommentsController
+class Comments
 {
     protected $table;
     protected $maxDepth;
@@ -30,15 +30,15 @@ class CommentsController
         $this->commentsTree = collect();
     }
 
-    public function addComment(\Request $request)
+    public function addComment(Request $request)
     {
         if (isset($request->parent_id)) {
             $parent_id = $request->parent_id;
-            $parent_depth = Comments::where('id', '=', $parent_id)->get(['depth'])->values();
+            $parent_depth = CommentsModel::where('id', '=', $parent_id)->get(['depth'])->values();
             $depth = $parent_depth < $this->maxDepth ? $parent_depth + 1 : $this->maxDepth;
         }
 
-        $newComment = new Comments();
+        $newComment = new CommentsModel();
         $newComment->text = $request->text;
         $newComment->user_id = $request->user_id;
         $newComment->com_id = $request->com_id;
@@ -55,7 +55,7 @@ class CommentsController
 
     public function showCommentsView($com_id, $com_table)
     {
-        $comments = Comments::where([
+        $comments = CommentsModel::where([
             ['com_id', '=', $com_id],
             ['com_table', '=', $com_table],
         ])->get()->sortByDesc('date');
@@ -85,7 +85,7 @@ class CommentsController
             return;
         }
         if ($comments->count() == 1) {
-            $item->put('user_name', User::where('id',$item->user_id)->get(['name']));
+            $comments->put('user_name', \User::where('id',$comments->user_id)->get(['name']));
             $this->commentsTree->push($comments);
         }
         $comments->each(function ($item, $key) {
@@ -93,10 +93,5 @@ class CommentsController
                 $this->makeChildTree($item->where('parent_id', $parent_id));
             }
         });
-    }
-
-    protected function usersTableIsExist()
-    {
-        return Schema::hasTable($this->table);
     }
 }

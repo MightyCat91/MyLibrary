@@ -1,9 +1,18 @@
-<section id="comments-container">
+@push('styles')
+    <link href="{{ asset('/css/Custom/comments.css') }}" rel='stylesheet' type='text/css' media="all"/>
+@endpush
+@push('scripts')
+    <script type="text/javascript" src="{{ asset('/js/Custom/comments.js') }}"></script>
+@endpush
+<section id="comments-container" data-url="{{ $url }}">
+    <h2>Комментарии</h2>
+    <hr>
     <div id="comments-sort-wrapper">
+        <div>Сортировать:</div>
         <div class="dropdown">
-            Сортировать:
-            <a id="comments-sort-menu" data-toggle="dropdown" aria-haspopup="true"
+            <a href="#" id="comments-sort-menu" data-toggle="dropdown" aria-haspopup="true"
                aria-expanded="false">Cначала лучшие</a>
+
             <div class="dropdown-menu" aria-labelledby="comments-sort-menu">
                 <a href="#" class="dropdown-item">Cначала лучшие</a>
                 <a href="#" class="dropdown-item">Сначала новые</a>

@@ -39,7 +39,6 @@
                 if (response.type) {
                     Alert(response.type, response.message);
                 } else {
-                    console.log(response.scorePositive);
                     reviewContainer.parents('.review-item-container').find('.review-positive-count').text(response.scorePositive);
                     reviewContainer.parents('.review-item-container').find('.review-negative-count').text(response.scoreNegative);
                     Alert('success', 'Спасибо за оценку');

@@ -31,7 +31,7 @@ class Comments
     }
 
     public function addComment(Request $request)
-    {
+    {\Debugbar::info($request);
         if (isset($request->parent_id)) {
             $parent_id = $request->parent_id;
             $parent_depth = CommentsModel::where('id', '=', $parent_id)->get(['depth'])->values();
@@ -60,10 +60,13 @@ class Comments
             ['com_table', '=', $com_table],
         ])->get()->sortByDesc('date');
         $this->makeCommentsTree($comments);
-
+        \Debugbar::info(App['router']->get('test'));
         \Debugbar::info($this->commentsTree);
         return new HtmlString(
-            view('comments::comments')->with('comments', $this->commentsTree)->render()
+            view('comments::comments', [
+                'comments' => $this->commentsTree,
+                'url' => route(config('comments.route'))
+            ])->render()
         );
     }
 

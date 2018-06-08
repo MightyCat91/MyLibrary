@@ -1,12 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: muzhilkin
- * Date: 06.06.2018
- * Time: 11:03
- */
-
-namespace MyLibrary\Comments;
 
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
@@ -45,17 +37,12 @@ class CreateCommentsTable extends Migration
             $table->integer('parent_id')->nullable();
             $table->enum('com_table', $this->commentableTables);
             $table->enum('depth', [0, 1, 2, 3])->default(0);
-//            foreach ($this->commentableTables as $key => $table) {
-//                $table->integer($table . '_id')->unsigned();
-//                $table->foreign($table . '_id')
-//                    ->references("id")->on($this->commentableTables)
-//                    ->onUpdate('cascade')->onDelete('cascade');
-//            }
             $table->string('text', 1024);
             $table->smallInteger('rating')->nullable();
 
             $table->boolean('approved')->default(false);
             $table->datetime('date');
+            $table->timestamps();
         });
     }
 

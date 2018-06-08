@@ -26,10 +26,6 @@
     grid-area: header;
 }
 
-#reviews-container hr {
-    border-top: 1px solid rgba(00, 99, 26, 0.5);
-}
-
 .review-user-img {
     height: 100%;
     width: 100%;

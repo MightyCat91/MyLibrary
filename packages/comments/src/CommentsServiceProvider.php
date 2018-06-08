@@ -4,13 +4,13 @@ namespace MyLibrary\Comments;
 
 use Illuminate\Support\ServiceProvider;
 
+
 /**
  * Created by PhpStorm.
  * User: muzhilkin
  * Date: 06.06.2018
  * Time: 10:50
  */
-
 class CommentsServiceProvider extends ServiceProvider
 {
     /**
@@ -37,8 +37,8 @@ class CommentsServiceProvider extends ServiceProvider
 
         // Регистрация(загрузка) шаблона
         $this->loadViewsFrom(__DIR__ . '/view', 'comments');
-        $this->loadRoutesFrom(__DIR__.'/routes/comments.php');
-        $this->loadMigrationsFrom(__DIR__.'/migrations');
+        $this->loadRoutesFrom(__DIR__ . '/routes/comments.php');
+        $this->loadMigrationsFrom(__DIR__ . '/migrations');
 
         $this->publishes([
             // Публикация файла стилей
@@ -47,6 +47,7 @@ class CommentsServiceProvider extends ServiceProvider
             __DIR__ . '/js' => public_path('js/custom'),
             // Публикация файла конфига
             $configPath => $publishPath,
+            // Публикация файла шаблона
             __DIR__ . '/view' => base_path('resources/views/layouts')
         ]);
     }
@@ -58,15 +59,8 @@ class CommentsServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton(
-            'comments',
-            function () {
-                return new Comments();
-            }
-        );
-//        $this->app->bind('comments', function()
-//        {
-//            return new Comments;
-//        } );
+        $this->app->singleton('comments', function () {
+            return new Comments();
+        });
     }
 }

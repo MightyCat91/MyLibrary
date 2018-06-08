@@ -6,4 +6,4 @@
  * Time: 13:42
  */
 
-Route::post(config('search.route'), 'CommentsController@addComment');
+Route::post(config('search.route'), 'Comments@addComment');

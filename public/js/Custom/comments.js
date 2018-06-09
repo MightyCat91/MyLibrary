@@ -1,4 +1,7 @@
 (function ($) {
+    var commentsController = $('#comments-container'),
+        commentsTextEditor = $('.commetns-text-editor');
+
     var SaveButton = function (context) {
         // create button
         var button = $.summernote.ui.button({
@@ -11,14 +14,17 @@
                     }
                 });
                 $.ajax({
-                    url: $('#reviews-container').attr("data-url"),
+                    url: commentsController.attr("data-url"),
                     data: {
                         'text': $('.commetns-text-editor').summernote('code'),
-                        'id': id
+                        'user_id': commentsController.attr('data-id'),
+                        'com_id': commentsController.attr('data-comId'),
+                        'com_table': commentsController.attr('data-comTable')
                     },
                     type: 'POST'
                 })
                     .done(function (response) {
+                        console.log(1);
                         // вывод алерта
                         if (response.type) {
                             Alert(response.type, response.message);
@@ -27,6 +33,7 @@
                         }
                     })
                     .fail(function (response) {
+                        $('#comments-container').html(response);
                         //вывод алерта
                         Alert('danger', response.responseJSON.message, 0);
                     });

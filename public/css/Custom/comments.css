@@ -15,6 +15,10 @@
     justify-content: flex-end;
 }
 
+#comments-text-editor-wrapper {
+    margin-bottom: 1em;
+}
+
 .comment-wrapper {
     display: flex;
     border-top: 1px solid rgba(68, 68, 68, 0.45);
@@ -44,10 +48,13 @@
                          "button  button";
     grid-row-gap: .5em;
     grid-column-gap: 10px;
+    grid-template-columns: min-content auto;
+    align-items: baseline;
 }
 
 .comment-author-name-wrapper {
     grid-area: name;
+    font-size: 18px;
 }
 
 .divider {
@@ -56,6 +63,7 @@
 
 .comment-date-wrapper {
     grid-area: date;
+    font-size: 14px;
 }
 
 .comment-text-wrapper {
@@ -83,4 +91,9 @@
 
 .comment-add-vote-wrapper span {
     margin: 10px;
+}
+
+#empty-comments {
+    text-align: center;
+    width: 100%;
 }

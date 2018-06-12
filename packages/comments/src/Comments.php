@@ -64,7 +64,7 @@ class Comments
             ['approved', '=', true]
         ])->orderBy('date', 'desc')->get();
         $this->makeCommentsTree($comments);
-        \Debugbar::info($this->commentsTree);
+//        \Debugbar::info($this->commentsTree);
         return new HtmlString(
             view('comments::comments', [
                 'comments' => $this->commentsTree,
@@ -80,29 +80,32 @@ class Comments
     {
         $parentComments = $comments->where('depth', 0)->toArray();
         foreach ($parentComments as $comment) {
-            \Debugbar::info(Carbon::now()->toDateTimeString());
-            \Debugbar::info(Carbon::parse($comment['date']));
-            \Debugbar::info(Carbon::parse($comment['date'])->diffForHumans(Carbon::now()));
-            $comment['date'] = Carbon::now()->timestamp - $comment['date'];
+            $comment['date'] = Carbon::parse($comment['date'])->diffForHumans(Carbon::now());
             $comment['user_name'] = User::where('id', $comment['user_id'])->first(['name'])->name;
             array_forget($comment, ['com_id', 'com_table']);
             $this->commentsTree[] = $comment;
-            $this->makeChildTree($comments->where('parent_id', $comment['parent_id']));
+            \Debugbar::info($comment['parent_id']);
+            if ($parent_id = $comment['parent_id']) {
+                $this->makeChildTree($comments->where('parent_id', $comment['parent_id']));
+            }
         }
     }
 
     protected function makeChildTree($comments)
     {
+        \Debugbar::info($comments->count());
         if ($comments->count() == 0) {
             \Debugbar::info('aaa');
             return;
         }
         if ($comments->count() == 1) {
-            \Debugbar::info($comments);
-            $comments['user_name'] = User::where('id', $comments['user_id'])->first(['name'])->name;
+            $comment = $comments->first();
+            \Debugbar::info($comments->first());
+            $comments['user_name'] = User::where('id', $comment->user_id)->first(['name'])->name;
             $this->commentsTree[] = $comments;
         }
         $comments->each(function ($item, $key) {
+
             if ($parent_id = $item->parent_id) {
                 $this->makeChildTree($item->where('parent_id', $parent_id));
             }

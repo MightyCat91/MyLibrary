@@ -21,10 +21,13 @@
             </div>
         </div>
     </div>
-    <div id="comments-text-editor-wrapper">
-        <textarea name="add-comment" class="commetns-text-editor"></textarea>
-    </div>
-    @isset($comments)
+    @auth
+        <div id="comments-text-editor-wrapper">
+            <textarea name="add-comment" class="commetns-text-editor"></textarea>
+        </div>
+    @endauth
+    {{\Debugbar::info(!empty($comments))}}
+    @if(!empty($comments))
         @foreach ($comments as $comment)
             {{\Debugbar::info($comment['id'])}}
             <div class="comment-wrapper">
@@ -42,7 +45,7 @@
                         </a>
                     </div>
                     {{--<div class="divider dot">--}}
-                        {{--<i class="fas fa-circle fa-xs"></i>--}}
+                    {{--<i class="fas fa-circle fa-xs"></i>--}}
                     {{--</div>--}}
                     <div class="comment-date-wrapper">
                         <div class="comment-date">{{ $comment['date'] }}</div>
@@ -78,5 +81,7 @@
                 </div>
             </div>
         @endforeach
-    @endisset
+    @else
+        <div id="empty-comments"><h5>Комментариев нет</h5></div>
+    @endif
 </section>

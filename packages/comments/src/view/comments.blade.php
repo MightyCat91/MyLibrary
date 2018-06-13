@@ -23,13 +23,14 @@
     </div>
     @auth
         <div id="comments-text-editor-wrapper">
-            <textarea name="add-comment" class="commetns-text-editor"></textarea>
+            {{--<textarea name="add-comment" class="comments-text-editor"></textarea>--}}
         </div>
+        <button class="btn submit-btn add-comment">
+            <span class="dflt-text">Добавить</span>
+        </button>
     @endauth
-    {{\Debugbar::info(!empty($comments))}}
     @if(!empty($comments))
         @foreach ($comments as $comment)
-            {{\Debugbar::info($comment['id'])}}
             <div class="comment-wrapper">
                 <figure class="comment-author-img-wrapper">
                     <a href="{{ route('userProfile', $comment['user_id']) }}">
@@ -44,9 +45,6 @@
                             <div class="comment-author-name">{{ $comment['user_name'] }}</div>
                         </a>
                     </div>
-                    {{--<div class="divider dot">--}}
-                    {{--<i class="fas fa-circle fa-xs"></i>--}}
-                    {{--</div>--}}
                     <div class="comment-date-wrapper">
                         <div class="comment-date">{{ $comment['date'] }}</div>
                     </div>
@@ -57,15 +55,9 @@
                         <div class="comment-reply-btn-wrapper">
                             <a href="#" class="comment-reply-btn">Ответить</a>
                         </div>
-                        <div class="dot">
-                            <i class="fas fa-circle fa-xs"></i>
-                        </div>
                         @isset($comment['rating'])
                             <div class="comment-rating-wrapper">
                                 <div class="comment-rating">{{ $comment['rating'] }}</div>
-                            </div>
-                            <div class="dot">
-                                <i class="fas fa-circle fa-xs"></i>
                             </div>
                         @endisset
                         <div class="comment-add-vote-wrapper">

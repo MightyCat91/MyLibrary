@@ -20,17 +20,19 @@
 }
 
 .comment-wrapper {
-    display: flex;
-    border-top: 1px solid rgba(68, 68, 68, 0.45);
+    display: grid;
+    grid-template-columns: 50px auto;
+    border-top: .5px solid rgba(68, 68, 68, 0.45);
     margin-top: 1em;
+    grid-gap: .5em;
     padding-top: .5em;
 }
 
 .comment-author-img-wrapper {
     margin-right: 1em;
+    border-radius: 50%;
     height: 50px;
     width: 50px;
-    border-radius: 50%;
     border: 1px solid #2A9430;
     overflow: hidden;
 }
@@ -57,10 +59,6 @@
     font-size: 18px;
 }
 
-.divider {
-    grid-area: divader;
-}
-
 .comment-date-wrapper {
     grid-area: date;
     font-size: 14px;
@@ -72,17 +70,13 @@
 
 .comment-btn-wrapper {
     grid-area: button;
-    display: flex;
+    display: grid;
+    grid-template-columns: auto min-content min-content;
+    grid-column-gap: .5em;
 }
 
 .comment-reply-btn {
     font-size: 12px;
-}
-
-.dot {
-    font-size: 10px;
-    opacity: .5;
-    margin: 10px;
 }
 
 .comment-add-vote-wrapper {
@@ -90,7 +84,7 @@
 }
 
 .comment-add-vote-wrapper span {
-    margin: 10px;
+    margin: 0 5px;
 }
 
 #empty-comments {

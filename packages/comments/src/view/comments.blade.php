@@ -4,10 +4,12 @@
 @push('scripts')
     <script type="text/javascript" src="{{ asset('/js/Custom/comments.js') }}"></script>
 @endpush
-<section id="comments-container" data-url="{{ $url }}" data-id="{{ auth()->id() }}" data-comId="{{ $com_id }}"
+<section id="comments-block-container" data-url="{{ $urlAddComment }}" data-id="{{ auth()->id() }}" data-comId="{{ $com_id }}"
          data-comTable="{{ $com_table }}">
-    <h2>Комментарии</h2>
-    <hr>
+    <div>
+        <h2>Комментарии</h2>
+        <hr>
+    </div>
     <div id="comments-sort-wrapper">
         <div>Сортировать:</div>
         <div class="dropdown">
@@ -22,58 +24,60 @@
         </div>
     </div>
     @auth
-        <div id="comments-text-editor-wrapper">
-            {{--<textarea name="add-comment" class="comments-text-editor"></textarea>--}}
+        <div id="comments-text-editor-wrapper"></div>
+        <div class="add-comment-btn-wrapper">
+            <button class="btn submit-btn add-comment">
+                <span class="dflt-text">Добавить</span>
+            </button>
         </div>
-        <button class="btn submit-btn add-comment">
-            <span class="dflt-text">Добавить</span>
-        </button>
     @endauth
-    @if(!empty($comments))
-        @foreach ($comments as $comment)
-            <div class="comment-wrapper">
-                <figure class="comment-author-img-wrapper">
-                    <a href="{{ route('userProfile', $comment['user_id']) }}">
-                        <img src="{{ empty(getStorageFile('users', $comment['user_id'])) ? asset('images/no_avatar.jpg') :
-                    asset(getStorageFile('users', $comment['user_id'])) }}"
-                             class="comment-author-img" alt="{{ $comment['user_name'] }}">
-                    </a>
-                </figure>
-                <div class="comment-content-wrapper">
-                    <div class="comment-author-name-wrapper">
+    <div id="comments-content-container">
+        @if(!empty($comments))
+            @foreach ($comments as $comment)
+                <div class="comment-wrapper">
+                    <figure class="comment-author-img-wrapper">
                         <a href="{{ route('userProfile', $comment['user_id']) }}">
-                            <div class="comment-author-name">{{ $comment['user_name'] }}</div>
+                            <img src="{{ empty(getStorageFile('users', $comment['user_id'])) ? asset('images/no_avatar.jpg') :
+                    asset(getStorageFile('users', $comment['user_id'])) }}"
+                                 class="comment-author-img" alt="{{ $comment['user_name'] }}">
                         </a>
-                    </div>
-                    <div class="comment-date-wrapper">
-                        <div class="comment-date">{{ $comment['date'] }}</div>
-                    </div>
-                    <div class="comment-text-wrapper">
-                        <div class="comment-text">{!! $comment['text'] !!}</div>
-                    </div>
-                    <div class="comment-btn-wrapper">
-                        <div class="comment-reply-btn-wrapper">
-                            <a href="#" class="comment-reply-btn">Ответить</a>
+                    </figure>
+                    <div class="comment-content-wrapper">
+                        <div class="comment-author-name-wrapper">
+                            <a href="{{ route('userProfile', $comment['user_id']) }}">
+                                <div class="comment-author-name">{{ $comment['user_name'] }}</div>
+                            </a>
                         </div>
-                        @isset($comment['rating'])
-                            <div class="comment-rating-wrapper">
-                                <div class="comment-rating">{{ $comment['rating'] }}</div>
+                        <div class="comment-date-wrapper">
+                            <div class="comment-date">{{ $comment['date'] }}</div>
+                        </div>
+                        <div class="comment-text-wrapper">
+                            <div class="comment-text">{!! $comment['text'] !!}</div>
+                        </div>
+                        <div class="comment-btn-wrapper">
+                            <div class="comment-reply-btn-wrapper">
+                                <a href="#" class="comment-reply-btn">Ответить</a>
                             </div>
-                        @endisset
-                        <div class="comment-add-vote-wrapper">
-                            <div class="comment-add-vote positive">
-                                <i class="far fa-plus-square"></i>
-                            </div>
-                            <span>/</span>
-                            <div class="comment-add-vote negative">
-                                <i class="far fa-minus-square"></i>
+                            @isset($comment['rating'])
+                                <div class="comment-rating-wrapper">
+                                    <div class="comment-rating">{{ $comment['rating'] }}</div>
+                                </div>
+                            @endisset
+                            <div class="comment-add-vote-wrapper" data-url="{{ $urlAddVote }}">
+                                <div class="comment-add-vote positive">
+                                    <i class="far fa-plus-square"></i>
+                                </div>
+                                <span>/</span>
+                                <div class="comment-add-vote negative">
+                                    <i class="far fa-minus-square"></i>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        @endforeach
-    @else
-        <div id="empty-comments"><h5>Комментариев нет</h5></div>
-    @endif
+            @endforeach
+        @else
+            <div id="empty-comments"><h5>Комментариев нет</h5></div>
+        @endif
+    </div>
 </section>

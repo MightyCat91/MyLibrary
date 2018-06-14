@@ -1,7 +1,7 @@
 function Alert(type, message, customDelay) {
     var icon, delay;
     if (typeof customDelay === 'undefined') {
-        delay = 4000;
+        delay = 5000;
     } else {
         delay = customDelay;
     }
@@ -18,6 +18,7 @@ function Alert(type, message, customDelay) {
             break;
         case 'danger':
             icon = 'fa fa-lock fa-lg';
+            delay = 0;
             break;
         default:
             jQuery.error = "Alert type [" + type + "] incorrect";
@@ -43,4 +44,8 @@ function Alert(type, message, customDelay) {
         '<div class="close-wrapper"><button type="button" aria-hidden="true" class="close" data-notify="dismiss">×</button></div>' +
         '</div>'
     });
+}
+
+function hasAlert() {
+    return $('.alert').length > 0;
 }

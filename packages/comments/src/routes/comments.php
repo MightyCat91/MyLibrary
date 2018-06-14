@@ -6,10 +6,10 @@
  * Time: 13:42
  */
 
-Route::post(config('comments.route'), [
-    'as' => config('comments.route'), 'uses' => 'MyLibrary\Comments\Comments@addComment'
+Route::post(config('comments.addCommentRoute'), [
+    'as' => config('comments.addCommentRoute'), 'uses' => 'MyLibrary\Comments\Comments@addComment'
 ]);
 
-//Route::post(config('comments.route'), function (\Illuminate\Http\Request $request) {
-//    Comments::addComment($request);
-//})->name(config('comments.route'));
+Route::post(config('comments.addVoteToCommentRoute'), [
+    'as' => config('comments.addVoteToCommentRoute'), 'uses' => 'MyLibrary\Comments\Comments@addVoteToComment'
+]);

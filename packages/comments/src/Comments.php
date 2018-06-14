@@ -34,7 +34,6 @@ class Comments
 
     public function addComment(Request $request)
     {
-        \Debugbar::info($request->all());
         if (isset($request->parent_id)) {
             $parent_id = $request->parent_id;
             $parent_depth = CommentsModel::where('id', '=', $parent_id)->get(['depth'])->values();
@@ -64,15 +63,20 @@ class Comments
             ['approved', '=', true]
         ])->orderBy('date', 'desc')->get();
         $this->makeCommentsTree($comments);
-//        \Debugbar::info($this->commentsTree);
         return new HtmlString(
             view('comments::comments', [
                 'comments' => $this->commentsTree,
-                'url' => route(config('comments.route')),
+                'urlAddComment' => route(config('comments.addCommentRoute')),
+                'urlAddVote' => route(config('comments.addVoteToCommentRoute')),
                 'com_id' => $com_id,
                 'com_table' => $com_table
             ])->render()
         );
+    }
+
+    public function addVoteToComment($commentId)
+    {
+
     }
 
 
@@ -84,7 +88,6 @@ class Comments
             $comment['user_name'] = User::where('id', $comment['user_id'])->first(['name'])->name;
             array_forget($comment, ['com_id', 'com_table']);
             $this->commentsTree[] = $comment;
-            \Debugbar::info($comment['parent_id']);
             if ($parent_id = $comment['parent_id']) {
                 $this->makeChildTree($comments->where('parent_id', $comment['parent_id']));
             }
@@ -93,14 +96,11 @@ class Comments
 
     protected function makeChildTree($comments)
     {
-        \Debugbar::info($comments->count());
         if ($comments->count() == 0) {
-            \Debugbar::info('aaa');
             return;
         }
         if ($comments->count() == 1) {
             $comment = $comments->first();
-            \Debugbar::info($comments->first());
             $comments['user_name'] = User::where('id', $comment->user_id)->first(['name'])->name;
             $this->commentsTree[] = $comments;
         }

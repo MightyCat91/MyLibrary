@@ -4,7 +4,7 @@
 @push('scripts')
     <script type="text/javascript" src="{{ asset('/js/Custom/comments.js') }}"></script>
 @endpush
-<section id="comments-block-container" data-url="{{ $urlAddComment }}" data-id="{{ auth()->id() }}" data-comId="{{ $com_id }}"
+<section id="comments-block-container" data-url="{{ $urlAddComment }}" data-id="{{ auth()->id() }}"
          data-comTable="{{ $com_table }}">
     <div>
         <h2>Комментарии</h2>
@@ -34,7 +34,7 @@
     <div id="comments-content-container">
         @if(!empty($comments))
             @foreach ($comments as $comment)
-                <div class="comment-wrapper">
+                <div class="comment-wrapper" data-id="{{ $comment['id'] }}">
                     <figure class="comment-author-img-wrapper">
                         <a href="{{ route('userProfile', $comment['user_id']) }}">
                             <img src="{{ empty(getStorageFile('users', $comment['user_id'])) ? asset('images/no_avatar.jpg') :
@@ -58,11 +58,11 @@
                             <div class="comment-reply-btn-wrapper">
                                 <a href="#" class="comment-reply-btn">Ответить</a>
                             </div>
-                            @isset($comment['rating'])
-                                <div class="comment-rating-wrapper">
-                                    <div class="comment-rating">{{ $comment['rating'] }}</div>
+                            <div class="comment-rating-wrapper">
+                                <div class="comment-rating {{ $comment['rating'] > 0 ? 'positive' : 'negative'}}">
+                                    {{ $comment['rating'] ?? 0}}
                                 </div>
-                            @endisset
+                            </div>
                             <div class="comment-add-vote-wrapper" data-url="{{ $urlAddVote }}">
                                 <div class="comment-add-vote positive">
                                     <i class="far fa-plus-square"></i>

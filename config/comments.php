@@ -10,7 +10,9 @@ return [
     // таблица пользователей-авторов комментариев
     'users' => 'users',
     // адрес, по которому добавляются комменты
-    'route' => 'addComment',
+    'addCommentRoute' => 'addComment',
+    // адрес, по которому добавляются оценки комментам
+    'addVoteToCommentRoute' => 'addVoteToComment',
     // имен таблиц, сущности которых могут иметь комментарии
     'commentable' => ['books', 'reviews']
 ];

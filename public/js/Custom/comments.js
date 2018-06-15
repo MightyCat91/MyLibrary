@@ -75,25 +75,28 @@
     });
 
     $('.comment-add-vote').on('click', function (e) {
+        var ratingContainer = $(this).closest('.comment-wrapper').find('.comment-rating'),
+            type = $(this).attr('class').split(' ')[1];
         $.ajax({
-            url: $(this).closest().attr("data-url"),
+            url: $(this).parent().attr("data-url"),
             data: {
-                'type': $(this).attr('class').replace('/comment-add-vote/g',''),
-                'id': $(this).attr('data-comId')
+                'type': type,
+                'id': $(this).closest('.comment-wrapper').attr('data-id'),
+                'rating': ratingContainer.length ? parseInt(ratingContainer.text()) : 0
             },
             type: 'POST'
         })
             .done(function (response) {
-                commentsTextEditor.summernote('reset');
-                // вывод алерта
-                if (response.type) {
-                    Alert(response.type, response.message);
+                if (response.rating > 0) {
+                    ratingContainer.addClass('positive').removeClass('negative');
                 } else {
-                    Alert('success', 'Спасибо за оценку');
+                    ratingContainer.addClass('negative').removeClass('positive');
                 }
+                ratingContainer.text(response.rating);
+                // вывод алерта
+                Alert('success', 'Спасибо за оценку');
             })
             .fail(function (response) {
-                commentsController.html(response);
                 //вывод алерта
                 Alert('danger', response.responseJSON.message, 0);
             });

@@ -1,3 +1,9 @@
+#comments-block-container {
+    display: grid;
+    grid-template-rows: repeat(2, min-content) repeat(2, minmax(0, min-content)) min-content;
+    grid-row-gap: .5em;
+}
+
 #comments-sort-wrapper {
     display: flex;
     justify-content: flex-end;
@@ -9,24 +15,64 @@
     margin-right: 1rem;
 }
 
+.dropdown-item:focus, .dropdown-item:hover {
+    color: #009926;
+    background-color: #f8f9fa;
+}
+
 .note-save-comment-btn {
     width: 100%;
     display: flex;
     justify-content: flex-end;
 }
 
-.comment-wrapper {
+.note-remaining-letter {
+    width: 100%;
     display: flex;
-    border-top: 1px solid rgba(68, 68, 68, 0.45);
+    justify-content: flex-end;
+}
+
+.remainingLetter {
+    color: #4FBC55;
+    font-weight: 600;
+}
+
+.remainingLetter.excess {
+    color: #DE4E5F;
+    font-weight: 600;
+}
+
+#comments-text-editor-wrapper {
+    margin-bottom: 1em;
+}
+
+.add-comment-btn-wrapper {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.add-comment {
+    margin-top: .5em;
+}
+
+.add-comment.disabled {
+    opacity: .6;
+}
+
+.comment-wrapper {
+    display: grid;
+    grid-template-columns: 50px auto;
+    border-top: .5px solid rgba(68, 68, 68, 0.45);
     margin-top: 1em;
+    grid-gap: .5em;
     padding-top: .5em;
 }
 
 .comment-author-img-wrapper {
     margin-right: 1em;
+    border-radius: 50%;
     height: 50px;
     width: 50px;
-    border-radius: 50%;
     border: 1px solid #2A9430;
     overflow: hidden;
 }
@@ -44,18 +90,18 @@
     "button  button";
     grid-row-gap: .5em;
     grid-column-gap: 10px;
+    grid-template-columns: min-content auto;
+    align-items: baseline;
 }
 
 .comment-author-name-wrapper {
     grid-area: name;
-}
-
-.divider {
-    grid-area: divader;
+    font-size: 18px;
 }
 
 .comment-date-wrapper {
     grid-area: date;
+    font-size: 14px;
 }
 
 .comment-text-wrapper {
@@ -64,17 +110,13 @@
 
 .comment-btn-wrapper {
     grid-area: button;
-    display: flex;
+    display: grid;
+    grid-template-columns: auto min-content min-content;
+    grid-column-gap: .5em;
 }
 
 .comment-reply-btn {
     font-size: 12px;
-}
-
-.dot {
-    font-size: 10px;
-    opacity: .5;
-    margin: 10px;
 }
 
 .comment-add-vote-wrapper {
@@ -82,7 +124,19 @@
 }
 
 .comment-add-vote-wrapper span {
-    margin: 10px;
+    margin: 0 5px;
+}
+
+.comment-add-vote {
+    cursor: pointer;
+}
+
+.comment-add-vote.positive:hover {
+    color: #4FBC55;
+}
+
+.comment-add-vote.negative:hover {
+    color: #DE4E5F;
 }
 
 #empty-comments {

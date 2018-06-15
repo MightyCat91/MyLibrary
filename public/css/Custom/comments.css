@@ -111,12 +111,24 @@
 .comment-btn-wrapper {
     grid-area: button;
     display: grid;
-    grid-template-columns: auto min-content min-content;
+    grid-template-columns: auto minmax(50px, max-content) max-content;
     grid-column-gap: .5em;
 }
 
 .comment-reply-btn {
     font-size: 12px;
+}
+
+.comment-rating {
+    text-align: center;
+}
+
+.comment-rating.positive {
+     color: #4FBC55;
+}
+
+.comment-rating.negative {
+    color: #DE4E5F;
 }
 
 .comment-add-vote-wrapper {

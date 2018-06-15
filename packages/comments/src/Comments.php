@@ -10,6 +10,7 @@ namespace MyLibrary\Comments;
 
 use App\User;
 use Carbon\Carbon;
+use DB;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\HtmlString;
@@ -74,9 +75,14 @@ class Comments
         );
     }
 
-    public function addVoteToComment($commentId)
+    public function addVoteToComment(Request $request)
     {
+        $newRating = $request->type === 'positive' ? $request->rating + 1 : $request->rating - 1;
+        DB::table('comments')
+            ->where('id', $request->id)
+            ->update(['rating' => $newRating]);
 
+        return response()->json(['rating' => $newRating]);
     }
 
 

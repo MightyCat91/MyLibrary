@@ -1,6 +1,6 @@
 (function ($) {
     var commentsController = $('#comments-block-container'),
-        commentsTextEditor = $('#comments-text-editor-wrapper'),
+        commentsTextEditor = $('.comments-text-editor-wrapper'),
         remainingLetter = $('.remainingLetter'),
         letterCount = 1000;
 
@@ -15,34 +15,12 @@
         return button.render();   // return button as jquery object
     };
 
-    // инициализация текстового редактора
-    commentsTextEditor.summernote({
-        height: 150,
-        placeholder: 'Текст комментария',
-        disableResizeEditor: true,
-        toolbar: [
-            ['style', ['bold', 'italic', 'underline', 'clear']],
-            ['fontsize', ['fontsize']],
-            ['para', ['ul', 'ol', 'paragraph']],
-            ['link'],
-            ['remaining-letter', ['letterCount']]
-        ],
-        buttons: {
-            letterCount: LetterCount
-        },
-        lang: 'ru-RU',
-        disableDragAndDrop: true,
-        callbacks: {
-            onKeyup: function() {
-                checkRemainingLetter();
-            },
-            onPaste: function() {
-                checkRemainingLetter();
-            }
-        }
-    });
+    summernoteInit();
 
-    $('.add-comment').not('.disabled').on('click', function () {
+    $(document).on('click', '.add-comment:not(.disabled)', function () {
+        var parentComment = $(this).closest('.comment-wrapper'),
+            text = $(this).closest('.comments-editor-container').find('.comments-text-editor-wrapper').summernote('code');
+        console.log(text);
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -51,10 +29,11 @@
         $.ajax({
             url: commentsController.attr("data-url"),
             data: {
-                'text': commentsTextEditor.summernote('code'),
+                'text': text,
                 'user_id': commentsController.attr('data-id'),
                 'com_id': commentsController.attr('data-comId'),
-                'com_table': commentsController.attr('data-comTable')
+                'com_table': commentsController.attr('data-comTable'),
+                'parent_id': parentComment.length ? parentComment.attr('data-id') : null
             },
             type: 'POST'
         })
@@ -64,7 +43,7 @@
                 if (response.type) {
                     Alert(response.type, response.message);
                 } else {
-                    Alert('success', 'Спасибо за оценку');
+                    Alert('success', 'Комментарий будет добавлен после одобрения модератором');
                 }
             })
             .fail(function (response) {
@@ -72,6 +51,18 @@
                 //вывод алерта
                 Alert('danger', response.responseJSON.message, 0);
             });
+    });
+
+    $('.comment-reply-btn').on('click', function (e) {
+        if (!$(this).hasClass('active')) {
+            $('.comments-editor-container.inner').remove();
+            $('.comment-reply-btn').removeClass('active');
+            var newSummernote = $('.comments-editor-container').first().clone().addClass('inner');
+            $(this).closest('.comment-wrapper').append(newSummernote);
+            summernoteInit();
+            $(this).addClass('active');
+        }
+        e.preventDefault();
     });
 
     $('.comment-add-vote').on('click', function (e) {
@@ -102,6 +93,34 @@
             });
     });
 
+
+    function summernoteInit() {
+        // инициализация текстового редактора
+        commentsTextEditor.summernote({
+            height: 150,
+            disableResizeEditor: true,
+            toolbar: [
+                ['style', ['bold', 'italic', 'underline', 'clear']],
+                ['fontsize', ['fontsize']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['link'],
+                ['remaining-letter', ['letterCount']]
+            ],
+            buttons: {
+                letterCount: LetterCount
+            },
+            lang: 'ru-RU',
+            disableDragAndDrop: true,
+            callbacks: {
+                onKeyup: function() {
+                    checkRemainingLetter();
+                },
+                onPaste: function() {
+                    checkRemainingLetter();
+                }
+            }
+        });
+    }
 
     /**
      *

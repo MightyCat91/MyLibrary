@@ -20,6 +20,11 @@
     background-color: #f8f9fa;
 }
 
+.comment-wrapper .comments-editor-container {
+    grid-column-start: 2;
+    grid-column-end: 3;
+}
+
 .note-save-comment-btn {
     width: 100%;
     display: flex;
@@ -117,6 +122,10 @@
 
 .comment-reply-btn {
     font-size: 12px;
+}
+
+.comment-reply-btn.active {
+    opacity: .7;
 }
 
 .comment-rating {

@@ -24,11 +24,13 @@
         </div>
     </div>
     @auth
-        <div id="comments-text-editor-wrapper"></div>
-        <div class="add-comment-btn-wrapper">
-            <button class="btn submit-btn add-comment">
-                <span class="dflt-text">Добавить</span>
-            </button>
+        <div class="comments-editor-container">
+            <div class="comments-text-editor-wrapper"></div>
+            <div class="add-comment-btn-wrapper">
+                <button class="btn submit-btn add-comment">
+                    <span class="dflt-text">Добавить</span>
+                </button>
+            </div>
         </div>
     @endauth
     <div id="comments-content-container">

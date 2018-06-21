@@ -35,12 +35,12 @@ class Comments
 
     public function addComment(Request $request)
     {
-        if (isset($request->parent_id)) {
+        if (!empty($request->parent_id)) {
             $parent_id = $request->parent_id;
             $parent_depth = CommentsModel::where('id', '=', $parent_id)->get(['depth'])->values();
             $depth = $parent_depth < $this->maxDepth ? $parent_depth + 1 : $this->maxDepth;
         }
-
+        \Debugbar::info($request->com_id);
         $newComment = new CommentsModel();
         $newComment->text = $request->text;
         $newComment->user_id = $request->user_id;

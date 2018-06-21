@@ -5,7 +5,7 @@
     <script type="text/javascript" src="{{ asset('/js/Custom/comments.js') }}"></script>
 @endpush
 <section id="comments-block-container" data-url="{{ $urlAddComment }}" data-id="{{ auth()->id() }}"
-         data-comTable="{{ $com_table }}">
+         data-comTable="{{ $com_table }}" data-comId="{{ $com_id }}">
     <div>
         <h2>Комментарии</h2>
         <hr>
@@ -75,6 +75,7 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="inner-text-wrapper"></div>
                     </div>
                 </div>
             @endforeach

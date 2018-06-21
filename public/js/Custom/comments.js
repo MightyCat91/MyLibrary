@@ -16,11 +16,11 @@
     };
 
     summernoteInit();
+    console.log(1);
 
     $(document).on('click', '.add-comment:not(.disabled)', function () {
         var parentComment = $(this).closest('.comment-wrapper'),
             text = $(this).closest('.comments-editor-container').find('.comments-text-editor-wrapper').summernote('code');
-        console.log(text);
         $.ajaxSetup({
             headers: {
                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -39,6 +39,7 @@
         })
             .done(function (response) {
                 commentsTextEditor.summernote('reset');
+                $('.comments-editor-container.inner').summernote('destroy');
                 // вывод алерта
                 if (response.type) {
                     Alert(response.type, response.message);
@@ -113,10 +114,10 @@
             disableDragAndDrop: true,
             callbacks: {
                 onKeyup: function() {
-                    checkRemainingLetter();
+                    checkRemainingLetter($(this));
                 },
                 onPaste: function() {
-                    checkRemainingLetter();
+                    checkRemainingLetter($(this));
                 }
             }
         });
@@ -125,8 +126,8 @@
     /**
      *
      */
-    function checkRemainingLetter() {
-        var curCount = $('<div>').html(commentsTextEditor.summernote('code')).text().replace(/\s*/g,"").length,
+    function checkRemainingLetter(el) {
+        var curCount = $('<div>').html(el.summernote('code')).text().replace(/\s*/g,"").length,
             remainingCount = letterCount - curCount;
         if (remainingCount > 0) {
             $('.add-comment.blocked').removeClass('disabled');

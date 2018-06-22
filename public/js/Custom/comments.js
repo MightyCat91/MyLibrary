@@ -2,21 +2,43 @@
     var commentsController = $('#comments-block-container'),
         commentsTextEditor = $('.comments-text-editor-wrapper'),
         remainingLetter = $('.remainingLetter'),
-        letterCount = 1000;
+        letterCount = 1000,
+        LetterCountFunc = function () {
+            // create button
+            var button = $.summernote.ui.button({
+                contents: letterCount,
+                className: 'remainingLetter',
+                tooltip: 'Количество оставшихся символов'
+            });
 
-    var LetterCount = function (context) {
-        // create button
-        var button = $.summernote.ui.button({
-            contents: letterCount,
-            className: 'remainingLetter',
-            tooltip: 'Количество оставшихся символов'
-        });
+            return button.render();   // return button as jquery object
+        },
+        options = {
+            height: 150,
+            disableResizeEditor: true,
+            toolbar: [
+                ['style', ['bold', 'italic', 'underline', 'clear']],
+                ['fontsize', ['fontsize']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['link'],
+                ['remaining-letter', ['letterCount']]
+            ],
+            buttons: {
+                letterCount: LetterCountFunc
+            },
+            lang: 'ru-RU',
+            disableDragAndDrop: true,
+            callbacks: {
+                onKeyup: function() {
+                    checkRemainingLetter($(this));
+                },
+                onPaste: function() {
+                    checkRemainingLetter($(this));
+                }
+            }
+        };
 
-        return button.render();   // return button as jquery object
-    };
-
-    summernoteInit();
-    console.log(1);
+    summernoteInit(commentsTextEditor, false);
 
     $(document).on('click', '.add-comment:not(.disabled)', function () {
         var parentComment = $(this).closest('.comment-wrapper'),
@@ -56,11 +78,12 @@
 
     $('.comment-reply-btn').on('click', function (e) {
         if (!$(this).hasClass('active')) {
-            $('.comments-editor-container.inner').remove();
+            var parent = $(this).closest('.comment-content-wrapper').find('.inner-text-wrapper');
+            $('.inner-text-wrapper.active').removeClass('active').summernote('destroy');
+            $('.inner-text-wrapper').empty();
             $('.comment-reply-btn').removeClass('active');
-            var newSummernote = $('.comments-editor-container').first().clone().addClass('inner');
-            $(this).closest('.comment-wrapper').append(newSummernote);
-            summernoteInit();
+            summernoteInit(parent, true);
+            parent.addClass('active');
             $(this).addClass('active');
         }
         e.preventDefault();
@@ -95,32 +118,12 @@
     });
 
 
-    function summernoteInit() {
-        // инициализация текстового редактора
-        commentsTextEditor.summernote({
-            height: 150,
-            disableResizeEditor: true,
-            toolbar: [
-                ['style', ['bold', 'italic', 'underline', 'clear']],
-                ['fontsize', ['fontsize']],
-                ['para', ['ul', 'ol', 'paragraph']],
-                ['link'],
-                ['remaining-letter', ['letterCount']]
-            ],
-            buttons: {
-                letterCount: LetterCount
-            },
-            lang: 'ru-RU',
-            disableDragAndDrop: true,
-            callbacks: {
-                onKeyup: function() {
-                    checkRemainingLetter($(this));
-                },
-                onPaste: function() {
-                    checkRemainingLetter($(this));
-                }
-            }
+    function summernoteInit(element, focusState) {
+        $(options).extend({
+            focus:focusState
         });
+        // инициализация текстового редактора
+        element.summernote(options);
     }
 
     /**

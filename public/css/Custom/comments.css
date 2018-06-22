@@ -92,10 +92,10 @@
     display: grid;
     grid-template-areas: "name  date"
                          "text  text"
-                         "button  button";
+                         "button  button"
+                         "innerEditor innerEditor";
     grid-row-gap: .5em;
     grid-column-gap: 10px;
-    grid-template-columns: min-content auto;
     align-items: baseline;
 }
 
@@ -107,10 +107,16 @@
 .comment-date-wrapper {
     grid-area: date;
     font-size: 14px;
+    display: flex;
+    justify-content: flex-end;
 }
 
 .comment-text-wrapper {
     grid-area: text;
+}
+
+.comment-content-wrapper .note-editor {
+    grid-area: innerEditor;
 }
 
 .comment-btn-wrapper {

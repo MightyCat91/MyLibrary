@@ -11,7 +11,6 @@ namespace MyLibrary\Comments;
 use App\User;
 use Carbon\Carbon;
 use DB;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Support\HtmlString;
 use MyLibrary\Comments\Models\Comments as CommentsModel;
@@ -68,6 +67,7 @@ class Comments
                 'comments' => $this->commentsTree,
                 'urlAddComment' => route(config('comments.addCommentRoute')),
                 'urlAddVote' => route(config('comments.addVoteToCommentRoute')),
+                'displayedCommentsCount' => config('comments.displayedCommentsCount'),
                 'com_id' => $com_id,
                 'com_table' => $com_table
             ])->render()
@@ -87,33 +87,38 @@ class Comments
 
     protected function makeCommentsTree($comments)
     {
-        $parentComments = $comments->where('depth', 0)->toArray();
-        foreach ($parentComments as $comment) {
-            $comment['date'] = Carbon::parse($comment['date'])->diffForHumans(Carbon::now());
-            $comment['user_name'] = User::where('id', $comment['user_id'])->first(['name'])->name;
-            array_forget($comment, ['com_id', 'com_table']);
-            $this->commentsTree[] = $comment;
-            if ($parent_id = $comment['parent_id']) {
-                $this->makeChildTree($comments->where('parent_id', $comment['parent_id']));
-            }
+        $this->commentsTree = $comments->where('depth', 0)->values()->toArray();
+        $childComments = $comments->where('depth', "<>", 0)->groupBy('parent_id')->values()->toArray();
+        foreach ($childComments as $groupComments) {
+            $parent_id = $groupComments[0]['parent_id'];
+            array_walk($this->commentsTree, function ($value, $key) use ($parent_id, $groupComments) {
+                if ($value['id'] === $parent_id) {
+                    array_splice($this->commentsTree, $key + 1, 0, $groupComments);
+                }
+            });
         }
+        array_walk($this->commentsTree, function ($value, $key) {
+            $this->prepareComment($key);
+        });
     }
 
-    protected function makeChildTree($comments)
+    protected function searchInArray($value, $key, $parent_id)
     {
-        if ($comments->count() == 0) {
-            return;
-        }
-        if ($comments->count() == 1) {
-            $comment = $comments->first();
-            $comments['user_name'] = User::where('id', $comment->user_id)->first(['name'])->name;
-            $this->commentsTree[] = $comments;
-        }
-        $comments->each(function ($item, $key) {
+        return array_search($parent_id, $value);
+    }
 
-            if ($parent_id = $item->parent_id) {
-                $this->makeChildTree($item->where('parent_id', $parent_id));
-            }
-        });
+    protected function prepareComment($key)
+    {
+        $comment = $this->commentsTree[$key];
+        $parentCommentId = $comment['parent_id'];
+        if ($parentCommentId) {
+            $parentUserId = array_first($this->commentsTree, function ($value, $key) use ($parentCommentId) {
+                return $value['id'] == $parentCommentId;
+            })['user_id'];
+            $this->commentsTree[$key]['parent_name'] = User::where('id',$parentUserId)->first(['name'])->name;
+        }
+        $this->commentsTree[$key]['date'] = Carbon::parse($comment['date'])->diffForHumans(Carbon::now());
+        $this->commentsTree[$key]['user_name'] = User::where('id', $comment['user_id'])->first(['name'])->name;
+        array_forget($this->commentsTree[$key], ['com_id', 'com_table', 'created_at', 'updated_at']);
     }
 }

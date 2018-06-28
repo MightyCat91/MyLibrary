@@ -14,5 +14,7 @@ return [
     // адрес, по которому добавляются оценки комментам
     'addVoteToCommentRoute' => 'addVoteToComment',
     // имен таблиц, сущности которых могут иметь комментарии
-    'commentable' => ['books', 'reviews']
+    'commentable' => ['books', 'reviews'],
+    // количество отображаемых комментариев по дефолту
+    'displayedCommentsCount' => 10
 ];

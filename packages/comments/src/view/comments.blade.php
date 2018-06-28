@@ -5,9 +5,9 @@
     <script type="text/javascript" src="{{ asset('/js/Custom/comments.js') }}"></script>
 @endpush
 <section id="comments-block-container" data-url="{{ $urlAddComment }}" data-id="{{ auth()->id() }}"
-         data-comTable="{{ $com_table }}" data-comId="{{ $com_id }}">
-    <div>
-        <h2>Комментарии</h2>
+         data-comTable="{{ $com_table }}" data-comId="{{ $com_id }}" data-dispComCount="{{ $displayedCommentsCount }}">
+    <div id="comments-header-wrapper">
+        <h2>Комментарии</h2> <span class="badge badge-secondary">{{ !empty($comments) ? count($comments) : '' }}</span>
         <hr>
     </div>
     <div id="comments-sort-wrapper">
@@ -36,7 +36,8 @@
     <div id="comments-content-container">
         @if(!empty($comments))
             @foreach ($comments as $comment)
-                <div class="comment-wrapper" data-id="{{ $comment['id'] }}">
+                <div class="comment-wrapper depth-{{ $comment['depth'] }} {{ ($loop->iteration < $displayedCommentsCount) ?: 'hidden' }}"
+                     data-id="{{ $comment['id'] }}">
                     <figure class="comment-author-img-wrapper">
                         <a href="{{ route('userProfile', $comment['user_id']) }}">
                             <img src="{{ empty(getStorageFile('users', $comment['user_id'])) ? asset('images/no_avatar.jpg') :
@@ -49,6 +50,10 @@
                             <a href="{{ route('userProfile', $comment['user_id']) }}">
                                 <div class="comment-author-name">{{ $comment['user_name'] }}</div>
                             </a>
+                            @isset($comment['parent_name'])
+                                <i class="fas fa-reply fa-xs reply"></i>
+                                <div class="parent-name-wrapper reply">{{ $comment['parent_name'] }}</div>
+                            @endisset
                         </div>
                         <div class="comment-date-wrapper">
                             <div class="comment-date">{{ $comment['date'] }}</div>
@@ -75,10 +80,22 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="inner-text-wrapper"></div>
+                        <div class="comments-editor-container">
+                            <div class="inner comments-text-editor-wrapper"></div>
+                            <div class="inner add-comment-btn-wrapper hidden">
+                                <button class="btn submit-btn add-comment">
+                                    <span class="dflt-text">Добавить</span>
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             @endforeach
+            @if(count($comments) > $displayedCommentsCount)
+                <div id="show-all-comments-btn-wrapper">
+                    <button type="button" class="btn submit-btn">Показать все комментарии</button>
+                </div>
+            @endif
         @else
             <div id="empty-comments"><h5>Комментариев нет</h5></div>
         @endif

@@ -1,6 +1,7 @@
 <?php
 
 use App\User;
+use Illuminate\Auth\AuthenticationException;
 
 /**
  * Получение массива публичных изображений из указанной папки
@@ -17,14 +18,14 @@ function getAllStorageFiles($imgFolder, $id)
 /**
  * Получение публичного изображения из указанной папки
  *
- * @var string $imgFolder имя папки соответствующее определенного типа изображений(авторы, книги, жанры)
- * @var string $id имя папки соответствующее id необходимого автора, книги, жанра, юзера
- * @return array
+ * @param string $imgFolder имя папки соответствующее определенного типа изображений(авторы, книги, жанры)
+ * @param string $id имя папки соответствующее id необходимого автора, книги, жанра, юзера
+ * @return string
  */
-function getStorageFile($imgFolder, $id)
+function getStorageFile($imgFolder, $id) : ?string
 {
     $files = getAllStorageFiles($imgFolder, $id);
-    return $files ? $files[0] : null;
+    return $files ? (string)$files[0] : null;
 }
 
 /**

@@ -13,3 +13,7 @@ Route::post(config('comments.addCommentRoute'), [
 Route::post(config('comments.addVoteToCommentRoute'), [
     'as' => config('comments.addVoteToCommentRoute'), 'uses' => 'MyLibrary\Comments\Comments@addVoteToComment'
 ]);
+
+Route::post(config('comments.FilterCommentRoute'), [
+    'as' => config('comments.FilterCommentRoute'), 'uses' => 'MyLibrary\Comments\Comments@FilterComments'
+]);

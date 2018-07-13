@@ -14,6 +14,10 @@ Route::post(config('comments.addVoteToCommentRoute'), [
     'as' => config('comments.addVoteToCommentRoute'), 'uses' => 'MyLibrary\Comments\Comments@addVoteToComment'
 ]);
 
-Route::post(config('comments.FilterCommentRoute'), [
-    'as' => config('comments.FilterCommentRoute'), 'uses' => 'MyLibrary\Comments\Comments@FilterComments'
+Route::post(config('comments.filterCommentRoute'), [
+    'as' => config('comments.filterCommentRoute'), 'uses' => 'MyLibrary\Comments\Comments@filterComments'
+]);
+
+Route::post(config('comments.deleteCommentRoute'), [
+    'as' => config('comments.deleteCommentRoute'), 'uses' => 'MyLibrary\Comments\Comments@deleteComments'
 ]);

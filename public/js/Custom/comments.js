@@ -45,7 +45,7 @@
 
     // добавление комментария
     $(document).on('click', '.add-comment:not(.disabled)', function () {
-        if (window.Laravel.user) {
+        if (window.Laravel.user_id.length) {
             // кнопка добавления комментария, по которой произошел клик
             var btn = $(this),
                 // враппер родительского комментария
@@ -192,7 +192,11 @@
             e.preventDefault();
         })
         // добавление оценки комментарию
-        .on('click', '.comment-add-vote', function (e) {
+        .on('click', '.comment-add-vote', function () {
+            if ($(this).closest('.comment-wrapper').attr('data-authorID') === window.Laravel.user_id) {
+                Alert('warning', 'Нельзя оценивать свои же комментарии');
+                return;
+            }
             // контейнер оценки
             var ratingContainer = $(this).closest('.comment-wrapper').find('.comment-rating'),
                 // тип ценки(положительный, отрицательный)
@@ -219,7 +223,7 @@
                     // отображаем новую оценку
                     ratingContainer.text(response.rating);
                     // вывод алерта
-                    Alert('success', 'Спасибо за оценку');
+                    Alert(response.type, response.message);
                 })
                 .fail(function (response) {
                     //вывод алерта

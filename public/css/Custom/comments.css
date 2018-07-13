@@ -5,6 +5,10 @@
     position: relative;
 }
 
+#comments-block-container.forUser {
+    grid-column: 1/3;
+}
+
 #comments-header-wrapper {
     display: flex;
     align-items: center;
@@ -155,6 +159,12 @@
     grid-area: text;
 }
 
+.deleted-comment-text {
+    font-style: italic;
+    font-weight: 600;
+    opacity: .6;
+}
+
 .comment-content-wrapper .note-editor {
     grid-area: innerEditor;
 }
@@ -162,16 +172,25 @@
 .comment-btn-wrapper {
     grid-area: button;
     display: grid;
+    grid-template-areas: ". rating ratingBtn";
     grid-template-columns: auto minmax(50px, max-content) max-content;
     grid-column-gap: .5em;
 }
 
-.comment-reply-btn {
+.comment-reply-btn-wrapper, .comments-delete-btn-wrapper {
     font-size: 12px;
 }
 
 .comment-reply-btn.active {
     opacity: .7;
+}
+
+.comments-delete-btn-wrapper {
+    margin-left: 1rem;
+}
+
+.comment-rating-wrapper {
+    grid-area: rating;
 }
 
 .comment-rating {
@@ -188,6 +207,7 @@
 
 .comment-add-vote-wrapper {
     display: flex;
+    grid-area: ratingBtn;
 }
 
 .comment-add-vote-wrapper span {

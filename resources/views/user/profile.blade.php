@@ -48,19 +48,19 @@
                 <div id="statistic-count">
                     <div>
                         <span>Всего книг:</span>
-                        <a href="{{ action('UserController@showBooksForUser', ['id' => auth()->id()]) }}">
+                        <a href="{{ action('UserController@showBooksForUser', ['id' => $id]) }}">
                             {{ $statistic['booksCount'] }}
                         </a>
                     </div>
                     <div>
                         <span>Всего авторов:</span>
-                        <a href="{{ action('UserController@showAuthorsForUser', ['id' => auth()->id()]) }}">
+                        <a href="{{ action('UserController@showAuthorsForUser', ['id' => $id]) }}">
                             {{ $statistic['authorsCount'] }}
                         </a>
                     </div>
                     <div>
                         <span>Всего жанров:</span>
-                        <a href="{{ action('UserController@showCategoriesForUser', ['id' => auth()->id()]) }}">
+                        <a href="{{ action('UserController@showCategoriesForUser', ['id' => $id]) }}">
                             {{ $statistic['categoriesCount'] }}
                         </a>
                     </div>
@@ -68,7 +68,7 @@
                 <div id="statistic-chart">
                     <div id="diagram-legend">
                         @foreach($statistic['statuses'] as $status => $statusValue)
-                            <a href="{{ action('UserController@showStatusBooksForUser', ['status'=>$status, 'id' => auth()->id()]) }}"
+                            <a href="{{ action('UserController@showStatusBooksForUser', ['status'=>$status, 'id' => $id]) }}"
                                class="{{ $status }}" data-books="{{ $statusValue['count'] }}">
                                 <span>{{ $statusValue['name'] }}</span>
                             </a>
@@ -82,16 +82,16 @@
         <section id="user-favorite-books" class="user-section user-favorite">
             @if(!empty($favoriteBooks))
                 <h2>
-                    <a href="{{ route('userFavorite', ['type' => 'book', 'id' => auth()->id(), 'title' => 'Любимые книги']) }}">
+                    <a href="{{ route('userFavorite', ['type' => 'book', 'id' => $id, 'title' => 'Любимые книги']) }}">
                         Любимые книги
                     </a>
                 </h2>
                 <hr>
                 <div class="books-slider owl-carousel owl-theme">
-                    @foreach($favoriteBooks as $id => $name)
-                        <a href="{{ route('book', [$id]) }}" target="_blank" title="{{ $name }}">
+                    @foreach($favoriteBooks as $book_id => $name)
+                        <a href="{{ route('book', [$book_id]) }}" target="_blank" title="{{ $name }}">
                             <figure class="user-favorite-img item">
-                                <img src="{{ asset(getStorageFile('books', $id))}}" alt="{{ $name }}">
+                                <img src="{{ asset(getStorageFile('books', $book_id))}}" alt="{{ $name }}">
                             </figure>
                         </a>
                     @endforeach
@@ -101,16 +101,16 @@
         <section id="user-favorite-authors" class="user-section user-favorite">
             @if(!empty($favoriteAuthors))
                 <h2>
-                    <a href="{{ route('userFavorite', ['type'=> 'author', 'id' => auth()->id(), 'title' => 'Любимые авторы']) }}">
+                    <a href="{{ route('userFavorite', ['type'=> 'author', 'id' => $id, 'title' => 'Любимые авторы']) }}">
                         Любимые авторы
                     </a>
                 </h2>
                 <hr>
                 <div class="author-slider owl-carousel owl-theme">
-                    @foreach($favoriteAuthors as $id => $name)
-                        <a href="{{ route('author', [$id]) }}" target="_blank" title="{{ $name }}">
+                    @foreach($favoriteAuthors as $author_id => $name)
+                        <a href="{{ route('author', [$author_id]) }}" target="_blank" title="{{ $name }}">
                             <figure class="user-favorite-img item">
-                                <img src="{{ asset(getStorageFile('authors', $id))}}" alt="{{ $name }}">
+                                <img src="{{ asset(getStorageFile('authors', $author_id))}}" alt="{{ $name }}">
                             </figure>
                         </a>
                     @endforeach
@@ -120,16 +120,16 @@
         <section id="user-favorite-categories" class="user-section user-favorite">
             @if(!empty($favoriteCategories))
                 <h2>
-                    <a href="{{ route('userFavorite', ['type'=> 'category', 'id' => auth()->id(), 'title' => 'Любимые жанры']) }}">
+                    <a href="{{ route('userFavorite', ['type'=> 'category', 'id' => $id, 'title' => 'Любимые жанры']) }}">
                         Любимые жанры
                     </a>
                 </h2>
                 <hr>
                 <div class="owl-carousel owl-theme">
-                    @foreach($favoriteCategories as $id => $name)
-                        <a href="{{ route('category', [$id]) }}" target="_blank" title="{{ $name }}">
+                    @foreach($favoriteCategories as $category_id => $name)
+                        <a href="{{ route('category', [$category_id]) }}" target="_blank" title="{{ $name }}">
                             <figure class="user-favorite-img item">
-                                <img src="{{ asset(getStorageFile('categories', $id))}}" alt="{{ $name }}">
+                                <img src="{{ asset(getStorageFile('categories', $category_id))}}" alt="{{ $name }}">
                             </figure>
                         </a>
                     @endforeach
@@ -138,10 +138,11 @@
         </section>
         <section id="user-reviews" class="user-section">
             <h2>
-                <a href="{{ route('getAllReviewsForUser', $reviews->first()->author_id) }}">Рецензии</a>
+                <a href="{{ route('getAllReviewsForUser', $id) }}">Рецензии</a>
             </h2>
             <hr>
             @include('layouts.reviews', $reviews)
         </section>
+        {{Comments::showAllCommentsForUser($id)}}
     </div>
 @endsection

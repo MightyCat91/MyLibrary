@@ -1,5 +1,6 @@
-<div class="comment-wrapper depth-{{ $comment['depth'] }} {{ !isset($loop) ?: ($loop->iteration < $displayedCommentsCount) ? '' : 'hidden' }}"
-     data-id="{{ $comment['id'] }}">
+<div class="comment-wrapper depth-{{ $depthForUser ?? $comment['depth'] }}
+{{ !isset($loop) ?: ($loop->iteration < $displayedCommentsCount) ? '' : 'hidden' }}"
+     data-id="{{ $comment['id'] }}" data-authorID="{{ $comment['user_id'] }}">
     <figure class="comment-author-img-wrapper">
         <a href="{{ route('userProfile', $comment['user_id']) }}">
             <img src="{{ empty(getStorageFile('users', $comment['user_id'])) ? asset('images/no_avatar.jpg') :
@@ -21,12 +22,25 @@
             <div class="comment-date">{{ $comment['date'] }}</div>
         </div>
         <div class="comment-text-wrapper">
-            <div class="comment-text">{!! $comment['text'] !!}</div>
+            @if($comment['deleted'])
+                <div class="deleted-comment-text h6">Комментарий удален</div>
+            @else
+                <div class="comment-text">{!! $comment['text'] !!}</div>
+            @endif
         </div>
         <div class="comment-btn-wrapper">
-            <div class="comment-reply-btn-wrapper">
-                <a href="#" class="comment-reply-btn">Ответить</a>
-            </div>
+            @if(isset($depthForUser))
+                @if(auth()->id() == $profile_id)
+                    <div class="comments-delete-btn-wrapper">
+                        <a href="#" class="comment-delete-btn">Удалить</a>
+                    </div>
+                @endif
+            @endif
+            @if(!isset($depthForUser))
+                <div class="comment-reply-btn-wrapper">
+                    <a href="#" class="comment-reply-btn">Ответить</a>
+                </div>
+            @endif
             <div class="comment-rating-wrapper">
                 <div class="comment-rating {{ $comment['rating'] > 0 ? 'positive' : 'negative'}}">
                     {{ $comment['rating'] ?? 0}}

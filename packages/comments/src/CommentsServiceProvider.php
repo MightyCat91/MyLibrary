@@ -46,9 +46,7 @@ class CommentsServiceProvider extends ServiceProvider
             // Публикация файла скриптов
             __DIR__ . '/js' => public_path('js/custom'),
             // Публикация файла конфига
-            $configPath => $publishPath,
-            // Публикация файла шаблона
-//            __DIR__ . '/view' => base_path('resources/views/layouts')
+            $configPath => $publishPath
         ]);
     }
 

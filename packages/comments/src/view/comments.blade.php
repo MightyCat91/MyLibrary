@@ -48,7 +48,7 @@
     </div>
     <script>
         window.Laravel = {
-            user: '{{auth()->check()}}'
+            user_id: '{{ auth()->id() }}'
         }
     </script>
 </section>

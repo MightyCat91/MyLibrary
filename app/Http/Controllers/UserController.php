@@ -73,6 +73,7 @@ class UserController extends Controller
         ];
 
         return view('user.profile', [
+            'id' => $id,
             'name' => $user->name,
             'login' => $user->login,
             'email' => $user->email,

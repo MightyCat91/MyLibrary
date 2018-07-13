@@ -75,13 +75,13 @@ class Comments
         if ($this->needModerate) {
             $response = response()->json([
                 'type' => 'success',
-                'message' => config('comments.alertWithModerate')
+                'message' => config('comments.message.addWithModerate')
             ]);
         } else {
             // иначе формируем ответ содержащий новый комментарий, для дальнейшего его отображения
             $response = response()->json([
                 'type' => 'success',
-                'message' => config('comments.alertWithoutModerate'),
+                'message' => config('comments.message.addWithoutModerate'),
                 'comment' => view('comments::comment', [
                     'comment' => [
                         'id' => $newComment->id,
@@ -136,7 +136,11 @@ class Comments
             ->where('id', $request->id)
             ->update(['rating' => $newRating]);
         // возврат нового значения
-        return response()->json(['rating' => $newRating]);
+        return response()->json([
+            'type' => 'success',
+            'message' => config('comments.message.addVote'),
+            'rating' => $newRating
+        ]);
     }
 
     /**
@@ -145,7 +149,7 @@ class Comments
      * @param Request $request
      * @return HtmlString
      */
-    public function FilterComments(Request $request)
+    public function filterComments(Request $request)
     {
         // параметр, по которому происходит фильтрация
         $type = $request->filterType;
@@ -165,6 +169,50 @@ class Comments
     public function approveComment()
     {
 
+    }
+
+    /**
+     * Удаление комментария(-ев)
+     *
+     * @param $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function deleteComments(Request $request)
+    {
+        // помечаем комментарий как удаленный
+        CommentsModel::where('id', $request->id)->update(['deleted' => true]);
+        return response()->json([
+            'type' => 'success',
+            'message' => config('comments.message.deleteComment')
+        ]);
+    }
+
+    /**
+     * Отображение всех комментариев для пользователя
+     *
+     * @param $id int идентификатор пользователя
+     * @return HtmlString
+     */
+    public function showAllCommentsForUser($id)
+    {
+        $this->commentsTree = CommentsModel::where([
+            ['user_id', '=', $id],
+            ['approved', '=', true]
+        ])->orderBy('date', 'desc')->get()->toArray();
+
+        // подготавливаем все комментарии в результируеющем массиве к рендеру
+        array_walk($this->commentsTree, function ($value, $key) {
+            $this->prepareComment($key);
+        });
+        return new HtmlString(
+            view('comments::allUserComments', [
+                'profile_id' => $id,
+                'depthForUser' => 0,
+                'comments' => $this->commentsTree,
+                'urlAddVote' => route(config('comments.addVoteToCommentRoute')),
+                'displayedCommentsCount' => config('comments.displayedCommentsCount'),
+                'deleteCommentUrl' => route(config('comments.deleteCommentRoute'))
+            ])->render());
     }
 
 
@@ -251,7 +299,7 @@ class Comments
                 'urlAddComment' => route(config('comments.addCommentRoute')),
                 'urlAddVote' => route(config('comments.addVoteToCommentRoute')),
                 'displayedCommentsCount' => config('comments.displayedCommentsCount'),
-                'filterUrl' => route(config('comments.FilterCommentRoute')),
+                'filterUrl' => route(config('comments.filterCommentRoute')),
                 'com_id' => $com_id,
                 'com_table' => $com_table
             ])->render());

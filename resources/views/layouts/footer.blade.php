@@ -40,6 +40,7 @@
 @if (Auth::guest())
     <script type="text/javascript" src="{{ asset('/js/Custom/authentication.js') }}"></script>
 @endif
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 @stack('scripts')
 </body>
 </html>

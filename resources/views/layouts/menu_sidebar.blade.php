@@ -44,6 +44,13 @@
                     </div>
                     <div class="nav-item-name">Добавить книгу</div>
                 </a>
+                <a href="{{ route('createSelections') }}" class="nav-item {{ active('createSelections') }}">
+                    <div class="icon-stack fa-fw nav-item-icon">
+                        <i class="fa fa-book"></i>
+                        <i class="fa fa-plus"></i>
+                    </div>
+                    <div class="nav-item-name">Создать подборку</div>
+                </a>
             @endif
         </section>
     </div>

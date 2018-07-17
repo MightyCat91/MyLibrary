@@ -226,6 +226,12 @@ Route::group(['prefix' => 'user'], function () {
     ])->middleware('auth');
 });
 
+Route::resource('selections', 'SelectionsController')->names([
+    'create' => 'createSelections',
+    'store' => 'addSelections',
+
+]);
+
 //TODO: реализовать вьюху и контроллер страницы разработчиков
 Route::get('developers', ['as' => 'developers', 'uses' => 'MainController@test']);
 //TODO: реализовать вьюху и контроллер пользовательского соглашения

@@ -1,22 +1,33 @@
-
 /**
- * First we will load all of this project's JavaScript dependencies which
- * include Vue and Vue Resource. This gives a great starting point for
- * building robust, powerful web applications using Vue and Laravel.
+ * Сначала мы загрузим все JavaScript-зависимости этого проекта,
+ * включая Vue и Vue Resource. Это отличная отправная точка для
+ * создания надёжных, мощных веб-приложений с помощью Vue и Laravel.
  */
 
-require('./bootstrap');
+// require('./bootstrap');
+import Vue from '../../../node_modules/vue/dist/vue.esm.js';
+import Button from './components/Button.vue';
+import Input from './components/Input.vue';
+import Selection from './components/SelectionAdd.vue';
+import 'vue-awesome/icons';
+import Icon from 'vue-awesome/components/Icon.vue'
+
+
+Vue.component('Vue', Vue);
+Vue.component('icon', Icon);
+
+
 
 /**
- * Next, we will create a fresh Vue application instance and attach it to
- * the body of the page. From here, you may begin adding components to
- * the application, or feel free to tweak this setup for your needs.
+ * Затем мы создадим новый экземпляр Vue-приложения и прикрепим его
+ * к странице. Затем вы можете начать добавлять компоненты в это приложение
+ * или настроить заготовки JavaScript под ваши конкретные нужды.
  */
-
-Vue.component('example', {
-    template: '<li>Это одна задача в списке</li>'
-});
-
-const app = new Vue({
-    el: '#app'
+new Vue({
+    el: "#selections-container",
+    components: {
+        'v-button': Button,
+        'v-input': Input,
+        'v-selection-add': Selection
+    }
 });

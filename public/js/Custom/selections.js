@@ -1,9 +1,4 @@
-Vue.component('todo-item', {
-    template: '<li>Это одна задача в списке</li>'
-})
-var app = new Vue({
-    el: '#app',
-    data: {
-        message: 'Привет, Vue!'
-    }
-})
+// Vue.component('submit-button', require( '../../../resources/assets/js/components/Submit-btn.vue'));
+// const app = new Vue({
+//     el: '.main'
+// });

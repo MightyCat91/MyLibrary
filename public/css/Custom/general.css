@@ -122,7 +122,7 @@ h1, h2, h3, h4, h5, h6 {
     display: grid;
     grid-template-areas: "user-profile" "navigation" "menu-footer";
     grid-template-rows: min-content auto min-content;
-    background-color: #272c2e;
+    background-color: #1c313a;
 }
 
 .container-content {
@@ -473,7 +473,7 @@ div.page-content.spinner:after {
     bottom: -2px;
     right: 0;
     width: 20px;
-    background: #272c2e;
+    background: #1c313a;
 }
 
 .help-block {

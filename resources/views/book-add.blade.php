@@ -61,8 +61,8 @@
                                 <span aria-hidden="true">&times;</span>
                             </button>
                             <span class="append-form-add-input">
-                            <i class="fa fa-plus-circle fa-2x"></i>
-                        </span>
+                                <i class="fa fa-plus-circle fa-2x"></i>
+                            </span>
                         </div>
                     </div>
                     <datalist id="series-list">
